@@ -116,7 +116,7 @@ static void Task_SSAnneRun(u8 taskId)
     }
     TryGetObjectEventIdByLocalIdAndMap(1, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
     boatObject = &gObjectEvents[objectEventId];
-    if (gSprites[boatObject->spriteId].pos1.x + gSprites[boatObject->spriteId].pos2.x < -120)
+    if (gSprites[boatObject->spriteId].pos1.x + gSprites[boatObject->spriteId].pos2.x > 280)
     {
         PlaySE(SE_SS_ANNE_HORN);
         gTasks[taskId].func = Task_SSAnneFinish;
@@ -124,7 +124,7 @@ static void Task_SSAnneRun(u8 taskId)
     else
     {
         x = data[2] / 5;
-        gSprites[boatObject->spriteId].pos2.x = -x;
+        gSprites[boatObject->spriteId].pos2.x = x;
     }
 }
 
@@ -169,7 +169,7 @@ static void WakeSpriteCallback(struct Sprite * sprite)
     if (sprite->data[0] / 6 < 22)
         sprite->data[0]++;
     sprite->pos2.x = sprite->data[0] / 6;
-    if (sprite->pos1.x + sprite->pos2.x < -18)
+    if (sprite->pos1.x + sprite->pos2.x > 258)
         DestroySprite(sprite);
 }
 
