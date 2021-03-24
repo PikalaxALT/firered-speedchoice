@@ -1137,7 +1137,7 @@ static void PrintGameStatsPage(void)
     for (i = 0; i < 7; i++)
     {
         s32 width;
-        const char * value_s;
+        const u8 * value_s;
         if(i == 0 && items[i].name) // this is the header. special treatment
             PrintPageHeader(&items[i]);
         else
@@ -1158,9 +1158,9 @@ static void PrintGameStatsPage(void)
             if (items[i].name != NULL)
             {
                 if(doneButton->page + 1 == 1) // timer spacing handling
-                    AddTextPrinterParameterized(0, 1, value_s, 224 - width, 18 * i + 1, -1, NULL);
+                    AddTextPrinterParameterized(0, 1, value_s, 216 - width, 18 * i + 1, -1, NULL);
                 else
-                    AddTextPrinterParameterized(0, 1, value_s, 200 - width, 18 * i + 1, -1, NULL);
+                    AddTextPrinterParameterized(0, 1, value_s, 192 - width, 18 * i + 1, -1, NULL);
             }
         }
     }

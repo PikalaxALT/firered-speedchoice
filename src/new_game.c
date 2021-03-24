@@ -2,6 +2,7 @@
 #include "gflib.h"
 #include "random.h"
 #include "overworld.h"
+#include "constants/items.h"
 #include "constants/maps.h"
 #include "load_save.h"
 #include "item_menu.h"
@@ -74,7 +75,7 @@ static void ClearPokedexFlags(void)
     memset(&gSaveBlock2Ptr->pokedex.seen, 0, sizeof(gSaveBlock2Ptr->pokedex.seen));
 }
 
-static void sub_80549D4(void)
+static void ClearBattleTowerData(void)
 {
     CpuFill32(0, &gSaveBlock2Ptr->battleTower, sizeof(gSaveBlock2Ptr->battleTower));
 }
@@ -113,7 +114,7 @@ void NewGameInitData(void)
     gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
-    sub_80549D4();
+    ClearBattleTowerData();
     ClearSav1();
     ClearMailData();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;
@@ -149,6 +150,8 @@ void NewGameInitData(void)
     ScriptContext2_RunNewScript(EventScript_ResetAllMapFlags);
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
+
+    AddBagItem(ITEM_DONE_BUTTON, 1);
 }
 
 static void ResetMiniGamesResults(void)

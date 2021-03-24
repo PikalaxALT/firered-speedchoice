@@ -462,7 +462,7 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
     {
         if (subStruct->downArrowDelay != 0)
         {
-            subStruct->downArrowDelay = ((*(u32*)&textPrinter->subUnion.sub) << 19 >> 27) - 1;    // convoluted way of getting field_1, necessary to match
+            subStruct->downArrowDelay--;
         }
         else
         {
@@ -499,7 +499,7 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
             CopyWindowToVram(textPrinter->printerTemplate.windowId, 0x2);
 
             subStruct->downArrowDelay = 0x8;
-            subStruct->downArrowYPosIdx = (*(u32*)subStruct << 17 >> 30) + 1;
+            subStruct->downArrowYPosIdx++;
         }
     }
 }
@@ -542,21 +542,10 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if (CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE)
+        if ((JOY_HELD(A_BUTTON | B_BUTTON) && CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE) || JOY_NEW(A_BUTTON | B_BUTTON))
         {
-            if (JOY_HELD(A_BUTTON | B_BUTTON))
-            {
-                result = TRUE;
-                PlaySE(SE_SELECT);
-            }
-        }
-        else
-        {
-            if (JOY_NEW(A_BUTTON | B_BUTTON))
-            {
-                result = TRUE;
-                PlaySE(SE_SELECT);
-            }
+            result = TRUE;
+            PlaySE(SE_SELECT);
         }
     }
     return result;
@@ -571,7 +560,7 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
+        if ((JOY_HELD(A_BUTTON | B_BUTTON) && CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE) || JOY_NEW(A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);

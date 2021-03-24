@@ -542,6 +542,9 @@ static const void *const sItemIconGfxPtrs[][2] = {
     {gFile_graphics_items_icons_powder_jar_sheet, gFile_graphics_items_icon_palettes_powder_jar_palette},
     {gFile_graphics_items_icons_gem_sheet, gFile_graphics_items_icon_palettes_ruby_palette},
     {gFile_graphics_items_icons_gem_sheet, gFile_graphics_items_icon_palettes_sapphire_palette},
+    {gFile_graphics_items_icons_question_mark_sheet, gFile_graphics_items_icon_palettes_question_mark_palette},
+    {gFile_graphics_items_icons_question_mark_sheet, gFile_graphics_items_icon_palettes_question_mark_palette},
+    {gFile_graphics_items_icons_done_button_sheet, gFile_graphics_items_icon_palettes_done_button_palette},
     {gFile_graphics_items_icons_return_to_field_arrow_sheet, gFile_graphics_items_icon_palettes_return_to_field_arrow_palette}
 };
 

@@ -670,3 +670,5 @@ const u32 gFile_graphics_items_icon_palettes_powder_jar_palette[] = INCBIN_U32("
 const u32 gFile_graphics_items_icon_palettes_ruby_palette[] = INCBIN_U32("graphics/items/icon_palettes/ruby.gbapal.lz");
 const u32 gFile_graphics_items_icons_gem_sheet[] = INCBIN_U32("graphics/items/icons/gem.4bpp.lz");
 const u32 gFile_graphics_items_icon_palettes_sapphire_palette[] = INCBIN_U32("graphics/items/icon_palettes/sapphire.gbapal.lz");
+const u32 gFile_graphics_items_icons_done_button_sheet[] = INCBIN_U32("graphics/items/icons/done_button.4bpp.lz");
+const u32 gFile_graphics_items_icon_palettes_done_button_palette[] = INCBIN_U32("graphics/items/icon_palettes/done_button.gbapal.lz");

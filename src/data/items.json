@@ -6057,6 +6057,54 @@
       "battleUsage": 0,
       "battleUseFunc": "NULL",
       "secondaryId": 0
+    },
+    {
+      "english": "????????",
+      "itemId": "ITEM_NONE",
+      "price": 0,
+      "holdEffect": "HOLD_EFFECT_NONE",
+      "holdEffectParam": 0,
+      "description_english": "?????",
+      "importance": 0,
+      "exitsBagOnUse": 0,
+      "pocket": "POCKET_ITEMS",
+      "type": 4,
+      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
+      "battleUsage": 0,
+      "battleUseFunc": "NULL",
+      "secondaryId": 0
+    },
+    {
+      "english": "????????",
+      "itemId": "ITEM_NONE",
+      "price": 0,
+      "holdEffect": "HOLD_EFFECT_NONE",
+      "holdEffectParam": 0,
+      "description_english": "?????",
+      "importance": 0,
+      "exitsBagOnUse": 0,
+      "pocket": "POCKET_ITEMS",
+      "type": 4,
+      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
+      "battleUsage": 0,
+      "battleUseFunc": "NULL",
+      "secondaryId": 0
+    },
+    {
+      "english": "DONE BUTTON",
+      "itemId": "ITEM_DONE_BUTTON",
+      "price": 0,
+      "holdEffect": "HOLD_EFFECT_NONE",
+      "holdEffectParam": 0,
+      "description_english": "A mysterious button that ends\\nthe game when pressed.",
+      "importance": 1,
+      "exitsBagOnUse": 1,
+      "pocket": "POCKET_KEY_ITEMS",
+      "type": 4,
+      "fieldUseFunc": "FieldUseFunc_DoneButton",
+      "battleUsage": 0,
+      "battleUseFunc": "NULL",
+      "secondaryId": 0
     }
   ]
 }

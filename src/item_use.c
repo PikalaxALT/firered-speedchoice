@@ -1,10 +1,13 @@
 #include "global.h"
 #include "gflib.h"
 #include "battle.h"
+#include "bag.h"
 #include "berry_pouch.h"
 #include "berry_powder.h"
 #include "bike.h"
 #include "coins.h"
+#include "done_button.h"
+#include "menu_helpers.h"
 #include "event_data.h"
 #include "field_effect.h"
 #include "field_fadetransition.h"
@@ -440,6 +443,24 @@ void FieldUseFunc_SacredAsh(u8 taskId)
 {
     gItemUseCB = ItemUseCB_SacredAsh;
     Task_FadeOuFromBackToField(taskId);
+}
+
+static const struct YesNoFuncTable gDoneButtonYesNo =
+{
+    .yesFunc = Task_InitDoneButtonMenu,
+    .noFunc = Task_ReturnToBagFromContextMenu,
+};
+
+const u8 gAreYouDoneWithRace[] = _("Are you done with the race?");
+
+void DoDoneButtonYesNo(u8 taskId)
+{
+    BagCreateYesNoMenuBottomRight(taskId, &gDoneButtonYesNo);
+}
+
+void FieldUseFunc_DoneButton(u8 taskId)
+{
+    DisplayItemMessageInBag(taskId, 2, gAreYouDoneWithRace, DoDoneButtonYesNo);
 }
 
 void FieldUseFunc_TmCase(u8 taskId)

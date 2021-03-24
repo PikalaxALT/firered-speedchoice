@@ -130,15 +130,20 @@ void RunTextPrinters(void)
                 {
                 case 0:
                     CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
-                case 3:
                     if (sTextPrinters[i].callback != NULL)
                     {
                         sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
                     }
                     break;
+                case 3:
+                    if (sTextPrinters[i].callback != NULL)
+                    {
+                        sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+                    }
+                    return;
                 case 1:
                     sTextPrinters[i].active = 0;
-                    break;
+                    return;
                 }
             }
             else
