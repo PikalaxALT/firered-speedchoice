@@ -5,6 +5,15 @@
 // Global Speedchoice Configuration
 // =======================================
 
+#define STR_(x) #x
+#define STR(x) STR_(x)
+
+#define SPEEDCHOICE_VERSION_MAJOR 1
+#define SPEEDCHOICE_VERSION_MINOR 0
+#define SPEEDCHOICE_VERSION_RELSTEP 0
+
+#define SPEEDCHOICE_VERSION STR(SPEEDCHOICE_VERSION_MAJOR) "." STR(SPEEDCHOICE_VERSION_MINOR) "." STR(SPEEDCHOICE_VERSION_RELSTEP)
+
 // Enumeration for Speedchoice Options. Used for CheckSpeedchoiceOption. These options
 // MUST match the order of the save data struct in global.h!
 enum

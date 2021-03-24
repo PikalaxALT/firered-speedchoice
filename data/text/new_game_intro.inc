@@ -203,8 +203,8 @@ gOakText_PetsBattlingStudy:: @ 81C5D4B
     .string "Others use them for battling.\pAs for myself…\pI study POKéMON as a profession.\p$"
 
 gOakText_TellMeALittleAboutYourself:: @ 81C5DBD
-    .string "But first, tell me a little about\n"
-    .string "yourself.\p$"
+    .string "But enough about me, let's get\n"
+    .string "you going already.\p$"
 
 gOakText_AskPlayerName:: @ 81C5DEA
     .string "Let's begin with your name.\n"

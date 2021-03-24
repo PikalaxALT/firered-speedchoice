@@ -101,7 +101,7 @@ const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
 /* SPEEDCHOICE MENU TEXT (Header Text)             */
 /* ----------------------------------------------- */
 const u8 gSpeedchoiceTextHeader[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}v1.1.9");
+const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}v" SPEEDCHOICE_VERSION);
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Option Choices)          */
@@ -912,14 +912,16 @@ void FormatInitialTempName(u8 nameId)
 
     // who needs male anyway
     name = gFemalePresetNames[nameId];
-    for (i = 0; i < 7; i++)
+    for (i = 0; i < OT_NAME_LENGTH; i++)
         gTempPlayerName[i] = name[i];
-    gTempPlayerName[7] = 0xFF;
+    gTempPlayerName[OT_NAME_LENGTH] = 0xFF;
 }
 
 // Used to signal to avoid redrawing specific stuff. This is used for the naming screen switchover
 // and the first time tooltip.
 EWRAM_DATA bool32 gAlreadyLoaded = FALSE;
+
+extern const u16 sHelpDocsPalette[0x80];
 
 /*
  * Initialize the CB2 Speedchoice Menu.
@@ -935,27 +937,12 @@ void CB2_InitSpeedchoice(void)
         gMain.state++;
         break;
     case 1:
-    {
-        u8 *addr;
-        u32 size;
-
-        addr = (u8 *)VRAM;
-        size = 0x18000;
-        while (1)
-        {
-            DmaFill16(3, 0, addr, 0x1000);
-            addr += 0x1000;
-            size -= 0x1000;
-            if (size <= 0x1000)
-            {
-                DmaFill16(3, 0, addr, size);
-                break;
-            }
-        }
-        DmaClear32(3, OAM, OAM_SIZE);
-        DmaClear16(3, PLTT, PLTT_SIZE);
-        // dont forget to clear BG PLTT RAM you dingus.
-        CpuFill16(0, (void*)(BG_PLTT), BG_PLTT_SIZE);
+        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x100);
+        DmaClear32(3, (void *)OAM, OAM_SIZE);
+        DmaClear16(3, (void *)PLTT, PLTT_SIZE);
+        gMain.state++;
+        break;
+    case 2:
         FillPalette(RGB_BLACK, 0, PLTT_SIZE);
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
         ResetBgsAndClearDma3BusyFlags(0);
@@ -982,47 +969,47 @@ void CB2_InitSpeedchoice(void)
         ShowBg(1);
         ShowBg(2);
         gMain.state++;
-    }
         break;
-    case 2:
+    case 3:
         ResetPaletteFade();
         ScanlineEffect_Stop();
         ResetTasks();
         ResetSpriteData();
         gMain.state++;
         break;
-    case 3:
+    case 4:
         LoadBgTiles(1, GetUserFrameGraphicsInfo(gSaveBlock2Ptr->optionsWindowFrameType)->tiles, 0x120, 0x1A2);
         gMain.state++;
         break;
-    case 4:
+    case 5:
+        LoadPalette(sHelpDocsPalette, 0x000, 0x080);
         LoadPalette(sOptionMenuPalette, 0, sizeof(sOptionMenuPalette));
         LoadPalette(GetUserFrameGraphicsInfo(gSaveBlock2Ptr->optionsWindowFrameType)->palette, 0x70, 0x20);
         LoadPalette(GetUserFrameGraphicsInfo(gSaveBlock2Ptr->optionsWindowFrameType)->palette, 0x20, 0x20); // again for the hardcoded border
         gMain.state++;
         break;
-    case 5:
+    case 6:
         LoadPalette(stdpal_get(2), 0x10, 0x20);
         LoadPalette(sMainMenuTextPal, 0xF0, sizeof(sMainMenuTextPal));
         gMain.state++;
         break;
-    case 6:
+    case 7:
         PutWindowTilemap(0);
         DrawHeaderWindow();
         gMain.state++;
         break;
-    case 7:
+    case 8:
         gMain.state++;
         break;
-    case 8:
+    case 9:
         PutWindowTilemap(1);
         //DrawOptionMenuTexts();
         gMain.state++;
-    case 9:
+    case 10:
         sub_80BB154();
         gMain.state++;
         break;
-    case 10:
+    case 11:
     {
         gSpeedchoiceTaskId = CreateTask(Task_SpeedchoiceMenuFadeIn, 0);
 
@@ -1056,7 +1043,7 @@ void CB2_InitSpeedchoice(void)
         gMain.state++;
         break;
     }
-    case 11:
+    case 12:
         BeginNormalPaletteFade(-1, 0, 0x10, 0, 0);
         SetVBlankCallback(VBlankCB);
         SetMainCallback2(MainCB2);
@@ -1331,6 +1318,7 @@ static void SaveSpeedchoiceOptions(u8 taskId)
 
 extern const struct BgTemplate sMainMenuBgTemplates[];
 extern void Task_OaksSpeech1(u8 taskId);
+extern void CB2_NewGameOaksSpeech(void);
 
 /*
  * Complete the fade out of the speedchoice menu and then clear the menu data and
@@ -1338,26 +1326,11 @@ extern void Task_OaksSpeech1(u8 taskId);
  */
 static void Task_SpeedchoiceMenuFadeOut(u8 taskId)
 {
-    if(!gPaletteFade.active)
+    if(!gPaletteFade.active && --gTasks[taskId].data[15] == 0)
     {
-        u8 *addr;
-        u32 size;
-
-        addr = (u8 *)VRAM;
-        size = 0x18000;
-        while (1)
-        {
-            DmaFill16(3, 0, addr, 0x1000);
-            addr += 0x1000;
-            size -= 0x1000;
-            if (size <= 0x1000)
-            {
-                DmaFill16(3, 0, addr, size);
-                break;
-            }
-        }
-        DmaClear32(3, OAM, OAM_SIZE);
-        DmaClear16(3, PLTT, PLTT_SIZE);
+        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
+        DmaClear32(3, (void *)OAM, OAM_SIZE);
+        DmaClear16(3, (void *)PLTT, PLTT_SIZE);
         gPlttBufferUnfaded[0] = 0;
         gPlttBufferFaded[0] = 0;
         /*ClearWindowTilemap(SPD_WIN_TEXT_OPTION);
@@ -1385,6 +1358,7 @@ static void Task_SpeedchoiceMenuFadeOut(u8 taskId)
         sInSubMenu = FALSE;
         sInBattle = FALSE;
         sInField = FALSE;
+        SetMainCallback2(CB2_NewGameOaksSpeech);
         gTasks[taskId].func = Task_OaksSpeech1;
     }
 }
@@ -1397,14 +1371,16 @@ static void Task_AskToStartGame(u8 taskId)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0:  // YES
-        PlayBGM(MUS_DUMMY);
+        PlayBGM(MUS_NEW_GAME_EXIT);
         PlaySE(SE_SELECT);
         SaveSpeedchoiceOptions(taskId);
-        BeginNormalPaletteFade(-1, 0, 0, 0x10, 0);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, 0);
         gTasks[taskId].func = Task_SpeedchoiceMenuFadeOut;
+        gTasks[taskId].data[15] = 24;
         break;
     case 1:  // NO
     case -1: // B button
+        PlayBGM(MUS_NEW_GAME_INSTRUCT);
         PlaySE(SE_SELECT);
         ClearWindowTilemap(SPD_WIN_TOOLTIP);
         ClearWindowTilemap(3);
@@ -1456,7 +1432,10 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
     else if (gMain.newKeys & A_BUTTON)
     {
         if (gLocalSpeedchoiceConfig.trueIndex == START_GAME)
+        {
+            PlayBGM(MUS_NEW_GAME_INTRO);
             gTasks[taskId].func = Task_SpeedchoiceMenuSave;
+        }
         else if (gLocalSpeedchoiceConfig.trueIndex == PRESET) {
             SetOptionChoicesAndConfigFromPreset(GetPresetPtr(gLocalSpeedchoiceConfig.optionConfig[PRESET]));
             PlaySE(SE_SELECT); // page scrolling.

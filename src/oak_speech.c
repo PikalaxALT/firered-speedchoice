@@ -22,7 +22,7 @@ struct OakSpeechResources
 {
     void * solidColorsGfx;
     void * trainerPicTilemapBuffer;
-    void * unk_0008;
+//    void * unk_0008;
     u8 filler_000C[4];
     u16 nameWho;
     u16 helpPage;
@@ -44,7 +44,7 @@ void Task_OakSpeech5(u8 taskId);
 static void Task_OakSpeech6(u8 taskId);
 static void Task_OakSpeech7(u8 taskId);
 static void Task_OakSpeech8(u8 taskId);
-static void Task_OakSpeech9(u8 taskId);
+void Task_OakSpeech9(u8 taskId);
 static void Task_OakSpeech10(u8 taskId);
 static void Task_OakSpeech10(u8 taskId);
 static void Task_OakSpeech11(u8 taskId);
@@ -100,7 +100,7 @@ extern const u8 gText_ABUTTONNext_BBUTTONBack[];
 extern const u8 gText_Boy[];
 extern const u8 gText_Girl[];
 
-ALIGNED(4) static const u16 sHelpDocsPalette[] = INCBIN_U16("graphics/oak_speech/help_docs_palette.gbapal");
+ALIGNED(4) const u16 sHelpDocsPalette[] = INCBIN_U16("graphics/oak_speech/help_docs_palette.gbapal");
 static const u32 sOakSpeechGfx_GameStartHelpUI[] = INCBIN_U32("graphics/oak_speech/game_start_help_ui.4bpp.lz");
 static const u32 sNewGameAdventureIntroTilemap[] = INCBIN_U32("graphics/oak_speech/new_game_adventure_intro_tilemap.bin.lz");
 static const u32 sOakSpeechGfx_SolidColors[] = INCBIN_U32("graphics/oak_speech/solid_colors.4bpp.lz");
@@ -471,7 +471,7 @@ static void VBlankCB_NewGameOaksSpeech(void)
     TransferPlttBuffer();
 }
 
-static void CB2_NewGameOaksSpeech(void)
+void CB2_NewGameOaksSpeech(void)
 {
     RunTasks();
     RunTextPrinters();
@@ -556,18 +556,19 @@ void Task_OaksSpeech1(u8 taskId)
         FillBgTilemapBufferRect_Palette0(1, 0xD00F,  0,  0, 30, 2);
         FillBgTilemapBufferRect_Palette0(1, 0xD002,  0,  2, 30, 1);
         FillBgTilemapBufferRect_Palette0(1, 0xD00E,  0, 19, 30, 1);
-        CreateHelpDocsPage1();
+//        CreateHelpDocsPage1();
         gPaletteFade.bufferTransferDisabled = FALSE;
-        gTasks[taskId].data[5] = CreateTextCursorSpriteForOakSpeech(0, 0xE6, 0x95, 0, 0);
+//        gTasks[taskId].data[5] = CreateTextCursorSpriteForOakSpeech(0, 0xE6, 0x95, 0, 0);
         BlendPalettes(0xFFFFFFFF, 0x10, 0x00);
         break;
     case 10:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+//        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
         ShowBg(0);
         ShowBg(1);
         SetVBlankCallback(VBlankCB_NewGameOaksSpeech);
-        gTasks[taskId].func = Task_OakSpeech5;
+        gTasks[taskId].data[3] = 80;
+        gTasks[taskId].func = Task_OakSpeech9;
         gMain.state = 0;
         return;
     }
@@ -720,14 +721,15 @@ static void Task_OakSpeech6(u8 taskId)
         data[3]--;
     else
     {
+        void * ptr;
         PlayBGM(MUS_NEW_GAME_INTRO);
         ClearTopBarWindow();
         TopBarWindowPrintString(gText_ABUTTONNext, 0, 1);
-        sOakSpeechResources->unk_0008 = MallocAndDecompress(sNewGameAdventureIntroTilemap, &sp14);
-        CopyToBgTilemapBufferRect(1, sOakSpeechResources->unk_0008, 0, 2, 30, 19);
+        ptr = MallocAndDecompress(sNewGameAdventureIntroTilemap, &sp14);
+        CopyToBgTilemapBufferRect(1, ptr, 0, 2, 30, 19);
         CopyBgTilemapBufferToVram(1);
-        Free(sOakSpeechResources->unk_0008);
-        sOakSpeechResources->unk_0008 = NULL;
+        Free(ptr);
+        ptr = NULL;
         data[14] = AddWindow(&sNewGameAdventureIntroWindowTemplates[0]);
         PutWindowTilemap(data[14]);
         FillWindowPixelBuffer(data[14], 0x00);
@@ -865,7 +867,7 @@ static void Task_OakSpeech8(u8 taskId)
     }
 }
 
-static void Task_OakSpeech9(u8 taskId)
+void Task_OakSpeech9(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
     u32 size = 0;
@@ -1031,6 +1033,9 @@ static void Task_OakSpeech17(u8 taskId)
         ClearDialogWindowAndFrame(0, 1);
         CreateFadeInTask(taskId, 2);
         data[3] = 48;
+        gSaveBlock2Ptr->playerGender = FEMALE;
+        StringCopy7(gSaveBlock1Ptr->rivalName, sRivalNameChoices[Random() % NELEMS(sRivalNameChoices)]);
+        SeedRngAndSetTrainerId();
         gTasks[taskId].func = Task_OakSpeech33;
     }
 }
