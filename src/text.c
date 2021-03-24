@@ -3,6 +3,7 @@
 #include "m4a.h"
 #include "quest_log.h"
 #include "graphics.h"
+#include "speedchoice.h"
 #include "dynamic_placeholder_text_util.h"
 #include "constants/songs.h"
 
@@ -541,10 +542,21 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
+        if (CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE)
         {
-            result = TRUE;
-            PlaySE(SE_SELECT);
+            if (JOY_HELD(A_BUTTON | B_BUTTON))
+            {
+                result = TRUE;
+                PlaySE(SE_SELECT);
+            }
+        }
+        else
+        {
+            if (JOY_NEW(A_BUTTON | B_BUTTON))
+            {
+                result = TRUE;
+                PlaySE(SE_SELECT);
+            }
         }
     }
     return result;

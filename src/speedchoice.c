@@ -17,6 +17,7 @@
 #include "done_button.h"
 #include "naming_screen.h"
 #include "random.h"
+#include "new_menu_helpers.h"
 
 // A macro was defined here to simplify the row used in Palette calls, but I haven't
 // used this yet.
@@ -1426,7 +1427,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
 {
     if(!gAlreadyLoaded)
     {
-        DrawTooltip(taskId, gSpeedchoiceTooltipExplanation, gSaveBlock2Ptr->optionsTextSpeed, FALSE);
+        DrawTooltip(taskId, gSpeedchoiceTooltipExplanation, GetTextSpeedSetting(), FALSE);
         gAlreadyLoaded = TRUE;
     }
     else if (gMain.newKeys & A_BUTTON)
@@ -1450,7 +1451,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
     else if (gMain.newKeys & SELECT_BUTTON) // do tooltip.
     {
         if(gLocalSpeedchoiceConfig.trueIndex <= CURRENT_OPTIONS_NUM && SpeedchoiceOptions[gLocalSpeedchoiceConfig.trueIndex].tooltip != NULL)
-            DrawTooltip(taskId, SpeedchoiceOptions[gLocalSpeedchoiceConfig.trueIndex].tooltip, gSaveBlock2Ptr->optionsTextSpeed, FALSE);
+            DrawTooltip(taskId, SpeedchoiceOptions[gLocalSpeedchoiceConfig.trueIndex].tooltip, GetTextSpeedSetting(), FALSE);
     }
     else if (gMain.newKeys & DPAD_UP)
     {

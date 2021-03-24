@@ -19,6 +19,7 @@
 #include "field_message_box.h"
 #include "new_menu_helpers.h"
 #include "script_menu.h"
+#include "speedchoice.h"
 #include "data.h"
 #include "field_specials.h"
 #include "constants/items.h"
@@ -1311,10 +1312,28 @@ bool8 ScrCmd_closemessage(struct ScriptContext * ctx)
 
 static bool8 WaitForAorBPress(void)
 {
-    if (JOY_NEW(A_BUTTON))
-        return TRUE;
-    if (JOY_NEW(B_BUTTON))
-        return TRUE;
+    if (CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE)
+    {
+        if (JOY_HELD(A_BUTTON))
+        {
+            return TRUE;
+        }
+        if (JOY_HELD(B_BUTTON))
+        {
+            return TRUE;
+        }
+    }
+    else
+    {
+        if (JOY_NEW(A_BUTTON))
+        {
+            return TRUE;
+        }
+        if (JOY_NEW(B_BUTTON))
+        {
+            return TRUE;
+        }
+    }
 
     if (ScriptContext_NextCommandEndsScript(sQuestLogScriptContextPtr) == TRUE)
     {

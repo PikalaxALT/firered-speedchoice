@@ -1,6 +1,7 @@
 #include "global.h"
 #include "window.h"
 #include "text.h"
+#include "speedchoice.h"
 
 static EWRAM_DATA struct TextPrinter sTempTextPrinter = {0};
 static EWRAM_DATA struct TextPrinter sTextPrinters[NUM_TEXT_PRINTERS] = {0};
@@ -115,25 +116,37 @@ void RunTextPrinters(void)
 {
     int i;
     u16 temp;
+    bool32 isInstantText = gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON;
 
-    for (i = 0; i < 0x20; ++i)
+    do
     {
-        if (sTextPrinters[i].active != 0)
+        int numEmpty = 0;
+        for (i = 0; i < NUM_TEXT_PRINTERS; ++i)
         {
-            temp = RenderFont(&sTextPrinters[i]);
-            switch (temp) {
+            if (sTextPrinters[i].active != 0)
+            {
+                temp = RenderFont(&sTextPrinters[i]);
+                switch (temp)
+                {
                 case 0:
                     CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
                 case 3:
-                    if (sTextPrinters[i].callback != 0)
+                    if (sTextPrinters[i].callback != NULL)
+                    {
                         sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
+                    }
                     break;
                 case 1:
                     sTextPrinters[i].active = 0;
                     break;
+                }
             }
+            else
+                numEmpty++;
         }
-    }
+        if (numEmpty == NUM_TEXT_PRINTERS)
+            return;
+    } while (isInstantText);
 }
 
 bool16 IsTextPrinterActive(u8 id)
