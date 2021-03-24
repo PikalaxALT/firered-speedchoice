@@ -1,5 +1,4 @@
 TOOLCHAIN := $(DEVKITARM)
-COMPARE ?= 0
 
 ifeq ($(CC),)
 HOSTCC := gcc
@@ -108,7 +107,7 @@ infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst 
 
 # Build tools when building the rom
 # Disable dependency scanning for clean/tidy/tools
-ifeq (,$(filter-out all compare,$(MAKECMDGOALS)))
+ifeq (,$(filter-out all,$(MAKECMDGOALS)))
 $(call infoshell, $(MAKE) tools)
 else
 NODEP := 1
@@ -142,9 +141,9 @@ TOOLDIRS := $(filter-out tools/agbcc tools/binutils tools/analyze_source,$(wildc
 TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
-ALL_BUILDS := firered firered_rev1 leafgreen leafgreen_rev1
+ALL_BUILDS := firered leafgreen
 
-.PHONY: all rom tools clean-tools mostlyclean clean compare tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS) $(ALL_BUILDS:%=compare_%) $(ALL_BUILDS:%=%_modern) modern
+.PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS)
 
 MAKEFLAGS += --no-print-directory
 
@@ -153,18 +152,11 @@ AUTO_GEN_TARGETS :=
 all: tools rom
 
 rom: $(ROM)
-ifeq ($(COMPARE),1)
-	@$(SHA1) $(BUILD_NAME).sha1
-endif
 
 tools: $(TOOLDIRS)
 
 $(TOOLDIRS):
 	@$(MAKE) -C $@
-
-# For contributors to make sure a change didn't affect the contents of the ROM.
-compare:
-	@$(MAKE) COMPARE=1
 
 mostlyclean: tidy
 	$(RM) sound/direct_sound_samples/*.bin
@@ -266,7 +258,7 @@ $(DATA_ASM_BUILDDIR)/%.o: data_dep = $(shell $(SCANINC) -I . $(DATA_ASM_SUBDIR)/
 endif
 
 berry_fix:
-	@$(MAKE) -C berry_fix COMPARE=$(COMPARE) TOOLCHAIN=$(TOOLCHAIN)
+	@$(MAKE) -C berry_fix TOOLCHAIN=$(TOOLCHAIN)
 
 berry_fix/berry_fix.gba: berry_fix
 
@@ -322,20 +314,5 @@ $(ELF): $(OBJ_DIR)/ld_script.ld $(OBJS)
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
 
-# "friendly" target names for convenience sake
-firered:                ; @$(MAKE) GAME_VERSION=FIRERED
-firered_rev1:           ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1
-leafgreen:              ; @$(MAKE) GAME_VERSION=LEAFGREEN
-leafgreen_rev1:         ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1
-
-compare_firered:        ; @$(MAKE) GAME_VERSION=FIRERED COMPARE=1
-compare_firered_rev1:   ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1 COMPARE=1
-compare_leafgreen:      ; @$(MAKE) GAME_VERSION=LEAFGREEN COMPARE=1
-compare_leafgreen_rev1: ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1 COMPARE=1
-
-firered_modern:        ; @$(MAKE) GAME_VERSION=FIRERED MODERN=1
-firered_rev1_modern:   ; @$(MAKE) GAME_VERSION=FIRERED GAME_REVISION=1 MODERN=1
-leafgreen_modern:      ; @$(MAKE) GAME_VERSION=LEAFGREEN MODERN=1
-leafgreen_rev1_modern: ; @$(MAKE) GAME_VERSION=LEAFGREEN GAME_REVISION=1 MODERN=1
-
-modern: ; @$(MAKE) MODERN=1
+firered   :; @$(MAKE) GAME_VERSION=FIRERED
+leafgreen :; @$(MAKE) GAME_VERSION=LEAFGREEN

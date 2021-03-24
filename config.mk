@@ -1,7 +1,7 @@
 # Default variables
 
 GAME_VERSION  ?= FIRERED
-GAME_REVISION ?= 0
+GAME_REVISION ?= 1
 GAME_LANGUAGE ?= ENGLISH
 MODERN        ?= 0
 COMPARE       ?= 0
@@ -12,12 +12,12 @@ MAKER_CODE  := 01
 # Version
 ifeq ($(GAME_VERSION),FIRERED)
 TITLE       := POKEMON FIRE
-GAME_CODE   := BPR
+GAME_CODE   := FRS
 BUILD_NAME  := firered
 else
 ifeq ($(GAME_VERSION),LEAFGREEN)
 TITLE       := POKEMON LEAF
-GAME_CODE   := BPG
+GAME_CODE   := LGS
 BUILD_NAME  := leafgreen
 else
 $(error unknown version $(GAME_VERSION))

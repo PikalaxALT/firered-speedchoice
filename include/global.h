@@ -259,6 +259,88 @@ struct BattleTowerData // Leftover from R/S
     /*0x04D1, 0x0581*/ u8 filler_4D1[0x317];
 }; /* size = 0x7E8 */
 
+struct SpeedchoiceSaveOptions
+{
+    u8 expsystem:2;
+    u8 plotless:2;
+    u8 instantText:1;
+    u8 spinners:2;
+    u8 maxVision:2;
+    u8 nerfRoxanne:1;
+    u8 superbike:1;
+    u8 newwildencounters:1;
+    u8 earlyfly:1;
+    u8 runEverywhere:1;
+    u8 memeIsland:1;
+    u8 betterMarts:1;
+    u8 goodEarlyWilds:2;
+    u8 earlysurf:1;
+    u8 niceMenuOrder:1;
+    u8 easyFalseSwipe:2;
+    u8 fastCatch:1;
+    u8 earlyBike:1;
+    u8 fastEggHatch:1;
+    u8 gen7XItems:1;
+    u8 evoEveryLevel:2;
+};
+
+struct DoneButtonStats
+{
+    u32 frameCount;
+    u32 owFrameCount;
+    u32 battleFrameCount;
+    u32 menuFrameCount;
+    u32 introsFrameCount;
+    u16 saveCount;
+    u16 reloadCount;
+    u16 clockResetCount;
+    u32 stepCount;
+    u32 stepCountWalk;
+    u32 stepCountSurf;
+    u32 stepCountBike;
+    u32 stepCountRun; // Gen 3 exclusive
+    u16 bonks;
+    u32 totalDamageDealt;
+    u32 actualDamageDealt;
+    u32 totalDamageTaken;
+    u32 actualDamageTaken;
+    u16 ownMovesHit;
+    u16 ownMovesMissed;
+    u16 enemyMovesHit;
+    u16 enemyMovesMissed;
+    u16 ownMovesSE;
+    u16 ownMovesNVE;
+    u16 enemyMovesSE;
+    u16 enemyMovesNVE;
+    u16 critsDealt;
+    u16 OHKOsDealt;
+    u16 critsTaken;
+    u16 OHKOsTaken;
+    u32 playerHPHealed;
+    u32 enemyHPHealed;
+    u16 playerPokemonFainted;
+    u16 enemyPokemonFainted;
+    u32 expGained;
+    u16 switchouts;
+    u16 battles;
+    u16 trainerBattles;
+    u16 wildBattles;
+    u16 battlesFled;
+    u16 failedRuns;
+    u32 moneyMade;
+    u32 moneySpent;
+    u32 moneyLost;
+    u16 itemsPickedUp;
+    u16 itemsBought;
+    u16 itemsSold;
+    u16 movesLearnt;
+    u16 ballsThrown;
+    u16 pokemonCaughtInBalls;
+    u32 evosAttempted;
+    u32 evosCompleted;
+    u32 evosCancelled;
+};
+
 struct SaveBlock2
 {
     /*0x000*/ u8 playerName[PLAYER_NAME_LENGTH + 1];
@@ -291,7 +373,9 @@ struct SaveBlock2
     /*0xB10*/ struct BerryPickingResults berryPick;
     /*0xB20*/ u8 filler_B20[0x400];
     /*0xF20*/ u32 encryptionKey;
-}; // size: 0xF24
+    /*0xF24*/ struct SpeedchoiceSaveOptions speedchoiceOpts;
+    /*0xF28*/ struct DoneButtonStats doneButtonStats;
+}; // size: 0xFC4
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
 
@@ -835,5 +919,13 @@ struct MapPosition
 
 extern struct SaveBlock1* gSaveBlock1Ptr;
 extern u8 gReservedSpritePaletteCount;
+
+#if sizeof(struct SaveBlock1) > 0x4000
+#error SaveBlock1 oversize
+#endif
+
+#if sizeof(struct SaveBlock2) > 0x1000
+#error SaveBlock2 oversize
+#endif
 
 #endif // GUARD_GLOBAL_H
