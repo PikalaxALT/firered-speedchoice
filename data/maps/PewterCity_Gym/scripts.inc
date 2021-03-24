@@ -13,9 +13,9 @@ PewterCity_Gym_EventScript_DefeatedBrock:: @ 816A5C5
 	famechecker FAMECHECKER_BROCK, 1
 	setflag FLAG_DEFEATED_BROCK
 	setflag FLAG_BADGE01_GET
-	setvar VAR_MAP_SCENE_PEWTER_CITY, 1
+	setvar VAR_MAP_SCENE_PEWTER_CITY, 2  @ 1
 	setflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
-	clearflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
+	@ clearflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY
 	set_gym_trainers 1
 	goto PewterCity_Gym_EventScript_GiveTM39
 	end

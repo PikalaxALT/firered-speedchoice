@@ -1,6 +1,8 @@
 #ifndef POKEFIRERED_SPEEDCHOICE_H
 #define POKEFIRERED_SPEEDCHOICE_H
 
+#include "constants/speedchoice.h"
+
 // =======================================
 // Global Speedchoice Configuration
 // =======================================
@@ -13,40 +15,6 @@
 #define SPEEDCHOICE_VERSION_RELSTEP 0
 
 #define SPEEDCHOICE_VERSION STR(SPEEDCHOICE_VERSION_MAJOR) "." STR(SPEEDCHOICE_VERSION_MINOR) "." STR(SPEEDCHOICE_VERSION_RELSTEP)
-
-// Enumeration for Speedchoice Options. Used for CheckSpeedchoiceOption. These options
-// MUST match the order of the save data struct in global.h!
-enum
-{
-    // ----------------------
-    // NORMAL OPTIONS
-    // ----------------------
-    PRESET,
-    PLAYER_NAME_SET,
-    EXPMATH,
-    PLOTLESS,
-    INSTANTTEXT,
-    SPINNERS,
-    MAXVISION,
-    NEWWILDENC,
-    RUN_EVERYWHERE,
-    BETTER_MARTS,
-    GOOD_EARLY_WILDS,
-    NICE_MENU_ORDER,
-    EASY_FALSE_SWIPE,
-    FAST_CATCH,
-    EARLY_BIKE,
-    FAST_EGG_HATCH,
-    GEN_7_X_ITEMS,
-    EVO_EVERY_LEVEL,
-
-    CURRENT_OPTIONS_NUM,
-    // ----------------------
-    // STATIC OPTIONS
-    // ----------------------
-    PAGE = CURRENT_OPTIONS_NUM,
-    START_GAME
-};
 
 // Maximum number of possible selectable options per option.
 #define MAX_CHOICES 6
@@ -88,179 +56,6 @@ enum
 // To Avoid breaking stuff, we used old min/max macros. I'm too lazy to correct this.
 #define oldmin(a, b) (a < b ? a : b)
 #define oldmax(a, b) (a > b ? a : b)
-
-/*
- * Enumerations for GetPageOptionTrueIndex. When passing this, the function will
- * return the true index from that page given whether you are specifying the first
- * option of the page or the last one.
- */
-enum
-{
-    FIRST,
-    LAST
-};
-
-// We used to share the enums for options, but we don't anymore because it's confusing
-// as fuck. Please define enums for each option and have them match the option config.
-
-// ----------------------
-// EXP ENUM
-// ----------------------
-enum
-{
-    EXP_KEEP,
-    EXP_BW,
-    EXP_NONE
-};
-
-// ----------------------
-// PLOTLESS ENUM
-// ----------------------
-enum
-{
-    PLOT_SEMI,
-    PLOT_KEEP,
-    PLOT_FULL
-};
-
-// ----------------------
-// INSTANT TEXT ENUM
-// ----------------------
-enum
-{
-    IT_ON,
-    IT_OFF
-};
-
-// ----------------------
-// SPINNERS ENUM
-// ----------------------
-enum
-{
-    SPIN_NERF,
-    SPIN_KEEP,
-    SPIN_HELL,
-    SPIN_WHY
-};
-
-// ----------------------
-// MAX VISION ENUM
-// ----------------------
-enum
-{
-    MAX_OFF,
-    MAX_SANE,
-    MAX_HELL
-};
-
-// ----------------------
-// NEW WILD ENC ENUM
-// ----------------------
-enum
-{
-    NEW_ON,
-    NEW_OFF
-};
-
-// ----------------------
-// RUN EVERYWHERE ENUM
-// ----------------------
-enum
-{
-    RUN_ON,
-    RUN_OFF
-};
-
-// ----------------------
-// BETTER MARTS ENUM
-// ----------------------
-enum
-{
-    MARTS_ON,
-    MARTS_OFF
-};
-
-// ----------------------
-// GOOD EARLY WILDS ENUM
-// ----------------------
-enum
-{
-    GOOD_OFF,
-    GOOD_STATIC,
-    GOOD_RAND
-};
-
-// ----------------------
-// PARTY MENU ENUM
-// ----------------------
-enum
-{
-    NICE_MENU_ORDER_ON,
-    NICE_MENU_ORDER_OFF
-};
-
-// ----------------------
-// EASY FALSE SWIPE ENUM
-// ----------------------
-enum
-{
-    EASY_FALSE_SWIPE_OFF,
-    EASY_FALSE_SWIPE_TUTOR,
-    EASY_FALSE_SWIPE_HM05
-};
-
-// ----------------------
-// FAST CATCH ENUM
-// ----------------------
-enum
-{
-    FAST_CATCH_ON,
-    FAST_CATCH_OFF
-};
-
-// ----------------------
-// EARLY BIKE ENUM
-// ----------------------
-enum
-{
-    EARLY_BIKE_YES,
-    EARLY_BIKE_NO
-};
-
-// ----------------------
-// FAST EGG HATCHING ENUM
-// ----------------------
-enum
-{
-    FAST_EGG_HATCH_YES,
-    FAST_EGG_HATCH_NO
-};
-// ----------------------
-// GEN 7 X ITEMS ENUM
-// ----------------------
-enum
-{
-    GEN_7_X_ITEMS_ON,
-    GEN_7_X_ITEMS_OFF
-};
-
-// ----------------------
-// EVO_EVERY_LEVEL ENUM
-// ----------------------
-enum
-{
-    EVO_EV_OFF,
-    EVO_EV_STATIC,
-    EVO_EV_RAND
-};
-
-// Enumeration for optionType in the Speedchoice struct below.
-enum
-{
-    NORMAL,
-    ARROW,
-    PLAYER_NAME
-};
 
 /*
  * Every Speedchoice option uses a configuration to determine how to render it's options.

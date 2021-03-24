@@ -20,6 +20,7 @@
 #include "roamer.h"
 #include "item.h"
 #include "player_pc.h"
+#include "speedchoice.h"
 #include "berry.h"
 #include "easy_chat.h"
 #include "union_room_chat.h"
@@ -152,6 +153,11 @@ void NewGameInitData(void)
     ResetTrainerTowerResults();
 
     AddBagItem(ITEM_DONE_BUTTON, 1);
+    if (CheckSpeedchoiceOption(EARLY_BIKE, EARLY_BIKE_YES) == TRUE) {
+        AddBagItem(ITEM_BICYCLE, 1);
+        FlagSet(FLAG_GOT_BICYCLE);
+    }
+    FlagSet(FLAG_SYS_B_DASH);
 }
 
 static void ResetMiniGamesResults(void)

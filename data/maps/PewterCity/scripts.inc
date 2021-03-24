@@ -695,56 +695,56 @@ PewterCity_EventScript_RunningShoesAideTriggerBottom:: @ 81662D1
 	end
 
 PewterCity_EventScript_AideGiveRunningShoes:: @ 81662DE
-	textcolor 0
-	compare VAR_TEMP_1, 1
-	call_if_eq PewterCity_EventScript_AideNoticePlayer
-	compare VAR_TEMP_1, 2
-	call_if_eq PewterCity_EventScript_AideNoticePlayer
-	compare VAR_TEMP_1, 3
-	call_if_eq PewterCity_EventScript_AideNoticePlayer
-	waitse
-	playse SE_PIN
-	applymovement LOCALID_AIDE, Movement_ExclamationMark
-	waitmovement 0
-	applymovement LOCALID_AIDE, Movement_Delay48
-	waitmovement 0
-	msgbox PewterCity_Text_OhPlayer
-	compare VAR_TEMP_1, 0
-	call_if_eq PewterCity_EventScript_AideApproachPlayer0
-	compare VAR_TEMP_1, 1
-	call_if_eq PewterCity_EventScript_AideApproachPlayer1
-	compare VAR_TEMP_1, 2
-	call_if_eq PewterCity_EventScript_AideApproachPlayer2
-	compare VAR_TEMP_1, 3
-	call_if_eq PewterCity_EventScript_AideApproachPlayer3
-	msgbox PewterCity_Text_AskedToDeliverThis
-	textcolor 3
-	playfanfare MUS_OBTAIN_KEY_ITEM
-	message PewterCity_Text_ReceivedRunningShoesFromAide
-	waitmessage
-	waitfanfare
-	msgbox PewterCity_Text_SwitchedShoesWithRunningShoes
-	special DisableMsgBoxWalkaway
-	signmsg
-	msgbox PewterCity_Text_ExplainRunningShoes
-	normalmsg
-	call EventScript_RestorePrevTextColor
-	msgbox PewterCity_Text_MustBeGoingBackToLab
-	closemessage
-	compare VAR_TEMP_1, 0
-	call_if_eq PewterCity_EventScript_AideExit0
-	compare VAR_TEMP_1, 1
-	call_if_eq PewterCity_EventScript_AideExit1
-	compare VAR_TEMP_1, 2
-	call_if_eq PewterCity_EventScript_AideExit2
-	compare VAR_TEMP_1, 3
-	call_if_eq PewterCity_EventScript_AideExit3
-	delay 30
-	textcolor 3
-	msgbox PewterCity_Text_RunningShoesLetterFromMom
-	closemessage
-	removeobject LOCALID_AIDE
-	setflag FLAG_SYS_B_DASH
+	@ textcolor 0
+	@ compare VAR_TEMP_1, 1
+	@ call_if_eq PewterCity_EventScript_AideNoticePlayer
+	@ compare VAR_TEMP_1, 2
+	@ call_if_eq PewterCity_EventScript_AideNoticePlayer
+	@ compare VAR_TEMP_1, 3
+	@ call_if_eq PewterCity_EventScript_AideNoticePlayer
+	@ waitse
+	@ playse SE_PIN
+	@ applymovement LOCALID_AIDE, Movement_ExclamationMark
+	@ waitmovement 0
+	@ applymovement LOCALID_AIDE, Movement_Delay48
+	@ waitmovement 0
+	@ msgbox PewterCity_Text_OhPlayer
+	@ compare VAR_TEMP_1, 0
+	@ call_if_eq PewterCity_EventScript_AideApproachPlayer0
+	@ compare VAR_TEMP_1, 1
+	@ call_if_eq PewterCity_EventScript_AideApproachPlayer1
+	@ compare VAR_TEMP_1, 2
+	@ call_if_eq PewterCity_EventScript_AideApproachPlayer2
+	@ compare VAR_TEMP_1, 3
+	@ call_if_eq PewterCity_EventScript_AideApproachPlayer3
+	@ msgbox PewterCity_Text_AskedToDeliverThis
+	@ textcolor 3
+	@ playfanfare MUS_OBTAIN_KEY_ITEM
+	@ message PewterCity_Text_ReceivedRunningShoesFromAide
+	@ waitmessage
+	@ waitfanfare
+	@ msgbox PewterCity_Text_SwitchedShoesWithRunningShoes
+	@ special DisableMsgBoxWalkaway
+	@ signmsg
+	@ msgbox PewterCity_Text_ExplainRunningShoes
+	@ normalmsg
+	@ call EventScript_RestorePrevTextColor
+	@ msgbox PewterCity_Text_MustBeGoingBackToLab
+	@ closemessage
+	@ compare VAR_TEMP_1, 0
+	@ call_if_eq PewterCity_EventScript_AideExit0
+	@ compare VAR_TEMP_1, 1
+	@ call_if_eq PewterCity_EventScript_AideExit1
+	@ compare VAR_TEMP_1, 2
+	@ call_if_eq PewterCity_EventScript_AideExit2
+	@ compare VAR_TEMP_1, 3
+	@ call_if_eq PewterCity_EventScript_AideExit3
+	@ delay 30
+	@ textcolor 3
+	@ msgbox PewterCity_Text_RunningShoesLetterFromMom
+	@ closemessage
+	@ removeobject LOCALID_AIDE
+	@ setflag FLAG_SYS_B_DASH
 	setvar VAR_MAP_SCENE_PEWTER_CITY, 2
 	return
 

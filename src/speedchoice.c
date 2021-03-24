@@ -18,6 +18,7 @@
 #include "naming_screen.h"
 #include "random.h"
 #include "new_menu_helpers.h"
+#include "event_data.h"
 
 // A macro was defined here to simplify the row used in Palette calls, but I haven't
 // used this yet.
@@ -1603,4 +1604,9 @@ static void sub_80BB154(void)
     FillBgTilemapBufferRect(1, 0x1AA, 28,   19,     1,      1,      7);
 
     CopyBgTilemapBufferToVram(1);
+}
+
+void Special_CheckSpeedchoiceOption(void)
+{
+    gSpecialVar_Result = CheckSpeedchoiceOption(gSpecialVar_0x8004, gSpecialVar_0x8005);
 }
