@@ -141,7 +141,7 @@ TOOLDIRS := $(filter-out tools/agbcc tools/binutils tools/analyze_source,$(wildc
 TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
-ALL_BUILDS := firered leafgreen
+ALL_BUILDS := firered-speedchoice
 
 .PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS)
 
@@ -313,6 +313,3 @@ $(ELF): $(OBJ_DIR)/ld_script.ld $(OBJS)
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
-
-firered   :; @$(MAKE) GAME_VERSION=FIRERED
-leafgreen :; @$(MAKE) GAME_VERSION=LEAFGREEN

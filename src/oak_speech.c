@@ -15,6 +15,7 @@
 #include "overworld.h"
 #include "random.h"
 #include "data.h"
+#include "speedchoice.h"
 #include "constants/songs.h"
 
 struct OakSpeechResources
@@ -23,9 +24,9 @@ struct OakSpeechResources
     void * trainerPicTilemapBuffer;
     void * unk_0008;
     u8 filler_000C[4];
-    u16 unk_0010;
-    u16 unk_0012;
-    u16 unk_0014[4];
+    u16 nameWho;
+    u16 helpPage;
+    u16 windows[4];
     u8 textColor[3];
     u8 textSpeed;
     u8 filler_0020[0x1800];
@@ -39,7 +40,7 @@ static void Task_OaksSpeech1(u8 taskId);
 static void CreateHelpDocsPage1(void);
 static void Task_OaksSpeech2(u8 taskId);
 static void Task_OakSpeech3(u8 taskId);
-static void Task_OakSpeech5(u8 taskId);
+void Task_OakSpeech5(u8 taskId);
 static void Task_OakSpeech6(u8 taskId);
 static void Task_OakSpeech7(u8 taskId);
 static void Task_OakSpeech8(u8 taskId);
@@ -91,7 +92,7 @@ static void DestroyOaksSpeechTrainerPic(void);
 static void CreateFadeInTask(u8 taskId, u8 state);
 static void CreateFadeOutTask(u8 taskId, u8 state);
 static void PrintNameChoiceOptions(u8 taskId, u8 state);
-static void GetDefaultName(u8 arg0, u8 namePick);
+static void GetDefaultName(u8 playerOrRival, u8 namePick);
 
 extern const u8 gText_Controls[];
 extern const u8 gText_ABUTTONNext[];
@@ -392,7 +393,7 @@ static const u8 *const sHelpDocsPtrs[] = {
     gNewGame_HelpDocs5, gNewGame_HelpDocs6, gNewGame_HelpDocs7
 };
 
-static const u8 *const sMaleNameChoices[] = {
+const u8 *const gMalePresetNames[] = {
 #if defined(FIRERED)
     gNameChoice_Red,
     gNameChoice_Fire,
@@ -422,7 +423,7 @@ static const u8 *const sMaleNameChoices[] = {
     gNameChoice_Roak
 };
 
-static const u8 *const sFemaleNameChoices[] = {
+const u8 *const gFemalePresetNames[] = {
 #if defined(FIRERED)
     gNameChoice_Red,
     gNameChoice_Fire,
@@ -484,7 +485,7 @@ void StartNewGameScene(void)
     gPlttBufferUnfaded[0] = RGB_BLACK;
     gPlttBufferFaded[0]   = RGB_BLACK;
     CreateTask(Task_OaksSpeech1, 0);
-    SetMainCallback2(CB2_NewGameOaksSpeech);
+    SetMainCallback2(CB2_InitSpeedchoice);
 }
 
 static void Task_OaksSpeech1(u8 taskId)
@@ -579,11 +580,11 @@ static void Task_OaksSpeech1(u8 taskId)
 static void CreateHelpDocsPage1(void)
 {
     TopBarWindowPrintTwoStrings(gText_Controls, gText_ABUTTONNext, 0, 0, 1);
-    sOakSpeechResources->unk_0014[0] = AddWindow(sHelpDocsWindowTemplatePtrs[sOakSpeechResources->unk_0012]);
-    PutWindowTilemap(sOakSpeechResources->unk_0014[0]);
-    FillWindowPixelBuffer(sOakSpeechResources->unk_0014[0], 0x00);
-    AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[0], 2, 2, 0, 1, 1, sTextColor_HelpSystem, 0, gNewGame_HelpDocs1);
-    CopyWindowToVram(sOakSpeechResources->unk_0014[0], COPYWIN_BOTH);
+    sOakSpeechResources->windows[0] = AddWindow(sHelpDocsWindowTemplatePtrs[sOakSpeechResources->helpPage]);
+    PutWindowTilemap(sOakSpeechResources->windows[0]);
+    FillWindowPixelBuffer(sOakSpeechResources->windows[0], 0x00);
+    AddTextPrinterParameterized4(sOakSpeechResources->windows[0], 2, 2, 0, 1, 1, sTextColor_HelpSystem, 0, gNewGame_HelpDocs1);
+    CopyWindowToVram(sOakSpeechResources->windows[0], COPYWIN_BOTH);
     FillBgTilemapBufferRect_Palette0(1, 0x3000, 1, 3, 5, 16);
     CopyBgTilemapBufferToVram(1);
 }
@@ -591,8 +592,8 @@ static void CreateHelpDocsPage1(void)
 static void Task_OakSpeech4(u8 taskId)
 {
     u8 i = 0;
-    u8 r7 = sOakSpeechResources->unk_0012 - 1;
-    if (sOakSpeechResources->unk_0012 == 0)
+    u8 r7 = sOakSpeechResources->helpPage - 1;
+    if (sOakSpeechResources->helpPage == 0)
     {
         CreateHelpDocsPage1();
     }
@@ -601,14 +602,14 @@ static void Task_OakSpeech4(u8 taskId)
         TopBarWindowPrintString(gText_ABUTTONNext_BBUTTONBack, 0, 1);
         for (i = 0; i < 3; i++)
         {
-            sOakSpeechResources->unk_0014[i] = AddWindow(&sHelpDocsWindowTemplatePtrs[sOakSpeechResources->unk_0012][i]);
-            PutWindowTilemap(sOakSpeechResources->unk_0014[i]);
-            FillWindowPixelBuffer(sOakSpeechResources->unk_0014[i], 0x00);
-            AddTextPrinterParameterized4(sOakSpeechResources->unk_0014[i], 2, 6, 0, 1, 1, sTextColor_HelpSystem, 0, sHelpDocsPtrs[i + r7 * 3]);
-            CopyWindowToVram(sOakSpeechResources->unk_0014[i], COPYWIN_BOTH);
+            sOakSpeechResources->windows[i] = AddWindow(&sHelpDocsWindowTemplatePtrs[sOakSpeechResources->helpPage][i]);
+            PutWindowTilemap(sOakSpeechResources->windows[i]);
+            FillWindowPixelBuffer(sOakSpeechResources->windows[i], 0x00);
+            AddTextPrinterParameterized4(sOakSpeechResources->windows[i], 2, 6, 0, 1, 1, sTextColor_HelpSystem, 0, sHelpDocsPtrs[i + r7 * 3]);
+            CopyWindowToVram(sOakSpeechResources->windows[i], COPYWIN_BOTH);
         }
 
-        if (sOakSpeechResources->unk_0012 == 1)
+        if (sOakSpeechResources->helpPage == 1)
         {
             CopyToBgTilemapBufferRect(1, sHelpDocsPage2Tilemap, 1, 3, 5, 16);
         }
@@ -629,14 +630,14 @@ static void Task_OaksSpeech2(u8 taskId)
         if (JOY_NEW(A_BUTTON))
         {
             gTasks[taskId].data[15] = 1;
-            if (sOakSpeechResources->unk_0012 < 2)
+            if (sOakSpeechResources->helpPage < 2)
             {
                 BeginNormalPaletteFade(0xFFFFDFFF, -1, 0, 16, stdpal_get(2)[15]);
             }
         }
         else
         {
-            if (sOakSpeechResources->unk_0012 != 0)
+            if (sOakSpeechResources->helpPage != 0)
             {
                 gTasks[taskId].data[15] = -1;
                 BeginNormalPaletteFade(0xFFFFDFFF, -1, 0, 16, stdpal_get(2)[15]);
@@ -658,7 +659,7 @@ static void Task_OakSpeech3(u8 taskId)
 
     if (!gPaletteFade.active)
     {
-        switch (sOakSpeechResources->unk_0012) {
+        switch (sOakSpeechResources->helpPage) {
         case 0:
             r8 = 1;
             break;
@@ -667,16 +668,16 @@ static void Task_OakSpeech3(u8 taskId)
             r8 = 3;
             break;
         }
-        sOakSpeechResources->unk_0012 += gTasks[taskId].data[15];
-        if (sOakSpeechResources->unk_0012 < 3)
+        sOakSpeechResources->helpPage += gTasks[taskId].data[15];
+        if (sOakSpeechResources->helpPage < 3)
         {
             for (i = 0; i < r8; i++)
             {
-                FillWindowPixelBuffer(sOakSpeechResources->unk_0014[i], 0x00);
-                ClearWindowTilemap(sOakSpeechResources->unk_0014[i]);
-                CopyWindowToVram(sOakSpeechResources->unk_0014[i], COPYWIN_BOTH);
-                RemoveWindow(sOakSpeechResources->unk_0014[i]);
-                sOakSpeechResources->unk_0014[i] = 0;
+                FillWindowPixelBuffer(sOakSpeechResources->windows[i], 0x00);
+                ClearWindowTilemap(sOakSpeechResources->windows[i]);
+                CopyWindowToVram(sOakSpeechResources->windows[i], COPYWIN_BOTH);
+                RemoveWindow(sOakSpeechResources->windows[i]);
+                sOakSpeechResources->windows[i] = 0;
             }
             gTasks[taskId].func = Task_OakSpeech4;
         }
@@ -688,7 +689,7 @@ static void Task_OakSpeech3(u8 taskId)
     }
 }
 
-static void Task_OakSpeech5(u8 taskId)
+void Task_OakSpeech5(u8 taskId)
 {
     u8 i = 0;
 
@@ -696,17 +697,17 @@ static void Task_OakSpeech5(u8 taskId)
     {
         for (i = 0; i < 3; i++)
         {
-            FillWindowPixelBuffer(sOakSpeechResources->unk_0014[i], 0x00);
-            ClearWindowTilemap(sOakSpeechResources->unk_0014[i]);
-            CopyWindowToVram(sOakSpeechResources->unk_0014[i], COPYWIN_BOTH);
-            RemoveWindow(sOakSpeechResources->unk_0014[i]);
-            sOakSpeechResources->unk_0014[i] = 0;
+            FillWindowPixelBuffer(sOakSpeechResources->windows[i], 0x00);
+            ClearWindowTilemap(sOakSpeechResources->windows[i]);
+            CopyWindowToVram(sOakSpeechResources->windows[i], COPYWIN_BOTH);
+            RemoveWindow(sOakSpeechResources->windows[i]);
+            sOakSpeechResources->windows[i] = 0;
         }
         FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 2, 30, 18);
         CopyBgTilemapBufferToVram(1);
         DestroyTextCursorSprite(gTasks[taskId].data[5]);
-        sOakSpeechResources->unk_0014[0] = RGB_BLACK;
-        LoadPalette(sOakSpeechResources->unk_0014, 0, 2);
+        sOakSpeechResources->windows[0] = RGB_BLACK;
+        LoadPalette(sOakSpeechResources->windows, 0, 2);
         gTasks[taskId].data[3] = 32;
         gTasks[taskId].func = Task_OakSpeech6;
     }
@@ -733,7 +734,7 @@ static void Task_OakSpeech6(u8 taskId)
         PutWindowTilemap(data[14]);
         FillWindowPixelBuffer(data[14], 0x00);
         CopyWindowToVram(data[14], COPYWIN_BOTH);
-        sOakSpeechResources->unk_0012 = 0;
+        sOakSpeechResources->helpPage = 0;
         gMain.state = 0;
         data[15] = 16;
         AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[0]);
@@ -767,18 +768,18 @@ static void Task_OakSpeech7(u8 taskId)
         {
             if (JOY_NEW(A_BUTTON))
             {
-                sOakSpeechResources->unk_0012++;
+                sOakSpeechResources->helpPage++;
             }
-            else if (sOakSpeechResources->unk_0012 != 0)
+            else if (sOakSpeechResources->helpPage != 0)
             {
-                sOakSpeechResources->unk_0012--;
+                sOakSpeechResources->helpPage--;
             }
             else
             {
                 break;
             }
             PlaySE(SE_SELECT);
-            if (sOakSpeechResources->unk_0012 == 3)
+            if (sOakSpeechResources->helpPage == 3)
             {
                 gMain.state = 4;
             }
@@ -796,8 +797,8 @@ static void Task_OakSpeech7(u8 taskId)
         if (data[15] <= 0)
         {
             FillWindowPixelBuffer(data[14], 0x00);
-            AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[sOakSpeechResources->unk_0012]);
-            if (sOakSpeechResources->unk_0012 == 0)
+            AddTextPrinterParameterized4(data[14], 2, 3, 5, 1, 0, sTextColor_OakSpeech, 0, sNewGameAdventureIntroTextPointers[sOakSpeechResources->helpPage]);
+            if (sOakSpeechResources->helpPage == 0)
             {
                 ClearTopBarWindow();
                 TopBarWindowPrintString(gText_ABUTTONNext, 0, 1);
@@ -833,7 +834,7 @@ static void Task_OakSpeech7(u8 taskId)
         else
         {
             gMain.state = 0;
-            sOakSpeechResources->unk_0012 = 0;
+            sOakSpeechResources->helpPage = 0;
             SetGpuReg(REG_OFFSET_WIN0H, 0);
             SetGpuReg(REG_OFFSET_WIN0V, 0);
             SetGpuReg(REG_OFFSET_WININ, 0);
@@ -1140,7 +1141,7 @@ static void Task_OakSpeech24(u8 taskId)
     if (!IsTextPrinterActive(0))
     {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-        sOakSpeechResources->unk_0010 = 0;
+        sOakSpeechResources->nameWho = 0;
         gTasks[taskId].func = Task_OakSpeech25;
     }
 }
@@ -1159,7 +1160,7 @@ static void Task_OakSpeech35(u8 taskId)
         else
         {
             data[1] = -60;
-            PrintNameChoiceOptions(taskId, sOakSpeechResources->unk_0010);
+            PrintNameChoiceOptions(taskId, sOakSpeechResources->nameWho);
             gTasks[taskId].func = Task_OakSpeech29;
         }
     }
@@ -1167,8 +1168,8 @@ static void Task_OakSpeech35(u8 taskId)
 
 static void Task_OakSpeech28(u8 taskId)
 {
-    PrintNameChoiceOptions(taskId, sOakSpeechResources->unk_0010);
-    if (sOakSpeechResources->unk_0010 == 0)
+    PrintNameChoiceOptions(taskId, sOakSpeechResources->nameWho);
+    if (sOakSpeechResources->nameWho == 0)
     {
         OaksSpeechPrintMessage(gOakText_AskPlayerName, 0);
     }
@@ -1192,7 +1193,7 @@ static void Task_OakSpeech29(u8 taskId)
         PlaySE(SE_SELECT);
         ClearStdWindowAndFrameToTransparent(data[13], TRUE);
         RemoveWindow(data[13]);
-        GetDefaultName(sOakSpeechResources->unk_0010, input - 1);
+        GetDefaultName(sOakSpeechResources->nameWho, input - 1);
         data[15] = 1;
         gTasks[taskId].func = Task_OakSpeech26;
         break;
@@ -1210,8 +1211,8 @@ static void Task_OakSpeech25(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        GetDefaultName(sOakSpeechResources->unk_0010, 0);
-        if (sOakSpeechResources->unk_0010 == 0)
+        GetDefaultName(sOakSpeechResources->nameWho, 0);
+        if (sOakSpeechResources->nameWho == 0)
         {
             DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_ReturnFromNamingScreen);
         }
@@ -1234,7 +1235,7 @@ static void Task_OakSpeech26(u8 taskId)
     {
         if (data[15] == 1)
         {
-            if (sOakSpeechResources->unk_0010 == 0)
+            if (sOakSpeechResources->nameWho == 0)
             {
                 StringExpandPlaceholders(gStringVar4, gOakText_FinalizePlayerName);
             }
@@ -1267,7 +1268,7 @@ static void Task_OakSpeech27(u8 taskId)
     case 0:
         PlaySE(SE_SELECT);
         gTasks[taskId].data[3] = 40;
-        if (sOakSpeechResources->unk_0010 == 0)
+        if (sOakSpeechResources->nameWho == 0)
         {
             ClearDialogWindowAndFrame(0, 1);
             CreateFadeInTask(taskId, 2);
@@ -1283,7 +1284,7 @@ static void Task_OakSpeech27(u8 taskId)
     case 1:
     case -1:
         PlaySE(SE_SELECT);
-        if (sOakSpeechResources->unk_0010 == 0)
+        if (sOakSpeechResources->nameWho == 0)
             gTasks[taskId].func = Task_OakSpeech24;
         else
             gTasks[taskId].func = Task_OakSpeech28;
@@ -1332,7 +1333,7 @@ static void Task_OakSpeech34(u8 taskId)
     if (data[2] != 0)
     {
         OaksSpeechPrintMessage(gOakText_IntroduceRival, sOakSpeechResources->textSpeed);
-        sOakSpeechResources->unk_0010 = 1;
+        sOakSpeechResources->nameWho = 1;
         gTasks[taskId].func = Task_OakSpeech35;
     }
 }
@@ -1388,7 +1389,7 @@ static void Task_OakSpeech37(u8 taskId)
 
 static void Task_OakSpeech38(u8 taskId)
 {
-    sOakSpeechResources->unk_0012 = 0;
+    sOakSpeechResources->helpPage = 0;
     Task_OakSpeech38_1(taskId);
     Task_OakSpeech38_2(taskId);
     Task_OakSpeech38_3(taskId);
@@ -1411,10 +1412,10 @@ static void Task_OakSpeech39(u8 taskId)
     s16 x, y;
     u16 r0;
 
-    sOakSpeechResources->unk_0012++;
-    if (sOakSpeechResources->unk_0012 % 20 == 0)
+    sOakSpeechResources->helpPage++;
+    if (sOakSpeechResources->helpPage % 20 == 0)
     {
-        if (sOakSpeechResources->unk_0012 == 40)
+        if (sOakSpeechResources->helpPage == 40)
             PlaySE(SE_WARP_IN);
         r0 = data[2];
         data[2] -= 32;
@@ -1583,7 +1584,7 @@ static void CB2_ReturnFromNamingScreen(void)
         break;
     case 6:
         taskId = CreateTask(Task_OakSpeech26, 0);
-        if (sOakSpeechResources->unk_0010 == 0)
+        if (sOakSpeechResources->nameWho == 0)
         {
             if (gSaveBlock2Ptr->playerGender == MALE)
                 LoadOaksSpeechTrainerPic(MALE, 0);
@@ -1860,7 +1861,7 @@ static void PrintNameChoiceOptions(u8 taskId, u8 state)
     FillWindowPixelBuffer(gTasks[taskId].data[13], 0x11);
     AddTextPrinterParameterized(data[13], 2, gOtherText_NewName, 8, 1, 0, NULL);
     if (state == 0)
-        textPtrs = gSaveBlock2Ptr->playerGender == MALE ? sMaleNameChoices : sFemaleNameChoices;
+        textPtrs = gSaveBlock2Ptr->playerGender == MALE ? gMalePresetNames : gFemalePresetNames;
     else
         textPtrs = sRivalNameChoices;
     for (i = 0; i < 4; i++)
@@ -1871,18 +1872,18 @@ static void PrintNameChoiceOptions(u8 taskId, u8 state)
     CopyWindowToVram(data[13], COPYWIN_BOTH);
 }
 
-static void GetDefaultName(u8 arg0, u8 namePick)
+static void GetDefaultName(u8 playerOrRival, u8 namePick)
 {
     const u8 * src;
     u8 * dest;
     u8 i;
 
-    if (arg0 == 0)
+    if (playerOrRival == 0)
     {
         if (gSaveBlock2Ptr->playerGender == MALE)
-            src = sMaleNameChoices[Random() % 19];
+            src = gMalePresetNames[Random() % 19];
         else
-            src = sFemaleNameChoices[Random() % 19];
+            src = gFemalePresetNames[Random() % 19];
         dest = gSaveBlock2Ptr->playerName;
     }
     else

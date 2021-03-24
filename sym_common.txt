@@ -71,6 +71,10 @@
 	.align 4
 	.include "berry_fix_program.o"
 	.align 2
+	.include "speedchoice.o"
+	.align 2
+	.include "done_button.o"
+	.align 2
 	.include "m4a.o"
 	.align 2
 	.include "agb_flash.o"

@@ -38,6 +38,8 @@ const char BuildDateTime[] = "2004 07 20 09:30";
 #endif //REVISION
 #endif //MODERN
 
+const u32 gRandomizerCheckValue = 0;
+
 const IntrFunc gIntrTableTemplate[] =
 {
     VCountIntr, // V-count interrupt

@@ -65,8 +65,8 @@ static void PrintDexCount(void);
 static void PrintBadgeCount(void);
 static void LoadUserFrameToBg(u8 bgId);
 static void SetStdFrame0OnBg(u8 bgId);
-static void MainMenu_DrawWindow(const struct WindowTemplate * template);
-static void MainMenu_EraseWindow(const struct WindowTemplate * template);
+void MainMenu_DrawWindow(const struct WindowTemplate * template);
+void MainMenu_EraseWindow(const struct WindowTemplate * template);
 
 static const u8 sString_Dummy[] = _("");
 static const u8 sString_Newline[] = _("\n");
@@ -121,13 +121,13 @@ static const struct WindowTemplate sWindowTemplate[] = {
 };
 
 static const u16 sBgPal00[] = INCBIN_U16("graphics/main_menu/unk_8234648.gbapal");
-static const u16 sBgPal15[] = INCBIN_U16("graphics/main_menu/unk_8234668.gbapal");
+const u16 sMainMenuTextPal[] = INCBIN_U16("graphics/main_menu/unk_8234668.gbapal");
 
 static const u8 sTextColor1[] = { 10, 11, 12 };
 
 static const u8 sTextColor2[] = { 10,  1, 12 };
 
-static const struct BgTemplate sBgTemplate[] = {
+const struct BgTemplate sMainMenuBgTemplates[] = {
     {
         .bg = 0,
         .charBaseIndex = 0,
@@ -187,7 +187,7 @@ static bool32 MainMenuGpuInit(u8 a0)
     FreeAllSpritePalettes();
     ResetPaletteFade();
     ResetBgsAndClearDma3BusyFlags(FALSE);
-    InitBgsFromTemplates(0, sBgTemplate, NELEMS(sBgTemplate));
+    InitBgsFromTemplates(0, sMainMenuBgTemplates, NELEMS(sMainMenuBgTemplates));
     ChangeBgX(0, 0, 0);
     ChangeBgY(0, 0, 0);
     ChangeBgX(1, 0, 0);
@@ -197,7 +197,7 @@ static bool32 MainMenuGpuInit(u8 a0)
     InitWindows(sWindowTemplate);
     DeactivateAllTextPrinters();
     LoadPalette(sBgPal00, 0x00, 0x20);
-    LoadPalette(sBgPal15, 0xF0, 0x20);
+    LoadPalette(sMainMenuTextPal, 0xF0, 0x20);
     SetGpuReg(REG_OFFSET_WIN0H, 0);
     SetGpuReg(REG_OFFSET_WIN0V, 0);
     SetGpuReg(REG_OFFSET_WININ, 0);
@@ -688,7 +688,7 @@ static void SetStdFrame0OnBg(u8 bgId)
     MainMenu_EraseWindow(&sWindowTemplate[MAIN_MENU_WINDOW_ERROR]);
 }
 
-static void MainMenu_DrawWindow(const struct WindowTemplate * windowTemplate)
+void MainMenu_DrawWindow(const struct WindowTemplate * windowTemplate)
 {
     FillBgTilemapBufferRect(
         windowTemplate->bg, 
@@ -771,7 +771,7 @@ static void MainMenu_DrawWindow(const struct WindowTemplate * windowTemplate)
     CopyBgTilemapBufferToVram(windowTemplate->bg);
 }
 
-static void MainMenu_EraseWindow(const struct WindowTemplate * windowTemplate)
+void MainMenu_EraseWindow(const struct WindowTemplate * windowTemplate)
 {
     FillBgTilemapBufferRect(
         windowTemplate->bg, 

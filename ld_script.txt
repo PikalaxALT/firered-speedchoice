@@ -310,6 +310,8 @@ SECTIONS {
         src/berry_powder.o(.text);
         src/minigame_countdown.o(.text);
         src/berry_fix_program.o(.text);
+        src/speedchoice.o(.text);
+        src/done_button.o(.text);
     } =0
 
     script_data :
@@ -609,6 +611,8 @@ SECTIONS {
         src/minigame_countdown.o(.rodata);
         src/berry_fix_program.o(.rodata);
         src/keyboard_text.o(.rodata);
+        src/speedchoice.o(.rodata);
+        src/done_button.o(.rodata);
         data/data_8479668.o(.rodata);
 
         /* These should not be moved to C files */

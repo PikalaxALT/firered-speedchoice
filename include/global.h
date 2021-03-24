@@ -266,15 +266,10 @@ struct SpeedchoiceSaveOptions
     u8 instantText:1;
     u8 spinners:2;
     u8 maxVision:2;
-    u8 nerfRoxanne:1;
-    u8 superbike:1;
     u8 newwildencounters:1;
-    u8 earlyfly:1;
     u8 runEverywhere:1;
-    u8 memeIsland:1;
     u8 betterMarts:1;
     u8 goodEarlyWilds:2;
-    u8 earlysurf:1;
     u8 niceMenuOrder:1;
     u8 easyFalseSwipe:2;
     u8 fastCatch:1;
@@ -373,7 +368,7 @@ struct SaveBlock2
     /*0xB10*/ struct BerryPickingResults berryPick;
     /*0xB20*/ u8 filler_B20[0x400];
     /*0xF20*/ u32 encryptionKey;
-    /*0xF24*/ struct SpeedchoiceSaveOptions speedchoiceOpts;
+    /*0xF24*/ struct SpeedchoiceSaveOptions speedchoiceConfig;
     /*0xF28*/ struct DoneButtonStats doneButtonStats;
 }; // size: 0xFC4
 
@@ -919,13 +914,5 @@ struct MapPosition
 
 extern struct SaveBlock1* gSaveBlock1Ptr;
 extern u8 gReservedSpritePaletteCount;
-
-#if sizeof(struct SaveBlock1) > 0x4000
-#error SaveBlock1 oversize
-#endif
-
-#if sizeof(struct SaveBlock2) > 0x1000
-#error SaveBlock2 oversize
-#endif
 
 #endif // GUARD_GLOBAL_H
