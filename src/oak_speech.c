@@ -36,7 +36,7 @@ struct OakSpeechResources
 
 EWRAM_DATA struct OakSpeechResources * sOakSpeechResources = NULL;
 
-static void Task_OaksSpeech1(u8 taskId);
+void Task_OaksSpeech1(u8 taskId);
 static void CreateHelpDocsPage1(void);
 static void Task_OaksSpeech2(u8 taskId);
 static void Task_OakSpeech3(u8 taskId);
@@ -484,11 +484,10 @@ void StartNewGameScene(void)
 {
     gPlttBufferUnfaded[0] = RGB_BLACK;
     gPlttBufferFaded[0]   = RGB_BLACK;
-    CreateTask(Task_OaksSpeech1, 0);
     SetMainCallback2(CB2_InitSpeedchoice);
 }
 
-static void Task_OaksSpeech1(u8 taskId)
+void Task_OaksSpeech1(u8 taskId)
 {
     switch (gMain.state)
     {
@@ -568,8 +567,7 @@ static void Task_OaksSpeech1(u8 taskId)
         ShowBg(0);
         ShowBg(1);
         SetVBlankCallback(VBlankCB_NewGameOaksSpeech);
-        PlayBGM(MUS_NEW_GAME_INSTRUCT);
-        gTasks[taskId].func = Task_OaksSpeech2;
+        gTasks[taskId].func = Task_OakSpeech5;
         gMain.state = 0;
         return;
     }
@@ -620,7 +618,7 @@ static void Task_OakSpeech4(u8 taskId)
         CopyBgTilemapBufferToVram(1);
     }
     BeginNormalPaletteFade(0xFFFFDFFF, -1, 16, 0, stdpal_get(2)[15]);
-    gTasks[taskId].func = Task_OaksSpeech2;
+    gTasks[taskId].func = Task_OakSpeech5;
 }
 
 static void Task_OaksSpeech2(u8 taskId)
@@ -706,7 +704,7 @@ void Task_OakSpeech5(u8 taskId)
         FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 2, 30, 18);
         CopyBgTilemapBufferToVram(1);
         DestroyTextCursorSprite(gTasks[taskId].data[5]);
-        sOakSpeechResources->windows[0] = RGB_BLACK;
+        sOakSpeechResources->windows[0] = 0;
         LoadPalette(sOakSpeechResources->windows, 0, 2);
         gTasks[taskId].data[3] = 32;
         gTasks[taskId].func = Task_OakSpeech6;
@@ -1033,7 +1031,7 @@ static void Task_OakSpeech17(u8 taskId)
         ClearDialogWindowAndFrame(0, 1);
         CreateFadeInTask(taskId, 2);
         data[3] = 48;
-        gTasks[taskId].func = Task_OakSpeech18;
+        gTasks[taskId].func = Task_OakSpeech33;
     }
 }
 

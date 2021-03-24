@@ -13,8 +13,7 @@ enum
     // NORMAL OPTIONS
     // ----------------------
     PRESET,
-    FIRST_VARIABLE_OPTION,
-    PLAYER_NAME_SET = FIRST_VARIABLE_OPTION,
+    PLAYER_NAME_SET,
     EXPMATH,
     PLOTLESS,
     INSTANTTEXT,
@@ -50,7 +49,7 @@ enum
 #define ALLOPTIONS_PER_PAGE OPTIONS_PER_PAGE + 2
 
 // Number of defined pages.
-#define MAX_PAGES ((CURRENT_OPTIONS_NUM + OPTIONS_PER_PAGE - FIRST_VARIABLE_OPTION - 1) / OPTIONS_PER_PAGE)
+#define MAX_PAGES ((CURRENT_OPTIONS_NUM + OPTIONS_PER_PAGE - 1) / OPTIONS_PER_PAGE)
 
 // Deprecated macro. May have been in use for Sapphire Speedchoice when the window system
 // was different back then.

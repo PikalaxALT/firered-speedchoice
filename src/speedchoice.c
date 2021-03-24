@@ -140,23 +140,23 @@ const u8 gSpeedchoiceOptionName[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}NAME");
 const u8 gSpeedchoiceOptionEXP[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}EXP");
 const u8 gSpeedchoiceOptionPlotless[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}PLOTLESS");
 const u8 gSpeedchoiceOptionInstantText[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}INSTANT TEXT");
-const u8 gSpeedchoiceOptionSpinners[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}SPINNERS");
 
 // PAGE 2
+const u8 gSpeedchoiceOptionSpinners[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}SPINNERS");
 const u8 gSpeedchoiceOptionMaxVision[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}MAX VISION");
 const u8 gSpeedchoiceOptionNewWildEnc[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}NEW WILD ENC.");
 const u8 gSpeedchoiceOptionRunEverywhere[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}RUN EVERYWHERE");
 const u8 gSpeedchoiceOptionBetterMarts[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}BETTER MARTS");
-const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}GOOD EARLY WILDS");
 
 // PAGE 3
+const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}GOOD EARLY WILDS");
 const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}NICE MENU ORDER");
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}EASY FALSE SWIPE");
 const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}FAST CATCH");
 const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}EARLY BIKE");
-const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}FAST EGG HATCH");
 
 // PAGE 4
+const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}FAST EGG HATCH");
 const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}GEN 7 X ITEMS");
 const u8 gSpeedchoiceOptionEvoEveryLv[] = _("{COLOR GREEN}{SHADOW LIGHT_GRAY}EVO EVERY LV");
 
@@ -1330,7 +1330,7 @@ static void SaveSpeedchoiceOptions(u8 taskId)
 }
 
 extern const struct BgTemplate sMainMenuBgTemplates[];
-extern void Task_OakSpeech5(u8 taskId);
+extern void Task_OaksSpeech1(u8 taskId);
 
 /*
  * Complete the fade out of the speedchoice menu and then clear the menu data and
@@ -1385,7 +1385,7 @@ static void Task_SpeedchoiceMenuFadeOut(u8 taskId)
         sInSubMenu = FALSE;
         sInBattle = FALSE;
         sInField = FALSE;
-        gTasks[taskId].func = Task_OakSpeech5;
+        gTasks[taskId].func = Task_OaksSpeech1;
     }
 }
 
