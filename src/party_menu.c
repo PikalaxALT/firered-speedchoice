@@ -34,6 +34,7 @@
 #include "menu_helpers.h"
 #include "new_menu_helpers.h"
 #include "metatile_behavior.h"
+#include "speedchoice.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "player_pc.h"
@@ -81,6 +82,8 @@
 #define MENU_DIR_UP      -1
 #define MENU_DIR_RIGHT    2
 #define MENU_DIR_LEFT    -2
+
+#define IT_BUTTON_CHECK() (gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? (JOY_HELD(A_BUTTON) | JOY_HELD(B_BUTTON)) : (JOY_NEW(A_BUTTON) | JOY_NEW(B_BUTTON)))
 
 enum
 {
@@ -5110,7 +5113,7 @@ static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon)
 
 static void Task_DisplayLevelUpStatsPg1(u8 taskId)
 {
-    if (WaitFanfare(FALSE) && IsPartyMenuTextPrinterActive() != TRUE && (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)))
+    if (WaitFanfare(FALSE) && IsPartyMenuTextPrinterActive() != TRUE && (IT_BUTTON_CHECK()))
     {
         PlaySE(SE_SELECT);
         DisplayLevelUpStatsPg1(taskId);
@@ -5120,7 +5123,7 @@ static void Task_DisplayLevelUpStatsPg1(u8 taskId)
 
 static void Task_DisplayLevelUpStatsPg2(u8 taskId)
 {
-    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
+    if (IT_BUTTON_CHECK())
     {
         PlaySE(SE_SELECT);
         DisplayLevelUpStatsPg2(taskId);
@@ -5151,7 +5154,7 @@ static void Task_TryLearnNewMoves(u8 taskId)
 {
     u16 learnMove;
 
-    if (WaitFanfare(0) && (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)))
+    if (WaitFanfare(0) && (IT_BUTTON_CHECK()))
     {
         RemoveLevelUpStatsWindow();
         learnMove = MonTryLearningNewMove(&gPlayerParty[gPartyMenu.slotId], TRUE);

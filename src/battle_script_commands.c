@@ -5591,7 +5591,7 @@ static void atk6C_drawlvlupbox(void)
         }
         break;
     case 6:
-        if (gMain.newKeys)
+        if (gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? gMain.heldKeys : gMain.newKeys)
         {
             PlaySE(SE_SELECT);
             DrawLevelUpWindow2();
@@ -5600,7 +5600,7 @@ static void atk6C_drawlvlupbox(void)
         }
         break;
     case 8:
-        if (gMain.newKeys)
+        if (gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? gMain.heldKeys : gMain.newKeys)
         {
             PlaySE(SE_SELECT);
             HandleBattleWindow(18, 7, 0x1D, 0x13, WINDOW_x80 | WINDOW_CLEAR);

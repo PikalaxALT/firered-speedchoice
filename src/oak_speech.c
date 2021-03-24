@@ -487,6 +487,10 @@ void StartNewGameScene(void)
     SetMainCallback2(CB2_InitSpeedchoice);
 }
 
+// ====================================
+// SPEEDCHOICE CHANGE
+// ====================================
+// Change: Skip the tutorial messages entirely
 void Task_OaksSpeech1(u8 taskId)
 {
     switch (gMain.state)
@@ -1024,6 +1028,10 @@ static void Task_OakSpeech16(u8 taskId)
     }
 }
 
+// ====================================
+// SPEEDCHOICE CHANGE
+// ====================================
+// Change: Skip naming yourself and rival
 static void Task_OakSpeech17(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;

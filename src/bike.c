@@ -258,14 +258,19 @@ bool8 sub_80BD460(u8 r0)
         return TRUE;
 }
 
+// ====================================
+// SPEEDCHOICE CHANGE
+// ====================================
+// Change: Stub the running check.
 bool32 IsRunningDisallowed(u8 metatileBehavior)
 {
-    if (!(gMapHeader.flags & MAP_ALLOW_RUN))
-        return TRUE;
-    if (MetatileBehaviorForbidsBiking(metatileBehavior) != TRUE)
-        return FALSE;
-    else
-        return TRUE;
+    return FALSE;
+//    if (!(gMapHeader.flags & MAP_ALLOW_RUN))
+//        return TRUE;
+//    if (MetatileBehaviorForbidsBiking(metatileBehavior) != TRUE)
+//        return FALSE;
+//    else
+//        return TRUE;
 }
 
 static bool8 MetatileBehaviorForbidsBiking(u8 metatileBehavior)
