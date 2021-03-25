@@ -54,6 +54,11 @@ PalletTown_EventScript_OakRatingScene:: @ 81654D8
 	applymovement LOCALID_PROF_OAK, PalletTown_Movement_OakWalkToPlayersDoor
 	waitmovement 0
 	goto_if_unset FLAG_WORLD_MAP_ONE_ISLAND, PalletTown_EventScript_NotBeenToOneIslandYet
+	setvar VAR_0x8004, EASY_DEX_REWARDS
+	setvar VAR_0x8005, EASY_DEX_REWARDS_ON
+	special Special_CheckSpeedchoiceOption
+	compare VAR_RESULT, TRUE
+	goto_if_eq PalletTown_EventScript_SkipDexCheck
 	msgbox PalletTown_Text_OakLetMeSeePokedex
 	setvar VAR_0x8004, 0
 	specialvar VAR_RESULT, GetPokedexCount
@@ -64,6 +69,11 @@ PalletTown_EventScript_OakRatingScene:: @ 81654D8
 	compare VAR_0x8009, 60
 	goto_if_lt PalletTown_EventScript_NotEnoughMonsForNationalDex
 	msgbox PalletTown_Text_CaughtXImpressiveFollowMe
+	goto PalletTown_EventScript_DoFollowMe
+
+PalletTown_EventScript_SkipDexCheck::
+	msgbox PalletTown_Text_NoSeePokedex
+PalletTown_EventScript_DoFollowMe::
 	closemessage
 	playbgm MUS_FOLLOW_ME, 0
 	applymovement OBJ_EVENT_ID_PLAYER, PalletTown_Movement_PlayerWalkToLabFromHouse

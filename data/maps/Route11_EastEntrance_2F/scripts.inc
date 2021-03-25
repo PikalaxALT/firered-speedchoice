@@ -61,6 +61,11 @@ Route11_EastEntrance_2F_EventScript_Aide:: @ 816FDD8
 	faceplayer
 	call Route11_EastEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_ITEMFINDER, Route11_EastEntrance_2F_EventScript_AlreadyGotItemfinder
+	setvar VAR_0x8004, EASY_DEX_REWARDS
+	setvar VAR_0x8005, EASY_DEX_REWARDS_ON
+	special Special_CheckSpeedchoiceOption
+	compare VAR_RESULT, TRUE
+	goto_if_eq Route11_EastEntrance_2F_EventScript_SkipAsk
 	msgbox Route11_EastEntrance_2F_Text_GiveItemfinderIfCaught30, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons
@@ -71,6 +76,11 @@ Route11_EastEntrance_2F_EventScript_Aide:: @ 816FDD8
 	compare VAR_0x8006, REQUIRED_CAUGHT_MONS
 	goto_if_lt Aide_EventScript_HaventCaughtEnough
 	msgbox Route11_EastEntrance_2F_Text_GreatHereYouGo
+	goto Route11_EastEntrance_2F_EventScript_DoGiveItemfinder
+
+Route11_EastEntrance_2F_EventScript_SkipAsk::
+	msgbox Route11_EastEntrance_2F_Text_GiveItemfinderNoCheck
+Route11_EastEntrance_2F_EventScript_DoGiveItemfinder::
 	checkitemspace ITEM_ITEMFINDER, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq Aide_EventScript_NoRoomForItem

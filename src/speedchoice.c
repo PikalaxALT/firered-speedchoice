@@ -155,9 +155,10 @@ const u8 gSpeedchoiceOptionBetterMarts[] = _("{COLOR RED}{SHADOW GREEN}BETTER MA
 const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR RED}{SHADOW GREEN}GOOD EARLY WILDS");
 const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR RED}{SHADOW GREEN}NICE MENU ORDER");
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR RED}{SHADOW GREEN}EASY FALSE SWIPE");
-const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR RED}{SHADOW GREEN}FAST CATCH");
+const u8 gSpeedchocieOptionEasyDexRewards[] = _("{COLOR RED}{SHADOW GREEN}EASY DEX REWARDS");
 
 // PAGE 4
+const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR RED}{SHADOW GREEN}FAST CATCH");
 const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR RED}{SHADOW GREEN}EARLY BIKE");
 const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR RED}{SHADOW GREEN}FAST EGG HATCH");
 const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR RED}{SHADOW GREEN}GEN 7 X ITEMS");
@@ -182,22 +183,23 @@ const u8 gSpeedchoiceTooltipExplanation[] = _("This is the Speedchoice menu wher
 const u8 gSpeedchoiceTooltipPreset[] = _("Sets of predetermined options\nthat help speedrunners quickly select\pa set of options for a type of\nspeedrunning category.");
 const u8 gSpeedchoiceTooltipName[] = _("Set your trainer name here.");
 const u8 gSpeedchoiceTooltipEXP[] = _("Modifies the experience system\nto the desired input.\pCan be Gen 5, or\nno exp at all.");
-const u8 gSpeedchoiceTooltipPlotless[] = _("SEMI: Stops villain team events\nafter Mt. Chimney.\pFULL: Skips all the villain team\nevents. Also allows Dive to be used\pwithout Gym 7's badge.");
+const u8 gSpeedchoiceTooltipPlotless[] = _("Affects whether the Rocket sections\nare required for progression.\pKEEP: Everything is vanilla\nSEMI: Progression items are elsewhere\pFULL: Same as SEMI but the\nGRUNTs are removed too.");
 const u8 gSpeedchoiceTooltipInstantText[] = _("Self-explanatory.\nHold A or B to mash.");
 const u8 gSpeedchoiceTooltipSpinners[] = _("PURGE: Makes spinners on a static\nspinning pattern at a fixed rate.\pHELL: Rapidly spins\nevery spinner every frame.\pWHY: Same as HELL but 4 frames\ninstead of 16.\pHELL and WHY also fix bag\nmanip.");
 const u8 gSpeedchoiceTooltipMaxVision[] = _("SANE: Will extend trainer vision\nto 8, but prevent trainers from\pwalking through walls or solid\nobjects.\pHELL: No collision or\nelevation detection.");
 const u8 gSpeedchoiceTooltipNewWildEnc[] = _("Intended to be used with\nthe randomizer.\pTreats grass and fishing slots\nas 6 and 2 slots respectively.");
 const u8 gSpeedchoiceTooltipRunEverywhere[] = _("Allows the Running Shoes to\nbe used anywhere, including\pinside of houses.\pAlso allows bike in most places.");
-const u8 gSpeedchoiceTooltipBetterMarts[] = _("Improves the item selections\nof many {PKMN} marts.\pAdds repels to Oldale Mart.\pAdds repels and super repels to\nMauville Mart.\pAdds X Specials to Rustboro\nMart.");
+const u8 gSpeedchoiceTooltipBetterMarts[] = _("Improves the item selections\nof many {PKMN} marts.\pAdds repels to Viridian Mart.\pAdds repels and super repels to\nCerulean Mart.\pAdds X Specials to Pewter\nMart.");
 const u8 gSpeedchoiceTooltipGoodEarlyWilds[] = _("SAME: Depending on the\nrandomizer check value, wild\pencounters in the grass for\n{PKMN} below lv 10 will have\ptheir final evolution.\pRAND: If they have a branching\nevolution, it will be randomly\pgenerated instead of being static.");
 const u8 gSpeedchoiceTooltipEarlySurf[] = _("Receive HM03 from Rival 2\ninstead of FAME CHECKER.\pIn addition, the use of\nSURF and FLY no longer\prequire their respective\nbadges (KOGA, LT.SURGE).");
 const u8 gSpeedchoiceTooltipNiceMenuOrder[] = _("Swaps the location of SUMMARY and\nfield moves in party menu.\pON: Fields moves are first.\nOFF: SUMMARY are first.");
-const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Slateport teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
+const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Silph 2F teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
 const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to catch.");
 const u8 gSpeedchoiceTooltipEarlyBike[] = _("Start game with Bicycle.");
 const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly.");
 const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 const u8 gSpeedchoiceTooltipEvoEveryLv[] = _("STATIC: {PKMN} evolve into a random\nbut set species every lv.\pRAND: Same thing as STATIC but\nrandom non-static every lv.");
+const u8 gSpeedchoiceTooltipEasyDexRewards[] = _("Removes Pokédex caught conditions\nfor receiving certain items.");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
@@ -249,6 +251,7 @@ static const u8 gPresetVanilla[CURRENT_OPTIONS_NUM] = {
     GOOD_OFF,               // GOOD_EARLY_WILDS
     NICE_MENU_ORDER_OFF,    // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_OFF,   // EASY_FALSE_SWIPE
+    EASY_DEX_REWARDS_OFF,   // EASY_DEX_REWARDS
     FAST_CATCH_OFF,         // FAST_CATCH
     EARLY_BIKE_NO,          // EARLY_BIKE
     FAST_EGG_HATCH_NO,      // FAST_EGG_HATCH
@@ -271,6 +274,7 @@ static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
     GOOD_OFF,               // GOOD_EARLY_WILDS
     NICE_MENU_ORDER_ON,     // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
+    EASY_DEX_REWARDS_ON,    // EASY_DEX_REWARDS
     FAST_CATCH_OFF,         // FAST_CATCH
     EARLY_BIKE_YES,         // EARLY_BIKE
     FAST_EGG_HATCH_YES,     // FAST_EGG_HATCH
@@ -293,6 +297,7 @@ static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
     GOOD_OFF,               // GOOD_EARLY_WILDS
     NICE_MENU_ORDER_ON,     // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
+    EASY_DEX_REWARDS_OFF,   // EASY_DEX_REWARDS
     FAST_CATCH_ON,          // FAST_CATCH
     EARLY_BIKE_YES,         // EARLY_BIKE
     FAST_EGG_HATCH_YES,     // FAST_EGG_HATCH
@@ -315,6 +320,7 @@ static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
     GOOD_STATIC,            // GOOD_EARLY_WILDS
     NICE_MENU_ORDER_ON,     // NICE_MENU_ORDER
     EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
+    EASY_DEX_REWARDS_ON,    // EASY_DEX_REWARDS
     FAST_CATCH_OFF,         // FAST_CATCH
     EARLY_BIKE_YES,         // EARLY_BIKE
     FAST_EGG_HATCH_YES,     // FAST_EGG_HATCH
@@ -619,6 +625,17 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             /* Option Usable  */ TRUE
         },
         // ----------------------------------
+        // EASY FALSE SWIPE OPTION
+        // ----------------------------------
+        {
+            /* Option Count   */ 2,
+            /* Option Type    */ NORMAL,
+            /* Option Preset  */ gSpeedchocieOptionEasyDexRewards,
+            /* Option Text    */ OptionChoiceConfigOnOff,
+            /* Option Tooltip */ gSpeedchoiceTooltipEasyDexRewards,
+            /* Option Usable  */ TRUE
+        },
+        // ----------------------------------
         // FAST CATCH OPTION
         // ----------------------------------
         {
@@ -746,6 +763,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds = preset[GOOD_EARLY_WILDS];
     gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder = preset[NICE_MENU_ORDER];
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = preset[EASY_FALSE_SWIPE];
+    gSaveBlock2Ptr->speedchoiceConfig.easyDexRewards = preset[EASY_DEX_REWARDS];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = preset[FAST_CATCH];
     gSaveBlock2Ptr->speedchoiceConfig.earlyBike = preset[EARLY_BIKE];
     gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = preset[FAST_EGG_HATCH];
@@ -787,6 +805,8 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
         return gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder == selection;
     case EASY_FALSE_SWIPE:
         return gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe == selection;
+    case EASY_DEX_REWARDS:
+        return gSaveBlock2Ptr->speedchoiceConfig.easyDexRewards == selection;
     case FAST_CATCH:
         return gSaveBlock2Ptr->speedchoiceConfig.fastCatch == selection;
     case EARLY_BIKE:
@@ -1310,6 +1330,7 @@ static void SaveSpeedchoiceOptions()
     gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds = gLocalSpeedchoiceConfig.optionConfig[GOOD_EARLY_WILDS];
     gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder = gLocalSpeedchoiceConfig.optionConfig[NICE_MENU_ORDER];
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = gLocalSpeedchoiceConfig.optionConfig[EASY_FALSE_SWIPE];
+    gSaveBlock2Ptr->speedchoiceConfig.easyDexRewards = gLocalSpeedchoiceConfig.optionConfig[EASY_DEX_REWARDS];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = gLocalSpeedchoiceConfig.optionConfig[FAST_CATCH];
     gSaveBlock2Ptr->speedchoiceConfig.earlyBike = gLocalSpeedchoiceConfig.optionConfig[EARLY_BIKE];
     gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = gLocalSpeedchoiceConfig.optionConfig[FAST_EGG_HATCH];

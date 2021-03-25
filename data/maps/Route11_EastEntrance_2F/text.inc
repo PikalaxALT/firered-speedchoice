@@ -16,6 +16,16 @@ Route11_EastEntrance_2F_Text_GreatHereYouGo:: @ 819EAE4
     .string "Congratulations!\n"
     .string "Here you go!$"
 
+Route11_EastEntrance_2F_Text_GiveItemfinderNoCheck::
+    .string "Hi! Remember me?\n"
+    .string "I'm one of PROF. OAK's AIDES.\p"
+    .string "I'm supposed to give you a\n"
+    .string "reward.\p"
+    .string "PROF. OAK entrusted me with the\n"
+    .string "{STR_VAR_2} for you.\p"
+    .string "Congratulations!\n"
+    .string "Here you go!$"
+
 Route11_EastEntrance_2F_Text_ReceivedItemfinderFromAide:: @ 819EB37
     .string "{PLAYER} received the {STR_VAR_2}\n"
     .string "from the AIDE.$"

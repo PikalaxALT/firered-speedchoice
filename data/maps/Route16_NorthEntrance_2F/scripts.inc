@@ -24,6 +24,11 @@ Route16_NorthEntrance_2F_EventScript_Aide:: @ 81702E3
 	faceplayer
 	call Route16_NorthEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_AMULET_COIN_FROM_OAKS_AIDE, Route16_NorthEntrance_2F_EventScript_AlreadyGotAmuletCoin
+	setvar VAR_0x8004, EASY_DEX_REWARDS
+	setvar VAR_0x8005, EASY_DEX_REWARDS_ON
+	special Special_CheckSpeedchoiceOption
+	compare VAR_RESULT, TRUE
+	goto_if_eq Route16_NorthEntrance_2F_EventScript_SkipAsk
 	msgbox Route16_NorthEntrance_2F_Text_GiveAmuletCoinIfCaught40, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons
@@ -34,6 +39,11 @@ Route16_NorthEntrance_2F_EventScript_Aide:: @ 81702E3
 	compare VAR_0x8006, REQUIRED_CAUGHT_MONS
 	goto_if_lt Aide_EventScript_HaventCaughtEnough
 	msgbox Route16_NorthEntrance_2F_Text_GreatHereYouGo
+	goto Route16_NorthEntrance_2F_EventScript_DoGiveAmuletCoin
+
+Route16_NorthEntrance_2F_EventScript_SkipAsk::
+	msgbox Route16_NorthEntrance_2F_Text_GiveAmuletCoinNoCheck
+Route16_NorthEntrance_2F_EventScript_DoGiveAmuletCoin::
 	checkitemspace ITEM_AMULET_COIN, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq Aide_EventScript_NoRoomForItem

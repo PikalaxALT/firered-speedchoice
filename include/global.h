@@ -273,6 +273,7 @@ struct SpeedchoiceSaveOptions
     u32 goodEarlyWilds:2;
     u32 niceMenuOrder:1;
     u32 easyFalseSwipe:2;
+    u32 easyDexRewards:1;
     u32 fastCatch:1;
     u32 earlyBike:1;
     u32 fastEggHatch:1;

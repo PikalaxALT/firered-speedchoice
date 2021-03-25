@@ -1,32 +1,33 @@
 #ifndef POKEFIRERED_CONSTANTS_SPEEDCHOICE_H
 #define POKEFIRERED_CONSTANTS_SPEEDCHOICE_H
 
-#define PRESET               0
-#define PLAYER_NAME_SET      1
-#define EXPMATH              2
-#define PLOTLESS             3
-#define INSTANTTEXT          4
-#define SPINNERS             5
-#define EARLYSURF            6
-#define MAXVISION            7
-#define NEWWILDENC           8
-#define RUN_EVERYWHERE       9
-#define BETTER_MARTS        10
-#define GOOD_EARLY_WILDS    11
-#define NICE_MENU_ORDER     12
-#define EASY_FALSE_SWIPE    13
-#define FAST_CATCH          14
-#define EARLY_BIKE          15
-#define FAST_EGG_HATCH      16
-#define GEN_7_X_ITEMS       17
-#define EVO_EVERY_LEVEL     18
+#define PRESET               0 // N/A
+#define PLAYER_NAME_SET      1 // Implemented
+#define EXPMATH              2 // Implemented
+#define PLOTLESS             3 // TODO
+#define INSTANTTEXT          4 // Implemented
+#define SPINNERS             5 // TODO
+#define EARLYSURF            6 // TODO
+#define MAXVISION            7 // TODO
+#define NEWWILDENC           8 // TODO
+#define RUN_EVERYWHERE       9 // Implemented
+#define BETTER_MARTS        10 // TODO
+#define GOOD_EARLY_WILDS    11 // TODO
+#define NICE_MENU_ORDER     12 // Implemented
+#define EASY_FALSE_SWIPE    13 // Implemented
+#define EASY_DEX_REWARDS    14 // Implemented
+#define FAST_CATCH          15 // TODO
+#define EARLY_BIKE          16 // Implemented
+#define FAST_EGG_HATCH      17 // TODO
+#define GEN_7_X_ITEMS       18 // TODO
+#define EVO_EVERY_LEVEL     19 // TODO
 
-#define CURRENT_OPTIONS_NUM 19
+#define CURRENT_OPTIONS_NUM 20
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
-#define PAGE        19
-#define START_GAME  20
+#define PAGE        20
+#define START_GAME  21
 
 
 /*
@@ -131,6 +132,13 @@
 #define EASY_FALSE_SWIPE_OFF 0
 #define EASY_FALSE_SWIPE_TUTOR 1
 #define EASY_FALSE_SWIPE_HM05 2
+
+// ----------------------
+// EASY DEX REWARDS ENUM
+// ----------------------
+
+#define EASY_DEX_REWARDS_ON 0
+#define EASY_DEX_REWARDS_OFF 1
 
 // ----------------------
 // FAST CATCH ENUM

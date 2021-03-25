@@ -35,6 +35,16 @@ Route16_NorthEntrance_2F_Text_GreatHereYouGo:: @ 819FC15
     .string "Congratulations!\n"
     .string "Here you go!$"
 
+Route16_NorthEntrance_2F_Text_GiveAmuletCoinNoCheck::
+    .string "Hi! Remember me?\n"
+    .string "I'm one of PROF. OAK's AIDES.\p"
+    .string "I'm supposed to\n"
+	.string "give you a reward.\p"
+	.string "PROF. OAK entrusted me with an\n"
+	.string "AMULET COIN for you.\p"
+    .string "Congratulations!\n"
+    .string "Here you go!$"
+
 Route16_NorthEntrance_2F_Text_ReceivedAmuletCoinFromAide:: @ 819FC68
     .string "{PLAYER} received the AMULET COIN\n"
     .string "from the AIDE.$"

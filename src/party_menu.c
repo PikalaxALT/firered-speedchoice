@@ -1927,6 +1927,10 @@ static u16 GetTutorMove(u8 tutor)
         return MOVE_BLAST_BURN;
     case TUTOR_MOVE_HYDRO_CANNON:
         return MOVE_HYDRO_CANNON;
+    case TUTOR_MOVE_THUNDER_WAVE:
+        if (CheckSpeedchoiceOption(EASY_FALSE_SWIPE, EASY_FALSE_SWIPE_TUTOR) == TRUE)
+            return MOVE_FALSE_SWIPE;
+        // fallthrough
     default:
         return sTutorMoves[tutor];
     }
@@ -4755,11 +4759,18 @@ void ItemUseCB_PPUp(u8 taskId, UNUSED TaskFunc func)
     gTasks[taskId].func = Task_HandleWhichMoveInput;
 }
 
+static inline u16 GetTMHMMove(u16 tmNumber)
+{
+    if (tmNumber == NUM_TECHNICAL_MACHINES + 5 && CheckSpeedchoiceOption(EASY_FALSE_SWIPE, EASY_FALSE_SWIPE_HM05) == TRUE)
+        return MOVE_FALSE_SWIPE;
+    return sTMHMMoves[tmNumber];
+}
+
 u16 ItemIdToBattleMoveId(u16 item)
 {
     u16 tmNumber = item - ITEM_TM01_FOCUS_PUNCH;
 
-    return sTMHMMoves[tmNumber];
+    return GetTMHMMove(tmNumber);
 }
 
 bool8 IsMoveHm(u16 move)
@@ -4767,7 +4778,7 @@ bool8 IsMoveHm(u16 move)
     u8 i;
 
     for (i = 0; i < NUM_HIDDEN_MACHINES - 1; ++i) // no dive
-        if (sTMHMMoves[i + NUM_TECHNICAL_MACHINES] == move)
+        if (GetTMHMMove(i + NUM_TECHNICAL_MACHINES) == move)
             return TRUE;
     return FALSE;
 }

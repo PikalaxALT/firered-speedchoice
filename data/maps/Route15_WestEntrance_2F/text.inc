@@ -16,6 +16,16 @@ Route15_WestEntrance_2F_Text_GreatHereYouGo:: @ 819F6AA
     .string "Congratulations!\n"
     .string "Here you go!$"
 
+Route15_WestEntrance_2F_Text_GiveExpShareNoCheck::
+    .string "Hi! Remember me?\n"
+    .string "I'm one of PROF. OAK's AIDES.\p"
+    .string "I'm supposed to give you a\n"
+    .string "reward.\p"
+	.string "PROF. OAK entrusted me with the\n"
+	.string "{STR_VAR_2} for you.\p"
+    .string "Congratulations!\n"
+    .string "Here you go!$"
+
 Route15_WestEntrance_2F_Text_ReceivedItemFromAide:: @ 819F6FD
     .string "{PLAYER} received the {STR_VAR_2}\n"
     .string "from the AIDE.$"

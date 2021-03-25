@@ -8,6 +8,11 @@ Route2_EastBuilding_EventScript_Aide:: @ 816F67F
 	faceplayer
 	call Route2_EastBuilding_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_HM05, Route2_EastBuilding_EventScript_AlreadyGotHM05
+	setvar VAR_0x8004, EASY_DEX_REWARDS
+	setvar VAR_0x8005, EASY_DEX_REWARDS_ON
+	special Special_CheckSpeedchoiceOption
+	compare VAR_RESULT, TRUE
+	goto_if_eq Route2_EastBuilding_EventScript_SkipAsk
 	msgbox Route2_EastBuilding_Text_GiveHM05IfSeen10Mons, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons
@@ -18,6 +23,11 @@ Route2_EastBuilding_EventScript_Aide:: @ 816F67F
 	compare VAR_0x8006, REQUIRED_SEEN_MONS
 	goto_if_lt Aide_EventScript_HaventCaughtEnough
 	msgbox Route2_EastBuilding_Text_GreatHereYouGo
+	goto Route2_EastBuilding_EventScript_GiveHM
+
+Route2_EastBuilding_EventScript_SkipAsk::
+	msgbox Route2_EastBuilding_Text_GiveHMnoCheck
+Route2_EastBuilding_EventScript_GiveHM::
 	checkitemspace ITEM_HM05, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq Aide_EventScript_NoRoomForItem

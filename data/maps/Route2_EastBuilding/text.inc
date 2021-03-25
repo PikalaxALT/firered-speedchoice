@@ -16,6 +16,16 @@ Route2_EastBuilding_Text_GreatHereYouGo:: @ 819D74E
     .string "Congratulations!\n"
     .string "Here you go!$"
 
+Route2_EastBuilding_Text_GiveHMnoCheck::
+    .string "Hi! Remember me?\n"
+    .string "I'm one of PROF. OAK's AIDES.\p"
+    .string "I'm supposed to give you a\n"
+    .string "reward.\p"
+    .string "PROF. OAK entrusted me with\n"
+    .string "HM05 for you.\p"
+    .string "Congratulations!\n"
+    .string "Here you go!$"
+
 Route2_EastBuilding_Text_ReceivedHM05FromAide:: @ 819D7A1
     .string "{PLAYER} received HM05\n"
     .string "from the AIDE.$"

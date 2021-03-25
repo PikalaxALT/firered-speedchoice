@@ -32,6 +32,18 @@ Route10_PokemonCenter_1F_Text_GreatHereYouGo:: @ 819E733
     .string "Congratulations!\n"
     .string "Here you go!$"
 
+Route10_PokemonCenter_1F_Text_GiveHMnoCheck::
+    .string "Oh… {PLAYER}!\n"
+    .string "I've been looking for you!\p"
+    .string "It's me, one of the ever-present\n"
+    .string "AIDES to PROF. OAK.\p"
+    .string "I'm supposed to give you a\n"
+    .string "reward from PROF.OAK.\p"
+    .string "He entrusted me with this\n"
+    .string "EVERSTONE.\p"
+    .string "Congratulations!\n"
+    .string "Here you go!$"
+
 Route10_PokemonCenter_1F_Text_ReceivedEverstoneFromAide:: @ 819E786
     .string "{PLAYER} received the EVERSTONE\n"
     .string "from the AIDE.$"

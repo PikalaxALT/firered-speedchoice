@@ -56,6 +56,14 @@ PalletTown_Text_CaughtXImpressiveFollowMe:: @ 817D9AA
     .string "Come.\n"
     .string "Follow me.$"
 
+PalletTown_Text_NoSeePokedex::
+    .string "OAK: Ah, {PLAYER}!\n"
+    .string "You're back, are you?\p"
+    .string "There's something I wanted to ask\n"
+    .string "of you, {PLAYER}.\p"
+    .string "Come.\n"
+    .string "Follow me.$"
+
 PalletTown_Text_OakYouEnjoyingTraveling:: @ 817DA16
     .string "OAK: Ah, {PLAYER}!\n"
     .string "You seem to be enjoying traveling.\p"
