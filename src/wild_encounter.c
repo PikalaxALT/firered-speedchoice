@@ -12,6 +12,7 @@
 #include "script.h"
 #include "link.h"
 #include "quest_log.h"
+#include "speedchoice.h"
 #include "constants/maps.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
@@ -67,6 +68,45 @@ static u8 ChooseWildMonIndex_Land(void)
 {
     u8 rand = Random() % ENCOUNTER_CHANCE_LAND_MONS_TOTAL;
 
+    // 20/20/20/15/15/10 for new wild encounter table
+    if (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == NEW_ON)
+    {
+        // COMMONS
+        // slot 1 (20%)
+        if(rand < 10)
+            return 0;
+        if(rand >= 10 && rand < 20)
+            return 6;
+        // slot 2 (20%)
+        if(rand >= 20 && rand < 30)
+            return 1;
+        if(rand >= 30 && rand < 40)
+            return 7;
+        // slot 3 (20%)
+        if(rand >= 40 && rand < 50)
+            return 2;
+        if(rand >= 50 && rand < 60)
+            return 8;
+
+        // UNCOMMONS
+        // slot 4 (15%)
+        if(rand >= 60 && rand < 67)
+            return 3;
+        if(rand >= 67 && rand < 75)
+            return 9;
+        // slot 5 (15%)
+        if(rand >= 75 && rand < 82)
+            return 4;
+        if(rand >= 82 && rand < 90)
+            return 10;
+
+        // RARE
+        // slot 6 (10%)
+        if(rand >= 90 && rand < 95)
+            return 5;
+        return 11;
+    }
+
     if (rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_0)
         return 0;
     else if (rand >= ENCOUNTER_CHANCE_LAND_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_LAND_MONS_SLOT_1)
@@ -97,6 +137,30 @@ static u8 ChooseWildMonIndex_WaterRock(void)
 {
     u8 rand = Random() % ENCOUNTER_CHANCE_WATER_MONS_TOTAL;
 
+    // 35/25/15/15/10 for new wild encounter table
+
+    if (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == NEW_ON)
+    {
+        // COMMONS
+        // slot 1 (35%)
+        if(rand < 35) // 35%
+            return 0;
+        // slot 2 (25%)
+        if(rand >= 35 && rand < 60) // 25%
+            return 1;
+
+        // UNCOMMONS
+        // slot 3 (15%)
+        if(rand >= 60 && rand < 75) // 15%
+            return 2;
+        // slot 4 (15%)
+        if(rand >= 75 && rand < 90) // 15%
+            return 3;
+
+        // RARE
+        // slot 5 (10%)
+        return 4; // 10%
+    }
     if (rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_0)
         return 0;
     else if (rand >= ENCOUNTER_CHANCE_WATER_MONS_SLOT_0 && rand < ENCOUNTER_CHANCE_WATER_MONS_SLOT_1)
@@ -122,6 +186,36 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     u8 rand = Random() % max(max(ENCOUNTER_CHANCE_FISHING_MONS_OLD_ROD_TOTAL, ENCOUNTER_CHANCE_FISHING_MONS_GOOD_ROD_TOTAL),
                              ENCOUNTER_CHANCE_FISHING_MONS_SUPER_ROD_TOTAL);
 
+    // 60/40 for new wild encounter table
+
+    // no fishing memes allowed
+    if(gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == NEW_ON)
+    {
+        // COMMONS
+        // slot 1 (60%)
+        if(rand < 12)
+            return 0;
+        if(rand >= 12 && rand < 24)
+            return 2;
+        if(rand >= 24 && rand < 36)
+            return 4;
+        if(rand >= 36 && rand < 48)
+            return 6;
+        if(rand >= 48 && rand < 60)
+            return 8;
+
+        // UNCOMMONS
+        // slot 2 (40%)
+        if(rand >= 60 && rand < 70)
+            return 1;
+        if(rand >= 70 && rand < 80)
+            return 3;
+        if(rand >= 80 && rand < 90)
+            return 5;
+        if(rand >= 90 && rand < 95)
+            return 7;
+        return 9;
+    }
     switch (rod)
     {
     case OLD_ROD:
@@ -268,11 +362,36 @@ enum
 #define WILD_CHECK_REPEL    0x1
 #define WILD_CHECK_KEEN_EYE 0x2
 
+u16 GetRandomFinalEvolution(u16 species)
+{
+    u8 goodEarlyWilds = gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds;
+    u8 evoCount;
+    u16 rval;
+    u32 seed;
+    int i;
+    for (i = 0; i < 2 && gEvolutionTable[species][0].targetSpecies != SPECIES_NONE; i++)
+    {
+        for (evoCount = 1; evoCount < 5 && gEvolutionTable[species][evoCount].targetSpecies != SPECIES_NONE; evoCount++)
+            ;
+        if (goodEarlyWilds == GOOD_STATIC)
+        {
+            rval = LC_RNG(gRandomizerCheckValue + species) >> 16;
+        }
+        else
+        {
+            rval = Random();
+        }
+        species = gEvolutionTable[species][rval % evoCount].targetSpecies;
+    }
+    return species;
+}
+
 static bool8 TryGenerateWildMon(const struct WildPokemonInfo * info, u8 area, u8 flags)
 {
     u8 slot = 0;
     u8 level;
-    switch (area)
+    u16 species;
+    switch (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters)
     {
     case WILD_AREA_LAND:
         slot = ChooseWildMonIndex_Land();
@@ -289,6 +408,9 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo * info, u8 area, u8
     {
         return FALSE;
     }
+    species = info->wildPokemon[slot].species;
+    if (gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds != GOOD_OFF && level < 10)
+        species = GetRandomFinalEvolution(species);
     GenerateWildMon(info->wildPokemon[slot].species, level, slot);
     return TRUE;
 }

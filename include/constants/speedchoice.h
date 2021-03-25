@@ -9,10 +9,10 @@
 #define SPINNERS             5 // Implemented
 #define EARLYSURF            6 // TODO
 #define MAXVISION            7 // Implemented
-#define NEWWILDENC           8 // TODO
+#define NEWWILDENC           8 // Implemented
 #define RUN_EVERYWHERE       9 // Implemented
 #define BETTER_MARTS        10 // Implemented
-#define GOOD_EARLY_WILDS    11 // TODO
+#define GOOD_EARLY_WILDS    11 // Implemented
 #define NICE_MENU_ORDER     12 // Implemented
 #define EASY_FALSE_SWIPE    13 // Implemented
 #define EASY_DEX_REWARDS    14 // Implemented
