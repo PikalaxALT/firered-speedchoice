@@ -127,7 +127,7 @@ struct SpeedchoiceConfigStruct
 struct MapObjectTimerBackup
 {
     bool8 backedUp;
-    s16 spriteId;
+    u8 spriteId;
     s16 timer;
 };
 

@@ -59,7 +59,15 @@ ViridianCity_Mart_EventScript_Clerk:: @ 816A268
 	goto_if_questlog EventScript_ReleaseEnd
 	message Text_MayIHelpYou
 	waitmessage
+	checkspeedchoice BETTER_MARTS, MARTS_ON
+	goto_if TRUE, ViridianCity_Mart_EventScript_BetterMart
 	pokemart ViridianCity_Mart_Items
+	msgbox Text_PleaseComeAgain
+	release
+	end
+
+ViridianCity_Mart_EventScript_BetterMart::
+	pokemart ViridianCity_BetterMart_Items
 	msgbox Text_PleaseComeAgain
 	release
 	end
@@ -70,6 +78,17 @@ ViridianCity_Mart_Items:: @ 816A298
 	.2byte ITEM_POTION
 	.2byte ITEM_ANTIDOTE
 	.2byte ITEM_PARALYZE_HEAL
+	.2byte ITEM_NONE
+	release
+	end
+
+	.align 2
+ViridianCity_BetterMart_Items:: @ 816A298
+	.2byte ITEM_POKE_BALL
+	.2byte ITEM_POTION
+	.2byte ITEM_ANTIDOTE
+	.2byte ITEM_PARALYZE_HEAL
+	.2byte ITEM_REPEL
 	.2byte ITEM_NONE
 	release
 	end

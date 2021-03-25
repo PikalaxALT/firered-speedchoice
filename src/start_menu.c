@@ -35,6 +35,7 @@
 #include "save_menu_util.h"
 #include "help_system.h"
 #include "done_button.h"
+#include "speedchoice.h"
 #include "constants/songs.h"
 #include "constants/field_weather.h"
 
@@ -184,6 +185,27 @@ static const struct WindowTemplate sSaveStatsWindowTemplate = {
 static ALIGNED(2) const u8 sTextColor_StatName[] = { 1, 2, 3 };
 static ALIGNED(2) const u8 sTextColor_StatValue[] = { 1, 4, 5 };
 static ALIGNED(2) const u8 sTextColor_LocationHeader[] = { 1, 6, 7 };
+
+extern struct MapObjectTimerBackup * gMapObjectTimerBackup;
+
+void DoMapObjectTimerBackup(void)
+{
+    u8 i;
+
+    if (gMapObjectTimerBackup != NULL) return;
+    gMapObjectTimerBackup = Alloc(MAX_SPRITES * sizeof(struct MapObjectTimerBackup));
+
+    for (i = 0; i < MAX_SPRITES; i++)
+    {
+        struct ObjectEvent * objectEvent = &gObjectEvents[gSprites[i].data[0]];
+        if (objectEvent->active && objectEvent->spriteId == i)
+        {
+            gMapObjectTimerBackup[i].backedUp = TRUE;
+            gMapObjectTimerBackup[i].spriteId = gSprites[i].data[0];
+            gMapObjectTimerBackup[i].timer = gSprites[i].data[3];
+        }
+    }
+}
 
 static void SetUpStartMenu(void)
 {
@@ -349,6 +371,7 @@ static void OpenStartMenuWithFollowupFunc(TaskFunc func)
     u8 taskId;
     sDrawStartMenuState[0] = 0;
     sDrawStartMenuState[1] = 0;
+    DoMapObjectTimerBackup();
     taskId = CreateTask(task50_startmenu, 80);
     SetTaskFuncWithFollowupFunc(taskId, task50_startmenu, func);
 }

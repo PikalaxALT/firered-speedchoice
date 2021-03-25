@@ -6,12 +6,12 @@
 #define EXPMATH              2 // Implemented
 #define PLOTLESS             3 // TODO
 #define INSTANTTEXT          4 // Implemented
-#define SPINNERS             5 // TODO
+#define SPINNERS             5 // Implemented
 #define EARLYSURF            6 // TODO
 #define MAXVISION            7 // TODO
 #define NEWWILDENC           8 // TODO
 #define RUN_EVERYWHERE       9 // Implemented
-#define BETTER_MARTS        10 // TODO
+#define BETTER_MARTS        10 // Implemented
 #define GOOD_EARLY_WILDS    11 // TODO
 #define NICE_MENU_ORDER     12 // Implemented
 #define EASY_FALSE_SWIPE    13 // Implemented

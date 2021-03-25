@@ -712,7 +712,7 @@ EWRAM_DATA u8 gStoredPageNum = 0;
 EWRAM_DATA struct SpeedchoiceConfigStruct gLocalSpeedchoiceConfig = {0};
 
 // See MapObjectTimerBackup documentation in speedchoice.h.
-EWRAM_DATA struct MapObjectTimerBackup gMapObjectTimerBackup[MAX_SPRITES] = {0};
+EWRAM_DATA struct MapObjectTimerBackup * gMapObjectTimerBackup = NULL;
 
 // Deprecated. Was going to be used for the timer backup hack, but a better
 // implementation was found.

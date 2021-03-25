@@ -301,7 +301,6 @@ $(OBJ_DIR)/sym_common.ld: sym_common.txt $(C_OBJS) $(wildcard common_syms/*.txt)
 $(OBJ_DIR)/sym_ewram.ld: sym_ewram.txt
 	$(RAMSCRGEN) ewram_data $< ENGLISH > $@
 
-
 LD_SCRIPT := ld_script_modern.txt
 LD_SCRIPT_DEPS :=
 
