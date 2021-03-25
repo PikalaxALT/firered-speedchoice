@@ -7,25 +7,26 @@
 #define PLOTLESS             3
 #define INSTANTTEXT          4
 #define SPINNERS             5
-#define MAXVISION            6
-#define NEWWILDENC           7
-#define RUN_EVERYWHERE       8
-#define BETTER_MARTS         9
-#define GOOD_EARLY_WILDS    10
-#define NICE_MENU_ORDER     11
-#define EASY_FALSE_SWIPE    12
-#define FAST_CATCH          13
-#define EARLY_BIKE          14
-#define FAST_EGG_HATCH      15
-#define GEN_7_X_ITEMS       16
-#define EVO_EVERY_LEVEL     17
+#define EARLYSURF            6
+#define MAXVISION            7
+#define NEWWILDENC           8
+#define RUN_EVERYWHERE       9
+#define BETTER_MARTS        10
+#define GOOD_EARLY_WILDS    11
+#define NICE_MENU_ORDER     12
+#define EASY_FALSE_SWIPE    13
+#define FAST_CATCH          14
+#define EARLY_BIKE          15
+#define FAST_EGG_HATCH      16
+#define GEN_7_X_ITEMS       17
+#define EVO_EVERY_LEVEL     18
 
-#define CURRENT_OPTIONS_NUM 18
+#define CURRENT_OPTIONS_NUM 19
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
-#define PAGE        18
-#define START_GAME  19
+#define PAGE        19
+#define START_GAME  20
 
 
 /*
@@ -62,6 +63,13 @@
 
 #define IT_ON 0
 #define IT_OFF 1
+
+// ----------------------
+// EARLY SURF ENUM
+// ----------------------
+
+#define EARLY_SURF_YES 0
+#define EARLY_SURF_NO  1
 
 // ----------------------
 // SPINNERS ENUM

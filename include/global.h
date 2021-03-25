@@ -261,22 +261,23 @@ struct BattleTowerData // Leftover from R/S
 
 struct SpeedchoiceSaveOptions
 {
-    u8 expsystem:2;
-    u8 plotless:2;
-    u8 instantText:1;
-    u8 spinners:2;
-    u8 maxVision:2;
-    u8 newwildencounters:1;
-    u8 runEverywhere:1;
-    u8 betterMarts:1;
-    u8 goodEarlyWilds:2;
-    u8 niceMenuOrder:1;
-    u8 easyFalseSwipe:2;
-    u8 fastCatch:1;
-    u8 earlyBike:1;
-    u8 fastEggHatch:1;
-    u8 gen7XItems:1;
-    u8 evoEveryLevel:2;
+    u32 expsystem:2;
+    u32 plotless:2;
+    u32 instantText:1;
+    u32 earlySurf:1;
+    u32 spinners:2;
+    u32 maxVision:2;
+    u32 newwildencounters:1;
+    u32 runEverywhere:1;
+    u32 betterMarts:1;
+    u32 goodEarlyWilds:2;
+    u32 niceMenuOrder:1;
+    u32 easyFalseSwipe:2;
+    u32 fastCatch:1;
+    u32 earlyBike:1;
+    u32 fastEggHatch:1;
+    u32 gen7XItems:1;
+    u32 evoEveryLevel:2;
 };
 
 struct DoneButtonStats

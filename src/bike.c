@@ -6,6 +6,7 @@
 #include "fieldmap.h"
 #include "field_camera.h"
 #include "overworld.h"
+#include "speedchoice.h"
 #include "constants/map_types.h"
 #include "constants/songs.h"
 
@@ -258,19 +259,16 @@ bool8 sub_80BD460(u8 r0)
         return TRUE;
 }
 
-// ====================================
-// SPEEDCHOICE CHANGE
-// ====================================
-// Change: Stub the running check.
 bool32 IsRunningDisallowed(u8 metatileBehavior)
 {
-    return FALSE;
-//    if (!(gMapHeader.flags & MAP_ALLOW_RUN))
-//        return TRUE;
-//    if (MetatileBehaviorForbidsBiking(metatileBehavior) != TRUE)
-//        return FALSE;
-//    else
-//        return TRUE;
+    if (gSaveBlock2Ptr->speedchoiceConfig.runEverywhere == RUN_ON)
+        return FALSE;
+    if (!(gMapHeader.flags & MAP_ALLOW_RUN))
+        return TRUE;
+    if (MetatileBehaviorForbidsBiking(metatileBehavior) != TRUE)
+        return FALSE;
+    else
+        return TRUE;
 }
 
 static bool8 MetatileBehaviorForbidsBiking(u8 metatileBehavior)

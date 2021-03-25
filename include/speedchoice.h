@@ -136,12 +136,13 @@ struct MapObjectTimerBackup
  * here (which is 0 by default), then it would be optimized out, but we need this location
  * to be externally written to by the randomizer.
  */
-extern u32 gRandomizerCheckValue;
+extern const u32 gRandomizerCheckValue;
 
 // ----------------------
 // Prototypes
 // ----------------------
 void CB2_InitSpeedchoice(void);
 bool8 CheckSpeedchoiceOption(u8, u8);
+u32 CalculateCheckValue(void);
 
 #endif // POKEFIRERED_SPEEDCHOICE_H

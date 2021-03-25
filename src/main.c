@@ -14,6 +14,7 @@
 #include "battle_controllers.h"
 #include "scanline_effect.h"
 #include "save_failed_screen.h"
+#include "speedchoice.h"
 #include "quest_log.h"
 
 extern u32 intr_main[];
@@ -241,6 +242,9 @@ void StartTimer1(void)
 void SeedRngAndSetTrainerId(void)
 {
     u16 val = REG_TM1CNT_L;
+    u32 cv = CalculateCheckValue();
+    val ^= cv;
+    val ^= cv >> 16;
     SeedRng(val);
     REG_TM1CNT_H = 0;
     gTrainerId = val;
