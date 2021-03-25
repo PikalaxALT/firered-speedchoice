@@ -8,7 +8,7 @@ extern u32 gRng2Value;
 
 #define LC_MUL 1103515245
 #define LC_INC 24691
-#define LC_RNG(seed) (LC_MUL * (seed) + LC_INC)
+#define LC_RNG(seed) ((u32)(LC_MUL * (u32)(seed) + LC_INC))
 
 //Returns a 16-bit pseudorandom number
 u16 Random(void);

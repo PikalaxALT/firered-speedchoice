@@ -12,8 +12,37 @@ CeladonCity_Condominiums_1F_EventScript_TeaWoman:: @ 816C321
 	giveitem ITEM_TEA
 	compare VAR_RESULT, FALSE
 	goto_if_eq EventScript_BagIsFull
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	call_if FALSE, CeladonCity_Condominiums_1F_Plotless
 	msgbox CeladonCity_Condominiums_1F_Text_NothingBeatsThirstLikeTea
 	release
+	end
+
+CeladonCity_Condominiums_1F_Plotless::
+	giveitem ITEM_LIFT_KEY
+	giveitem ITEM_SILPH_SCOPE
+	giveitem ITEM_CARD_KEY
+	setflag FLAG_HIDE_TOWER_FUJI
+	clearflag FLAG_HIDE_POKEHOUSE_FUJI
+	setflag FLAG_RESCUED_MR_FUJI
+	checkspeedchoice PLOTLESS, PLOT_FULL
+	goto_if TRUE, CeladonCity_Condominiums_1F_FullPlotless
+	return
+	end
+
+CeladonCity_Condominiums_1F_FullPlotless::
+	setflag FLAG_HIDE_TOWER_ROCKET_1
+	setflag FLAG_HIDE_TOWER_ROCKET_2
+	setflag FLAG_HIDE_TOWER_ROCKET_3
+	setflag FLAG_HIDE_HIDEOUT_GIOVANNI
+	clearflag FLAG_HIDE_SILPH_SCOPE
+	setflag FLAG_HIDE_CELADON_ROCKETS
+	setvar VAR_MAP_SCENE_SILPH_CO_11F, 1
+	setflag FLAG_HIDE_SAFFRON_ROCKETS
+	clearflag FLAG_HIDE_SAFFRON_CIVILIANS
+	setflag FLAG_HIDE_MISC_KANTO_ROCKETS
+	settrainerflag TRAINER_TEAM_ROCKET_GRUNT_12
+	return
 	end
 
 CeladonCity_Condominiums_1F_EventScript_TeaWomanAfterTea:: @ 816C36A

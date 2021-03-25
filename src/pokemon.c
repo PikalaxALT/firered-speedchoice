@@ -9,6 +9,7 @@
 #include "battle_anim.h"
 #include "item.h"
 #include "event_data.h"
+#include "speedchoice.h"
 #include "util.h"
 #include "pokemon_storage_system.h"
 #include "battle_gfx_sfx_util.h"
@@ -2113,7 +2114,8 @@ void CalculateMonStats(struct Pokemon *mon)
         if (currentHP == 0 && oldMaxHP == 0)
             currentHP = newMaxHP;
         else if (currentHP != 0)
-            currentHP += newMaxHP - oldMaxHP;
+            // SPEEDCHOICE change: Unconditionally fix the cause of the Pomeg glitch in Emerald
+            currentHP = min(currentHP + newMaxHP - oldMaxHP, 1);
         else
             return;
     }
@@ -3993,7 +3995,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM0_X_ATTACK)
              && gBattleMons[gActiveBattler].statStages[STAT_ATK] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_ATK] += itemEffect[cmdIndex] & ITEM0_X_ATTACK;
+                int toAdd = itemEffect[cmdIndex] & ITEM0_X_ATTACK;
+                if (gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == GEN_7_X_ITEMS_ON)
+                    toAdd *= 2;
+                gBattleMons[gActiveBattler].statStages[STAT_ATK] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_ATK] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_ATK] = 12;
                 retVal = FALSE;
@@ -4004,7 +4009,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM1_X_DEFEND)
              && gBattleMons[gActiveBattler].statStages[STAT_DEF] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_DEF] += (itemEffect[cmdIndex] & ITEM1_X_DEFEND) >> 4;
+                int toAdd = (itemEffect[cmdIndex] & ITEM1_X_DEFEND) >> 4;
+                if (gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == GEN_7_X_ITEMS_ON)
+                    toAdd *= 2;
+                gBattleMons[gActiveBattler].statStages[STAT_DEF] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_DEF] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_DEF] = 12;
                 retVal = FALSE;
@@ -4012,7 +4020,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM1_X_SPEED)
              && gBattleMons[gActiveBattler].statStages[STAT_SPEED] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_SPEED] += itemEffect[cmdIndex] & ITEM1_X_SPEED;
+                int toAdd = itemEffect[cmdIndex] & ITEM1_X_SPEED;
+                if (gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == GEN_7_X_ITEMS_ON)
+                    toAdd *= 2;
+                gBattleMons[gActiveBattler].statStages[STAT_SPEED] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_SPEED] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_SPEED] = 12;
                 retVal = FALSE;
@@ -4023,7 +4034,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM2_X_ACCURACY)
              && gBattleMons[gActiveBattler].statStages[STAT_ACC] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_ACC] += (itemEffect[cmdIndex] & ITEM2_X_ACCURACY) >> 4;
+                int toAdd = (itemEffect[cmdIndex] & ITEM2_X_ACCURACY) >> 4;
+                if (gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == GEN_7_X_ITEMS_ON)
+                    toAdd *= 2;
+                gBattleMons[gActiveBattler].statStages[STAT_ACC] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_ACC] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_ACC] = 12;
                 retVal = FALSE;
@@ -4031,7 +4045,10 @@ bool8 PokemonUseItemEffects(struct Pokemon *mon, u16 item, u8 partyIndex, u8 mov
             if ((itemEffect[cmdIndex] & ITEM2_X_SPATK)
              && gBattleMons[gActiveBattler].statStages[STAT_SPATK] < 12)
             {
-                gBattleMons[gActiveBattler].statStages[STAT_SPATK] += itemEffect[cmdIndex] & ITEM2_X_SPATK;
+                int toAdd = itemEffect[cmdIndex] & ITEM2_X_SPATK;
+                if (gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == GEN_7_X_ITEMS_ON)
+                    toAdd *= 2;
+                gBattleMons[gActiveBattler].statStages[STAT_SPATK] += toAdd;
                 if (gBattleMons[gActiveBattler].statStages[STAT_SPATK] > 12)
                     gBattleMons[gActiveBattler].statStages[STAT_SPATK] = 12;
                 retVal = FALSE;
@@ -4895,6 +4912,20 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
     u16 upperPersonality = personality >> 16;
     u8 holdEffect;
 
+    if (gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel != EVO_EV_OFF)
+    {
+        u16 rval;
+        if (gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel == EVO_EV_STATIC)
+        {
+            level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+            rval = LC_RNG((personality * species) + ((level + 1) * species)) >> 16;
+        }
+        else
+        {
+            rval = Random();
+        }
+        return NationalPokedexNumToSpecies((rval % NATIONAL_DEX_COUNT) + 1);
+    }
     if (heldItem == ITEM_ENIGMA_BERRY)
         holdEffect = gSaveBlock1Ptr->enigmaBerry.holdEffect;
     else

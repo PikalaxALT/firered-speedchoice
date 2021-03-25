@@ -1138,7 +1138,7 @@ static void SpriteCB_ThrowBall_DoShake(struct Sprite *sprite)
         }
         else
         {
-            if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_3_SHAKES_SUCCESS && state == 3)
+            if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_3_SHAKES_SUCCESS && state == 2) // SPEEDCHOICE: 2 shakes instead of 3
             {
                 sprite->callback = SpriteCB_ThrowBall_InitClick;
                 sprite->affineAnimPaused = TRUE;

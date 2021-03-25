@@ -4,10 +4,10 @@
 #define PRESET               0 // N/A
 #define PLAYER_NAME_SET      1 // Implemented
 #define EXPMATH              2 // Implemented
-#define PLOTLESS             3 // TODO
+#define PLOTLESS             3 // Implemented
 #define INSTANTTEXT          4 // Implemented
 #define SPINNERS             5 // Implemented
-#define EARLYSURF            6 // TODO
+#define EARLYSURF            6 // Implemented
 #define MAXVISION            7 // Implemented
 #define NEWWILDENC           8 // Implemented
 #define RUN_EVERYWHERE       9 // Implemented
@@ -16,18 +16,19 @@
 #define NICE_MENU_ORDER     12 // Implemented
 #define EASY_FALSE_SWIPE    13 // Implemented
 #define EASY_DEX_REWARDS    14 // Implemented
-#define FAST_CATCH          15 // TODO
+#define FAST_CATCH          15 // Implemented
 #define EARLY_BIKE          16 // Implemented
-#define FAST_EGG_HATCH      17 // TODO
-#define GEN_7_X_ITEMS       18 // TODO
-#define EVO_EVERY_LEVEL     19 // TODO
+#define FAST_EGG_HATCH      17 // Implemented
+#define GEN_7_X_ITEMS       18 // Implemented
+#define EVO_EVERY_LEVEL     19 // Implemented
+#define HM_BADGE_CHECKS     20 // Implemented
 
-#define CURRENT_OPTIONS_NUM 20
+#define CURRENT_OPTIONS_NUM 21
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
-#define PAGE        20
-#define START_GAME  21
+#define PAGE        21
+#define START_GAME  22
 
 
 /*
@@ -174,6 +175,13 @@
 #define EVO_EV_OFF 0
 #define EVO_EV_STATIC 1
 #define EVO_EV_RAND 2
+
+// ---------------------
+// HM_BADGE_CHECKS ENUM
+// ---------------------
+
+#define BADGE_PURGE 0
+#define BADGE_KEEP 1
 
 // Enumeration for optionType in the Speedchoice struct below.
 

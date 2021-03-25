@@ -16,6 +16,7 @@
 #include "event_data.h"
 #include "evolution_scene.h"
 #include "graphics.h"
+#include "speedchoice.h"
 #include "help_system.h"
 #include "item.h"
 #include "link.h"
@@ -3799,7 +3800,14 @@ static void TryEvolvePokemon(void)
                 if (species != SPECIES_NONE)
                 {
                     gBattleMainFunc = WaitForEvoSceneToFinish;
-                    EvolutionScene(&gPlayerParty[i], species, 0x81, i);
+                    EvolutionScene(
+                        &gPlayerParty[i],
+                        species,
+                        gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel == EVO_EV_OFF
+                        ? EVO_SCENE_CAN_STOP | EVO_SCENE_LEARN_MOVE
+                        : EVO_SCENE_LEARN_MOVE,
+                        i
+                    );
                     return;
                 }
             }

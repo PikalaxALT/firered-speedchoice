@@ -69,6 +69,10 @@ CeruleanCity_EventScript_Rival:: @ 81664CC
 	setvar VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1
 	setflag FLAG_GOT_FAME_CHECKER
 	giveitem ITEM_FAME_CHECKER
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	call_if FALSE, CeruleanCity_Plotless
+	checkspeedchoice EARLYSURF, EARLY_SURF_YES
+	call_if TRUE, CeruleanCity_EarlySurf
 	msgbox CeruleanCity_Text_ExplainFameCheckerSmellYa
 	closemessage
 	applymovement LOCALID_RIVAL, CeruleanCity_Movement_RivalExit
@@ -77,6 +81,15 @@ CeruleanCity_EventScript_Rival:: @ 81664CC
 	removeobject LOCALID_RIVAL
 	releaseall
 	end
+
+CeruleanCity_Plotless::
+	setvar VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES, 1
+	return
+
+CeruleanCity_EarlySurf::
+	giveitem ITEM_HM03
+	setflag FLAG_GOT_HM03
+	return
 
 CeruleanCity_EventScript_RivalSquirtle:: @ 8166582
 	trainerbattle_no_intro TRAINER_RIVAL_CERULEAN_SQUIRTLE, CeruleanCity_Text_RivalDefeat

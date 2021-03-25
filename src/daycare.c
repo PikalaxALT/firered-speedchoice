@@ -16,6 +16,7 @@
 #include "list_menu.h"
 #include "overworld.h"
 #include "pokedex.h"
+#include "speedchoice.h"
 #include "decompress.h"
 #include "constants/songs.h"
 #include "text_window.h"
@@ -1154,7 +1155,7 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
     // Hatch Egg
     if (++daycare->stepCounter == 255)
     {
-        u32 steps;
+        u32 eggCycles;
 
         for (i = 0; i < gPlayerPartyCount; i++)
         {
@@ -1163,11 +1164,11 @@ static bool8 TryProduceOrHatchEgg(struct DayCare *daycare)
             if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_BAD_EGG))
                 continue;
 
-            steps = GetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP);
-            if (steps != 0)
+            eggCycles = GetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP);
+            if (eggCycles != 0 && gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch == FAST_EGG_HATCH_NO)
             {
-                steps -= 1;
-                SetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP, &steps);
+                eggCycles -= 1;
+                SetMonData(&gPlayerParty[i], MON_DATA_FRIENDSHIP, &eggCycles);
             }
             else // hatch the egg
             {

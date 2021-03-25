@@ -164,6 +164,9 @@ const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR RED}{SHADOW GREEN}FAST EGG
 const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR RED}{SHADOW GREEN}GEN 7 X ITEMS");
 const u8 gSpeedchoiceOptionEvoEveryLv[] = _("{COLOR RED}{SHADOW GREEN}EVO EVERY LV");
 
+// PAGE 5
+const u8 gSpeedchoiceOptionHmBadgeChk[] = _("{COLOR RED}{SHADOW GREEN}HM BADGE CHK");
+
 // CONSTANT OPTIONS
 const u8 gSpeedchoiceOptionPage[] = _("{COLOR RED}{SHADOW GREEN}PAGE");
 const u8 gSpeedchoiceOptionStartGame[] = _("{COLOR RED}{SHADOW GREEN}START GAME");
@@ -199,6 +202,7 @@ const u8 gSpeedchoiceTooltipEarlyBike[] = _("Start game with Bicycle.");
 const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly.");
 const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 const u8 gSpeedchoiceTooltipEvoEveryLv[] = _("STATIC: {PKMN} evolve into a random\nbut set species every lv.\pRAND: Same thing as STATIC but\nrandom non-static every lv.");
+const u8 gSpeedchoiceTooltipHmBadgeChk[] = _("PURGE: There are no badge checks\nfor using HM moves in the field.\pKEEP: Vanilla behaviour.");
 const u8 gSpeedchoiceTooltipEasyDexRewards[] = _("Removes Pokédex caught conditions\nfor receiving certain items.");
 
 // START GAME
@@ -237,95 +241,99 @@ static EWRAM_DATA int gSpeedchoiceTaskId = 0;
 // Preset Data for Speedchoice Menu
 // ----------------------------------------------------------------
 static const u8 gPresetVanilla[CURRENT_OPTIONS_NUM] = {
-    PRESET_VANILLA,         // PRESET
-    0xFF,                   // (Reserved for trainer name)
-    EXP_KEEP,               // EXP
-    PLOT_KEEP,              // PLOTLESS
-    IT_OFF,                 // INSTANTTEXT
-    SPIN_KEEP,              // SPINNERS
-    EARLY_SURF_NO,          // EARLYSURF
-    MAX_OFF,                // MAXVISION
-    NEW_OFF,                // NEWWILDENC
-    RUN_OFF,                // RUN_EVERYWHERE
-    MARTS_OFF,              // BETTER_MARTS
-    GOOD_OFF,               // GOOD_EARLY_WILDS
-    NICE_MENU_ORDER_OFF,    // NICE_MENU_ORDER
-    EASY_FALSE_SWIPE_OFF,   // EASY_FALSE_SWIPE
-    EASY_DEX_REWARDS_OFF,   // EASY_DEX_REWARDS
-    FAST_CATCH_OFF,         // FAST_CATCH
-    EARLY_BIKE_NO,          // EARLY_BIKE
-    FAST_EGG_HATCH_NO,      // FAST_EGG_HATCH
-    GEN_7_X_ITEMS_OFF,      // GEN_7_X_ITEMS
-    EVO_EV_OFF              // EVO_EVERY_LEVEL
+    [PRESET]           = PRESET_VANILLA,
+    [PLAYER_NAME_SET]  = 0xFF,
+    [EXPMATH]          = EXP_KEEP,
+    [PLOTLESS]         = PLOT_KEEP,
+    [INSTANTTEXT]      = IT_OFF,
+    [SPINNERS]         = SPIN_KEEP,
+    [EARLYSURF]        = EARLY_SURF_NO,
+    [MAXVISION]        = MAX_OFF,
+    [NEWWILDENC]       = NEW_OFF,
+    [RUN_EVERYWHERE]   = RUN_OFF,
+    [BETTER_MARTS]     = MARTS_OFF,
+    [GOOD_EARLY_WILDS] = GOOD_OFF,
+    [NICE_MENU_ORDER]  = NICE_MENU_ORDER_OFF,
+    [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_OFF,
+    [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_OFF,
+    [FAST_CATCH]       = FAST_CATCH_OFF,
+    [EARLY_BIKE]       = EARLY_BIKE_NO,
+    [FAST_EGG_HATCH]   = FAST_EGG_HATCH_NO,
+    [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_OFF,
+    [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
+    [HM_BADGE_CHECKS]  = BADGE_KEEP,
 };
 
 static const u8 gPresetBingo[CURRENT_OPTIONS_NUM] = {
-    PRESET_BINGO,           // PRESET
-    0xFF,                   // (Reserved for trainer name)
-    EXP_BW,                 // EXP
-    PLOT_FULL,              // PLOTLESS
-    IT_ON,                  // INSTANTTEXT
-    SPIN_KEEP,              // SPINNERS
-    EARLY_SURF_YES,         // EARLYSURF
-    MAX_OFF,                // MAXVISION
-    NEW_ON,                 // NEWWILDENC
-    RUN_ON,                 // RUN_EVERYWHERE
-    MARTS_ON,               // BETTER_MARTS
-    GOOD_OFF,               // GOOD_EARLY_WILDS
-    NICE_MENU_ORDER_ON,     // NICE_MENU_ORDER
-    EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
-    EASY_DEX_REWARDS_ON,    // EASY_DEX_REWARDS
-    FAST_CATCH_OFF,         // FAST_CATCH
-    EARLY_BIKE_YES,         // EARLY_BIKE
-    FAST_EGG_HATCH_YES,     // FAST_EGG_HATCH
-    GEN_7_X_ITEMS_ON,       // GEN_7_X_ITEMS
-    EVO_EV_OFF              // EVO_EVERY_LEVEL
+    [PRESET]           = PRESET_BINGO,
+    [PLAYER_NAME_SET]  = 0xFF,
+    [EXPMATH]          = EXP_BW,
+    [PLOTLESS]         = PLOT_FULL,
+    [INSTANTTEXT]      = IT_ON,
+    [SPINNERS]         = SPIN_KEEP,
+    [EARLYSURF]        = EARLY_SURF_YES,
+    [MAXVISION]        = MAX_OFF,
+    [NEWWILDENC]       = NEW_ON,
+    [RUN_EVERYWHERE]   = RUN_ON,
+    [BETTER_MARTS]     = MARTS_ON,
+    [GOOD_EARLY_WILDS] = GOOD_OFF,
+    [NICE_MENU_ORDER]  = NICE_MENU_ORDER_ON,
+    [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_TUTOR,
+    [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_ON,
+    [FAST_CATCH]       = FAST_CATCH_OFF,
+    [EARLY_BIKE]       = EARLY_BIKE_YES,
+    [FAST_EGG_HATCH]   = FAST_EGG_HATCH_YES,
+    [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_ON,
+    [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
+    [HM_BADGE_CHECKS]  = BADGE_PURGE,
 };
 
 static const u8 gPresetCEA[CURRENT_OPTIONS_NUM] = {
-    PRESET_CEA,             // PRESET
-    0xFF,                   // (Reserved for trainer name)
-    EXP_BW,                 // EXP
-    PLOT_FULL,              // PLOTLESS
-    IT_ON,                  // INSTANTTEXT
-    SPIN_NERF,              // SPINNERS
-    EARLY_SURF_YES,         // EARLYSURF
-    MAX_OFF,                // MAXVISION
-    NEW_ON,                 // NEWWILDENC
-    RUN_ON,                 // RUN_EVERYWHERE
-    MARTS_ON,               // BETTER_MARTS
-    GOOD_OFF,               // GOOD_EARLY_WILDS
-    NICE_MENU_ORDER_ON,     // NICE_MENU_ORDER
-    EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
-    EASY_DEX_REWARDS_OFF,   // EASY_DEX_REWARDS
-    FAST_CATCH_ON,          // FAST_CATCH
-    EARLY_BIKE_YES,         // EARLY_BIKE
-    FAST_EGG_HATCH_YES,     // FAST_EGG_HATCH
-    GEN_7_X_ITEMS_ON,       // GEN_7_X_ITEMS
-    EVO_EV_OFF              // EVO_EVERY_LEVEL
+    [PRESET]           = PRESET_CEA,
+    [PLAYER_NAME_SET]  = 0xFF,
+    [EXPMATH]          = EXP_BW,
+    [PLOTLESS]         = PLOT_FULL,
+    [INSTANTTEXT]      = IT_ON,
+    [SPINNERS]         = SPIN_NERF,
+    [EARLYSURF]        = EARLY_SURF_YES,
+    [MAXVISION]        = MAX_OFF,
+    [NEWWILDENC]       = NEW_ON,
+    [RUN_EVERYWHERE]   = RUN_ON,
+    [BETTER_MARTS]     = MARTS_ON,
+    [GOOD_EARLY_WILDS] = GOOD_OFF,
+    [NICE_MENU_ORDER]  = NICE_MENU_ORDER_ON,
+    [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_TUTOR,
+    [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_OFF,
+    [FAST_CATCH]       = FAST_CATCH_ON,
+    [EARLY_BIKE]       = EARLY_BIKE_YES,
+    [FAST_EGG_HATCH]   = FAST_EGG_HATCH_YES,
+    [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_ON,
+    [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
+    [HM_BADGE_CHECKS]  = BADGE_PURGE,
 };
 
 static const u8 gPresetRace[CURRENT_OPTIONS_NUM] = {
-    PRESET_RACE,            // PRESET
-    0xFF,                   // (Reserved for trainer name)
-    EXP_BW,                 // EXP
-    PLOT_FULL,              // PLOTLESS
-    IT_ON,                  // INSTANTTEXT
-    SPIN_NERF,              // SPINNERS
-    EARLY_SURF_YES,         // EARLYSURF
-    MAX_OFF,                // MAXVISION
-    NEW_ON,                 // NEWWILDENC
-    RUN_ON,                 // RUN_EVERYWHERE
-    MARTS_ON,               // BETTER_MARTS
-    GOOD_STATIC,            // GOOD_EARLY_WILDS
-    NICE_MENU_ORDER_ON,     // NICE_MENU_ORDER
-    EASY_FALSE_SWIPE_TUTOR, // EASY_FALSE_SWIPE
-    EASY_DEX_REWARDS_ON,    // EASY_DEX_REWARDS
-    FAST_CATCH_OFF,         // FAST_CATCH
-    EARLY_BIKE_YES,         // EARLY_BIKE
-    FAST_EGG_HATCH_YES,     // FAST_EGG_HATCH
-    GEN_7_X_ITEMS_ON,       // GEN_7_X_ITEMS
-    EVO_EV_OFF              // EVO_EVERY_LEVEL
+    [PRESET]           = PRESET_RACE,
+    [PLAYER_NAME_SET]  = 0xFF,
+    [EXPMATH]          = EXP_BW,
+    [PLOTLESS]         = PLOT_FULL,
+    [INSTANTTEXT]      = IT_ON,
+    [SPINNERS]         = SPIN_NERF,
+    [EARLYSURF]        = EARLY_SURF_YES,
+    [MAXVISION]        = MAX_OFF,
+    [NEWWILDENC]       = NEW_ON,
+    [RUN_EVERYWHERE]   = RUN_ON,
+    [BETTER_MARTS]     = MARTS_ON,
+    [GOOD_EARLY_WILDS] = GOOD_STATIC,
+    [NICE_MENU_ORDER]  = NICE_MENU_ORDER_ON,
+    [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_TUTOR,
+    [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_ON,
+    [FAST_CATCH]       = FAST_CATCH_OFF,
+    [EARLY_BIKE]       = EARLY_BIKE_YES,
+    [FAST_EGG_HATCH]   = FAST_EGG_HATCH_YES,
+    [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_ON,
+    [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
+    [HM_BADGE_CHECKS]  = BADGE_PURGE,
 };
 
 /*
@@ -473,7 +481,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // PRESET OPTION
         // ----------------------------------
-        {
+        [PRESET] = {
             /* Option Count   */ 4,
             /* Option Type    */ ARROW,
             /* Option Preset  */ gSpeedchoiceOptionPreset,
@@ -484,7 +492,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // PLAYER NAME
         // ----------------------------------
-        {
+        [PLAYER_NAME_SET] = {
             /* Option Count   */ 1,
             /* Option Type    */ PLAYER_NAME,
             /* Option Preset  */ gSpeedchoiceOptionName,
@@ -495,7 +503,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // EXP OPTION
         // ----------------------------------
-        {
+        [EXPMATH] = {
             /* Option Count   */ 3,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionEXP,
@@ -506,7 +514,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // PLOTLESS OPTION
         // ----------------------------------
-        {
+        [PLOTLESS] = {
             /* Option Count   */ 3,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionPlotless,
@@ -517,7 +525,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // INSTANT TEXT OPTION
         // ----------------------------------
-        {
+        [INSTANTTEXT] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionInstantText,
@@ -528,7 +536,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // SPINNERS OPTION
         // ----------------------------------
-        {
+        [SPINNERS] = {
             /* Option Count   */ 4,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionSpinners,
@@ -539,7 +547,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // EARLY SURF OPTION
         // ----------------------------------
-        {
+        [EARLYSURF] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionEarlySurf,
@@ -550,7 +558,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // MAX VISION OPTION
         // ----------------------------------
-        {
+        [MAXVISION] = {
             /* Option Count   */ 3,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionMaxVision,
@@ -561,7 +569,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // NEW WILD ENC OPTION
         // ----------------------------------
-        {
+        [NEWWILDENC] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionNewWildEnc,
@@ -572,7 +580,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // RUN EVERYWHERE OPTION
         // ----------------------------------
-        {
+        [RUN_EVERYWHERE] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionRunEverywhere,
@@ -583,7 +591,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // BETTER MARTS OPTION
         // ----------------------------------
-        {
+        [BETTER_MARTS] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionBetterMarts,
@@ -594,7 +602,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // GOOD EARLY WILDS OPTION
         // ----------------------------------
-        {
+        [GOOD_EARLY_WILDS] = {
             /* Option Count   */ 3,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionGoodEarlyWilds,
@@ -605,7 +613,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // PARTY MENU OPTION
         // ----------------------------------
-        {
+        [NICE_MENU_ORDER] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionNiceMenuOrder,
@@ -616,7 +624,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // EASY FALSE SWIPE OPTION
         // ----------------------------------
-        {
+        [EASY_FALSE_SWIPE] = {
             /* Option Count   */ 3,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionEasyFalseSwipe,
@@ -627,7 +635,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // EASY FALSE SWIPE OPTION
         // ----------------------------------
-        {
+        [EASY_DEX_REWARDS] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchocieOptionEasyDexRewards,
@@ -638,7 +646,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // FAST CATCH OPTION
         // ----------------------------------
-        {
+        [FAST_CATCH] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionFastCatch,
@@ -649,7 +657,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // EARLY BIKE OPTION
         // ----------------------------------
-        {
+        [EARLY_BIKE] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionEarlyBike,
@@ -660,7 +668,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // FAST EGG HATCHING OPTION
         // ----------------------------------
-        {
+        [FAST_EGG_HATCH] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionFastEggHatch,
@@ -671,7 +679,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // GEN 7 X ITEMS OPTION
         // ----------------------------------
-        {
+        [GEN_7_X_ITEMS] = {
             /* Option Count   */ 2,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionGen7XItems,
@@ -682,7 +690,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // ----------------------------------
         // EVO EVERY LEVEL OPTION
         // ----------------------------------
-        {
+        [EVO_EVERY_LEVEL] = {
             /* Option Count   */ 3,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionEvoEveryLv,
@@ -691,9 +699,20 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             /* Option Usable  */ TRUE
         },
         // ----------------------------------
+        // HM BADGE CHECKS OPTION
+        // ----------------------------------
+        [HM_BADGE_CHECKS] = {
+            /* Option Count   */ 2,
+            /* Option Type    */ NORMAL,
+            /* Option Preset  */ gSpeedchoiceOptionHmBadgeChk,
+            /* Option Text    */ OptionChoiceConfigNerfKeep,
+            /* Option Tooltip */ gSpeedchoiceTooltipHmBadgeChk,
+            /* Option Usable  */ TRUE
+        },
+        // ----------------------------------
         // PAGE STATIC OPTION
         // ----------------------------------
-        {
+        [PAGE] = {
             /* Option Count   */ MAX_PAGES,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionPage,
@@ -769,6 +788,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = preset[FAST_EGG_HATCH];
     gSaveBlock2Ptr->speedchoiceConfig.gen7XItems = preset[GEN_7_X_ITEMS];
     gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel = preset[EVO_EVERY_LEVEL];
+    gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks = preset[HM_BADGE_CHECKS];
 }
 
 /*
@@ -817,6 +837,8 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
         return gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == selection;
     case EVO_EVERY_LEVEL:
         return gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel == selection;
+    case HM_BADGE_CHECKS:
+        return gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks == selection;
     default:
         return FALSE;
     }
@@ -1336,6 +1358,7 @@ static void SaveSpeedchoiceOptions()
     gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = gLocalSpeedchoiceConfig.optionConfig[FAST_EGG_HATCH];
     gSaveBlock2Ptr->speedchoiceConfig.gen7XItems = gLocalSpeedchoiceConfig.optionConfig[GEN_7_X_ITEMS];
     gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel = gLocalSpeedchoiceConfig.optionConfig[EVO_EVERY_LEVEL];
+    gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks = gLocalSpeedchoiceConfig.optionConfig[HM_BADGE_CHECKS];
 
     // write the playername.
     StringCopy7(gSaveBlock2Ptr->playerName, gTempPlayerName);

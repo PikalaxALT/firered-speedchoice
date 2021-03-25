@@ -9211,7 +9211,7 @@ static void atkEF_handleballthrow(void)
                         ++gBattleResults.catchAttempts[gLastUsedItem - ITEM_ULTRA_BALL];
                 }
             }
-            if (odds > 254) // mon caught
+            if (gSaveBlock2Ptr->speedchoiceConfig.fastCatch == FAST_CATCH_ON || odds > 254) // mon caught
             {
                 BtlController_EmitBallThrowAnim(0, BALL_3_SHAKES_SUCCESS);
                 MarkBattlerForControllerExec(gActiveBattler);
@@ -9232,6 +9232,16 @@ static void atkEF_handleballthrow(void)
                 for (shakes = 0; shakes < 4 && Random() < odds; ++shakes);
                 if (gLastUsedItem == ITEM_MASTER_BALL)
                     shakes = BALL_3_SHAKES_SUCCESS; // why calculate the shakes before that check?
+
+                // SPEEDCHOICE CHANGE (2 shakes is max)
+                switch(shakes)
+                {
+                case BALL_3_SHAKES_FAIL:
+                case BALL_2_SHAKES:
+                    shakes = BALL_1_SHAKE;
+                    break;
+                }
+
                 BtlController_EmitBallThrowAnim(0, shakes);
                 MarkBattlerForControllerExec(gActiveBattler);
                 if (shakes == BALL_3_SHAKES_SUCCESS) // mon caught, copy of the code above

@@ -158,9 +158,6 @@ static void CB2_BeginEvolutionScene(void)
 #define tEvoWasStopped      data[9]
 #define tPartyId            data[10]
 
-#define TASK_BIT_CAN_STOP       0x1
-#define TASK_BIT_LEARN_MOVE     0x80
-
 static void Task_BeginEvolutionScene(u8 taskId)
 {
     struct Pokemon* mon = NULL;
@@ -605,7 +602,7 @@ static void Task_EvolutionScene(u8 taskId)
     if (gMain.heldKeys == B_BUTTON
         && gTasks[taskId].tState == 8
         && gTasks[sEvoGraphicsTaskId].isActive
-        && gTasks[taskId].tBits & TASK_BIT_CAN_STOP)
+        && gTasks[taskId].tBits & EVO_SCENE_CAN_STOP)
     {
         gTasks[taskId].tState = 17;
         gTasks[sEvoGraphicsTaskId].EvoGraphicsTaskEvoStop = TRUE;
@@ -746,7 +743,7 @@ static void Task_EvolutionScene(u8 taskId)
 
                 StopMapMusic();
                 Overworld_PlaySpecialMapMusic();
-                gTasks[taskId].tBits |= TASK_BIT_LEARN_MOVE;
+                gTasks[taskId].tBits |= EVO_SCENE_LEARN_MOVE;
                 gTasks[taskId].tLearnsFirstMove = FALSE;
                 gTasks[taskId].tLearnMoveState = 0;
                 GetMonData(mon, MON_DATA_NICKNAME, text);
@@ -769,7 +766,7 @@ static void Task_EvolutionScene(u8 taskId)
     case 16: // task has finished, return
         if (!gPaletteFade.active)
         {
-            if (!(gTasks[taskId].tBits & TASK_BIT_LEARN_MOVE))
+            if (!(gTasks[taskId].tBits & EVO_SCENE_LEARN_MOVE))
             {
                 StopMapMusic();
                 Overworld_PlaySpecialMapMusic();
@@ -1123,7 +1120,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
             {
                 u8 text[20];
 
-                gTasks[taskId].tBits |= TASK_BIT_LEARN_MOVE;
+                gTasks[taskId].tBits |= EVO_SCENE_LEARN_MOVE;
                 gTasks[taskId].tLearnsFirstMove = FALSE;
                 gTasks[taskId].tLearnMoveState = 0;
                 GetMonData(mon, MON_DATA_NICKNAME, text);
