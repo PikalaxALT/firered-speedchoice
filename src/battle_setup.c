@@ -237,6 +237,8 @@ static void DoStandardWildBattle(void)
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = 0;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -249,6 +251,8 @@ void StartRoamerBattle(void)
     gMain.savedCallback = CB2_EndWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_ROAMER;
     CreateBattleStartTask(GetWildBattleTransition(), MUS_VS_LEGEND);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -261,6 +265,8 @@ static void DoSafariBattle(void)
     gMain.savedCallback = CB2_EndSafariBattle;
     gBattleTypeFlags = BATTLE_TYPE_SAFARI;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
 }
 
 static void DoGhostBattle(void)
@@ -272,6 +278,8 @@ static void DoGhostBattle(void)
     gBattleTypeFlags = BATTLE_TYPE_GHOST;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
     SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -279,6 +287,8 @@ static void DoGhostBattle(void)
 static void DoTrainerBattle(void)
 {
     CreateBattleStartTask(GetTrainerBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_TRAINER_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_TRAINER_BATTLES);
 }
@@ -298,6 +308,8 @@ void StartScriptedWildBattle(void)
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_WILD_SCRIPTED;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -317,6 +329,8 @@ void StartMarowakBattle(void)
     }
     CreateBattleStartTask(GetWildBattleTransition(), 0);
     SetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, gText_Ghost);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -327,6 +341,8 @@ void StartSouthernIslandBattle(void)
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY;
     CreateBattleStartTask(GetWildBattleTransition(), 0);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -358,6 +374,8 @@ void StartLegendaryBattle(void)
         CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RS_VS_TRAINER);
         break;
     }
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -371,6 +389,8 @@ void StartGroudonKyogreBattle(void)
         CreateBattleStartTask(B_TRANSITION_BLACK_DOODLES, MUS_RS_VS_TRAINER);
     else // pointless, exactly the same
         CreateBattleStartTask(B_TRANSITION_BLACK_DOODLES, MUS_RS_VS_TRAINER);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }
@@ -381,6 +401,8 @@ void StartRegiBattle(void)
     gMain.savedCallback = CB2_EndScriptedWildBattle;
     gBattleTypeFlags = BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_REGI;
     CreateBattleStartTask(B_TRANSITION_BLUR, MUS_RS_VS_TRAINER);
+    TryIncrementButtonStat(DB_BATTLES);
+    TryIncrementButtonStat(DB_WILD_BATTLES);
     IncrementGameStat(GAME_STAT_TOTAL_BATTLES);
     IncrementGameStat(GAME_STAT_WILD_BATTLES);
 }

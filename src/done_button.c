@@ -16,6 +16,7 @@
 #include "text_window.h"
 #include "text_window_graphics.h"
 #include "string_util.h"
+#include "event_data.h"
 
 struct DoneButton
 {
@@ -602,7 +603,6 @@ const u8 gMoneyItemsItemsSold[] = _("{COLOR RED}{SHADOW GREEN}ITEMS SOLD: ");
 const u8 gMiscHeader[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (MISC.)");
 const u8 gMiscTimesSaved[] = _("{COLOR RED}{SHADOW GREEN}TIMES SAVED: ");
 const u8 gMiscSaveReloads[] = _("{COLOR RED}{SHADOW GREEN}SAVE RELOADS: ");
-const u8 gMiscClockResets[] = _("{COLOR RED}{SHADOW GREEN}CLOCK RESETS: ");
 const u8 gMiscEvosAttempted[] = _("{COLOR RED}{SHADOW GREEN}EVOS ATTEMPTED: ");
 const u8 gMiscEvosCompleted[] = _("{COLOR RED}{SHADOW GREEN}EVOS COMPLETED: ");
 const u8 gMiscEvosCancelled[] = _("{COLOR RED}{SHADOW GREEN}EVOS CANCELLED: ");

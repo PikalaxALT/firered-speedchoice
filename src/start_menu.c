@@ -770,6 +770,7 @@ static u8 SaveDialogCB_AskOverwriteOrReplacePreviousFileHandleInput(void)
     switch (Menu_ProcessInputNoWrapClearOnChoose())
     {
     case 0:
+        TryIncrementButtonStat(DB_SAVE_COUNT);
         sSaveDialogCB = SaveDialogCB_PrintSavingDontTurnOffPower;
         break;
     case 1:

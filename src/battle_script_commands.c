@@ -14,6 +14,7 @@
 #include "pokemon_summary_screen.h"
 #include "task.h"
 #include "naming_screen.h"
+#include "done_button.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "trainer_pokemon_sprites.h"
@@ -1736,6 +1737,10 @@ static void atk0B_healthbarupdate(void)
     }
 }
 
+// -------------------------
+// SPEEDCHOICE CHANGE
+// -------------------------
+// Track damage dealt/taken
 static void atk0C_datahpupdate(void)
 {
     u32 moveType;
@@ -1784,6 +1789,15 @@ static void atk0C_datahpupdate(void)
                     gBattleMons[gActiveBattler].hp -= gBattleMoveDamage;
                     if (gBattleMons[gActiveBattler].hp > gBattleMons[gActiveBattler].maxHP)
                         gBattleMons[gActiveBattler].hp = gBattleMons[gActiveBattler].maxHP;
+                    switch(GetBattlerSide(gActiveBattler))
+                    {
+                    case B_SIDE_PLAYER:
+                        TryAddButtonStatBy(DB_PLAYER_HP_HEALED, -gBattleMoveDamage);
+                        break;
+                    case B_SIDE_OPPONENT:
+                        TryAddButtonStatBy(DB_ENEMY_HP_HEALED, -gBattleMoveDamage);
+                        break;
+                    }
 
                 }
                 else // hp goes down
@@ -1808,9 +1822,35 @@ static void atk0C_datahpupdate(void)
                     }
                     else
                     {
+                        // OHKO
+                        if(gBattleMons[gActiveBattler].hp == gBattleMons[gActiveBattler].maxHP)
+                        {
+                            // Whos getting OHKO'd?
+                            switch(GetBattlerSide(gActiveBattler))
+                            {
+                            case B_SIDE_PLAYER:
+                                TryIncrementButtonStat(DB_OHKOS_TAKEN);
+                                break;
+                            case B_SIDE_OPPONENT:
+                                TryIncrementButtonStat(DB_OHKOS_DEALT);
+                                break;
+                            }
+                        }
                         gHpDealt = gBattleMons[gActiveBattler].hp;
                         gBattleMons[gActiveBattler].hp = 0;
                     }
+                    switch(GetBattlerSide(gActiveBattler))
+                    {
+                    case B_SIDE_PLAYER:
+                        TryAddButtonStatBy(DB_TOTAL_DAMAGE_TAKEN, gHpDealt);
+                        TryAddButtonStatBy(DB_ACTUAL_DAMAGE_TAKEN, gBattleMoveDamage);
+                        break;
+                    case B_SIDE_OPPONENT:
+                        TryAddButtonStatBy(DB_TOTAL_DAMAGE_DEALT, gHpDealt);
+                        TryAddButtonStatBy(DB_ACTUAL_DAMAGE_DEALT, gBattleMoveDamage);
+                        break;
+                    }
+
                     if (!gSpecialStatuses[gActiveBattler].dmg && !(gHitMarker & HITMARKER_x100000))
                         gSpecialStatuses[gActiveBattler].dmg = gHpDealt;
                     if (IS_TYPE_PHYSICAL(moveType) && !(gHitMarker & HITMARKER_x100000) && gCurrentMove != MOVE_PAIN_SPLIT)
@@ -1867,6 +1907,7 @@ static void atk0D_critmessage(void)
         {
             PrepareStringBattle(STRINGID_CRITICALHIT, gBattlerAttacker);
             gBattleCommunication[MSG_DISPLAY] = 1;
+            TryIncrementButtonStat(GET_BATTLER_SIDE(gBattlerAttacker) == B_SIDE_PLAYER ? DB_CRITS_DEALT : DB_CRITS_TAKEN);
         }
         ++gBattlescriptCurrInstr;
     }
@@ -1937,9 +1978,11 @@ static void atk0F_resultmessage(void)
             {
             case MOVE_RESULT_SUPER_EFFECTIVE:
                 stringId = STRINGID_SUPEREFFECTIVE;
+                TryIncrementButtonStat(GET_BATTLER_SIDE(gBattlerAttacker) == B_SIDE_PLAYER ? DB_OWN_MOVES_SE : DB_ENEMY_MOVES_SE);
                 break;
             case MOVE_RESULT_NOT_VERY_EFFECTIVE:
                 stringId = STRINGID_NOTVERYEFFECTIVE;
+                TryIncrementButtonStat(GET_BATTLER_SIDE(gBattlerAttacker) == B_SIDE_PLAYER ? DB_OWN_MOVES_NVE : DB_ENEMY_MOVES_NVE);
                 break;
             case MOVE_RESULT_ONE_HIT_KO:
                 stringId = STRINGID_ONEHITKO;
@@ -2870,6 +2913,7 @@ static void atk1A_dofaintanimation(void)
     if (!gBattleControllerExecFlags)
     {
         gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
+        TryIncrementButtonStat(GET_BATTLER_SIDE(gActiveBattler) == B_SIDE_PLAYER ? DB_PLAYER_POKEMON_FAINTED : DB_ENEMY_POKEMON_FAINTED);
         BtlController_EmitFaintAnimation(0);
         MarkBattlerForControllerExec(gActiveBattler);
         gBattlescriptCurrInstr += 2;
@@ -3055,6 +3099,11 @@ static void atk22_jumpiftype(void)
         gBattlescriptCurrInstr += 7;
 }
 
+// -----------------------------
+// SPEEDCHOICE CHANGE
+// -----------------------------
+// Implement BW experience
+// Record exp gained
 static void atk23_getexp(void)
 {
     u16 item;
@@ -3255,6 +3304,7 @@ static void atk23_getexp(void)
                         }
                         break;
                     }
+                    TryAddButtonStatBy(DB_EXP_GAINED, gBattleMoveDamage);
                     PREPARE_MON_NICK_WITH_PREFIX_BUFFER(gBattleTextBuff1, gBattleStruct->expGetterBattlerId, gBattleStruct->expGetterMonId);
                     // buffer 'gained' or 'gained a boosted'
                     PREPARE_STRING_BUFFER(gBattleTextBuff2, i);
@@ -4015,6 +4065,10 @@ static void atk48_playstatchangeanimation(void)
     }
 }
 
+// --------------------------------
+// SPEEDCHOICE CHANGE
+// --------------------------------
+// Track misses
 static void atk49_moveend(void)
 {
     s32 i;
@@ -4261,6 +4315,18 @@ static void atk49_moveend(void)
                 attacker = gBattlerAttacker;
                 *(attacker * 2 + target * 8 + (gBattleStruct->lastTakenMoveFrom) + 1) = gChosenMove >> 8;
             }
+            if(!(gMoveResultFlags & MOVE_RESULT_MISSED))
+            {
+                switch(GetBattlerSide(gBattlerAttacker))
+                {
+                case B_SIDE_PLAYER:
+                    TryIncrementButtonStat(DB_OWN_MOVES_HIT);
+                    break;
+                case B_SIDE_OPPONENT:
+                    TryIncrementButtonStat(DB_ENEMY_MOVES_HIT);
+                    break;
+                }
+            }
             ++gBattleScripting.atk49_state;
             break;
         case ATK49_NEXT_TARGET: // For moves hitting two opposing Pokemon.
@@ -4401,6 +4467,8 @@ static void atk4B_returnatktoball(void)
         BtlController_EmitReturnMonToBall(0, 0);
         MarkBattlerForControllerExec(gActiveBattler);
     }
+    if(GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+        TryIncrementButtonStat(DB_SWITCHOUTS);
     ++gBattlescriptCurrInstr;
 }
 
@@ -9049,6 +9117,7 @@ static void atkEF_handleballthrow(void)
     {
         gActiveBattler = gBattlerAttacker;
         gBattlerTarget = gBattlerAttacker ^ BIT_SIDE;
+        TryIncrementButtonStat(DB_BALLS_THROWN);
         if (gBattleTypeFlags & BATTLE_TYPE_GHOST)
         {
             BtlController_EmitBallThrowAnim(0, BALL_GHOST_DODGE);
@@ -9148,6 +9217,7 @@ static void atkEF_handleballthrow(void)
                 MarkBattlerForControllerExec(gActiveBattler);
                 gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                 SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
+                TryIncrementButtonStat(DB_POKEMON_CAUGHT_IN_BALLS);
                 if (CalculatePlayerPartyCount() == 6)
                     gBattleCommunication[MULTISTRING_CHOOSER] = 0;
                 else
@@ -9168,6 +9238,7 @@ static void atkEF_handleballthrow(void)
                 {
                     gBattlescriptCurrInstr = BattleScript_SuccessBallThrow;
                     SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerTarget]], MON_DATA_POKEBALL, &gLastUsedItem);
+                    TryIncrementButtonStat(DB_POKEMON_CAUGHT_IN_BALLS);
                     if (CalculatePlayerPartyCount() == 6)
                         gBattleCommunication[MULTISTRING_CHOOSER] = 0;
                     else

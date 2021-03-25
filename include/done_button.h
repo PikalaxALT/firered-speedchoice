@@ -25,7 +25,6 @@ enum DoneButtonStat
     /*accounted*/ DB_FRAME_COUNT_INTROS,
     /*accounted*/ DB_SAVE_COUNT,
     /*accounted*/ DB_RELOAD_COUNT,
-    /*accounted*/ DB_CLOCK_RESET_COUNT,
     /*accounted*/ DB_STEP_COUNT,
     /*accounted*/ DB_STEP_COUNT_WALK,
     /*accounted*/ DB_STEP_COUNT_SURF,

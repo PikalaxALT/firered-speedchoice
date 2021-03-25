@@ -262,6 +262,7 @@ u32 ComputeWhiteOutMoneyLoss(void)
     u32 money = GetMoney(&gSaveBlock1Ptr->money);
     if (losings > money)
         losings = money;
+    TryAddButtonStatBy(DB_MONEY_LOST, losings);
     return losings;
 }
 
@@ -1712,6 +1713,7 @@ void CB2_ContinueSavedGame(void)
         SetMainCallback1(CB1_Overworld);
         CB2_ReturnToField();
     }
+    TryIncrementButtonStat(DB_RELOAD_COUNT);
 }
 
 static void FieldClearVBlankHBlankCallbacks(void)

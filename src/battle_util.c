@@ -17,6 +17,7 @@
 #include "battle_controllers.h"
 #include "battle_string_ids.h"
 #include "battle_ai_script_commands.h"
+#include "done_button.h"
 #include "constants/battle.h"
 #include "constants/moves.h"
 #include "constants/items.h"
@@ -215,6 +216,20 @@ void PrepareStringBattle(u16 stringId, u8 battler)
     gActiveBattler = battler;
     BtlController_EmitPrintString(0, stringId);
     MarkBattlerForControllerExec(gActiveBattler);
+    if(stringId == STRINGID_ATTACKMISSED)
+    {
+        switch(GetBattlerSide(gBattlerAttacker))
+        {
+        case B_SIDE_PLAYER:
+            TryIncrementButtonStat(DB_OWN_MOVES_MISSED);
+            break;
+        case B_SIDE_OPPONENT:
+            TryIncrementButtonStat(DB_ENEMY_MOVES_MISSED);
+            break;
+        }
+    }
+    if(stringId == STRINGID_CANTESCAPE2 || stringId == STRINGID_CANTESCAPE)
+        TryIncrementButtonStat(DB_FAILED_RUNS);
 }
 
 void ResetSentPokesToOpponentValue(void)

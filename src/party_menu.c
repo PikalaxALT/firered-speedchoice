@@ -4871,6 +4871,7 @@ static void Task_LearnNextMoveOrClosePartyMenu(u8 taskId)
 {
     if (IsFanfareTaskInactive() && ((gMain.newKeys & A_BUTTON) || (gMain.newKeys & B_BUTTON)))
     {
+        TryIncrementButtonStat(DB_MOVES_LEARNT);
         if (gPartyMenu.learnMoveState == 1)
             Task_TryLearningNextMove(taskId);
         else

@@ -15,6 +15,7 @@
 #include "help_system.h"
 #include "pokedex.h"
 #include "text_window.h"
+#include "done_button.h"
 #include "text_window_graphics.h"
 #include "constants/songs.h"
 
@@ -478,6 +479,11 @@ static void Task_ExecuteMainMenuSelection(u8 taskId)
             gPlttBufferFaded[0] = RGB_BLACK;
             gUnknown_2031DE0 = 0;
             FreeAllWindowBuffers();
+
+            // --------------------
+            // SPEEDCHOICE CHANGE
+            // --------------------
+            // Skip quest log entirely
 //            TrySetUpQuestLogScenes_ElseContinueFromSave(taskId);
             SetMainCallback2(CB2_ContinueSavedGame);
             break;

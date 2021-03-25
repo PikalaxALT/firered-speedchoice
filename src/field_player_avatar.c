@@ -19,6 +19,7 @@
 #include "random.h"
 #include "script.h"
 #include "strings.h"
+#include "done_button.h"
 #include "wild_encounter.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
@@ -975,6 +976,7 @@ static void PlayerAcroTurnJump(u8 direction)
 
 static void PlayerAcroWheelieCollide(u8 direction)
 {
+    TryIncrementButtonStat(DB_BONKS);
     PlaySE(SE_WALL_HIT);
     PlayerSetAnimId(GetAcroWheelieInPlaceDirectionMovementAction(direction), 2);
 }
@@ -1021,6 +1023,7 @@ static void PlayCollisionSoundIfNotFacingWarp(u8 direction)
             if (MetatileBehavior_IsWarpDoor(metatileBehavior))
                 return;
         }
+        TryIncrementButtonStat(DB_BONKS);
         PlaySE(SE_WALL_HIT);
     }
 }

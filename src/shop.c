@@ -13,6 +13,7 @@
 #include "task.h"
 #include "item.h"
 #include "item_menu.h"
+#include "done_button.h"
 #include "overworld.h"
 #include "field_fadetransition.h"
 #include "scanline_effect.h"
@@ -997,6 +998,7 @@ static void BuyMenuTryMakePurchase(u8 taskId)
     PutWindowTilemap(4);
     if (AddBagItem(tItemId, tItemCount) == TRUE)
     {
+        TryIncrementButtonStat(DB_ITEMS_BOUGHT);
         BuyMenuDisplayMessage(taskId, gText_HereYouGoThankYou, BuyMenuSubtractMoney);
         DebugFunc_PrintPurchaseDetails(taskId);
         RecordItemPurchase(tItemId, tItemCount, 1);
@@ -1011,6 +1013,7 @@ static void BuyMenuSubtractMoney(u8 taskId)
 {
     IncrementGameStat(GAME_STAT_SHOPPED);
     RemoveMoney(&gSaveBlock1Ptr->money, gShopData.itemPrice);
+    TryAddButtonStatBy(DB_MONEY_SPENT, gShopData.itemPrice);
     PlaySE(SE_SHOP);
     PrintMoneyAmountInMoneyBox(0, GetMoney(&gSaveBlock1Ptr->money), 0);
     gTasks[taskId].func = Task_ReturnToItemListAfterItemPurchase;
@@ -1109,7 +1112,8 @@ void RecordItemPurchase(u16 item, u16 quantity, u8 a2)
         history->unk0 += (itemid_get_market_price(item) >> (a2 - 1)) * quantity;
         if (history->unk0 > 999999)
             history->unk0 = 999999;
-    }    
+    }
+    TryAddButtonStatBy(DB_ITEMS_BOUGHT, quantity);
 }
 
 static void RecordQuestLogItemPurchase(void)

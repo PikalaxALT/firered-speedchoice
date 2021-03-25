@@ -15,6 +15,7 @@
 #include "new_menu_helpers.h"
 #include "menu.h"
 #include "overworld.h"
+#include "done_button.h"
 #include "pokedex.h"
 #include "pokemon_summary_screen.h"
 #include "scanline_effect.h"
@@ -281,6 +282,7 @@ void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, 
 
     LoadEvoSparkleSpriteAndPal();
 
+    TryIncrementButtonStat(DB_EVOLUTIONS_ATTEMPTED);
     sEvoStructPtr->evoTaskId = id = CreateTask(Task_EvolutionScene, 0);
     gTasks[id].tState = 0;
     gTasks[id].tPreEvoSpecies = currSpecies;
@@ -780,6 +782,7 @@ static void Task_EvolutionScene(u8 taskId)
             Free(sEvoStructPtr);
             sEvoStructPtr = NULL;
             FreeAllWindowBuffers();
+            TryIncrementButtonStat(DB_EVOLUTIONS_COMPLETED);
             SetMainCallback2(gCB2_AfterEvolution);
         }
         break;
@@ -1148,6 +1151,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
             Free(sEvoStructPtr);
             sEvoStructPtr = NULL;
             gTextFlags.useAlternateDownArrow = FALSE;
+            TryIncrementButtonStat(DB_EVOLUTIONS_CANCELLED);
             SetMainCallback2(gCB2_AfterEvolution);
         }
         break;

@@ -26,6 +26,7 @@
 #include "script_pokemon_util.h"
 #include "pokemon_storage_system.h"
 #include "party_menu.h"
+#include "done_button.h"
 #include "money.h"
 #include "coins.h"
 #include "battle_setup.h"
@@ -465,6 +466,7 @@ bool8 ScrCmd_additem(struct ScriptContext * ctx)
 
     gSpecialVar_Result = AddBagItem(itemId, (u8)quantity);
     TrySetObtainedItemQuestLogEvent(itemId);
+    TryIncrementButtonStat(DB_ITEMS_PICKED_UP);
     return FALSE;
 }
 
@@ -1826,7 +1828,10 @@ bool8 ScrCmd_removemoney(struct ScriptContext * ctx)
     u8 ignore = ScriptReadByte(ctx);
 
     if (!ignore)
+    {
         RemoveMoney(&gSaveBlock1Ptr->money, amount);
+        TryAddButtonStatBy(DB_MONEY_SPENT, amount);
+    }
     return FALSE;
 }
 
