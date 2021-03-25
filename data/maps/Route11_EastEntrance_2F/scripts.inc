@@ -61,11 +61,8 @@ Route11_EastEntrance_2F_EventScript_Aide:: @ 816FDD8
 	faceplayer
 	call Route11_EastEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_ITEMFINDER, Route11_EastEntrance_2F_EventScript_AlreadyGotItemfinder
-	setvar VAR_0x8004, EASY_DEX_REWARDS
-	setvar VAR_0x8005, EASY_DEX_REWARDS_ON
-	special Special_CheckSpeedchoiceOption
-	compare VAR_RESULT, TRUE
-	goto_if_eq Route11_EastEntrance_2F_EventScript_SkipAsk
+	checkspeedchoice EASY_DEX_REWARDS, EASY_DEX_REWARDS_ON
+	goto_if TRUE, Route11_EastEntrance_2F_EventScript_SkipAsk
 	msgbox Route11_EastEntrance_2F_Text_GiveItemfinderIfCaught30, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons

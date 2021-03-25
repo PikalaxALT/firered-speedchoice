@@ -38,6 +38,7 @@ SECTIONS {
     ALIGN(4)
     {
         src/crt0.o(.text);
+        src/main.o(.text);
         *(.text*);
     } =0
 

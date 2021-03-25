@@ -2281,3 +2281,12 @@ bool8 ScrCmd_setmonmetlocation(struct ScriptContext * ctx)
         SetMonData(&gPlayerParty[partyIndex], MON_DATA_MET_LOCATION, &location);
     return FALSE;
 }
+
+bool8 ScrCmd_checkspeedchoice(struct ScriptContext * ctx)
+{
+    u8 val = ScriptReadByte(ctx);
+    u8 category = val >> 3;
+    val &= 7;
+    ctx->comparisonResult = CheckSpeedchoiceOption(category, val);
+    return FALSE;
+}

@@ -1446,6 +1446,11 @@
 	.2byte \quantity
 	.endm
 
+	.macro checkspeedchoice category:req, value:req
+	.byte 0xd5
+	.byte (\category << 3) | (\value)
+	.endm
+
 
 @ Supplementary
 

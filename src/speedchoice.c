@@ -1645,8 +1645,3 @@ static void sub_80BB154(void)
 
     CopyBgTilemapBufferToVram(1);
 }
-
-void Special_CheckSpeedchoiceOption(void)
-{
-    gSpecialVar_Result = CheckSpeedchoiceOption(gSpecialVar_0x8004, gSpecialVar_0x8005);
-}
