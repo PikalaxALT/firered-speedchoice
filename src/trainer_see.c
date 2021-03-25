@@ -7,6 +7,7 @@
 #include "script.h"
 #include "task.h"
 #include "util.h"
+#include "speedchoice.h"
 #include "constants/battle_setup.h"
 #include "constants/event_object_movement.h"
 #include "constants/event_objects.h"
@@ -131,7 +132,10 @@ static u8 GetTrainerApproachDistance(struct ObjectEvent *trainerObj)
     PlayerGetDestCoords(&x, &y);
     if (trainerObj->trainerType == 1)  // can only see in one direction
     {
-        approachDistance = sDirectionalApproachDistanceFuncs[trainerObj->facingDirection - 1](trainerObj, trainerObj->trainerRange_berryTreeId, x, y);
+        if (gSaveBlock2Ptr->speedchoiceConfig.maxVision == MAX_OFF)
+            approachDistance = sDirectionalApproachDistanceFuncs[trainerObj->facingDirection - 1](trainerObj, trainerObj->trainerRange_berryTreeId, x, y);
+        else
+            approachDistance = MAX_VISION_RANGE;
         return CheckPathBetweenTrainerAndPlayer(trainerObj, approachDistance, trainerObj->facingDirection);
     }
     else  // can see in all directions
@@ -205,17 +209,32 @@ static u8 CheckPathBetweenTrainerAndPlayer(struct ObjectEvent *trainerObj, u8 ap
     u8 i;
     u8 collision;
 
+    u8 visionType = gSaveBlock2Ptr->speedchoiceConfig.maxVision;
+
     if (approachDistance == 0)
         return 0;
 
     x = trainerObj->currentCoords.x;
     y = trainerObj->currentCoords.y;
 
-    for (i = 0; i <= approachDistance - 1; i++, MoveCoords(direction, &x, &y))
+    switch (visionType)
     {
-        collision = GetCollisionFlagsAtCoords(trainerObj, x, y, direction);
-        if (collision != 0 && (collision & COLLISION_MASK))
-            return 0;
+    case MAX_SANE:
+        for (i = 0; i <= approachDistance - 1; i++, MoveCoords(direction, &x, &y))
+        {
+            collision = GetCollisionFlagsAtCoords(trainerObj, x, y, direction);
+            if (collision != 0 && (collision & ~COLLISION_MASK))
+                return 0;
+        }
+        break;
+    case MAX_OFF:
+        for (i = 0; i <= approachDistance - 1; i++, MoveCoords(direction, &x, &y))
+        {
+            collision = GetCollisionFlagsAtCoords(trainerObj, x, y, direction);
+            if (collision != 0 && (collision & COLLISION_MASK))
+                return 0;
+        }
+        break;
     }
 
     // preserve mapobj_unk_19 before clearing.
@@ -228,7 +247,7 @@ static u8 CheckPathBetweenTrainerAndPlayer(struct ObjectEvent *trainerObj, u8 ap
 
     trainerObj->rangeX = unk19_temp;
     trainerObj->rangeY = unk19b_temp;
-    if (collision == 4)
+    if (collision == 4 || visionType == MAX_HELL)
         return approachDistance;
 
     return 0;

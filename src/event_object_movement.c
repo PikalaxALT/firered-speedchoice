@@ -1350,6 +1350,20 @@ static u8 GetSpinnerHellTrainerType(struct ObjectEventTemplate * template, u8 ob
         return template->trainerType;
 }
 
+static u8 GetTrainerVision(struct ObjectEventTemplate * template, u8 objectEventId)
+{
+    u8 visionType = gSaveBlock2Ptr->speedchoiceConfig.maxVision;
+
+    if (visionType != MAX_OFF
+        && gPlayerAvatar.objectEventId != objectEventId
+        && (template->trainerType == TRAINER_TYPE_NORMAL || template->trainerType == TRAINER_TYPE_BURIED)
+        && (template->trainerRange_berryTreeId != 0 || *template->script == 0x5C /* trainerbattle */)
+    )
+        return MAX_VISION_RANGE;
+    else
+        return template->trainerRange_berryTreeId;
+}
+
 static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template, u8 mapNum, u8 mapGroup)
 {
     struct ObjectEvent *objectEvent;
@@ -1417,7 +1431,7 @@ static u8 InitObjectEventStateFromTemplate(struct ObjectEventTemplate *template,
     objectEvent->rangeX = template->movementRangeX;
     objectEvent->rangeY = template->movementRangeY;
     objectEvent->trainerType = GetSpinnerHellTrainerType(template, objectEventId);
-    objectEvent->trainerRange_berryTreeId = template->trainerRange_berryTreeId;
+    objectEvent->trainerRange_berryTreeId = GetTrainerVision(template, objectEventId);
     objectEvent->mapNum = mapNum; // oops (yes this is required for matching)
     objectEvent->previousMovementDirection = gInitialMovementTypeFacingDirections[template->movementType];
     SetObjectEventDirection(objectEvent, objectEvent->previousMovementDirection);

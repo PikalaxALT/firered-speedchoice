@@ -8,7 +8,7 @@
 #define INSTANTTEXT          4 // Implemented
 #define SPINNERS             5 // Implemented
 #define EARLYSURF            6 // TODO
-#define MAXVISION            7 // TODO
+#define MAXVISION            7 // Implemented
 #define NEWWILDENC           8 // TODO
 #define RUN_EVERYWHERE       9 // Implemented
 #define BETTER_MARTS        10 // Implemented
