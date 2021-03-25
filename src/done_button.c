@@ -106,9 +106,6 @@ void TryAddButtonStatBy(enum DoneButtonStat stat, u32 add)
     case DB_RELOAD_COUNT:
         TRY_INC_GAME_STAT_BY(2, reloadCount, add, USHRT_MAX);
         break;
-    case DB_CLOCK_RESET_COUNT:
-        TRY_INC_GAME_STAT_BY(2, clockResetCount, add, USHRT_MAX);
-        break;
     case DB_STEP_COUNT:
         TRY_INC_GAME_STAT_BY(2, stepCount, add, UINT_MAX);
         break;
@@ -274,9 +271,6 @@ void TryIncrementButtonStat(enum DoneButtonStat stat)
     case DB_RELOAD_COUNT:
         TRY_INC_GAME_STAT(2, reloadCount, USHRT_MAX);
         break;
-    case DB_CLOCK_RESET_COUNT:
-        TRY_INC_GAME_STAT(2, clockResetCount, USHRT_MAX);
-        break;
     case DB_STEP_COUNT:
         TRY_INC_GAME_STAT(2, stepCount, UINT_MAX);
         break;
@@ -423,164 +417,109 @@ u32 GetDoneButtonStat(enum DoneButtonStat stat)
         // DoneButtonStats1
     case DB_FRAME_COUNT_TOTAL:
         GET_GAME_STAT(2, frameCount, UINT_MAX);
-        break;
     case DB_FRAME_COUNT_OW:
         GET_GAME_STAT(2, owFrameCount, UINT_MAX);
-        break;
     case DB_FRAME_COUNT_BATTLE:
         GET_GAME_STAT(2, battleFrameCount, UINT_MAX);
-        break;
     case DB_FRAME_COUNT_MENU:
         GET_GAME_STAT(2, menuFrameCount, UINT_MAX);
-        break;
     case DB_FRAME_COUNT_INTROS: // This needs special handling due to intro not having loaded save block yet.
         GET_GAME_STAT(2, introsFrameCount, UINT_MAX);
-        break;
     case DB_SAVE_COUNT:
         GET_GAME_STAT(2, saveCount, USHRT_MAX);
-        break;
     case DB_RELOAD_COUNT:
         GET_GAME_STAT(2, reloadCount, USHRT_MAX);
-        break;
-    case DB_CLOCK_RESET_COUNT:
-        GET_GAME_STAT(2, clockResetCount, USHRT_MAX);
-        break;
     case DB_STEP_COUNT:
         GET_GAME_STAT(2, stepCount, UINT_MAX);
-        break;
     case DB_STEP_COUNT_WALK:
         GET_GAME_STAT(2, stepCountWalk, UINT_MAX);
-        break;
     case DB_STEP_COUNT_SURF:
         GET_GAME_STAT(2, stepCountSurf, UINT_MAX);
-        break;
     case DB_STEP_COUNT_BIKE:
         GET_GAME_STAT(2, stepCountBike, UINT_MAX);
-        break;
     case DB_STEP_COUNT_RUN:
         GET_GAME_STAT(2, stepCountRun, UINT_MAX);
-        break;
     case DB_BONKS:
         GET_GAME_STAT(2, bonks, USHRT_MAX);
-        break;
     case DB_TOTAL_DAMAGE_DEALT:
         GET_GAME_STAT(2, totalDamageDealt, UINT_MAX);
-        break;
     case DB_ACTUAL_DAMAGE_DEALT:
         GET_GAME_STAT(2, actualDamageDealt, UINT_MAX);
-        break;
     case DB_TOTAL_DAMAGE_TAKEN:
         GET_GAME_STAT(2, totalDamageTaken, UINT_MAX);
-        break;
     case DB_ACTUAL_DAMAGE_TAKEN:
         GET_GAME_STAT(2, actualDamageTaken, UINT_MAX);
-        break;
     case DB_OWN_MOVES_HIT:
         GET_GAME_STAT(2, ownMovesHit, USHRT_MAX);
-        break;
     case DB_OWN_MOVES_MISSED:
         GET_GAME_STAT(2, ownMovesMissed, USHRT_MAX);
-        break;
     case DB_ENEMY_MOVES_HIT:
         GET_GAME_STAT(2, enemyMovesHit, USHRT_MAX);
-        break;
     case DB_ENEMY_MOVES_MISSED:
         GET_GAME_STAT(2, enemyMovesMissed, USHRT_MAX);
-        break;
         // DoneButtonStats2
     case DB_OWN_MOVES_SE:
         GET_GAME_STAT(2, ownMovesSE, USHRT_MAX);
-        break;
     case DB_OWN_MOVES_NVE:
         GET_GAME_STAT(2, ownMovesNVE, USHRT_MAX);
-        break;
     case DB_ENEMY_MOVES_SE:
         GET_GAME_STAT(2, enemyMovesSE, USHRT_MAX);
-        break;
     case DB_ENEMY_MOVES_NVE:
         GET_GAME_STAT(2, enemyMovesNVE, USHRT_MAX);
-        break;
     case DB_CRITS_DEALT:
         GET_GAME_STAT(2, critsDealt, USHRT_MAX);
-        break;
     case DB_OHKOS_DEALT:
         GET_GAME_STAT(2, OHKOsDealt, USHRT_MAX);
-        break;
     case DB_CRITS_TAKEN:
         GET_GAME_STAT(2, critsTaken, USHRT_MAX);
-        break;
     case DB_OHKOS_TAKEN:
         GET_GAME_STAT(2, OHKOsTaken, USHRT_MAX);
-        break;
     case DB_PLAYER_HP_HEALED:
         GET_GAME_STAT(2, playerHPHealed, UINT_MAX);
-        break;
     case DB_ENEMY_HP_HEALED:
         GET_GAME_STAT(2, enemyHPHealed, UINT_MAX);
-        break;
     case DB_PLAYER_POKEMON_FAINTED:
         GET_GAME_STAT(2, playerPokemonFainted, USHRT_MAX);
-        break;
     case DB_ENEMY_POKEMON_FAINTED:
         GET_GAME_STAT(2, enemyPokemonFainted, USHRT_MAX);
-        break;
     case DB_EXP_GAINED:
         GET_GAME_STAT(2, expGained, UINT_MAX);
-        break;
     case DB_SWITCHOUTS:
         GET_GAME_STAT(2, switchouts, USHRT_MAX);
-        break;
     case DB_BATTLES:
         GET_GAME_STAT(2, battles, USHRT_MAX);
-        break;
     case DB_TRAINER_BATTLES:
         GET_GAME_STAT(2, trainerBattles, USHRT_MAX);
-        break;
     case DB_WILD_BATTLES:
         GET_GAME_STAT(2, wildBattles, USHRT_MAX);
-        break;
     case DB_BATTLES_FLED:
         GET_GAME_STAT(2, battlesFled, USHRT_MAX);
-        break;
     case DB_FAILED_RUNS:
         GET_GAME_STAT(2, failedRuns, USHRT_MAX);
-        break;
     case DB_MONEY_MADE:
         GET_GAME_STAT(2, moneyMade, UINT_MAX);
-        break;
     case DB_MONEY_SPENT:
         GET_GAME_STAT(2, moneySpent, UINT_MAX);
-        break;
     case DB_MONEY_LOST:
         GET_GAME_STAT(2, moneyLost, UINT_MAX);
-        break;
     case DB_ITEMS_PICKED_UP:
         GET_GAME_STAT(2, itemsPickedUp, USHRT_MAX);
-        break;
     case DB_ITEMS_BOUGHT:
         GET_GAME_STAT(2, itemsBought, USHRT_MAX);
-        break;
     case DB_ITEMS_SOLD:
         GET_GAME_STAT(2, itemsSold, USHRT_MAX);
-        break;
     case DB_MOVES_LEARNT:
         GET_GAME_STAT(2, movesLearnt, USHRT_MAX);
-        break;
     case DB_BALLS_THROWN:
         GET_GAME_STAT(2, ballsThrown, USHRT_MAX);
-        break;
     case DB_POKEMON_CAUGHT_IN_BALLS:
         GET_GAME_STAT(2, pokemonCaughtInBalls, USHRT_MAX);
-        break;
     case DB_EVOLUTIONS_ATTEMPTED:
         GET_GAME_STAT(2, evosAttempted, UINT_MAX);
-        break;
     case DB_EVOLUTIONS_COMPLETED:
         GET_GAME_STAT(2, evosCompleted, UINT_MAX);
-        break;
     case DB_EVOLUTIONS_CANCELLED:
         GET_GAME_STAT(2, evosCancelled, UINT_MAX);
-        break;
     }
 }
 
@@ -718,13 +657,13 @@ const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat, enum DoneButtonSta
     gBufferedString[5] = TEXT_COLOR_LIGHT_RED;
     gBufferedString[6] = CHAR_0 + (hours / 10);
     gBufferedString[7] = CHAR_0 + (hours % 10);
-    gBufferedString[8] = 0xF0; // ':'
+    gBufferedString[8] = CHAR_COLON; // ':'
     gBufferedString[9] = CHAR_0 + (minutes / 10);
     gBufferedString[10] = CHAR_0 + (minutes % 10);
-    gBufferedString[11] = 0xF0; // ':'
+    gBufferedString[11] = CHAR_COLON; // ':'
     gBufferedString[12] = CHAR_0 + (seconds / 10);
     gBufferedString[13] = CHAR_0 + (seconds % 10);
-    gBufferedString[14] = 0xAD; // '.'
+    gBufferedString[14] = CHAR_PERIOD; // '.'
     gBufferedString[15] = CHAR_0 + (milliseconds / 10);
     gBufferedString[16] = CHAR_0 + (milliseconds % 10);
     gBufferedString[17] = 0xFF;
@@ -845,7 +784,6 @@ const struct DoneButtonLineItem sLineItems[8][7] = {
         {gMiscHeader, NULL},
         {gMiscTimesSaved, GetStandardButtonStat, DB_SAVE_COUNT},
         {gMiscSaveReloads, GetStandardButtonStat, DB_RELOAD_COUNT},
-        {gMiscClockResets, GetStandardButtonStat, DB_CLOCK_RESET_COUNT},
         {gMiscEvosAttempted, GetStandardButtonStat, DB_EVOLUTIONS_ATTEMPTED},
         {gMiscEvosCompleted, GetStandardButtonStat, DB_EVOLUTIONS_COMPLETED},
         {gMiscEvosCancelled, GetStandardButtonStat, DB_EVOLUTIONS_CANCELLED}

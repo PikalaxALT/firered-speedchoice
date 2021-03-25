@@ -16,6 +16,7 @@
 #include "save_failed_screen.h"
 #include "speedchoice.h"
 #include "quest_log.h"
+#include "done_button.h"
 
 extern u32 intr_main[];
 
@@ -24,6 +25,7 @@ static void HBlankIntr(void);
 static void VCountIntr(void);
 static void SerialIntr(void);
 static void IntrDummy(void);
+void DoFrameTimers(void);
 
 const u8 gGameVersion = GAME_VERSION;
 
@@ -193,8 +195,28 @@ void AgbMain()
         }
 
         PlayTimeCounter_Update();
+        DoFrameTimers();
         MapMusicMain();
         WaitForVBlank();
+    }
+}
+
+void DoFrameTimers(void)
+{
+    if(gFrameTimers.frameCount != UINT_MAX)
+        gFrameTimers.frameCount++;
+    if(sInField && gFrameTimers.owFrameCount != UINT_MAX)
+        gFrameTimers.owFrameCount++;
+    else if(sInBattle && gFrameTimers.battleFrameCount != UINT_MAX)
+        gFrameTimers.battleFrameCount++;
+    else if(sInIntro && gFrameTimers.introsFrameCount != UINT_MAX)
+        gFrameTimers.introsFrameCount++;
+    else if(sInSubMenu && gFrameTimers.menuFrameCount != UINT_MAX)
+        gFrameTimers.menuFrameCount++;
+    else if(!sInField && !sInBattle && !sInIntro && !sInSubMenu) // no category detected, we consider this a menu frame. (between menu transitions?)
+    {
+        if (gFrameTimers.menuFrameCount != UINT_MAX)
+            gFrameTimers.menuFrameCount++;
     }
 }
 

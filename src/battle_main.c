@@ -32,6 +32,7 @@
 #include "scanline_effect.h"
 #include "task.h"
 #include "trig.h"
+#include "done_button.h"
 #include "vs_seeker.h"
 #include "util.h"
 #include "constants/abilities.h"
@@ -615,6 +616,9 @@ void CB2_InitBattle(void)
     AllocateBattleResources();
     AllocateBattleSpritesData();
     AllocateMonSpritesGfx();
+    sInSubMenu = FALSE;
+    sInField = FALSE;
+    sInBattle = TRUE;
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
     {
         HandleLinkBattleSetup();

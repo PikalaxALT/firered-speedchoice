@@ -9,6 +9,7 @@
 #include "berry_powder.h"
 #include "overworld.h"
 #include "quest_log.h"
+#include "done_button.h"
 
 #define SAVEBLOCK_MOVE_RANGE    128
 
@@ -192,12 +193,33 @@ void SaveSerializedGame(void)
 {
     SavePlayerParty();
     SaveObjectEvents();
+
+    // ---------------------
+    // SPEEDCHOICE CHANGE
+    // ---------------------
+    // Save the timers here.
+    gSaveBlock2Ptr->doneButtonStats.frameCount = gFrameTimers.frameCount;
+    gSaveBlock2Ptr->doneButtonStats.owFrameCount = gFrameTimers.owFrameCount;
+    gSaveBlock2Ptr->doneButtonStats.battleFrameCount = gFrameTimers.battleFrameCount;
+    gSaveBlock2Ptr->doneButtonStats.menuFrameCount = gFrameTimers.menuFrameCount;
+    gSaveBlock2Ptr->doneButtonStats.introsFrameCount = gFrameTimers.introsFrameCount;
 }
 
 void LoadSerializedGame(void)
 {
     LoadPlayerParty();
     LoadObjectEvents();
+
+    // ---------------------
+    // SPEEDCHOICE CHANGE
+    // ---------------------
+    // Load the timers here. Note we don't overwrite them: we add the counts to the total
+    // timers since we want to include the intro counts it took to reach the load.
+    gFrameTimers.frameCount += gSaveBlock2Ptr->doneButtonStats.frameCount;
+    gFrameTimers.owFrameCount += gSaveBlock2Ptr->doneButtonStats.owFrameCount;
+    gFrameTimers.battleFrameCount += gSaveBlock2Ptr->doneButtonStats.battleFrameCount;
+    gFrameTimers.menuFrameCount += gSaveBlock2Ptr->doneButtonStats.menuFrameCount;
+    gFrameTimers.introsFrameCount += gSaveBlock2Ptr->doneButtonStats.introsFrameCount;
 }
 
 void LoadPlayerBag(void)

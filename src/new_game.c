@@ -31,6 +31,7 @@
 #include "berry_powder.h"
 #include "pokemon_jump.h"
 #include "event_scripts.h"
+#include "done_button.h"
 
 // this file's functions
 static void ResetMiniGamesResults(void);
@@ -85,6 +86,10 @@ static void WarpToPlayersRoom(void)
 {
     SetWarpDestination(MAP_GROUP(PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(PALLET_TOWN_PLAYERS_HOUSE_2F), -1, 6, 6);
     WarpIntoMap();
+    sInIntro = FALSE;
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
 }
 
 void Sav2_ClearSetDefault(void)

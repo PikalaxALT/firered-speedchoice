@@ -34,6 +34,7 @@
 #include "option_menu.h"
 #include "save_menu_util.h"
 #include "help_system.h"
+#include "done_button.h"
 #include "constants/songs.h"
 #include "constants/field_weather.h"
 
@@ -395,10 +396,17 @@ void ShowStartMenu(void)
     }
     OpenStartMenuWithFollowupFunc(Task_StartMenuHandleInput);
     ScriptContext2_Enable();
+    sInSubMenu = TRUE;
+    sInField = FALSE;
+    sInBattle = FALSE;
 }
 
 static bool8 StartCB_HandleInput(void)
 {
+    sInSubMenu = TRUE;
+    sInBattle = FALSE;
+    sInField = FALSE;
+
     if (JOY_NEW(DPAD_UP))
     {
         PlaySE(SE_SELECT);

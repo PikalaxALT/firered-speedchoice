@@ -37,6 +37,7 @@
 #include "random.h"
 #include "renewable_hidden_items.h"
 #include "roamer.h"
+#include "done_button.h"
 #include "safari_zone.h"
 #include "save_location.h"
 #include "scanline_effect.h"
@@ -1602,6 +1603,9 @@ static void c2_80567AC(void)
 
 void CB2_ReturnToField(void)
 {
+    sInSubMenu = FALSE;
+    sInField = TRUE;
+    sInBattle = FALSE;
     if (IsUpdateLinkStateCBActive() == TRUE)
     {
         SetMainCallback2(CB2_ReturnToFieldLink);

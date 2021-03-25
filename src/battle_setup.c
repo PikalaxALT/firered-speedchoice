@@ -23,6 +23,7 @@
 #include "field_screen_effect.h"
 #include "field_message_box.h"
 #include "vs_seeker.h"
+#include "done_button.h"
 #include "battle.h"
 #include "battle_transition.h"
 #include "battle_controllers.h"
@@ -407,6 +408,9 @@ static void CB2_EndWildBattle(void)
 {
     CpuFill16(0, (void *)BG_PLTT, BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
     {
         SetMainCallback2(CB2_WhiteOut);
@@ -422,6 +426,9 @@ static void CB2_EndScriptedWildBattle(void)
 {
     CpuFill16(0, (void *)BG_PLTT, BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
     if (IsPlayerDefeated(gBattleOutcome) == TRUE)
         SetMainCallback2(CB2_WhiteOut);
     else
@@ -432,6 +439,9 @@ static void CB2_EndMarowakBattle(void)
 {
     CpuFill16(0, (void *)BG_PLTT, BG_PLTT_SIZE);
     ResetOamRange(0, 128);
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
     if (IsPlayerDefeated(gBattleOutcome))
     {
         SetMainCallback2(CB2_WhiteOut);
@@ -892,6 +902,9 @@ void StartTrainerBattle(void)
 
 static void CB2_EndTrainerBattle(void)
 {
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
     if (sTrainerBattleMode == TRAINER_BATTLE_EARLY_RIVAL)
     {
         if (IsPlayerDefeated(gBattleOutcome) == TRUE)
@@ -940,6 +953,9 @@ static void CB2_EndTrainerBattle(void)
 
 static void CB2_EndRematchBattle(void)
 {
+    sInSubMenu = FALSE;
+    sInBattle = FALSE;
+    sInField = TRUE;
     if (gTrainerBattleOpponent_A == TRAINER_SECRET_BASE)
     {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);

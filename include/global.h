@@ -289,7 +289,6 @@ struct DoneButtonStats
     u32 introsFrameCount;
     u16 saveCount;
     u16 reloadCount;
-    u16 clockResetCount;
     u32 stepCount;
     u32 stepCountWalk;
     u32 stepCountSurf;

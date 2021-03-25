@@ -13,6 +13,7 @@
 #include "decompress.h"
 #include "util.h"
 #include "trig.h"
+#include "done_button.h"
 #include "constants/songs.h"
 
 struct IntroSequenceData;
@@ -860,6 +861,7 @@ static bool8 RunCopyrightScreen(void)
     case 142:
         ResetSerial();
         SetMainCallback2(CB2_WaitFadeBeforeSetUpIntro);
+        sInIntro = TRUE;
         break;
     }
     return TRUE;
@@ -1760,6 +1762,7 @@ static void IntroCB_CleanUp(struct IntroSequenceData * this)
             Free(this);
             DisableInterrupts(INTR_FLAG_HBLANK);
             SetHBlankCallback(NULL);
+            sInIntro = FALSE;
             SetMainCallback2(CB2_InitTitleScreen);
         }
         break;

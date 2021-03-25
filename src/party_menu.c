@@ -35,6 +35,7 @@
 #include "new_menu_helpers.h"
 #include "metatile_behavior.h"
 #include "speedchoice.h"
+#include "done_button.h"
 #include "overworld.h"
 #include "party_menu.h"
 #include "player_pc.h"
@@ -4054,6 +4055,7 @@ bool8 FieldCallback_PrepareFadeInFromMenu(void)
 
 static void Task_FieldMoveWaitForFade(u8 taskId)
 {
+    sInSubMenu = FALSE;
     if (IsWeatherNotFadingIn() == TRUE)
     {
         gFieldEffectArguments[0] = GetFieldMoveMonSpecies();

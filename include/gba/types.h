@@ -2,6 +2,7 @@
 #define GUARD_GBA_TYPES_H
 
 #include <stdint.h>
+#include <limits.h>
 
 typedef uint8_t   u8;
 typedef uint16_t u16;

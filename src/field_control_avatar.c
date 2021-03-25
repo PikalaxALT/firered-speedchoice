@@ -30,6 +30,7 @@
 #include "constants/event_objects.h"
 #include "constants/maps.h"
 #include "constants/metatile_behaviors.h"
+#include "done_button.h"
 
 #define SIGNPOST_POKECENTER 0
 #define SIGNPOST_POKEMART 1
@@ -220,6 +221,15 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
         RunMassageCooldownStepCounter();
         IncrementResortGorgeousStepCounter();
         IncrementBirthIslandRockStepCount();
+        TryIncrementButtonStat(DB_STEP_COUNT);
+        if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_DASH)
+            TryIncrementButtonStat(DB_STEP_COUNT_RUN);
+        else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_SURFING)
+            TryIncrementButtonStat(DB_STEP_COUNT_SURF);
+        else if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_ACRO_BIKE | PLAYER_AVATAR_FLAG_MACH_BIKE))
+            TryIncrementButtonStat(DB_STEP_COUNT_BIKE);
+        else
+            TryIncrementButtonStat(DB_STEP_COUNT_WALK);
         if (TryStartStepBasedScript(&position, metatileBehavior, playerDirection) == TRUE)
         {
             gInputToStoreInQuestLogMaybe.tookStep = TRUE;
