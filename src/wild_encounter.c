@@ -391,7 +391,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo * info, u8 area, u8
     u8 slot = 0;
     u8 level;
     u16 species;
-    switch (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters)
+    switch (area)
     {
     case WILD_AREA_LAND:
         slot = ChooseWildMonIndex_Land();
