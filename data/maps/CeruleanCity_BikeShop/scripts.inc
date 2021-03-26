@@ -32,7 +32,14 @@ CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher:: @ 816AC22
 	msgbox CeruleanCity_BikeShop_Text_OhBikeVoucherHereYouGo
 	msgreceiveditem CeruleanCity_BikeShop_Text_ExchangedVoucherForBicycle, ITEM_BICYCLE, 1, MUS_OBTAIN_KEY_ITEM
 	setflag FLAG_GOT_BICYCLE
+	checkspeedchoice EARLY_BIKE, EARLY_BIKE_YES
+	goto_if TRUE, CeruleanCity_BikeShop_EventScript_RandomizedItem
 	additem ITEM_BICYCLE
+	goto CeruleanCity_BikeShop_EventScript_TakeBikeVoucher
+
+CeruleanCity_BikeShop_EventScript_RandomizedItem::
+	additem ITEM_POKE_BALL  @ overwritten by rando
+CeruleanCity_BikeShop_EventScript_TakeBikeVoucher::
 	removeitem ITEM_BIKE_VOUCHER
 	msgbox CeruleanCity_BikeShop_Text_ThankYouComeAgain
 	release
