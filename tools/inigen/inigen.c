@@ -75,19 +75,36 @@ static const char * gTypeNames[] = {
     "Dark"
 };
 
-const struct StaticPokemon gStaticPokemon[][8] = {
-    {{ "CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall" , 3}, {"CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall", 6}, {"CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty", 15}, {"CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveePC", 15}},
-    {{"SaffronCity_Dojo_EventScript_HitmonleeBall", 12}, {"SaffronCity_Dojo_EventScript_HitmonleeBall", 19}},
-    {{"SaffronCity_Dojo_EventScript_HitmonchanBall", 12}, {"SaffronCity_Dojo_EventScript_HitmonchanBall", 19}},
-    {{"PowerPlant_EventScript_Electrode1", 17}, {"PowerPlant_EventScript_Electrode1", 24}},
-    {{"PowerPlant_EventScript_Electrode2", 17}, {"PowerPlant_EventScript_Electrode2", 24}},
-    {{"PowerPlant_EventScript_Zapdos", 20}, {"PowerPlant_EventScript_Zapdos", 27}, {"PowerPlant_EventScript_RanFromZapdos", 3}},
-    {{"SeafoamIslands_B4F_EventScript_Articuno", 20}, {"SeafoamIslands_B4F_EventScript_Articuno", 27}, {"SeafoamIslands_B4F_EventScript_RanFromArticuno", 3}},
-    {{"MtEmber_Summit_EventScript_Moltres", 20}, {"MtEmber_Summit_EventScript_Moltres", 27}, {"MtEmber_Summit_EventScript_RanFromMoltres", 3}},
-    {{"CeruleanCave_B1F_EventScript_Mewtwo", 20}, {"CeruleanCave_B1F_EventScript_Mewtwo", 27}, {"CeruleanCave_B1F_EventScript_RanFromMewtwo", 3}},
-    {{"Route12_EventScript_Snorlax", 53}, {"Route12_EventScript_Snorlax", 60}},
-    {{"Route16_EventScript_Snorlax", 53}, {"Route16_EventScript_Snorlax", 60}},
-
+const struct
+{
+    uint16_t vanilla;
+    struct StaticPokemon mons[4];
+} gStaticPokemon[] = {
+    {SPECIES_EEVEE, {{ "CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall" , 5}, {"CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall", 8}, {"CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty", 15}, {"CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveePC", 15}}},
+    {SPECIES_HITMONLEE, {{"SaffronCity_Dojo_EventScript_HitmonleeBall", 12}, {"SaffronCity_Dojo_EventScript_HitmonleeBall", 19}}},
+    {SPECIES_HITMONCHAN, {{"SaffronCity_Dojo_EventScript_HitmonchanBall", 12}, {"SaffronCity_Dojo_EventScript_HitmonchanBall", 19}}},
+    {SPECIES_ELECTRODE, {{"PowerPlant_EventScript_Electrode1", 17}, {"PowerPlant_EventScript_Electrode1", 24}}},
+    {SPECIES_ELECTRODE, {{"PowerPlant_EventScript_Electrode2", 17}, {"PowerPlant_EventScript_Electrode2", 24}}},
+    {SPECIES_ZAPDOS, {{"PowerPlant_EventScript_Zapdos", 20}, {"PowerPlant_EventScript_Zapdos", 27}, {"PowerPlant_EventScript_RanFromZapdos", 3}}},
+    {SPECIES_ARTICUNO, {{"SeafoamIslands_B4F_EventScript_Articuno", 20}, {"SeafoamIslands_B4F_EventScript_Articuno", 27}, {"SeafoamIslands_B4F_EventScript_RanFromArticuno", 3}}},
+    {SPECIES_MOLTRES, {{"MtEmber_Summit_EventScript_Moltres", 20}, {"MtEmber_Summit_EventScript_Moltres", 27}, {"MtEmber_Summit_EventScript_RanFromMoltres", 3}}},
+    {SPECIES_MEWTWO, {{"CeruleanCave_B1F_EventScript_Mewtwo", 21}, {"CeruleanCave_B1F_EventScript_Mewtwo", 41}, {"CeruleanCave_B1F_EventScript_RanFromMewtwo", 3}}},
+    {SPECIES_SNORLAX, {{"Route12_EventScript_Snorlax", 53}, {"Route12_EventScript_Snorlax", 60}}},
+    {SPECIES_SNORLAX, {{"Route16_EventScript_Snorlax", 53}, {"Route16_EventScript_Snorlax", 60}}},
+    {SPECIES_HYPNO, {{"ThreeIsland_BerryForest_EventScript_Lostelle", 57}, {"ThreeIsland_BerryForest_EventScript_Lostelle", 63}}},
+    {SPECIES_DEOXYS, {{"BirthIsland_Exterior_EventScript_Deoxys", 38}, {"BirthIsland_Exterior_EventScript_Deoxys", 54}, {"BirthIsland_Exterior_EventScript_DefeatedDeoxys", 6}, {"BirthIsland_Exterior_EventScript_RanFromDeoxys", 3}}},
+    {SPECIES_HO_OH, {{"NavelRock_Summit_EventScript_HoOh", 65}, {"NavelRock_Summit_EventScript_HoOh", 112}, {"NavelRock_Summit_EventScript_DefeatedHoOh", 6}, {"NavelRock_Summit_EventScript_RanFromHoOh", 3}}},
+    {SPECIES_LUGIA, {{"NavelRock_Base_EventScript_Lugia", 86}, {"NavelRock_Base_EventScript_Lugia", 97}, {"NavelRock_Base_EventScript_DefeatedLugia", 6}, {"NavelRock_Base_EventScript_RanFromLugia", 3}}},
+    {SPECIES_AERODACTYL, {{"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveAerodactyl", 3}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveAerodactyl", 7}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveAerodactyl", 18}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowOldAmber", 2}}},
+    {SPECIES_OMANYTE, {{"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveOmanyte", 3}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveOmanyte", 7}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveOmanyte", 18}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowHelixFossil", 2}}},
+    {SPECIES_KABUTO, {{"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveKabuto", 3}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveKabuto", 7}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_GiveKabuto", 18}, {"CinnabarIsland_PokemonLab_ExperimentRoom_EventScript_ShowDomeFossil", 2}}},
+    {SPECIES_LAPRAS, {{"SilphCo_7F_EventScript_LaprasGuy", 25}, {"SilphCo_7F_EventScript_ReceiveLaprasParty", 14}, {"SilphCo_7F_EventScript_ReceiveLaprasPC", 14}}},
+    {SPECIES_MAGIKARP, {{"Route4_PokemonCenter_1F_EventScript_TryBuyMagikarp", 36}, {"Route4_PokemonCenter_1F_EventScript_PayForMagikarp", 22}}},
+    {SPECIES_ABRA, {{"CeladonCity_GameCorner_PrizeRoom_EventScript_Abra", 3}, {"CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon", 47}}},
+    {SPECIES_CLEFAIRY, {{"CeladonCity_GameCorner_PrizeRoom_EventScript_Clefairy", 3}, {"CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon", 58}}},
+    {SPECIES_DRATINI, {{"CeladonCity_GameCorner_PrizeRoom_EventScript_DratiniPinsir", 3}, {"CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon", 69}}},
+    {SPECIES_SCYTHER, {{"CeladonCity_GameCorner_PrizeRoom_EventScript_ScytherDratini", 3}, {"CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon", 80}}},
+    {SPECIES_PORYGON, {{"CeladonCity_GameCorner_PrizeRoom_EventScript_Porygon", 3}, {"CeladonCity_GameCorner_PrizeRoom_EventScript_ConfirmPrizeMon", 91}}},
 };
 
 const struct TMText gTMTexts[] = {
@@ -467,7 +484,7 @@ int main(int argc, char ** argv)
     print("[%s]\n", romName);
     print("Game=%s\n", romCode);
     print("Version=0\n");
-    print("Type=Em\n");
+    print("Type=FRLG\n");
     print("TableFile=gba_english\n");
 
     // Find the first block after the ROM
@@ -541,18 +558,31 @@ int main(int argc, char ** argv)
 //    config_set("CatchingTutorialPlayerMonOffset", get_instr_addr(elfFile, "PutZigzagoonInPlayerParty", IsWallyZigzagoon) & 0xFFFFFF);
 //    config_sym("PCPotionOffset", "gNewGamePCItems");
 //
-//    // These may need some fixing to support dynamic offsets.
-//    print("StaticPokemonSupport=1\n");
-//    for (int i = 0; i < len(gStaticPokemon); i++) {
-//        print("StaticPokemon[]=[");
-//        for (int j = 0; j < 8; j++) {
-//            if (gStaticPokemon[i][j].label == NULL) break;
-//            if (j != 0)
-//                print(",");
-//            print("0x%X", (sym_get(gStaticPokemon[i][j].label) & 0xFFFFFF) + gStaticPokemon[i][j].offset);
-//        }
-//        print("]\n");
-//    }
+    // These may need some fixing to support dynamic offsets.
+    print("StaticPokemonSupport=1\n");
+    for (int i = 0; i < len(gStaticPokemon); i++) {
+        print("StaticPokemon[]=[");
+        for (int j = 0; j < 4; j++) {
+            if (gStaticPokemon[i].mons[j].label == NULL) break;
+            if (j != 0)
+                print(",");
+            Elf32_Sym * sym = GetSymbolByName(gStaticPokemon[i].mons[j].label);
+            if (sym != NULL) {
+                Elf32_Shdr * shdr = GetSectionHeader(sym->st_shndx);
+                uint32_t offs = sym->st_value + gStaticPokemon[i].mons[j].offset;
+                fseek(elfFile, offs - shdr->sh_addr + shdr->sh_offset, SEEK_SET);
+                uint16_t species;
+                fread(&species, 2, 1, elfFile);
+                if (species != gStaticPokemon[i].vanilla) {
+                    FATAL_ERROR("Static Pokémon %d entry %d: Expected 0x%X, got 0x%X\n", i, j, gStaticPokemon[i].vanilla, species);
+                }
+                print("0x%X", offs & 0xFFFFFF);
+            } else {
+                FATAL_ERROR("Static Pokemon %d entry %d: Symbol \"%s\" not found\n", i, j, gStaticPokemon[i].mons[j].label);
+            }
+        }
+        print("]\n");
+    }
 //    for (int i = 0; i < len(gTMTexts); i++) {
 //        Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
 //        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gTMTexts[i].text);
