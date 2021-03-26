@@ -76,6 +76,17 @@ static const char * gTypeNames[] = {
 };
 
 const struct StaticPokemon gStaticPokemon[][8] = {
+    {{ "CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall" , 3}, {"CeladonCity_Condominiums_RoofRoom_EventScript_EeveeBall", 6}, {"CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveeParty", 15}, {"CeladonCity_Condominiums_RoofRoom_EventScript_GetEeveePC", 15}},
+    {{"SaffronCity_Dojo_EventScript_HitmonleeBall", 12}, {"SaffronCity_Dojo_EventScript_HitmonleeBall", 19}},
+    {{"SaffronCity_Dojo_EventScript_HitmonchanBall", 12}, {"SaffronCity_Dojo_EventScript_HitmonchanBall", 19}},
+    {{"PowerPlant_EventScript_Electrode1", 17}, {"PowerPlant_EventScript_Electrode1", 24}},
+    {{"PowerPlant_EventScript_Electrode2", 17}, {"PowerPlant_EventScript_Electrode2", 24}},
+    {{"PowerPlant_EventScript_Zapdos", 20}, {"PowerPlant_EventScript_Zapdos", 27}, {"PowerPlant_EventScript_RanFromZapdos", 3}},
+    {{"SeafoamIslands_B4F_EventScript_Articuno", 20}, {"SeafoamIslands_B4F_EventScript_Articuno", 27}, {"SeafoamIslands_B4F_EventScript_RanFromArticuno", 3}},
+    {{"MtEmber_Summit_EventScript_Moltres", 20}, {"MtEmber_Summit_EventScript_Moltres", 27}, {"MtEmber_Summit_EventScript_RanFromMoltres", 3}},
+    {{"CeruleanCave_B1F_EventScript_Mewtwo", 20}, {"CeruleanCave_B1F_EventScript_Mewtwo", 27}, {"CeruleanCave_B1F_EventScript_RanFromMewtwo", 3}},
+    {{"Route12_EventScript_Snorlax", 53}, {"Route12_EventScript_Snorlax", 60}},
+    {{"Route16_EventScript_Snorlax", 53}, {"Route16_EventScript_Snorlax", 60}},
 
 };
 
