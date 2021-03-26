@@ -57,6 +57,7 @@ OBJ_DIR := build/$(BUILD_NAME)
 
 ELF = $(ROM:.gba=.elf)
 MAP = $(ROM:.gba=.map)
+INI = $(ROM:.gba=.ini)
 
 C_SUBDIR = src
 DATA_C_SUBDIR = src/data
@@ -90,6 +91,7 @@ RAMSCRGEN := tools/ramscrgen/ramscrgen
 FIX := tools/gbafix/gbafix
 MAPJSON := tools/mapjson/mapjson
 JSONPROC := tools/jsonproc/jsonproc
+INIGEN := tools/inigen/inigen
 
 # Clear the default suffixes
 .SUFFIXES:
@@ -152,6 +154,8 @@ AUTO_GEN_TARGETS :=
 all: tools rom
 
 rom: $(ROM)
+
+ini: $(INI)
 
 tools: $(TOOLDIRS)
 
@@ -318,3 +322,6 @@ $(ELF): $(OBJ_DIR)/ld_script.ld $(OBJS)
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
+
+$(INI): $(ROM)
+	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (1.1) (U)" --code $(GAME_CODE)

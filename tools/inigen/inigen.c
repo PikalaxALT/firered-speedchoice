@@ -10,6 +10,8 @@
 #include "constants/global.h"
 #include "constants/species.h"
 #include "constants/trainers.h"
+#include "constants/trainer_classes.h"
+#include "constants/maps.h"
 #include "constants/items.h"
 #include "constants/abilities.h"
 #include "constants/moves.h"
@@ -47,6 +49,7 @@ struct StaticPokemon {
 static csh sCapstone;
 
 static Elf32_Shdr * sh_text;
+static Elf32_Shdr * sh_rodata;
 
 /*
  * ---------------------------------------------------------
@@ -55,24 +58,24 @@ static Elf32_Shdr * sh_text;
  */
 
 static const char * gTypeNames[] = {
-    "Normal",
-    "Fighting",
-    "Flying",
-    "Poison",
-    "Ground",
-    "Rock",
-    "Grass", // "Bug",
-    "Ghost",
-    "Steel",
-    "Ghost", // "Mystery",
-    "Fire",
-    "Water",
-    "Grass",
-    "Electric",
-    "Psychic",
-    "Ice",
-    "Dragon",
-    "Dark"
+    "normal",
+    "fighting",
+    "flying",
+    "poison",
+    "ground",
+    "rock",
+    "grass", // "Bug",
+    "ghost",
+    "steel",
+    "ghost", // "Mystery",
+    "fire",
+    "water",
+    "grass",
+    "electric",
+    "psychic",
+    "ice",
+    "dragon",
+    "dark"
 };
 
 const struct
@@ -108,7 +111,62 @@ const struct
 };
 
 const struct TMText gTMTexts[] = {
+    { 3, "CeruleanCity_Gym_Text_ExplainTM03", "TM03 teaches [move].\\pUse it on a worthy POKéMON!"},
+    { 4, "SaffronCity_Gym_Text_ExplainTM04", "TM04 is [move]."},
+    { 6, "FuchsiaCity_Gym_Text_KogaExplainTM06", "Sealed within that TM06 lies [move]!\\pIt is a secret technique dating back some four hundred years."},
+    {16, "CeladonCity_DepartmentStore_Roof_Text_ExplainTM16", "TM16 contains [move]."},
+    {19, "CeladonCity_Gym_Text_ExplainTM19", "TM19 contains [move].\\pWouldn’t you agree that it’s a wonderful move?"},
+    {20, "CeladonCity_DepartmentStore_Roof_Text_ExplainTM20", "TM20 contains [move]."},
+    {26, "ViridianCity_Gym_Text_ExplainTM26", "TM26 contains [move].\\pIt is a powerful technique.\\pI made it when I ran the GYM here, far too long ago…"},
+    {27, "Route12_NorthEntrance_2F_Text_ExplainTM27", "TM27 is a move called [move]…\\pIf you treat your POKéMON good, it will return your love by working its hardest in battle."},
+    {28, "CeruleanCity_House2_Text_RocketsStoleTMForDig", "Those miserable ROCKETS!\\pLook what they’ve done to my house!\\pThey stole a TM for teaching POKéMON how to [move]!\\pThat cost me a bundle, it did!"},
+    {28, "CeruleanCity_House2_Text_TeachDiglettDigWithoutTM", "I figure what’s lost is lost.\\pI decided to catch a POKéMON that could [move] without a TM."},
+    {29, "SaffronCity_MrPsychicsHouse_Text_ExplainTM29", "You already know, don’t you? TM29 is [move]."},
+    {33, "CeladonCity_DepartmentStore_Roof_Text_ExplainTM33", "TM33 contains [move]."},
+    {34, "VermilionCity_Gym_Text_ExplainTM34", "TM34 contains [move]!\\pTeach it to your favorite POKéMON!"},
+    {38, "CinnabarIsland_Gym_Text_BlainePostBattle", "TM38 contains [move].\\nTeach it to strong POKéMON."},
+    {38, "CinnabarIsland_Gym_Text_FireBlastIsUltimateFireMove", "[move] is the ultimate\\ntechnique.\\pDon't waste it on weak POKéMON."},
+    {39, "PewterCity_Gym_Text_ExplainTM39", "A TM, Technical Machine, contains a technique for POKéMON.\\pUsing a TM teaches the move it contains to a POKéMON.\\pA TM is good for only one use.\\pSo, when you use one, pick the POKéMON carefully.\\pAnyways… TM39 contains [move]."},
+};
 
+const struct TMText gMoveTutorTexts[] = {
+    { 0, "Text_MegaPunchTeach", "A hit of roaring ferocity!\\pPacked with destructive power!\\pWhen the chips are down, [move] is the ultimate attack! You agree, yes?\\pNow! Let me teach it to your POKéMON!"},
+    { 0, "Text_MegaPunchTaught", "Now, we are comrades in the way of [move]!\\pYou should go before you’re seen by the misguided fool who trains only silly moves over there."},
+    { 0, "Text_MegaPunchDeclined", "You’ll be back when you understand the worth of [move]."},
+    { 1, "Text_SwordsDanceTeach", "Not many people come out here.\\pIf I train here, I’m convinced that I’ll get stronger and stronger.\\pYep, stronger and stronger…\\pHow would you like to learn a strong move? It’s [move]."},
+    { 2, "Text_MegaKickTeach", "A hit of brutal ferocity!\\pPacked with destructive power!\\pWhen you get right down to it, [move] is the ultimate attack! Don’t you agree?\\pOkay! I’ll teach it to your POKéMON!"},
+    { 2, "Text_MegaKickTaught", "Now, we are soul mates in the way of [move]!\\pYou should run before you’re seen by the deluded nitwit who trains only simple moves over there."},
+    { 2, "Text_MegaKickDeclined", "You’ll come crawling back when you realize the value of [move]."},
+    { 3, "Text_BodySlamTeach", "Ready? Boing!\\pWe’re having a wrestling match to see who wimps out first.\\pIf you were to join us, you’d be squashed like a bug, though…\\pHow about I teach [move] to a POKéMON of yours instead?"},
+    { 3, "Text_BodySlamWhichMon", "Which POKéMON wants to learn how to [move]?"},
+    { 4, "Text_DoubleEdgeTeach", "You should be proud of yourself, having battled your way through VICTORY ROAD so courageously.\\pIn recognition of your feat, I’ll teach you [move].\\pWould you like me to teach that technique?"},
+    { 4, "Text_DoubleEdgeWhichMon", "Which POKéMON should I teach [move]?"},
+    { 5, "Text_CounterTeach", "Oh, hi! I finally finished POKéMON.\\pNot done yet? How about I teach you a good move?\\pThe move I have in mind is [move]."},
+    { 5, "Text_CounterWhichMon", "Which POKéMON should I teach [move] to?"},
+    { 5, "Text_CounterTaught", "Are you using that [move] move I taught your POKéMON?"},
+    { 6, "Text_SeismicTossTeach", "The secrets of space… The mysteries of earth…\\pThere are so many things about which we know so little.\\pBut that should spur us to study harder, not toss in the towel.\\pThe only thing you should toss…\\pWell, how about [move]? Should I teach that to a POKéMON?"},
+    { 6, "Text_SeismicTossWhichMon", "Which POKéMON wants to learn [move]?"},
+    { 7, "Text_MimicTeach", "Oh wow! A POKé DOLL!\\pFor me? Thank you!\\pYou know what? I can teach the move [move]."},
+    { 7, "Text_MimicWhichMon", "I really love [move]! Who’s going to learn it?"},
+    { 7, "Text_MimicDeclined", "Don’t you like [move]?"},
+    { 8, "Text_MetronomeTeach", "Tch-tch-tch! I’ll teach you a nifty move.\\pTeach it to a POKéMON, and watch the fun unfold!\\pIt’s a move called [move]. Does it strike your fancy?"},
+    { 8, "Text_MetronomeTaught", "Tch-tch-tch! That’s the sound of a metronome.\\pIt inspired me to start teaching [move] to interested trainers."},
+    { 9, "Text_SoftboiledTeach", "Hello, there!\\pI’ve seen you about, but I never had a chance to chat.\\pIt must be good luck that brought us together finally.\\pI’d like to celebrate by teaching you the move [move]."},
+    { 9, "Text_SoftboiledWhichMon", "So, who’s the POKéMON that gets the chance to learn [move]?"},
+    {10, "Text_DreamEaterTeach", "Yawn! I must have dozed off in the sun.\\pI had this weird dream about a DROWZEE eating my dream.\\pAnd… I learned how to teach [move]…\\pOogh, this is too spooky!\\pLet me teach it to a POKéMON so I can forget about it!"},
+    {10, "Text_DreamEaterWhichMon", "Which POKéMON wants to learn [move]?"},
+    {11, "Text_ThunderWaveTeach", "Eeek! No! Stop! Help!\\pOh, you’re not with TEAM ROCKET. I’m sorry, I thought…\\pWill you forgive me if I teach you the [move] technique?"},
+    {11, "Text_ThunderWaveWhichMon", "Which POKéMON should I teach [move]?"},
+    {11, "Text_ThunderWaveTaught", "[move] is a useful move, but it might not work on some POKéMON."},
+    {11, "Text_ThunderWaveDeclined", "Oh… But [move] is convenient…"},
+    {12, "Text_ExplosionTeach", "Can you imagine? If this volcano were to erupt?\\pThe explosion would be the end of us. How terrifying is that?\\pWhile we’re terrified, would you like me to teach [move]?"},
+    {12, "Text_ExplosionWhichMon", "You’re terribly brave!\\pWhich POKéMON should I teach [move]?"},
+    {12, "Text_ExplosionTaught", "Using [move] while on this volcano…\\pWhat a terrifying thrill!"},
+    {13, "Text_RockSlideTeach", "When you’re up on a rocky mountain like this, rockslides are a threat.\\pCan you imagine? Boulders tumbling down on you?\\pThat’d be, like, waaaaaaaaaaah! Total terror!\\pYou don’t seem to be scared. Want to try using [move]?"},
+    {13, "Text_RockSlideWhichMon", "Which POKéMON should I teach [move]?"},
+    {14, "Text_SubstituteTeach", "Aww, I wish I was a KANGASKHAN baby.\\pI’d love to be a substitute for the baby…\\pAnd snuggle in the mother KANGASKHAN’s belly pouch.\\pBut only POKéMON can do that…\\pOn an unrelated note, want me to teach [move] to one of your POKéMON?"},
+    {14, "Text_SubstituteWhichMon", "Which POKéMON wants to learn [move]?"},
+    {14, "Text_SubstituteDeclined", "Oh, really? [move] seems so fun…"},
 };
 
 /*
@@ -117,266 +175,52 @@ const struct TMText gTMTexts[] = {
  * ----------------------------------------------
  */
 
-static int IsLoadingStarterItems(const struct cs_insn * insn)
+static int IsIntroNidoranF(const struct cs_insn * insn)
 {
-    static int to_return;
-    Elf32_Sym *sym = GetSymbolByName("ScriptGiveMon");
     cs_arm_op * ops = insn->detail->arm.operands;
-    // mov r2, #0
-    if (insn->id == ARM_INS_MOV
-     && ops[0].type == ARM_OP_REG
-     && ops[0].reg == ARM_REG_R2
-     && ops[1].type == ARM_OP_IMM
-     && ops[1].imm == 0)
-        to_return = insn->address;
-    // bl ScriptGiveMon
-    else if (insn->id == ARM_INS_BL)
-    {
-        uint32_t target = ops[0].imm;
-        if (target == (sym->st_value & ~1))
-            return to_return;
-    }
-    return -1;
-}
-
-static int IsIntroLotadForCry_1(const struct cs_insn * insn)
-{
-    static int to_return;
-    static unsigned tmp_reg, tmp_reg2;
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // mov rX, SPECIES_LOTAD / 2
+    // mov r0, SPECIES_NIDORAN_F
     if (insn->id == ARM_INS_MOV
     && ops[0].type == ARM_OP_REG
+    && ops[0].reg == ARM_REG_R0
     && ops[1].type == ARM_OP_IMM
-    && ops[1].imm == SPECIES_LOTAD / 2)
+    && ops[1].imm == SPECIES_NIDORAN_F)
     {
-        to_return = insn->address;
-        tmp_reg = ops[0].reg;
-    }
-    // lsl rX, rY, 1
-    else if (insn->id == ARM_INS_LSL
-    && ops[0].type == ARM_OP_REG
-    && ops[1].type == ARM_OP_REG
-    && ops[1].reg == tmp_reg
-    && ops[2].type == ARM_OP_IMM
-    && ops[2].imm == 1
-    )
-        tmp_reg2 = ops[0].reg;
-    // str rX, [sp, 16]
-    else if (insn->id == ARM_INS_STR
-             && ops[0].type == ARM_OP_REG
-             && ops[0].reg == tmp_reg2
-             && ops[1].type == ARM_OP_MEM
-             && !ops[1].subtracted
-             && ops[1].mem.base == ARM_REG_SP
-             && ops[1].mem.index == ARM_REG_INVALID
-             && ops[1].mem.disp == 16)
-        return to_return;
-
-    return -1;
-}
-
-static int IsIntroLotadForCry_2(const struct cs_insn * insn)
-{
-    static int to_return;
-    static unsigned tmp_reg;
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // ldr rX, =SPECIES_LOTAD
-    if (insn->id == ARM_INS_LDR
-        && ops[0].type == ARM_OP_REG
-        && ops[1].type == ARM_OP_MEM
-        && !ops[1].subtracted
-        && ops[1].mem.base == ARM_REG_PC
-        && ops[1].mem.index == ARM_REG_INVALID)
-    {
-        to_return = (insn->address & ~3) + ops[1].mem.disp + 4;
-        tmp_reg = ops[0].reg;
-    }
-    // str rX, [sp, #0x10]
-    else if (insn->id == ARM_INS_STR
-             && ops[0].type == ARM_OP_REG
-             && ops[0].reg == tmp_reg
-             && ops[1].type == ARM_OP_MEM
-             && !ops[1].subtracted
-             && ops[1].mem.base == ARM_REG_SP
-             && ops[1].mem.index == ARM_REG_INVALID
-             && ops[1].mem.disp == 16)
-        return to_return;
-    return -1;
-}
-
-static int IsIntroLotadForCry(const struct cs_insn * insn)
-{
-    int retval = IsIntroLotadForCry_1(insn);
-    if (retval >= 0)
-        return retval;
-    return IsIntroLotadForCry_2(insn);
-}
-
-static int IsIntroLotadForPic_1(const struct cs_insn * insn)
-{
-    static int to_return;
-    static unsigned tmp_reg;
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // mov rX, SPECIES_LOTAD / 2
-    if (insn->id == ARM_INS_MOV
-    && ops[0].type == ARM_OP_REG
-    && ops[1].type == ARM_OP_IMM
-    && ops[1].imm == SPECIES_LOTAD / 2)
-    {
-        to_return = insn->address;
-        tmp_reg = ops[0].reg;
-    }
-    // lsl rX, rY, 1
-    else if (insn->id == ARM_INS_LSL
-    && ops[0].type == ARM_OP_REG
-    && ops[1].type == ARM_OP_REG
-    && ops[1].reg == tmp_reg
-    && ops[2].type == ARM_OP_IMM
-    && ops[2].imm == 1
-    )
-        return to_return;
-
-    return -1;
-}
-
-static int IsIntroLotadForPic_2(const struct cs_insn * insn)
-{
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // ldr rX, =SPECIES_LOTAD
-    if (insn->id == ARM_INS_LDR
-        && ops[0].type == ARM_OP_REG
-        && ops[1].type == ARM_OP_MEM
-        && !ops[1].subtracted
-        && ops[1].mem.base == ARM_REG_PC
-        && ops[1].mem.index == ARM_REG_INVALID)
-        return (insn->address & ~3) + ops[1].mem.disp + 4;
-    return -1;
-}
-
-static int IsIntroLotadForPic(const struct cs_insn * insn)
-{
-    int retval = IsIntroLotadForPic_1(insn);
-    if (retval >= 0)
-        return retval;
-    return IsIntroLotadForPic_2(insn);
-}
-
-static int IsRunIndoorsTweakOffset(const struct cs_insn * insn)
-{
-    cs_arm_op * ops = insn->detail->arm.operands;
-    if (insn->id == ARM_INS_AND
-        && ops[0].type == ARM_OP_REG
-        && ops[1].type == ARM_OP_REG
-        && (insn - 1)->id == ARM_INS_MOV
-        && (insn - 1)->detail->arm.operands[0].type == ARM_OP_REG
-        && (insn - 1)->detail->arm.operands[1].type == ARM_OP_IMM
-        && (insn - 1)->detail->arm.operands[0].reg == ops[0].reg
-        && (insn - 1)->detail->arm.operands[1].imm == 4)
         return insn->address;
+    }
+
     return -1;
 }
 
-static int IsWallyZigzagoon_1(const struct cs_insn * insn)
+static int IsIntroNidoranF2(const struct cs_insn * insn)
 {
-    static int to_return;
-    static unsigned tmp_reg;
     cs_arm_op * ops = insn->detail->arm.operands;
-    // mov rX, SPECIES_ZIGZAGOON / 2
+    // mov r0, SPECIES_NIDORAN_F
+    if (insn->id == ARM_INS_MOV
+    && ops[0].type == ARM_OP_REG
+    && ops[0].reg == ARM_REG_R2
+    && ops[1].type == ARM_OP_IMM
+    && ops[1].imm == SPECIES_NIDORAN_F)
+    {
+        return insn->address;
+    }
+
+    return -1;
+}
+
+static int IsOldManWeedle(const struct cs_insn * insn)
+{
+    cs_arm_op * ops = insn->detail->arm.operands;
+    // mov r1, SPECIES_WEEDLE
     if (insn->id == ARM_INS_MOV
         && ops[0].type == ARM_OP_REG
-        && ops[1].type == ARM_OP_IMM
-        && ops[1].imm == SPECIES_ZIGZAGOON / 2)
-    {
-        to_return = insn->address;
-        tmp_reg = ops[0].reg;
-    }
-        // lsl rX, rY, 1
-    else if (insn->id == ARM_INS_LSL
-             && ops[0].type == ARM_OP_REG
-             && ops[0].reg == ARM_REG_R1
-             && ops[1].type == ARM_OP_REG
-             && ops[1].reg == tmp_reg
-             && ops[2].type == ARM_OP_IMM
-             && ops[2].imm == 1
-        )
-        return to_return;
-
-    return -1;
-}
-
-static int IsWallyZigzagoon_2(const struct cs_insn * insn)
-{
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // ldr rX, =SPECIES_ZIGZAGOON
-    if (insn->id == ARM_INS_LDR
-        && ops[0].type == ARM_OP_REG
         && ops[0].reg == ARM_REG_R1
-        && ops[1].type == ARM_OP_MEM
-        && !ops[1].subtracted
-        && ops[1].mem.base == ARM_REG_PC
-        && ops[1].mem.index == ARM_REG_INVALID)
-        return (insn->address & ~3) + ops[1].mem.disp + 4;
-    return -1;
-}
-
-static int IsWallyZigzagoon(const struct cs_insn * insn)
-{
-    int retval = IsWallyZigzagoon_1(insn);
-    if (retval >= 0)
-        return retval;
-    return IsWallyZigzagoon_2(insn);
-}
-
-static int IsWallyRalts_1(const struct cs_insn * insn)
-{
-    static int to_return;
-    static unsigned tmp_reg;
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // mov rX, SPECIES_RALTS / 2
-    if (insn->id == ARM_INS_MOV
-        && ops[0].type == ARM_OP_REG
         && ops[1].type == ARM_OP_IMM
-        && ops[1].imm == SPECIES_RALTS / 2)
+        && ops[1].imm == SPECIES_WEEDLE)
     {
-        to_return = insn->address;
-        tmp_reg = ops[0].reg;
+        return insn->address;
     }
-        // lsl rX, rY, 1
-    else if (insn->id == ARM_INS_LSL
-             && ops[0].type == ARM_OP_REG
-             && ops[0].reg == ARM_REG_R1
-             && ops[1].type == ARM_OP_REG
-             && ops[1].reg == tmp_reg
-             && ops[2].type == ARM_OP_IMM
-             && ops[2].imm == 1
-        )
-        return to_return;
 
     return -1;
-}
-
-static int IsWallyRalts_2(const struct cs_insn * insn)
-{
-    cs_arm_op * ops = insn->detail->arm.operands;
-    // ldr rX, =SPECIES_RALTS
-    if (insn->id == ARM_INS_LDR
-        && ops[0].type == ARM_OP_REG
-        && ops[0].reg == ARM_REG_R1
-        && ops[1].type == ARM_OP_MEM
-        && !ops[1].subtracted
-        && ops[1].mem.base == ARM_REG_PC
-        && ops[1].mem.index == ARM_REG_INVALID)
-        return (insn->address & ~3) + ops[1].mem.disp + 4;
-    return -1;
-}
-
-static int IsWallyRalts(const struct cs_insn * insn)
-{
-    int retval = IsWallyRalts_1(insn);
-    if (retval >= 0)
-        return retval;
-    return IsWallyRalts_2(insn);
 }
 
 /*
@@ -472,13 +316,14 @@ int main(int argc, char ** argv)
 #define print(format, ...) (fprintf(outFile, format, ##__VA_ARGS__))
 #endif
 #define config_set(name, value) (print("%s=0x%X\n", (name), (value)))
-#define sym_get(name) (GetSymbolByName((name))->st_value)
+#define sym_get(name) ({Elf32_Sym * sym = GetSymbolByName((name)); if (sym == NULL) {FATAL_ERROR("Failed to get symbol named %s\n", (name));} sym->st_value;})
 #define config_sym(name, symname) (config_set((name), sym_get(symname) & 0xFFFFFF))
 
     // Initialize Capstone
     cs_open(CS_ARCH_ARM, CS_MODE_THUMB, &sCapstone);
     cs_option(sCapstone, CS_OPT_DETAIL, CS_OPT_ON);
     sh_text = GetSectionHeaderByName(".text");
+    sh_rodata = GetSectionHeaderByName(".rodata");
 
     // Start writing the INI
     print("[%s]\n", romName);
@@ -500,64 +345,90 @@ int main(int argc, char ** argv)
         end += 0x10000 - (end & 0xFFFF);
     }
     print("FreeSpace=0x%X\n", end);
-//
-//    // Pokemon data
-//    print("PokemonCount=%d\n", NUM_SPECIES - 1);
-//    print("PokemonNameLength=%d\n", POKEMON_NAME_LENGTH + 1);
-//    config_sym("PokemonMovesets", "gLevelUpLearnsets");
-//    config_sym("PokemonTMHMCompat", "gTMHMLearnsets");
-//    config_sym("PokemonEvolutions", "gEvolutionTable");
-//    config_sym("StarterPokemon", "sStarterMon");
-//    // This symbol is inside a C function, so we must take an assist from capstone.
-//    config_set("StarterItems", get_instr_addr(elfFile, "CB2_GiveStarter", IsLoadingStarterItems) & 0xFFFFFF);
-//    config_sym("TrainerData", "gTrainers");
-//    Elf32_Sym * Em_gTrainers = GetSymbolByName("gTrainers");
-//    config_sym("WildPokemon", "gWildMonHeaders");
-//    print("TrainerEntrySize=%d\n", Em_gTrainers->st_size / TRAINERS_COUNT);
-//    config_set("TrainerCount", TRAINERS_COUNT);
-//    config_sym("TrainerClassNames", "gTrainerClassNames");
-//    Elf32_Sym * Em_gTrainerClassNames = GetSymbolByName("gTrainerClassNames");
-//    print("TrainerClassCount=%d\n", TRAINER_CLASS_COUNT);
-//    print("TrainerClassNameLength=%d\n", Em_gTrainerClassNames->st_size / TRAINER_CLASS_COUNT);
-//    print("TrainerNameLength=%d\n", 12); // hardcoded for now
-//    print("DoublesTrainerClasses=[%d, %d, %d, %d, %d]\n", TRAINER_CLASS_SR_AND_JR, TRAINER_CLASS_TWINS, TRAINER_CLASS_YOUNG_COUPLE, TRAINER_CLASS_OLD_COUPLE, TRAINER_CLASS_SIS_AND_BRO); // hardcoded for now
-//    Elf32_Sym * Em_gItems = GetSymbolByName("gItems");
-//    print("ItemEntrySize=%d\n", Em_gItems->st_size / ITEMS_COUNT);
-//    print("ItemCount=%d\n", ITEMS_COUNT - 2); // NONE, DONE_BUTTON
-//    print("MoveCount=%d\n", MOVES_COUNT - 1);
-//    config_sym("MoveDescriptions", "gMoveDescriptionPointers");
-//    Elf32_Sym * Em_gMoveNames = GetSymbolByName("gMoveNames");
-//    print("MoveNameLength=%d\n", Em_gMoveNames->st_size / MOVES_COUNT);
-//    Elf32_Sym * Em_gAbilityNames = GetSymbolByName("gAbilityNames");
-//    print("AbilityNameLength=%d\n", Em_gAbilityNames->st_size / ABILITIES_COUNT);
-//    config_sym("TmMoves", "sTMHMMoves");
-//    config_sym("TmMovesDuplicate", "sUnused_StatStrings");
-//    config_sym("MoveTutorData", "gTutorMoves");
-//    Elf32_Sym* Em_gTutorMoves = GetSymbolByName("gTutorMoves");
-//    print("MoveTutorMoves=%d\n", Em_gTutorMoves->st_size / 2);
-//    config_sym("ItemImages", "gItemIconTable");
-//
-//    print("TmPals=[");
-//    char buffer[64];
-//    for (int i = 0; i < len(gTypeNames); i++) {
-//        sprintf(buffer, "gItemIconPalette_%sTMHM", gTypeNames[i]);
-//        if (i != 0)
-//            print(",");
-//        print("0x%X", GetSymbolByName(buffer)->st_value & 0xFFFFFF);
-//    }
-//    print("]\n");
-//
-//    config_set("IntroCryOffset", get_instr_addr(elfFile, "Task_NewGameBirchSpeechSub_InitPokeBall", IsIntroLotadForCry) & 0xFFFFFF);
-//    config_set("IntroSpriteOffset", get_instr_addr(elfFile, "NewGameBirchSpeech_CreateLotadSprite", IsIntroLotadForPic) & 0xFFFFFF);
-//    print("ItemBallPic=%d\n", OBJ_EVENT_GFX_ITEM_BALL);
-//    config_sym("TradeTableOffset", "sIngameTrades");
-//    Elf32_Sym * Em_gIngameTrades = GetSymbolByName("sIngameTrades");
-//    print("TradeTableSize=%d\n", Em_gIngameTrades->st_size / 60); // hardcoded for now
-//    print("TradesUnused=[]\n"); // so randomizer doesn't complain
-//    config_set("CatchingTutorialOpponentMonOffset", get_instr_addr(elfFile, "StartWallyTutorialBattle", IsWallyRalts) & 0xFFFFFF);
-//    config_set("CatchingTutorialPlayerMonOffset", get_instr_addr(elfFile, "PutZigzagoonInPlayerParty", IsWallyZigzagoon) & 0xFFFFFF);
-//    config_sym("PCPotionOffset", "gNewGamePCItems");
-//
+
+    // Pokemon data
+    print("PokemonCount=%d\n", NUM_SPECIES - 1);
+    print("PokemonNameLength=%d\n", POKEMON_NAME_LENGTH + 1);
+    config_sym("PokemonMovesets", "gLevelUpLearnsets");
+    config_sym("PokemonTMHMCompat", "sTMHMLearnsets");
+    config_sym("PokemonEvolutions", "gEvolutionTable");
+    print("StarterPokemon=0x%X\n", (sym_get("PalletTown_ProfessorOaksLab_EventScript_BulbasaurBall") + 10) & 0xFFFFFF);
+    Elf32_Sym * Fr_gTrainers = GetSymbolByName("gTrainers");
+    print("TrainerData=0x%X\n", Fr_gTrainers->st_value & 0xFFFFFF);
+    print("TrainerEntrySize=%d\n", Fr_gTrainers->st_size / NUM_TRAINERS);
+    config_set("TrainerCount", NUM_TRAINERS);
+    Elf32_Sym * Fr_gTrainerClassNames = GetSymbolByName("gTrainerClassNames");
+    print("TrainerClassNames=0x%X\n", Fr_gTrainerClassNames->st_value & 0xFFFFFF);
+    print("TrainerClassCount=%d\n", TRAINER_CLASS_COUNT);
+    print("TrainerClassNameLength=%d\n", Fr_gTrainerClassNames->st_size / TRAINER_CLASS_COUNT);
+    print("TrainerNameLength=%d\n", 12); // hardcoded for now
+    print("DoublesTrainerClasses=[%d, %d, %d, %d, %d, %d, %d, %d, %d, %d]\n",
+          CLASS_SR_AND_JR, CLASS_TWINS, CLASS_YOUNG_COUPLE, CLASS_OLD_COUPLE, CLASS_SIS_AND_BRO, // RS
+          CLASS_TWINS_2, CLASS_COOL_COUPLE, CLASS_YOUNG_COUPLE_2, CLASS_CRUSH_KIN, CLASS_SIS_AND_BRO_2 // FRLG
+      ); // hardcoded for now
+    Elf32_Sym * Fr_gItems = GetSymbolByName("gItems");
+    print("ItemEntrySize=%d\n", Fr_gItems->st_size / ITEMS_COUNT);
+    print("ItemCount=%d\n", ITEMS_COUNT - 2); // NONE, DONE_BUTTON
+    print("MoveCount=%d\n", MOVES_COUNT - 1);
+    config_sym("MoveDescriptions", "gMoveDescriptionPointers");
+    Elf32_Sym * Fr_gMoveNames = GetSymbolByName("gMoveNames");
+    print("MoveNameLength=%d\n", Fr_gMoveNames->st_size / MOVES_COUNT);
+    Elf32_Sym * Fr_gAbilityNames = GetSymbolByName("gAbilityNames");
+    print("AbilityNameLength=%d\n", Fr_gAbilityNames->st_size / ABILITIES_COUNT);
+    config_sym("TmMoves", "sTMHMMoves");
+    config_sym("TmMovesDuplicate", "sTMHMMoves_Duplicate");
+    Elf32_Sym* Fr_gTutorMoves = GetSymbolByName("sTutorMoves");
+    print("MoveTutorData=0x%X\n", Fr_gTutorMoves->st_value & 0xFFFFFF);
+    print("MoveTutorMoves=%d\n", Fr_gTutorMoves->st_size / 2);
+    config_sym("ItemImages", "sItemIconGfxPtrs");
+
+    print("TmPals=[");
+    char buffer[256];
+    for (int i = 0; i < len(gTypeNames); i++) {
+        sprintf(buffer, "gFile_graphics_items_icon_palettes_%s_tm_hm_palette", gTypeNames[i]);
+        if (i != 0)
+            print(",");
+        print("0x%X", GetSymbolByName(buffer)->st_value & 0xFFFFFF);
+    }
+    print("]\n");
+
+    config_set("IntroCryOffset", get_instr_addr(elfFile, "Task_OakSpeech13", IsIntroNidoranF) & 0xFFFFFF);
+    config_set("IntroSpriteOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF) & 0xFFFFFF);
+    config_set("IntroOtherOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF2) & 0xFFFFFF);
+    print("ItemBallPic=%d\n", OBJ_EVENT_GFX_ITEM_BALL);
+    Elf32_Sym * Fr_gIngameTrades = GetSymbolByName("sInGameTrades");
+    print("TradeTableOffset=0x%X\n", Fr_gIngameTrades->st_value & 0xFFFFFF);
+    print("TradeTableSize=%d\n", Fr_gIngameTrades->st_size / 60); // hardcoded for now
+    print("TradesUnused=[]\n"); // so randomizer doesn't complain
+    config_set("CatchingTutorialOpponentMonOffset", get_instr_addr(elfFile, "StartOldManTutorialBattle", IsOldManWeedle) & 0xFFFFFF);
+    config_sym("PCPotionOffset", "gNewGamePCItems");
+
+    Elf32_Sym * Fr_gWildMonHeaders = GetSymbolByName("gWildMonHeaders");
+    print("WildPokemon=0x%X\n", Fr_gWildMonHeaders->st_value & 0xFFFFFF);
+    print("BattleTrappersBanned=[");
+    bool foundTrapBannedMap = false;
+    int encno = 0;
+    fseek(elfFile, Fr_gWildMonHeaders->st_value - sh_rodata->sh_addr + sh_rodata->sh_offset, SEEK_SET);
+    for (int i = 0; i < Fr_gWildMonHeaders->st_size / 20; i++) {
+        uint8_t mapGroup;
+        uint8_t mapNum;
+        uint32_t encGroups[4];
+        fread(&mapGroup, 1, 1, elfFile);
+        fread(&mapNum, 1, 1, elfFile);
+        fseek(elfFile, 2, SEEK_CUR);
+        fread(encGroups, 4, 4, elfFile);
+        for (int j = 0; j < 4; j++) {
+            if (encGroups[j] != 0) {
+                if (mapGroup == MAP_GROUP(POKEMON_TOWER_3F) && mapNum >= MAP_NUM(POKEMON_TOWER_3F) && mapNum <= MAP_NUM(POKEMON_TOWER_7F)) {
+                    if (foundTrapBannedMap) print(",");
+                    print("%d", encno);
+                    foundTrapBannedMap = true;
+                }
+                encno++;
+            }
+        }
+    }
+    print("]\n");
     // These may need some fixing to support dynamic offsets.
     print("StaticPokemonSupport=1\n");
     for (int i = 0; i < len(gStaticPokemon); i++) {
@@ -568,9 +439,8 @@ int main(int argc, char ** argv)
                 print(",");
             Elf32_Sym * sym = GetSymbolByName(gStaticPokemon[i].mons[j].label);
             if (sym != NULL) {
-                Elf32_Shdr * shdr = GetSectionHeader(sym->st_shndx);
                 uint32_t offs = sym->st_value + gStaticPokemon[i].mons[j].offset;
-                fseek(elfFile, offs - shdr->sh_addr + shdr->sh_offset, SEEK_SET);
+                fseek(elfFile, offs - sh_rodata->sh_addr + sh_rodata->sh_offset, SEEK_SET);
                 uint16_t species;
                 fread(&species, 2, 1, elfFile);
                 if (species != gStaticPokemon[i].vanilla) {
@@ -583,17 +453,17 @@ int main(int argc, char ** argv)
         }
         print("]\n");
     }
-//    for (int i = 0; i < len(gTMTexts); i++) {
-//        Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
-//        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gTMTexts[i].text);
-//    }
-//    for (int i = 0; i < len(gMoveTutorTexts); i++) {
-//        Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
-//        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gMoveTutorTexts[i].text);
-//    }
-//
-//    config_sym("PokedexOrder", "gSpeciesToNationalPokedexNum");
-//    config_sym("CheckValueOffset", "gRandomizerCheckValue");
+    for (int i = 0; i < len(gTMTexts); i++) {
+        Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
+        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value) & 0xFFFFFF, gTMTexts[i].text);
+    }
+    for (int i = 0; i < len(gMoveTutorTexts); i++) {
+        Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
+        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value) & 0xFFFFFF, gMoveTutorTexts[i].text);
+    }
+
+    config_sym("PokedexOrder", "sSpeciesToNationalPokedexNum");
+    config_sym("CheckValueOffset", "gRandomizerCheckValue");
 
     DestroyResources();
     fclose(outFile);
