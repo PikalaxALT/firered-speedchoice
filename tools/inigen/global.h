@@ -19,7 +19,7 @@ typedef int64_t s64;
 #define FATAL_ERROR(format, ...)          \
 do                                        \
 {                                         \
-    fprintf(stderr, "FATAL: "format, __VA_ARGS__); \
+    fprintf(stderr, "FATAL: %s:%d: " format, __FILE__, __LINE__, __VA_ARGS__); \
     exit(1);                              \
 } while (0)
 
@@ -28,7 +28,7 @@ do                                        \
 #define FATAL_ERROR(format, ...)            \
 do                                          \
 {                                           \
-    fprintf(stderr, "FATAL: "format, ##__VA_ARGS__); \
+    fprintf(stderr, "FATAL: %s:%d: " format, __FILE__, __LINE__, ##__VA_ARGS__); \
     exit(1);                                \
 } while (0)
 

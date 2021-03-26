@@ -413,10 +413,13 @@ int main(int argc, char ** argv)
         uint8_t mapGroup;
         uint8_t mapNum;
         uint32_t encGroups[4];
-        fread(&mapGroup, 1, 1, elfFile);
-        fread(&mapNum, 1, 1, elfFile);
+        if (!fread(&mapGroup, 1, 1, elfFile))
+            FATAL_ERROR("fread");
+        if (!fread(&mapNum, 1, 1, elfFile))
+            FATAL_ERROR("fread");
         fseek(elfFile, 2, SEEK_CUR);
-        fread(encGroups, 4, 4, elfFile);
+        if (!fread(encGroups, 4, 4, elfFile))
+            FATAL_ERROR("fread");
         for (int j = 0; j < 4; j++) {
             if (encGroups[j] != 0) {
                 if (mapGroup == MAP_GROUP(POKEMON_TOWER_3F) && mapNum >= MAP_NUM(POKEMON_TOWER_3F) && mapNum <= MAP_NUM(POKEMON_TOWER_7F)) {
@@ -442,7 +445,8 @@ int main(int argc, char ** argv)
                 uint32_t offs = sym->st_value + gStaticPokemon[i].mons[j].offset;
                 fseek(elfFile, offs - sh_rodata->sh_addr + sh_rodata->sh_offset, SEEK_SET);
                 uint16_t species;
-                fread(&species, 2, 1, elfFile);
+                if (!fread(&species, 2, 1, elfFile))
+                    FATAL_ERROR("fread");
                 if (species != gStaticPokemon[i].vanilla) {
                     FATAL_ERROR("Static Pokémon %d entry %d: Expected 0x%X, got 0x%X\n", i, j, gStaticPokemon[i].vanilla, species);
                 }
