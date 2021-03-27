@@ -47,7 +47,7 @@ void PlayerGoSpeed1(u8 direction);
 void PlayerGoSpeed2(u8 direction);
 void sub_805C134(u8 direction);
 void PlayerRideWaterCurrent(u8 direction);
-void sub_805C164(u8 direction);
+void PlayerGoSpeed4(u8 direction);
 void PlayerRun(u8 direction);
 void PlayerRunSlow(u8 direction);
 void PlayerOnBikeCollide(u8 direction);
@@ -61,7 +61,7 @@ void player_step(u8 direction, u16 newKeys, u16 heldKeys);
 bool32 PlayerIsMovingOnRockStairs(u8 direction);
 void UpdatePlayerAvatarTransitionState(void);
 void InitPlayerAvatar(s16 x, s16 y, u8 direction, u8 gender);
-void nullsub_24(u8 direction);
+void PlayerUseAcroBikeOnBumpySlope(u8 direction);
 u8 GetRSAvatarGraphicsIdByGender(u8 gender);
 
 #endif //GUARD_FIELD_PLAYER_AVATAR_H

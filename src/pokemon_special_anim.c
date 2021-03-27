@@ -58,40 +58,42 @@ void StartUseItemAnim_CantEvolve(u8 slotId, u16 itemId, MainCallback callback)
         SetUpUseItemAnim_CantEvolve(ptr);
 }
 
+// Speedchoice change: Disable
 static struct PokemonSpecialAnim * AllocPSA(u8 slotId, u16 itemId, MainCallback callback)
 {
-    struct PokemonSpecialAnim * ptr;
-    struct Pokemon * pokemon;
-    u16 moveId;
-
-    if (!gMain.inBattle)
-        ResetTasks();
-    ResetSpriteData();
-    FreeAllSpritePalettes();
-    ptr = Alloc(sizeof(struct PokemonSpecialAnim));
-    if (ptr == NULL)
-    {
-        SetMainCallback2(callback);
-        return NULL;
-    }
-    pokemon = &gPlayerParty[slotId];
-    ptr->state = 0;
-    ptr->savedCallback = callback;
-    ptr->species = GetMonData(pokemon, MON_DATA_SPECIES);
-    ptr->closeness = GetClosenessFromFriendship(GetMonData(pokemon, MON_DATA_FRIENDSHIP));
-    ptr->personality = GetMonData(pokemon, MON_DATA_PERSONALITY);
-    ptr->slotId = slotId;
-    ptr->itemId = itemId;
-    ptr->animType = GetAnimTypeByItemId(itemId);
-    ptr->pokemon = *pokemon;
-    ptr->field_00a4 = 0;
-    GetMonData(pokemon, MON_DATA_NICKNAME, ptr->nickname);
-    if (ptr->animType == 4)
-    {
-        moveId = ItemIdToBattleMoveId(itemId);
-        StringCopy(ptr->nameOfMoveToTeach, gMoveNames[moveId]);
-    }
-    return ptr;
+    return NULL;
+//    struct PokemonSpecialAnim * ptr;
+//    struct Pokemon * pokemon;
+//    u16 moveId;
+//
+//    if (!gMain.inBattle)
+//        ResetTasks();
+//    ResetSpriteData();
+//    FreeAllSpritePalettes();
+//    ptr = Alloc(sizeof(struct PokemonSpecialAnim));
+//    if (ptr == NULL)
+//    {
+//        SetMainCallback2(callback);
+//        return NULL;
+//    }
+//    pokemon = &gPlayerParty[slotId];
+//    ptr->state = 0;
+//    ptr->savedCallback = callback;
+//    ptr->species = GetMonData(pokemon, MON_DATA_SPECIES);
+//    ptr->closeness = GetClosenessFromFriendship(GetMonData(pokemon, MON_DATA_FRIENDSHIP));
+//    ptr->personality = GetMonData(pokemon, MON_DATA_PERSONALITY);
+//    ptr->slotId = slotId;
+//    ptr->itemId = itemId;
+//    ptr->animType = GetAnimTypeByItemId(itemId);
+//    ptr->pokemon = *pokemon;
+//    ptr->field_00a4 = 0;
+//    GetMonData(pokemon, MON_DATA_NICKNAME, ptr->nickname);
+//    if (ptr->animType == 4)
+//    {
+//        moveId = ItemIdToBattleMoveId(itemId);
+//        StringCopy(ptr->nameOfMoveToTeach, gMoveNames[moveId]);
+//    }
+//    return ptr;
 }
 
 static void VBlankCB_PSA(void)

@@ -376,13 +376,13 @@ static u8 FirstBattleEnterParty_CreateWindowAndMsg1Printer(void);
 static void FirstBattleEnterParty_DestroyVoiceoverWindow(u8 windowId);
 static void SetSwitchedPartyOrderQuestLogEvent(void);
 static void SetUsedFieldMoveQuestLogEvent(struct Pokemon *mon, u8 fieldMove);
-static void sub_8124DE0(void);
-static void sub_8124E48(void);
+static void PartyMenu_StartItemUseAnim(void);
+static void Task_PartyMenu_NormalItem(void);
 static void sub_812580C(u8 taskId);
 static void sub_8125898(u8 taskId, UNUSED TaskFunc func);
-static void sub_8125F4C(u8 taskId, UNUSED TaskFunc func);
+static void ItemUseCB_OnCanceledItemUseAnim_ForgetAndLearnMove(u8 taskId, UNUSED TaskFunc func);
 static void sub_8125F5C(u8 taskId);
-static void sub_8126BD4(void);
+static void PartyMenu_ReturnFromItemUseAnim_Evolve(void);
 static bool8 MonCanEvolve(void);
 
 static EWRAM_DATA struct PartyMenuInternal *sPartyMenuInternal = NULL;
@@ -4305,28 +4305,28 @@ static void CB2_ReturnToBerryPouchMenu(void)
     InitBerryPouch(BERRYPOUCH_NA, NULL, 0xFF);
 }
 
-static void sub_8124DC0(u8 taskId)
+static void Task_PartyMenu_TransitionToItemUseAnim(u8 taskId)
 {
-    sPartyMenuInternal->exitCallback = sub_8124DE0;
+    sPartyMenuInternal->exitCallback = PartyMenu_StartItemUseAnim;
     Task_ClosePartyMenu(taskId);
 }
 
-static void sub_8124DE0(void)
+static void PartyMenu_StartItemUseAnim(void)
 {
     if (CheckIfItemIsTMHMOrEvolutionStone(gSpecialVar_ItemId) == 2) // Evolution stone
     {
         if (MonCanEvolve() == TRUE)
-            StartUseItemAnim_Normal(gPartyMenu.slotId, gSpecialVar_ItemId, sub_8126BD4);
+            StartUseItemAnim_Normal(gPartyMenu.slotId, gSpecialVar_ItemId, PartyMenu_ReturnFromItemUseAnim_Evolve);
         else
             StartUseItemAnim_CantEvolve(gPartyMenu.slotId, gSpecialVar_ItemId, gPartyMenu.exitCallback);
     }
     else
     {
-        StartUseItemAnim_Normal(gPartyMenu.slotId, gSpecialVar_ItemId, sub_8124E48);
+        StartUseItemAnim_Normal(gPartyMenu.slotId, gSpecialVar_ItemId, Task_PartyMenu_NormalItem);
     }
 }
 
-static void sub_8124E48(void)
+static void Task_PartyMenu_NormalItem(void)
 {
     if (ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_TM_CASE
      && PSA_IsCancelDisabled() == TRUE)
@@ -4343,7 +4343,7 @@ static void sub_8124E48(void)
     }
 }
 
-static void sub_8124EFC(void)
+static void PartyMenu_OnReturnFromItemUseAnim_ForgetAndLearnMove(void)
 {
     if (PSA_IsCancelDisabled() == TRUE)
     {
@@ -4508,7 +4508,7 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc func)
     else
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, item, 0xFFFF);
-        sub_8124DC0(taskId);
+        Task_PartyMenu_TransitionToItemUseAnim(taskId);
         gItemUseCB = ItemUseCB_MedicineStep;
     }
 }
@@ -4700,7 +4700,7 @@ static void sub_812580C(u8 taskId)
     }
     else
     {
-        sub_8124DC0(taskId);
+        Task_PartyMenu_TransitionToItemUseAnim(taskId);
         gItemUseCB = sub_8125898;
     }
 }
@@ -4838,7 +4838,7 @@ void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
     if (GiveMoveToMon(mon, move[0]) != MON_HAS_MAX_MOVES)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, item, 0xFFFF);
-        sub_8124DC0(taskId);
+        Task_PartyMenu_TransitionToItemUseAnim(taskId);
         gItemUseCB = ItemUseCB_LearnedMove;
     }
     else
@@ -4947,8 +4947,8 @@ static void CB2_ReturnToPartyMenuWhileLearningMove(void)
     if (learnMoveState == 0 && moveIdx != MAX_MON_MOVES)
     {
         move = GetMonData(&gPlayerParty[gPartyMenu.slotId], moveIdx + MON_DATA_MOVE1);
-        StartUseItemAnim_ForgetMoveAndLearnTMorHM(gPartyMenu.slotId, gSpecialVar_ItemId, move, sub_8124EFC);
-        gItemUseCB = sub_8125F4C;
+        StartUseItemAnim_ForgetMoveAndLearnTMorHM(gPartyMenu.slotId, gSpecialVar_ItemId, move, PartyMenu_OnReturnFromItemUseAnim_ForgetAndLearnMove);
+        gItemUseCB = ItemUseCB_OnCanceledItemUseAnim_ForgetAndLearnMove;
         gPartyMenu.action = learnMoveState;
     }
     else
@@ -4968,7 +4968,7 @@ static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
     }
 }
 
-static void sub_8125F4C(u8 taskId, UNUSED TaskFunc func)
+static void ItemUseCB_OnCanceledItemUseAnim_ForgetAndLearnMove(u8 taskId, UNUSED TaskFunc func)
 {
     sub_8125F5C(taskId);
 }
@@ -5091,7 +5091,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
     }
     else
     {
-        sub_8124DC0(taskId);
+        Task_PartyMenu_TransitionToItemUseAnim(taskId);
         gItemUseCB = ItemUseCB_RareCandyStep;
     }
 }
@@ -5363,11 +5363,11 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
     }
     else
     {
-        sub_8124DC0(taskId);
+        Task_PartyMenu_TransitionToItemUseAnim(taskId);
     }
 }
 
-static void sub_8126BD4(void)
+static void PartyMenu_ReturnFromItemUseAnim_Evolve(void)
 {
     gCB2_AfterEvolution = gPartyMenu.exitCallback;
     ExecuteTableBasedItemEffect_(gPartyMenu.slotId, gSpecialVar_ItemId, 0);

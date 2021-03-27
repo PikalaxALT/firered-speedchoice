@@ -40,6 +40,10 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Updated HM badge requirement nerf to affect overworld use
 - Updated handling for Rival 1 battle
 - Speed up battles
+- Safari zone step counters are now Inf
+
+### 1.0.0a3
+- Disabled the cutesy anim when using an item on a party Pokemon in the field
 
 ## See also
 

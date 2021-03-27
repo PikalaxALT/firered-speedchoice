@@ -10,48 +10,56 @@
 #include "constants/map_types.h"
 #include "constants/songs.h"
 
-static u8 GetMovePlayerOnBikeFuncId(u8 *, u16, u16);
-static void sub_80BD664(void);
-static u8 BikeCanFaceDIrectionOnRail(u8, u8);
-static u8 CheckNextTileForBikingCollision(u8);
-static u8 AdjustCollisionForBiking(struct ObjectEvent *, s16, s16, u8, u8);
-static bool8 MetatileBehaviorForbidsBiking(u8);
-static void BikeFaceDirection(u8);
-static void BikeFaceDirectionAccountForRail(u8);
-static void BikeTryMoveFastInDirection(u8);
-static void BikeLetGravityTakeTheWheel(u8);
-static void BikeTryMoveInDirection(u8);
-static u8 GetBikeMoveCmd_0(u8 *, u16, u16);
-static u8 GetBikeMoveCmd_1(u8 *, u16, u16);
-static u8 GetBikeMoveCmd_2(u8 *, u16, u16);
+static u8 GetBikeTransitionId(u8 *, u16, u16);
+static void Bike_SetBikeStill(void);
+static u8 CanBikeFaceDirOnMetatile(u8, u8);
+static u8 GetBikeCollision(u8);
+static u8 GetBikeCollisionAt(struct ObjectEvent *, s16, s16, u8, u8);
+static bool8 IsRunningDisallowedByMetatile(u8);
+static void BikeTransition_FaceDirection(u8);
+static void BikeTransition_TurnDirection(u8);
+static void BikeTransition_Moving(u8);
+static void BikeTransition_Downhill(u8);
+static void BikeTransition_Uphill(u8);
+static u8 BikeInputHandler_Normal(u8 *, u16, u16);
+static u8 BikeInputHandler_Turning(u8 *, u16, u16);
+static u8 BikeInputHandler_Downhill(u8 *, u16, u16);
 
-static void (*const sMovePlayerOnBikeFuncs[])(u8) =
-{
-    BikeFaceDirection,
-    BikeFaceDirectionAccountForRail,
-    BikeTryMoveFastInDirection,
-    BikeLetGravityTakeTheWheel,
-    BikeTryMoveInDirection,
+enum BikeFunc {
+    BIKE_TRANS_FACE_DIRECTION,
+    BIKE_TRANS_TURNING,
+    BIKE_TRANS_MOVE,
+    BIKE_TRANS_DOWNHILL,
+    BIKE_TRANS_UPHILL
 };
 
-static u8 (*const sGetMovePlayerOnBikeFuncIdFuncs[])(u8 *, u16, u16) =
+static void (*const sBikeTransitions[])(u8) =
 {
-    GetBikeMoveCmd_0,
-    GetBikeMoveCmd_1,
-    GetBikeMoveCmd_2,
+    [BIKE_TRANS_FACE_DIRECTION] = BikeTransition_FaceDirection,
+    [BIKE_TRANS_TURNING]        = BikeTransition_TurnDirection,
+    [BIKE_TRANS_MOVE]           = BikeTransition_Moving,
+    [BIKE_TRANS_DOWNHILL]       = BikeTransition_Downhill,
+    [BIKE_TRANS_UPHILL]         = BikeTransition_Uphill,
+};
+
+static u8 (*const sBikeInputHandlers[])(u8 *, u16, u16) =
+{
+    [BIKE_STATE_NORMAL]   = BikeInputHandler_Normal,
+    [BIKE_STATE_TURNING]  = BikeInputHandler_Turning,
+    [BIKE_STATE_DOWNHILL] = BikeInputHandler_Downhill,
 };
 
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
 {
-    sMovePlayerOnBikeFuncs[GetMovePlayerOnBikeFuncId(&direction, newKeys, heldKeys)](direction);
+    sBikeTransitions[GetBikeTransitionId(&direction, newKeys, heldKeys)](direction);
 }
 
-static u8 GetMovePlayerOnBikeFuncId(u8 *direction, u16 newKeys, u16 heldKeys)
+static u8 GetBikeTransitionId(u8 *direction, u16 newKeys, u16 heldKeys)
 {
-    return sGetMovePlayerOnBikeFuncIdFuncs[gPlayerAvatar.acroBikeState](direction, newKeys, heldKeys);
+    return sBikeInputHandlers[gPlayerAvatar.acroBikeState](direction, newKeys, heldKeys);
 }
 
-static u8 GetBikeMoveCmd_0(u8 *direction_p, u16 newKeys, u16 heldKeys)
+static u8 BikeInputHandler_Normal(u8 *direction_p, u16 newKeys, u16 heldKeys)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     u8 direction = GetPlayerMovementDirection();
@@ -61,20 +69,20 @@ static u8 GetBikeMoveCmd_0(u8 *direction_p, u16 newKeys, u16 heldKeys)
     {
         if (!JOY_HELD(B_BUTTON))
         {
-            gPlayerAvatar.acroBikeState = ACRO_STATE_WHEELIE_STANDING;
-            gPlayerAvatar.runningState = 2;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+            gPlayerAvatar.runningState = MOVING;
             if (*direction_p < DIR_NORTH)
-                return 3;
+                return BIKE_TRANS_DOWNHILL;
             else
-                return 4;
+                return BIKE_TRANS_UPHILL;
         }
         else
         {
             if (*direction_p != DIR_NONE)
             {
-                gPlayerAvatar.acroBikeState = ACRO_STATE_WHEELIE_STANDING;
-                gPlayerAvatar.runningState = 2;
-                return 4;
+                gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+                gPlayerAvatar.runningState = MOVING;
+                return BIKE_TRANS_UPHILL;
             }
             else
             {
@@ -88,37 +96,37 @@ static u8 GetBikeMoveCmd_0(u8 *direction_p, u16 newKeys, u16 heldKeys)
         {
         _080BD17E:
             *direction_p = direction;
-            gPlayerAvatar.runningState = 0;
-            return 0;
+            gPlayerAvatar.runningState = NOT_MOVING;
+            return BIKE_TRANS_FACE_DIRECTION;
         }
         else
         {
-            if (*direction_p != direction && gPlayerAvatar.runningState != 2)
+            if (*direction_p != direction && gPlayerAvatar.runningState != MOVING)
             {
-                gPlayerAvatar.acroBikeState = ACRO_STATE_TURNING;
+                gPlayerAvatar.acroBikeState = BIKE_STATE_TURNING;
                 gPlayerAvatar.newDirBackup = *direction_p;
-                gPlayerAvatar.runningState = 0;
-                return GetMovePlayerOnBikeFuncId(direction_p, newKeys, heldKeys);
+                gPlayerAvatar.runningState = NOT_MOVING;
+                return GetBikeTransitionId(direction_p, newKeys, heldKeys);
             }
             else
             {
-                gPlayerAvatar.runningState = 2;
-                return 2;
+                gPlayerAvatar.runningState = MOVING;
+                return BIKE_TRANS_MOVE;
             }
         }
     }
 }
 
-static u8 GetBikeMoveCmd_1(u8 *direction_p, UNUSED u16 newKeys, UNUSED u16 heldKeys)
+static u8 BikeInputHandler_Turning(u8 *direction_p, UNUSED u16 newKeys, UNUSED u16 heldKeys)
 {
     *direction_p = gPlayerAvatar.newDirBackup;
-    gPlayerAvatar.runningState = 1;
-    gPlayerAvatar.acroBikeState = ACRO_STATE_NORMAL;
-    sub_80BD664();
-    return 1;
+    gPlayerAvatar.runningState = TURN_DIRECTION;
+    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
+
+    return BIKE_TRANS_TURNING;
 }
 
-static u8 GetBikeMoveCmd_2(u8 *direction_p, u16 newKeys, u16 heldKeys)
+static u8 BikeInputHandler_Downhill(u8 *direction_p, u16 newKeys, u16 heldKeys)
 {
     u8 direction = GetPlayerMovementDirection();
     u8 playerObjEventId = gPlayerAvatar.objectEventId;
@@ -126,71 +134,80 @@ static u8 GetBikeMoveCmd_2(u8 *direction_p, u16 newKeys, u16 heldKeys)
     {
         if (*direction_p != direction)
         {
-            gPlayerAvatar.acroBikeState = ACRO_STATE_TURNING;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_TURNING;
             gPlayerAvatar.newDirBackup = *direction_p;
-            gPlayerAvatar.runningState = 0;
-            return GetMovePlayerOnBikeFuncId(direction_p, newKeys, heldKeys);
+            gPlayerAvatar.runningState = NOT_MOVING;
+            return GetBikeTransitionId(direction_p, newKeys, heldKeys);
         }
         else
         {
-            gPlayerAvatar.runningState = 2;
-            gPlayerAvatar.acroBikeState = ACRO_STATE_WHEELIE_STANDING;
+            gPlayerAvatar.runningState = MOVING;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
             if (*direction_p < DIR_NORTH)
-                return 3;
+                return BIKE_TRANS_DOWNHILL;
             else
-                return 4;
+                return BIKE_TRANS_UPHILL;
         }
     }
     else
     {
-        gPlayerAvatar.acroBikeState = ACRO_STATE_NORMAL;
+        gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
         if (*direction_p == DIR_NONE)
         {
             *direction_p = direction;
-            gPlayerAvatar.runningState = 0;
-            return 0;
+            gPlayerAvatar.runningState = NOT_MOVING;
+            return BIKE_TRANS_FACE_DIRECTION;
         }
         else
         {
-            gPlayerAvatar.runningState = 2;
-            return 2;
+            gPlayerAvatar.runningState = MOVING;
+            return BIKE_TRANS_MOVE;
         }
     }
 }
 
-static void BikeFaceDirection(u8 direction)
+static void BikeTransition_FaceDirection(u8 direction)
 {
     PlayerFaceDirection(direction);
+
 }
 
-static void BikeFaceDirectionAccountForRail(u8 direction)
+static void BikeTransition_TurnDirection(u8 direction)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
-    if (!BikeCanFaceDIrectionOnRail(direction, playerObjEvent->currentMetatileBehavior))
+    if (!CanBikeFaceDirOnMetatile(direction, playerObjEvent->currentMetatileBehavior))
         direction = playerObjEvent->movementDirection;
     PlayerFaceDirection(direction);
+
 }
 
-static void BikeTryMoveFastInDirection(u8 direction)
+static void BikeTransition_Moving(u8 direction)
 {
     struct ObjectEvent *playerObjEvent;
     
     playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if (!BikeCanFaceDIrectionOnRail(direction, playerObjEvent->currentMetatileBehavior))
+    if (!CanBikeFaceDirOnMetatile(direction, playerObjEvent->currentMetatileBehavior))
     {
-        BikeFaceDirection(playerObjEvent->movementDirection);
+        BikeTransition_FaceDirection(playerObjEvent->movementDirection);
     }
     else
     {
-        u8 collision = CheckNextTileForBikingCollision(direction);
+        u8 collision = GetBikeCollision(direction);
 
-        if (collision > COLLISION_NONE && collision <= COLLISION_ISOLATED_HORIZONTAL_RAIL)
+        if (collision > COLLISION_NONE && collision < COLLISION_VERTICAL_RAIL)
         {
             if (collision == COLLISION_LEDGE_JUMP)
                 PlayerJumpLedge(direction);
-            else if (collision != COLLISION_STOP_SURFING && collision != COLLISION_LEDGE_JUMP && collision != COLLISION_PUSHED_BOULDER && collision != COLLISION_UNKNOWN_WARP_6C_6D_6E_6F)
-                PlayerOnBikeCollide(direction);
+            else
+            {
+
+                if (collision != COLLISION_STOP_SURFING && collision != COLLISION_LEDGE_JUMP &&
+                    collision != COLLISION_PUSHED_BOULDER && collision != COLLISION_UNKNOWN_WARP_6C_6D_6E_6F)
+                {
+                    PlayerOnBikeCollide(direction);
+                }
+            }
         }
         else
         {
@@ -205,23 +222,23 @@ static void BikeTryMoveFastInDirection(u8 direction)
     }
 }
 
-static void BikeLetGravityTakeTheWheel(UNUSED u8 v)
+static void BikeTransition_Downhill(UNUSED u8 v)
 {
-    u8 collision = CheckNextTileForBikingCollision(DIR_SOUTH);
+    u8 collision = GetBikeCollision(DIR_SOUTH);
 
     if (collision == COLLISION_NONE)
-        sub_805C164(DIR_SOUTH);
+        PlayerGoSpeed4(DIR_SOUTH);
     else if (collision == COLLISION_LEDGE_JUMP)
         PlayerJumpLedge(DIR_SOUTH);
 }
 
-static void BikeTryMoveInDirection(u8 direction)
+static void BikeTransition_Uphill(u8 direction)
 {
-    if (CheckNextTileForBikingCollision(direction) == COLLISION_NONE)
+    if (GetBikeCollision(direction) == COLLISION_NONE)
         PlayerGoSpeed1(direction);
 }
 
-static u8 CheckNextTileForBikingCollision(u8 direction)
+static u8 GetBikeCollision(u8 direction)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     s16 x, y;
@@ -231,10 +248,10 @@ static u8 CheckNextTileForBikingCollision(u8 direction)
     y = playerObjEvent->currentCoords.y;
     MoveCoords(direction, &x, &y);
     metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
-    return AdjustCollisionForBiking(playerObjEvent, x, y, direction, metatileBehavior);
+    return GetBikeCollisionAt(playerObjEvent, x, y, direction, metatileBehavior);
 }
 
-static u8 AdjustCollisionForBiking(struct ObjectEvent *playerObjEvent, s16 x, s16 y, u8 direction, u8 metatileBehavior)
+static u8 GetBikeCollisionAt(struct ObjectEvent *playerObjEvent, s16 x, s16 y, u8 direction, u8 metatileBehavior)
 {
     u8 retVal = CheckForObjectEventCollision(playerObjEvent, x, y, direction, metatileBehavior);
 
@@ -243,15 +260,15 @@ static u8 AdjustCollisionForBiking(struct ObjectEvent *playerObjEvent, s16 x, s1
         bool8 isCrackedIce = MetatileBehavior_IsCrackedIce(metatileBehavior);
         if (isCrackedIce == TRUE)
             return COLLISION_COUNT;
-        if (retVal == COLLISION_NONE && MetatileBehaviorForbidsBiking(metatileBehavior))
+        if (retVal == COLLISION_NONE && IsRunningDisallowedByMetatile(metatileBehavior))
             retVal = COLLISION_IMPASSABLE;
     }
     return retVal;
 }
 
-bool8 sub_80BD460(u8 r0)
+bool8 RS_IsRunningDisallowed(u8 r0)
 {
-    if (MetatileBehaviorForbidsBiking(r0))
+    if (IsRunningDisallowedByMetatile(r0))
         return TRUE;
     if (gMapHeader.mapType != MAP_TYPE_INDOOR)
         return FALSE;
@@ -265,24 +282,24 @@ bool32 IsRunningDisallowed(u8 metatileBehavior)
         return FALSE;
     if (!(gMapHeader.flags & MAP_ALLOW_RUN))
         return TRUE;
-    if (MetatileBehaviorForbidsBiking(metatileBehavior) != TRUE)
+    if (IsRunningDisallowedByMetatile(metatileBehavior) != TRUE)
         return FALSE;
     else
         return TRUE;
 }
 
-static bool8 MetatileBehaviorForbidsBiking(u8 metatileBehavior)
+static bool8 IsRunningDisallowedByMetatile(u8 metatileBehavior)
 {
-    if (MetatileBehavior_IsMB0A(metatileBehavior))
+    if (MetatileBehavior_IsRunningDisallowed(metatileBehavior))
         return TRUE;
-    if (!MetatileBehavior_ReturnFalse_9(metatileBehavior))
+    if (!MetatileBehavior_IsFortreeBridge(metatileBehavior))
         return FALSE;
     if (PlayerGetZCoord() & 1)
         return FALSE;
     return TRUE;
 }
 
-static bool8 BikeCanFaceDIrectionOnRail(u8 direction, u8 metatileBehavior)
+static bool8 CanBikeFaceDirOnMetatile(u8 direction, u8 metatileBehavior)
 {
     if (direction == DIR_EAST || direction == DIR_WEST)
     {
@@ -297,7 +314,7 @@ static bool8 BikeCanFaceDIrectionOnRail(u8 direction, u8 metatileBehavior)
     return TRUE;
 }
 
-bool8 MetatileAtPlayerPositionForbidsBiking(void)
+bool8 IsBikingDisallowedByPlayer(void)
 {
     s16 x, y;
     u8 metatileBehavior;
@@ -306,15 +323,15 @@ bool8 MetatileAtPlayerPositionForbidsBiking(void)
     {
         PlayerGetDestCoords(&x, &y);
         metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
-        if (!MetatileBehaviorForbidsBiking(metatileBehavior))
+        if (!IsRunningDisallowedByMetatile(metatileBehavior))
             return FALSE;
     }
     return TRUE;
 }
 
-bool8 player_should_look_direction_be_enforced_upon_movement(void)
+bool8 IsPlayerNotUsingAcroBikeOnBumpySlope(void)
 {
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_STATE_UNDERWATER))
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE))
     {
         if (MetatileBehavior_IsBumpySlope(gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior))
             return FALSE;
@@ -322,7 +339,7 @@ bool8 player_should_look_direction_be_enforced_upon_movement(void)
     return TRUE;
 }
 
-void StartTransitionToFlipBikeState(u8 flags)
+void GetOnOffBike(u8 flags)
 {
     gBikeCameraAheadPanback = FALSE;
     if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
@@ -342,11 +359,11 @@ void StartTransitionToFlipBikeState(u8 flags)
     }
 }
 
-void InitPlayerAvatarBikeState(u32 directionHistory, u32 abStartSelectHistory)
+void BikeClearState(u32 directionHistory, u32 abStartSelectHistory)
 {
     u8 i;
 
-    gPlayerAvatar.acroBikeState = ACRO_STATE_NORMAL;
+    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
     gPlayerAvatar.newDirBackup = 0;
     gPlayerAvatar.bikeFrameCounter = 0;
     gPlayerAvatar.bikeSpeed = SPEED_STANDING;
@@ -363,7 +380,7 @@ void Bike_UpdateBikeCounterSpeed(u8 counter)
     gPlayerAvatar.bikeSpeed = counter + (gPlayerAvatar.bikeFrameCounter >> 1);
 }
 
-static void sub_80BD664(void)
+static void Bike_SetBikeStill(void)
 {
     gPlayerAvatar.bikeFrameCounter = 0;
     gPlayerAvatar.bikeSpeed = SPEED_STANDING;
@@ -371,16 +388,16 @@ static void sub_80BD664(void)
 
 s16 GetPlayerSpeed(void)
 {
-    s16 exp[] = { 1, 2, 4 };
+    s16 machSpeeds[] = { SPEED_NORMAL, SPEED_FAST, SPEED_FASTEST };
 
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
-        return exp[gPlayerAvatar.bikeFrameCounter];
+        return machSpeeds[gPlayerAvatar.bikeFrameCounter];
     else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE)
-        return 3;
+        return SPEED_FASTER;
     else if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_DASH))
-        return 2;
+        return SPEED_FAST;
     else
-        return 1;
+        return SPEED_NORMAL;
 }
 
 void Bike_HandleBumpySlopeJump(void)
@@ -394,8 +411,8 @@ void Bike_HandleBumpySlopeJump(void)
         tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
         if (MetatileBehavior_IsBumpySlope(tileBehavior))
         {
-            gPlayerAvatar.acroBikeState = ACRO_STATE_WHEELIE_STANDING;
-            nullsub_24(GetPlayerMovementDirection());
+            gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+            PlayerUseAcroBikeOnBumpySlope(GetPlayerMovementDirection());
         }
     }
 }
