@@ -122,6 +122,7 @@ void RunTasks(void)
         do
         {
             gTasks[taskId].func(taskId);
+            // Speedchoice change: Some tasks should run twice in a frame every other frame for a 1.5x speedup
             if (gTasks[taskId].doubleRun && (gMain.vblankCounter2 % 2) == 0)
                 gTasks[taskId].func(taskId);
             taskId = gTasks[taskId].next;

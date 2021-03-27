@@ -5228,7 +5228,14 @@ static void PartyMenuTryEvolution(u8 taskId)
     {
         FreePartyPointers();
         gCB2_AfterEvolution = gPartyMenu.exitCallback;
-        BeginEvolutionScene(mon, targetSpecies, 1, gPartyMenu.slotId);
+        BeginEvolutionScene(
+            mon,
+            targetSpecies,
+            gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel == EVO_EV_OFF
+            ? EVO_SCENE_CAN_STOP
+            : 0,
+            gPartyMenu.slotId
+        );
         DestroyTask(taskId);
     }
     else

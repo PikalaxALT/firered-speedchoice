@@ -151,7 +151,7 @@ MAKEFLAGS += --no-print-directory
 
 AUTO_GEN_TARGETS :=
 
-all: tools rom
+all: tools ini
 
 rom: $(ROM)
 

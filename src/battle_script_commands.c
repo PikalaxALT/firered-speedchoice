@@ -2081,7 +2081,7 @@ static void atk12_waitmessage(void)
         }
         else
         {
-            u16 toWait = T2_READ_16(gBattlescriptCurrInstr + 1);
+//            u16 toWait = T2_READ_16(gBattlescriptCurrInstr + 1);
 
 //            if (++gPauseCounterBattle >= toWait)
 //            {
@@ -2911,7 +2911,7 @@ static void atk19_tryfaintmon(void)
 
 static void atk1A_dofaintanimation(void)
 {
-    if (!gBattleControllerExecFlags)
+    if (!gBattleControllerExecFlags && IsCryFinished())
     {
         gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[1]);
         TryIncrementButtonStat(GET_BATTLER_SIDE(gActiveBattler) == B_SIDE_PLAYER ? DB_PLAYER_POKEMON_FAINTED : DB_ENEMY_POKEMON_FAINTED);
@@ -3781,7 +3781,7 @@ static void atk39_pause(void)
 {
     if (!gBattleControllerExecFlags)
     {
-        u16 value = T2_READ_16(gBattlescriptCurrInstr + 1);
+//        u16 value = T2_READ_16(gBattlescriptCurrInstr + 1);
 
 //        if (++gPauseCounterBattle >= value)
 //        {

@@ -2150,7 +2150,7 @@ static void sub_810491C(u8 windowId, u8 fontId, u16 num, u8 x, u8 y, u8 colorIdx
     sub_81047C8(windowId, fontId, buff, x, y, colorIdx);
 }
 
-u32 sub_81049CC(int species)
+static u32 DexScreen_GetDefaultPersonality(int species)
 {
     switch (species)
     {
@@ -2165,7 +2165,7 @@ u32 sub_81049CC(int species)
 
 void sub_81049FC(u8 windowId, u16 species, u16 paletteOffset)
 {
-    LoadMonPicInWindow(species, 8, sub_81049CC(species), TRUE, paletteOffset >> 4, windowId);
+    LoadMonPicInWindow(species, 8, DexScreen_GetDefaultPersonality(species), TRUE, paletteOffset >> 4, windowId);
 }
 
 void sub_8104A34(u8 windowId, u8 fontId, u16 species, u8 x, u8 y)
@@ -2978,7 +2978,7 @@ u8 sub_810603C(void)
     gUnknown_203ACF0->field_4A[12] = AddWindow(&gUnknown_845220C);
     FillWindowPixelBuffer(gUnknown_203ACF0->field_4A[11], 0);
     sub_8107CD8(160, species);
-    sub_8107CF8(gUnknown_203ACF0->field_4A[11], species, sub_81049CC(species), 0, 0);
+    sub_8107CF8(gUnknown_203ACF0->field_4A[11], species, DexScreen_GetDefaultPersonality(species), 0, 0);
     PutWindowTilemap(gUnknown_203ACF0->field_4A[11]);
     CopyWindowToVram(gUnknown_203ACF0->field_4A[11], 2);
     FillWindowPixelBuffer(gUnknown_203ACF0->field_4A[9], 0);
@@ -3018,7 +3018,7 @@ u8 sub_810603C(void)
 
     if (v3)
     {
-        gUnknown_203ACF0->field_4A[14] = CreateMonPicSprite_HandleDeoxys(species, 8, sub_81049CC(species), 1, 40, 104, 0, 65535);
+        gUnknown_203ACF0->field_4A[14] = CreateMonPicSprite_HandleDeoxys(species, 8, DexScreen_GetDefaultPersonality(species), 1, 40, 104, 0, 65535);
         gSprites[gUnknown_203ACF0->field_4A[14]].oam.paletteNum = 2;
         gSprites[gUnknown_203ACF0->field_4A[14]].oam.affineMode = 1;
         gSprites[gUnknown_203ACF0->field_4A[14]].oam.matrixNum = 2;

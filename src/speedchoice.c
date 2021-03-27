@@ -1584,7 +1584,7 @@ static void DrawHeaderWindow(void)
 {
     FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, 0x11);
     AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceTextHeader, 4, 1, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceCurrentVersion, 172, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceCurrentVersion, 156, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(SPD_WIN_TEXT_OPTION, 3);
 }
 

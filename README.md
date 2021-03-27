@@ -45,6 +45,13 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0a3
 - Disabled the cutesy anim when using an item on a party Pokemon in the field
 
+### 1.0.0a4
+- Fix desynced intro anims
+- Fix mon faint anim overlapping cry
+- HP/EXP bar speedup
+- Fix Rare Candy evos cancellable in Evo Every Level
+- Allow Pokemon to evolve into later-gen targets pre-national dex
+
 ## See also
 
 Other disassembly and/or decompilation projects:

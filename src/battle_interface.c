@@ -11,6 +11,8 @@
 #include "safari_zone.h"
 #include "constants/songs.h"
 
+#define BATTLE_SPEED 3
+
 #define GetStringRightAlignXOffset(fontId, string, destWidth) ({ \
     s32 w = GetStringWidth(fontId, string, 0);                   \
     destWidth - w;                                               \
@@ -1915,7 +1917,9 @@ static void MoveBattleBarGraphically(u8 battlerId, u8 whichBar)
         break;
     }
 }
-static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
+
+// Speedchoice change: Refactor for multiple execution
+static s32 CalcNewBarValueInternal(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
 {
     s32 ret, newValue;
     scale *= 8;
@@ -1991,6 +1995,18 @@ static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *c
         }
     }
 
+    return ret;
+}
+
+static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
+{
+    s32 ret;
+    s32 i;
+    for (i = 0; i < BATTLE_SPEED; i++) {
+        ret = CalcNewBarValueInternal(maxValue, oldValue, receivedValue, currValue, scale, toAdd);
+        if (ret == -1)
+            break;
+    }
     return ret;
 }
 
