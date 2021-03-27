@@ -1,21 +1,45 @@
-# Pokémon FireRed and LeafGreen
+# Pokémon FireRed Speedchoice
 
-[![Build Status][travis-badge]][travis]
-
-[travis]: https://travis-ci.org/pret/pokefirered
-[travis-badge]: https://travis-ci.org/pret/pokefirered.svg?branch=master
-
-This is a disassembly of Pokémon FireRed and LeafGreen.
-
-It builds the following ROMs:
-
-* [**pokefirered.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1616) `sha1: 41cb23d8dccc8ebd7c649cd8fbb58eeace6e2fdc`
-* [**pokeleafgreen.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1617) `sha1: 574fa542ffebb14be69902d1d36f1ec0a4afd71e`
-* [**pokefirered_rev1.gba**](https://datomatic.no-intro.org/?page=show_record&s=23&n=1672) `sha1: dd5945db9b930750cb39d00c84da8571feebf417`
-* [**pokeleafgreen_rev1.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1668) `sha1: 7862c67bdecbe21d1d69ce082ce34327e1c6ed5e`
+This project is based on the disassembly of Pokémon FireRed and LeafGreen.
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
 
+## Changelog
+### 1.0.0a0
+- Ported the speedchoice menu from [Emerald](https://github.com/ProjectRevoTPP/pokeemerald-speedchoice)
+- Ported the Done Button from Emerald
+- Ported stat counters for Done Button
+- Ported B/W experience logic
+- Ported X items buff logic
+- Implemented "Early Surf"
+- Implemented "Easy dex requirements"
+- Implemented plotless logic
+- Implemented badge requirement nerfs
+- Ported fast egg hatch
+- Ported nice menu order
+- Ported max vision logic
+- Ported spinners logic
+- Ported new wild encounter slots
+- Ported better early wilds
+- Implemented better marts
+- Ported instant text
+- Removed the help messages at the start of the game
+- Removed the tutorial messages in Rival 1
+- Removed quest log on continue
+- Implemented "Easy False Swipe"
+- Implemented "Early Bike"
+- Ported "Run Indoors"
+- Skipped naming prompts at the start of the game because they're covered by the speedchoice menu
+- Ported inigen from Emerald
+
+### 1.0.0a1
+- Fixed a bug where leveling up set your HP to 1
+- Updates plotless item logic and declares offsets in inigen
+
+### 1.0.0a2
+- Updated HM badge requirement nerf to affect overworld use
+- Updated handling for Rival 1 battle
+- Speed up battles
 
 ## See also
 
