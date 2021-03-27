@@ -7,15 +7,6 @@
 // Global Speedchoice Configuration
 // =======================================
 
-#define STR_(x) #x
-#define STR(x) STR_(x)
-
-#define SPEEDCHOICE_VERSION_MAJOR 1
-#define SPEEDCHOICE_VERSION_MINOR 0
-#define SPEEDCHOICE_VERSION_RELSTEP 0
-
-#define SPEEDCHOICE_VERSION STR(SPEEDCHOICE_VERSION_MAJOR) "." STR(SPEEDCHOICE_VERSION_MINOR) "." STR(SPEEDCHOICE_VERSION_RELSTEP)
-
 // Maximum number of possible selectable options per option.
 #define MAX_CHOICES 6
 

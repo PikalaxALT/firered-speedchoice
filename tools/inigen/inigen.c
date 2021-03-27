@@ -17,6 +17,7 @@
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/event_objects.h"
+#include "constants/speedchoice.h"
 
 /*
  * ---------------------------------------------------------
@@ -343,7 +344,7 @@ int main(int argc, char ** argv)
     // Start writing the INI
     print("[%s]\n", romName);
     print("Game=%s\n", romCode);
-    print("Version=0\n");
+    print("Version=%s\n", SPEEDCHOICE_VERSION);
     print("Type=FRLG\n");
     print("TableFile=gba_english\n");
 
