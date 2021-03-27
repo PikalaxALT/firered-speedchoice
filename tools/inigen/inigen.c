@@ -46,10 +46,17 @@ struct StaticPokemon {
     int offset;
 };
 
+struct PlotlessKeyItem {
+    uint16_t vanillaItem;
+    const char * label;
+    int offset;
+};
+
 static csh sCapstone;
 
 static Elf32_Shdr * sh_text;
 static Elf32_Shdr * sh_rodata;
+static Elf32_Shdr * sh_scripts;
 
 /*
  * ---------------------------------------------------------
@@ -167,6 +174,13 @@ const struct TMText gMoveTutorTexts[] = {
     {14, "Text_SubstituteTeach", "Aww, I wish I was a KANGASKHAN baby.\\pI’d love to be a substitute for the baby…\\pAnd snuggle in the mother KANGASKHAN’s belly pouch.\\pBut only POKéMON can do that…\\pOn an unrelated note, want me to teach [move] to one of your POKéMON?"},
     {14, "Text_SubstituteWhichMon", "Which POKéMON wants to learn [move]?"},
     {14, "Text_SubstituteDeclined", "Oh, really? [move] seems so fun…"},
+};
+
+struct PlotlessKeyItem gKeyItems[] = {
+    { ITEM_BICYCLE, "CeruleanCity_BikeShop_EventScript_RandomizedItem", 1 },
+    { ITEM_SILPH_SCOPE, "RocketHideout_B4F_EventScript_RandoSilphScope", 3 },
+    { ITEM_LIFT_KEY, "RocketHideout_B4F_EventScript_RandoLiftKey", 3 },
+    { ITEM_CARD_KEY, "SilphCo_5F_EventScript_ItemCardKey_Rando", 3 }
 };
 
 /*
@@ -324,6 +338,7 @@ int main(int argc, char ** argv)
     cs_option(sCapstone, CS_OPT_DETAIL, CS_OPT_ON);
     sh_text = GetSectionHeaderByName(".text");
     sh_rodata = GetSectionHeaderByName(".rodata");
+    sh_scripts = GetSectionHeaderByName("script_data");
 
     // Start writing the INI
     print("[%s]\n", romName);
@@ -443,7 +458,7 @@ int main(int argc, char ** argv)
             Elf32_Sym * sym = GetSymbolByName(gStaticPokemon[i].mons[j].label);
             if (sym != NULL) {
                 uint32_t offs = sym->st_value + gStaticPokemon[i].mons[j].offset;
-                fseek(elfFile, offs - sh_rodata->sh_addr + sh_rodata->sh_offset, SEEK_SET);
+                fseek(elfFile, offs - sh_scripts->sh_addr + sh_scripts->sh_offset, SEEK_SET);
                 uint16_t species;
                 if (!fread(&species, 2, 1, elfFile))
                     FATAL_ERROR("fread");
@@ -464,6 +479,20 @@ int main(int argc, char ** argv)
     for (int i = 0; i < len(gMoveTutorTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
         print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value) & 0xFFFFFF, gMoveTutorTexts[i].text);
+    }
+
+    for (int i = 0; i < len(gKeyItems); i++) {
+        Elf32_Sym * sym = GetSymbolByName(gKeyItems[i].label);
+        if (sym == NULL)
+            FATAL_ERROR("Unable to find symbol \"%s\"\n", gKeyItems[i].label);
+        uint16_t itemId;
+        uint32_t addr = sym->st_value + gKeyItems[i].offset;
+        fseek(elfFile, addr - sh_scripts->sh_addr + sh_scripts->sh_offset, SEEK_SET);
+        if (!fread(&itemId, 2, 1, elfFile))
+            FATAL_ERROR("fread");
+        if (itemId != gKeyItems[i].vanillaItem)
+            FATAL_ERROR("Expected item %d = 0x%X, got 0x%X\n", i, gKeyItems[i].vanillaItem, itemId);
+        print("PlotlessKeyItems[]=0x%X\n", addr & 0xFFFFFF);
     }
 
     config_sym("PokedexOrder", "sSpeciesToNationalPokedexNum");

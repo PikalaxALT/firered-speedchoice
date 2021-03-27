@@ -38,7 +38,7 @@ CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher:: @ 816AC22
 	goto CeruleanCity_BikeShop_EventScript_TakeBikeVoucher
 
 CeruleanCity_BikeShop_EventScript_RandomizedItem::
-	additem ITEM_POKE_BALL  @ overwritten by rando
+	additem ITEM_BICYCLE  @ overwritten by rando
 CeruleanCity_BikeShop_EventScript_TakeBikeVoucher::
 	removeitem ITEM_BIKE_VOUCHER
 	msgbox CeruleanCity_BikeShop_Text_ThankYouComeAgain

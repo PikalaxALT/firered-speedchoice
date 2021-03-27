@@ -2115,7 +2115,7 @@ void CalculateMonStats(struct Pokemon *mon)
             currentHP = newMaxHP;
         else if (currentHP != 0)
             // SPEEDCHOICE change: Unconditionally fix the cause of the Pomeg glitch in Emerald
-            currentHP = min(currentHP + newMaxHP - oldMaxHP, 1);
+            currentHP = max(currentHP + newMaxHP - oldMaxHP, 1);
         else
             return;
     }
