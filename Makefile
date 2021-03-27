@@ -325,3 +325,4 @@ $(ROM): $(ELF)
 
 $(INI): $(ROM)
 	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (1.1) (U)" --code $(GAME_CODE)
+	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
