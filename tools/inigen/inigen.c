@@ -344,7 +344,7 @@ int main(int argc, char ** argv)
     if (end & 0xFFFF) {
         end += 0x10000 - (end & 0xFFFF);
     }
-    print("FreeSpace=0x%X\n", end);
+    print("FreeSpace=0x%X\n", 0x01000000 - end);
 
     // Pokemon data
     print("PokemonCount=%d\n", NUM_SPECIES - 1);
