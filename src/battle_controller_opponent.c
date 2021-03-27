@@ -300,15 +300,16 @@ static void CompleteOnHealthbarDone(void)
     }
     else
     {
-        if (!BtlCtrl_OakOldMan_TestState2Flag(1) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
-        {
-            BtlCtrl_OakOldMan_SetState2Flag(1);
-            gBattlerControllerFuncs[gActiveBattler] = PrintOakText_InflictingDamageIsKey;
-        }
-        else
-        {
+        // Speedchoice change: Disable tutorial messages
+//        if (!BtlCtrl_OakOldMan_TestState2Flag(1) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+//        {
+//            BtlCtrl_OakOldMan_SetState2Flag(1);
+//            gBattlerControllerFuncs[gActiveBattler] = PrintOakText_InflictingDamageIsKey;
+//        }
+//        else
+//        {
             OpponentBufferExecCompleted();
-        }
+//        }
     }
 }
 

@@ -2070,6 +2070,7 @@ static void atk11_printselectionstring(void)
     gBattleCommunication[MSG_DISPLAY] = 1;
 }
 
+// Speedchoice delay: no frame wait
 static void atk12_waitmessage(void)
 {
     if (!gBattleControllerExecFlags)
@@ -2082,12 +2083,12 @@ static void atk12_waitmessage(void)
         {
             u16 toWait = T2_READ_16(gBattlescriptCurrInstr + 1);
 
-            if (++gPauseCounterBattle >= toWait)
-            {
+//            if (++gPauseCounterBattle >= toWait)
+//            {
                 gPauseCounterBattle = 0;
                 gBattlescriptCurrInstr += 3;
                 gBattleCommunication[MSG_DISPLAY] = 0;
-            }
+//            }
         }
     }
 }
@@ -3775,17 +3776,18 @@ static void atk38_bicword(void)
     gBattlescriptCurrInstr += 9;
 }
 
+// Speedchoice change: disable pause
 static void atk39_pause(void)
 {
     if (!gBattleControllerExecFlags)
     {
         u16 value = T2_READ_16(gBattlescriptCurrInstr + 1);
 
-        if (++gPauseCounterBattle >= value)
-        {
+//        if (++gPauseCounterBattle >= value)
+//        {
             gPauseCounterBattle = 0;
             gBattlescriptCurrInstr += 3;
-        }
+//        }
     }
 }
 

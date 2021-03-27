@@ -96,6 +96,10 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom:: @ 8162B76
 	applymovement OBJ_EVENT_ID_PLAYER, PokemonLeague_ChampionsRoom_Movement_PlayerExit
 	waitmovement 0
 	setvar VAR_TEMP_1, 1
+	checkspeedchoice PLOTLESS, PLOT_KEEP
+	goto_if TRUE, PokemonLeague_ChampionsRoom_EventScript_AfterPlotless
+	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
+PokemonLeague_ChampionsRoom_EventScript_AfterPlotless::
 	warp MAP_POKEMON_LEAGUE_HALL_OF_FAME, 255, 5, 12
 	waitstate
 	releaseall

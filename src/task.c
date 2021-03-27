@@ -16,6 +16,7 @@ void ResetTasks(void)
     for (i = 0; i < NUM_TASKS; i++)
     {
         gTasks[i].isActive = FALSE;
+        gTasks[i].doubleRun = FALSE;
         gTasks[i].func = TaskDummy;
         gTasks[i].prev = i;
         gTasks[i].next = i + 1;
@@ -40,6 +41,7 @@ u8 CreateTask(TaskFunc func, u8 priority)
             InsertTask(i);
             memset(gTasks[i].data, 0, sizeof(gTasks[i].data));
             gTasks[i].isActive = TRUE;
+            gTasks[i].doubleRun = FALSE;
             return i;
         }
     }
@@ -89,6 +91,7 @@ void DestroyTask(u8 taskId)
     if (gTasks[taskId].isActive)
     {
         gTasks[taskId].isActive = FALSE;
+        gTasks[taskId].doubleRun = FALSE;
 
         if (gTasks[taskId].prev == HEAD_SENTINEL)
         {
@@ -119,6 +122,8 @@ void RunTasks(void)
         do
         {
             gTasks[taskId].func(taskId);
+            if (gTasks[taskId].doubleRun && (gMain.vblankCounter2 % 2) == 0)
+                gTasks[taskId].func(taskId);
             taskId = gTasks[taskId].next;
         } while (taskId != TAIL_SENTINEL);
     }

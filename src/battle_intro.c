@@ -109,6 +109,7 @@ void HandleIntroSlide(u8 terrain)
     {
         taskId = CreateTask(sBattleIntroSlideFuncs[terrain], 0);
     }
+    gTasks[taskId].doubleRun = TRUE;
     gTasks[taskId].data[0] = 0;
     gTasks[taskId].data[1] = terrain;
     gTasks[taskId].data[2] = 0;

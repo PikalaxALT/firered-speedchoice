@@ -4,7 +4,8 @@ Route18_EastEntrance_1F_MapScripts:: @ 8170378
 
 Route18_EastEntrance_1F_OnTransition:: @ 817037E
 	clearflag FLAG_SYS_ON_CYCLING_ROAD
-	call_if_set FLAG_GOT_BICYCLE, Route18_EastEntrance_1F_EventScript_DisableNeedBikeTrigger
+	checkitem ITEM_BICYCLE, 1
+	call_if TRUE, Route18_EastEntrance_1F_EventScript_DisableNeedBikeTrigger
 	end
 
 Route18_EastEntrance_1F_EventScript_DisableNeedBikeTrigger:: @ 817038B

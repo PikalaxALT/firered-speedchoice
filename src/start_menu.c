@@ -267,13 +267,18 @@ static void SetUpStartMenu_UnionRoom(void)
     AppendToStartMenuItems(STARTMENU_EXIT);
 }
 
+static const u8 Str_inf[] = _("Inf");
+
 static void DrawSafariZoneStatsWindow(void)
 {
     sSafariZoneStatsWindowId = AddWindow(&sSafariZoneStatsWindowTemplate);
     PutWindowTilemap(sSafariZoneStatsWindowId);
     DrawStdWindowFrame(sSafariZoneStatsWindowId, FALSE);
-    ConvertIntToDecimalStringN(gStringVar1, gSafariZoneStepCounter, STR_CONV_MODE_RIGHT_ALIGN, 3);
-    ConvertIntToDecimalStringN(gStringVar2, 600, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    // Speedchoice change: Disable step counter
+    // ConvertIntToDecimalStringN(gStringVar1, gSafariZoneStepCounter, STR_CONV_MODE_RIGHT_ALIGN, 3);
+//    ConvertIntToDecimalStringN(gStringVar2, 600, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    StringCopy(gStringVar1, Str_inf);
+    StringCopy(gStringVar2, Str_inf);
     ConvertIntToDecimalStringN(gStringVar3, gNumSafariBalls, STR_CONV_MODE_RIGHT_ALIGN, 2);
     StringExpandPlaceholders(gStringVar4, gUnknown_84162A9);
     AddTextPrinterParameterized(sSafariZoneStatsWindowId,2, gStringVar4, 4, 3, 0xFF, NULL);

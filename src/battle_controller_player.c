@@ -703,9 +703,10 @@ static void HandleMoveSwitching(void)
                 SetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_PP_BONUSES, &totalPPBonuses);
             }
         }
-        if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
-            gBattlerControllerFuncs[gActiveBattler] = OakOldManHandleInputChooseMove;
-        else
+        // Speedchoice change: Disable tutorial
+//        if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
+//            gBattlerControllerFuncs[gActiveBattler] = OakOldManHandleInputChooseMove;
+//        else
             gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseMove;
         gMoveSelectionCursor[gActiveBattler] = gMultiUsePlayerCursor;
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
@@ -718,9 +719,10 @@ static void HandleMoveSwitching(void)
         PlaySE(SE_SELECT);
         MoveSelectionDestroyCursorAt(gMultiUsePlayerCursor);
         MoveSelectionCreateCursorAt(gMoveSelectionCursor[gActiveBattler], 0);
-        if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
-            gBattlerControllerFuncs[gActiveBattler] = OakOldManHandleInputChooseMove;
-        else
+        // Speedchoice change: Disable tutorials
+//        if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
+//            gBattlerControllerFuncs[gActiveBattler] = OakOldManHandleInputChooseMove;
+//        else
             gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseMove;
         MoveSelectionDisplayPpString();
         MoveSelectionDisplayPpNumber();

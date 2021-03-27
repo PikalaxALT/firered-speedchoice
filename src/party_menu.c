@@ -5885,21 +5885,22 @@ static u8 GetPartyLayoutFromBattleType(void)
     return PARTY_LAYOUT_DOUBLE;
 }
 
+// Speedchoice change: Disable tutorial messages
 void OpenPartyMenuInTutorialBattle(u8 partyAction)
 {
-    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
-    {
-        InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
-                      GetPartyLayoutFromBattleType(),
-                      partyAction,
-                      FALSE,
-                      PARTY_MSG_NONE,
-                      Task_FirstBattleEnterParty_WaitFadeIn,
-                      SetCB2ToReshowScreenAfterMenu);
-        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
-    }
-    else
-    {
+//    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+//    {
+//        InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
+//                      GetPartyLayoutFromBattleType(),
+//                      partyAction,
+//                      FALSE,
+//                      PARTY_MSG_NONE,
+//                      Task_FirstBattleEnterParty_WaitFadeIn,
+//                      SetCB2ToReshowScreenAfterMenu);
+//        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
+//    }
+//    else
+//    {
         InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
                       GetPartyLayoutFromBattleType(),
                       partyAction,
@@ -5907,7 +5908,7 @@ void OpenPartyMenuInTutorialBattle(u8 partyAction)
                       PARTY_MSG_CHOOSE_MON,
                       Task_HandleChooseMonInput,
                       SetCB2ToReshowScreenAfterMenu);
-    }
+//    }
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }
@@ -5926,21 +5927,22 @@ void Pokedude_ChooseMonForInBattleItem(void)
     UpdatePartyToBattleOrder();
 }
 
+// Speedchoice change: Disable tutorial messages
 void EnterPartyFromItemMenuInBattle(void)
 {
-    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
-    {
-        InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
-                      GetPartyLayoutFromBattleType(),
-                      PARTY_ACTION_USE_ITEM,
-                      FALSE,
-                      PARTY_MSG_NONE,
-                      Task_FirstBattleEnterParty_WaitFadeIn,
-                      CB2_BagMenuFromBattle);
-        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
-    }
-    else
-    {
+//    if (!BtlCtrl_OakOldMan_TestState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU) && (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE))
+//    {
+//        InitPartyMenu(PARTY_MENU_TYPE_IN_BATTLE,
+//                      GetPartyLayoutFromBattleType(),
+//                      PARTY_ACTION_USE_ITEM,
+//                      FALSE,
+//                      PARTY_MSG_NONE,
+//                      Task_FirstBattleEnterParty_WaitFadeIn,
+//                      CB2_BagMenuFromBattle);
+//        BtlCtrl_OakOldMan_SetState2Flag(FIRST_BATTLE_MSG_FLAG_PARTY_MENU);
+//    }
+//    else
+//    {
         MainCallback callback;
 
         if (GetPocketByItemId(gSpecialVar_ItemId) == POCKET_BERRY_POUCH)
@@ -5954,7 +5956,7 @@ void EnterPartyFromItemMenuInBattle(void)
                       PARTY_MSG_USE_ON_WHICH_MON,
                       Task_HandleChooseMonInput,
                       callback);
-    }
+//    }
     ReshowBattleScreenDummy();
     UpdatePartyToBattleOrder();
 }

@@ -1,7 +1,10 @@
 EventScript_CutTree:: @ 81BDF13
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
+	checkspeedchoice HM_BADGE_CHECKS, BADGE_PURGE
+	goto_if TRUE, EventScript_CutTree_SkipBadgeCheck
 	goto_if_unset FLAG_BADGE02_GET, EventScript_CantCutTree
+EventScript_CutTree_SkipBadgeCheck::
 	checkpartymove MOVE_CUT
 	compare VAR_RESULT, PARTY_SIZE
 	goto_if_eq EventScript_CantCutTree
@@ -61,7 +64,10 @@ Text_TreeCanBeCutDown:: @ 81BDFE3
 EventScript_RockSmash:: @ 81BE00C
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
+	checkspeedchoice HM_BADGE_CHECKS, BADGE_PURGE
+	goto_if TRUE, EventScript_RockSmash_SkipBadgeCheck
 	goto_if_unset FLAG_BADGE06_GET, EventScript_CantSmashRock
+EventScript_RockSmash_SkipBadgeCheck::
 	checkpartymove MOVE_ROCK_SMASH
 	compare VAR_RESULT, PARTY_SIZE
 	goto_if_eq EventScript_CantSmashRock
@@ -124,7 +130,10 @@ Text_MonMaySmashRock:: @ 81BE0E2
 EventScript_StrengthBoulder:: @ 81BE11D
 	goto_if_questlog EventScript_ReleaseEnd
 	lockall
+	checkspeedchoice HM_BADGE_CHECKS, BADGE_PURGE
+	goto_if TRUE, EventScript_StrengthBoulder_SkipBadgeCheck
 	goto_if_unset FLAG_BADGE04_GET, EventScript_CantMoveBoulder
+EventScript_StrengthBoulder_SkipBadgeCheck::
 	goto_if_set FLAG_SYS_USE_STRENGTH, EventScript_AlreadyUsedStrength
 	checkpartymove MOVE_STRENGTH
 	compare VAR_RESULT, PARTY_SIZE

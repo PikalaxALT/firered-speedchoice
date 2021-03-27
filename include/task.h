@@ -14,7 +14,8 @@ typedef void (*TaskFunc)(u8 taskId);
 struct Task
 {
     TaskFunc func;
-    bool8 isActive;
+    bool8 isActive:1;
+    bool8 doubleRun:1;
     u8 prev;
     u8 next;
     u8 priority;

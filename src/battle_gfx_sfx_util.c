@@ -162,7 +162,8 @@ void SpriteCB_TrainerSlideIn(struct Sprite *sprite)
 {
     if (!(gIntroSlideFlags & 1))
     {
-        sprite->pos2.x += sprite->data[0];
+        // Speedchoice change: Speed 1.5x
+        sprite->pos2.x += sprite->data[0] * 3 / 2;
         if (sprite->pos2.x == 0)
             sprite->callback = SpriteCallbackDummy;
     }

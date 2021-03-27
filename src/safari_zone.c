@@ -39,16 +39,17 @@ void ExitSafariMode(void)
     gSafariZoneStepCounter = 0;
 }
 
+// Speedchoice change: Disable step counter
 bool8 SafariZoneTakeStep(void)
 {
-    if (GetSafariZoneFlag() == FALSE)
-        return FALSE;
-    gSafariZoneStepCounter--;
-    if (gSafariZoneStepCounter == 0)
-    {
-        ScriptContext1_SetupScript(SafariZone_EventScript_TimesUp);
-        return TRUE;
-    }
+//    if (GetSafariZoneFlag() == FALSE)
+//        return FALSE;
+//    gSafariZoneStepCounter--;
+//    if (gSafariZoneStepCounter == 0)
+//    {
+//        ScriptContext1_SetupScript(SafariZone_EventScript_TimesUp);
+//        return TRUE;
+//    }
     return FALSE;
 }
 
