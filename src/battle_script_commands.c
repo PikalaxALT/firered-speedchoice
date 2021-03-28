@@ -9321,7 +9321,7 @@ static void atkF2_displaydexinfo(void)
         if (!gPaletteFade.active)
         {
             FreeAllWindowBuffers();
-            gBattleCommunication[TASK_ID] = sub_8106B60(species);
+            gBattleCommunication[TASK_ID] = DexScreen_RegisterMonToPokedex(species);
             ++gBattleCommunication[0];
         }
         break;

@@ -1060,6 +1060,8 @@ EventScript_ResetAllMapFlags:: @ 81A6481
 	setflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setvar VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
+    @ Speedchoice change: Set national dex flag
+    special EnableNationalPokedex
 	end
 
 	.include "data/scripts/hall_of_fame.inc"
