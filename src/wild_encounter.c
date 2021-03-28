@@ -330,8 +330,9 @@ static void GenerateWildMon(u16 species, u8 level, u8 slot)
     }
     else
     {
-        chamber = gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER);
-        personality = GenerateUnownPersonalityByLetter(sUnownLetterSlots[chamber][slot]);
+        // Speedchoice change: Fix Unown crash
+        // chamber = gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER);
+        personality = GenerateUnownPersonalityByLetter(Random() % 28);
         CreateMon(&gEnemyParty[0], species, level, 32, TRUE, personality, FALSE, 0);
     }
 }
