@@ -8,11 +8,14 @@ HEADERS := \
 	../../include/constants/global.h \
     ../../include/constants/species.h \
     ../../include/constants/trainers.h \
+    ../../include/constants/trainer_classes.h \
+    ../../include/constants/maps.h \
     ../../include/constants/items.h \
     ../../include/constants/abilities.h \
     ../../include/constants/moves.h \
     ../../include/constants/pokemon.h \
-    ../../include/constants/event_objects.h
+    ../../include/constants/event_objects.h \
+    ../../include/constants/speedchoice.h
 
 LDFLAGS := -lcapstone
 

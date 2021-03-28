@@ -56,6 +56,7 @@ CinnabarIsland_Gym_EventScript_Blaine:: @ 816D9D4
 	famechecker FAMECHECKER_BLAINE, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_BLAINE, CinnabarIsland_Gym_Text_BlaineIntro, CinnabarIsland_Gym_Text_BlaineDefeat, CinnabarIsland_Gym_EventScript_DefeatedBlaine, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM38_FROM_BLAINE, CinnabarIsland_Gym_EventScript_GiveTM38
+TmText_15::
 	msgbox CinnabarIsland_Gym_Text_BlainePostBattle
 	release
 	end
@@ -78,6 +79,7 @@ CinnabarIsland_Gym_EventScript_GiveTM38:: @ 816DA34
 	goto_if_eq CinnabarIsland_Gym_EventScript_NoRoomForTM38
 	giveitem_msg CinnabarIsland_Gym_Text_ReceivedTM38FromBlaine, ITEM_TM38
 	setflag FLAG_GOT_TM38_FROM_BLAINE
+TmText_16::
 	msgbox CinnabarIsland_Gym_Text_FireBlastIsUltimateFireMove
 	release
 	end

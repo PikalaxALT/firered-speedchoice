@@ -5,11 +5,13 @@ CeruleanCity_House2_EventScript_Hiker:: @ 816A976
 	lock
 	faceplayer
 	goto_if_set FLAG_GOT_TM28_FROM_ROCKET, CeruleanCity_House2_EventScript_HikerGotTM28
+TmText_09::
 	msgbox CeruleanCity_House2_Text_RocketsStoleTMForDig
 	release
 	end
 
 CeruleanCity_House2_EventScript_HikerGotTM28:: @ 816A98B
+TmText_10::
 	msgbox CeruleanCity_House2_Text_TeachDiglettDigWithoutTM
 	release
 	end

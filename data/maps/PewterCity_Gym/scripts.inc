@@ -27,6 +27,7 @@ PewterCity_Gym_EventScript_GiveTM39:: @ 816A5F3
 	goto_if_eq PewterCity_Gym_EventScript_NoRoomForTM39
 	giveitem_msg PewterCity_Gym_Text_ReceivedTM39FromBrock, ITEM_TM39
 	setflag FLAG_GOT_TM39_FROM_BROCK
+TmText_17::
 	msgbox PewterCity_Gym_Text_ExplainTM39
 	release
 	end

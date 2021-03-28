@@ -362,7 +362,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo * info, u8 area, u8
     species = info->wildPokemon[slot].species;
     if (gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds != GOOD_OFF && level < 10)
         species = GetRandomFinalEvolution(species);
-    GenerateWildMon(info->wildPokemon[slot].species, level);
+    GenerateWildMon(species, level);
     return TRUE;
 }
 

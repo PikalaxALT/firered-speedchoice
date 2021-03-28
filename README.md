@@ -55,6 +55,10 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0a5
 - Patch Unown generation loop
 
+### 1.0.0a6
+- Fix good early wilds
+- Fix randomizer compatibility
+
 ## See also
 
 Other disassembly and/or decompilation projects:

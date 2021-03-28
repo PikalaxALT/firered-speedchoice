@@ -5,6 +5,7 @@ SaffronCity_Gym_EventScript_Sabrina:: @ 816EDD8
 	famechecker FAMECHECKER_SABRINA, FCPICKSTATE_COLORED, UpdatePickStateFromSpecialVar8005
 	trainerbattle_single TRAINER_LEADER_SABRINA, SaffronCity_Gym_Text_SabrinaIntro, SaffronCity_Gym_Text_SabrinaDefeat, SaffronCity_Gym_EventScript_DefeatedSabrina, NO_MUSIC
 	goto_if_unset FLAG_GOT_TM04_FROM_SABRINA, SaffronCity_Gym_EventScript_GiveTM04
+TmText_02::
 	msgbox SaffronCity_Gym_Text_ExplainTM04
 	release
 	end

@@ -10,6 +10,7 @@ SaffronCity_MrPsychicsHouse_EventScript_MrPsychic:: @ 816F05F
 	compare VAR_RESULT, FALSE
 	goto_if_eq SaffronCity_MrPsychicsHouse_EventScript_NoRoomForTM29
 	giveitem_msg SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic, ITEM_TM29
+TmText_11::
 	msgbox SaffronCity_MrPsychicsHouse_Text_ExplainTM29
 	setflag FLAG_GOT_TM29_FROM_MR_PSYCHIC
 	release
@@ -21,6 +22,7 @@ SaffronCity_MrPsychicsHouse_EventScript_NoRoomForTM29:: @ 816F0AB
 	end
 
 SaffronCity_MrPsychicsHouse_EventScript_AlreadyGotTM29:: @ 816F0B5
+TmText_12::
 	msgbox SaffronCity_MrPsychicsHouse_Text_ExplainTM29
 	release
 	end

@@ -119,62 +119,63 @@ const struct
 };
 
 const struct TMText gTMTexts[] = {
-    { 3, "CeruleanCity_Gym_Text_ExplainTM03", "TM03 teaches [move].\\pUse it on a worthy POKéMON!"},
-    { 4, "SaffronCity_Gym_Text_ExplainTM04", "TM04 is [move]."},
-    { 6, "FuchsiaCity_Gym_Text_KogaExplainTM06", "Sealed within that TM06 lies [move]!\\pIt is a secret technique dating back some four hundred years."},
-    {16, "CeladonCity_DepartmentStore_Roof_Text_ExplainTM16", "TM16 contains [move]."},
-    {19, "CeladonCity_Gym_Text_ExplainTM19", "TM19 contains [move].\\pWouldn’t you agree that it’s a wonderful move?"},
-    {20, "CeladonCity_DepartmentStore_Roof_Text_ExplainTM20", "TM20 contains [move]."},
-    {26, "ViridianCity_Gym_Text_ExplainTM26", "TM26 contains [move].\\pIt is a powerful technique.\\pI made it when I ran the GYM here, far too long ago…"},
-    {27, "Route12_NorthEntrance_2F_Text_ExplainTM27", "TM27 is a move called [move]…\\pIf you treat your POKéMON good, it will return your love by working its hardest in battle."},
-    {28, "CeruleanCity_House2_Text_RocketsStoleTMForDig", "Those miserable ROCKETS!\\pLook what they’ve done to my house!\\pThey stole a TM for teaching POKéMON how to [move]!\\pThat cost me a bundle, it did!"},
-    {28, "CeruleanCity_House2_Text_TeachDiglettDigWithoutTM", "I figure what’s lost is lost.\\pI decided to catch a POKéMON that could [move] without a TM."},
-    {29, "SaffronCity_MrPsychicsHouse_Text_ExplainTM29", "You already know, don’t you? TM29 is [move]."},
-    {33, "CeladonCity_DepartmentStore_Roof_Text_ExplainTM33", "TM33 contains [move]."},
-    {34, "VermilionCity_Gym_Text_ExplainTM34", "TM34 contains [move]!\\pTeach it to your favorite POKéMON!"},
-    {38, "CinnabarIsland_Gym_Text_BlainePostBattle", "TM38 contains [move].\\nTeach it to strong POKéMON."},
-    {38, "CinnabarIsland_Gym_Text_FireBlastIsUltimateFireMove", "[move] is the ultimate\\ntechnique.\\pDon't waste it on weak POKéMON."},
-    {39, "PewterCity_Gym_Text_ExplainTM39", "A TM, Technical Machine, contains a technique for POKéMON.\\pUsing a TM teaches the move it contains to a POKéMON.\\pA TM is good for only one use.\\pSo, when you use one, pick the POKéMON carefully.\\pAnyways… TM39 contains [move]."},
+    { 3, "TmText_01", "TM03 teaches [move].\\pUse it on a worthy POKéMON!"},
+    { 4, "TmText_02", "TM04 is [move]."},
+    { 6, "TmText_03", "Sealed within that TM06 lies [move]!\\pIt is a secret technique dating back some four hundred years."},
+    {16, "TmText_04", "TM16 contains [move]."},
+    {19, "TmText_05", "TM19 contains [move].\\pWouldn’t you agree that it’s a wonderful move?"},
+    {20, "TmText_06", "TM20 contains [move]."},
+    {26, "TmText_07", "TM26 contains [move].\\pIt is a powerful technique.\\pI made it when I ran the GYM here, far too long ago…"},
+    {27, "TmText_08", "TM27 is a move called [move]…\\pIf you treat your POKéMON good, it will return your love by working its hardest in battle."},
+    {28, "TmText_09", "Those miserable ROCKETS!\\pLook what they’ve done to my house!\\pThey stole a TM for teaching POKéMON how to [move]!\\pThat cost me a bundle, it did!"},
+    {28, "TmText_10", "I figure what’s lost is lost.\\pI decided to catch a POKéMON that could [move] without a TM."},
+    {29, "TmText_11", "You already know, don’t you? TM29 is [move]."},
+    {29, "TmText_12", "You already know, don’t you? TM29 is [move]."},
+    {33, "TmText_13", "TM33 contains [move]."},
+    {34, "TmText_14", "TM34 contains [move]!\\pTeach it to your favorite POKéMON!"},
+    {38, "TmText_15", "TM38 contains [move].\\nTeach it to strong POKéMON."},
+    {38, "TmText_16", "[move] is the ultimate\\ntechnique.\\pDon't waste it on weak POKéMON."},
+    {39, "TmText_17", "A TM, Technical Machine, contains a technique for POKéMON.\\pUsing a TM teaches the move it contains to a POKéMON.\\pA TM is good for only one use.\\pSo, when you use one, pick the POKéMON carefully.\\pAnyways… TM39 contains [move]."},
 };
 
 const struct TMText gMoveTutorTexts[] = {
-    { 0, "Text_MegaPunchTeach", "A hit of roaring ferocity!\\pPacked with destructive power!\\pWhen the chips are down, [move] is the ultimate attack! You agree, yes?\\pNow! Let me teach it to your POKéMON!"},
-    { 0, "Text_MegaPunchTaught", "Now, we are comrades in the way of [move]!\\pYou should go before you’re seen by the misguided fool who trains only silly moves over there."},
-    { 0, "Text_MegaPunchDeclined", "You’ll be back when you understand the worth of [move]."},
-    { 1, "Text_SwordsDanceTeach", "Not many people come out here.\\pIf I train here, I’m convinced that I’ll get stronger and stronger.\\pYep, stronger and stronger…\\pHow would you like to learn a strong move? It’s [move]."},
-    { 2, "Text_MegaKickTeach", "A hit of brutal ferocity!\\pPacked with destructive power!\\pWhen you get right down to it, [move] is the ultimate attack! Don’t you agree?\\pOkay! I’ll teach it to your POKéMON!"},
-    { 2, "Text_MegaKickTaught", "Now, we are soul mates in the way of [move]!\\pYou should run before you’re seen by the deluded nitwit who trains only simple moves over there."},
-    { 2, "Text_MegaKickDeclined", "You’ll come crawling back when you realize the value of [move]."},
-    { 3, "Text_BodySlamTeach", "Ready? Boing!\\pWe’re having a wrestling match to see who wimps out first.\\pIf you were to join us, you’d be squashed like a bug, though…\\pHow about I teach [move] to a POKéMON of yours instead?"},
-    { 3, "Text_BodySlamWhichMon", "Which POKéMON wants to learn how to [move]?"},
-    { 4, "Text_DoubleEdgeTeach", "You should be proud of yourself, having battled your way through VICTORY ROAD so courageously.\\pIn recognition of your feat, I’ll teach you [move].\\pWould you like me to teach that technique?"},
-    { 4, "Text_DoubleEdgeWhichMon", "Which POKéMON should I teach [move]?"},
-    { 5, "Text_CounterTeach", "Oh, hi! I finally finished POKéMON.\\pNot done yet? How about I teach you a good move?\\pThe move I have in mind is [move]."},
-    { 5, "Text_CounterWhichMon", "Which POKéMON should I teach [move] to?"},
-    { 5, "Text_CounterTaught", "Are you using that [move] move I taught your POKéMON?"},
-    { 6, "Text_SeismicTossTeach", "The secrets of space… The mysteries of earth…\\pThere are so many things about which we know so little.\\pBut that should spur us to study harder, not toss in the towel.\\pThe only thing you should toss…\\pWell, how about [move]? Should I teach that to a POKéMON?"},
-    { 6, "Text_SeismicTossWhichMon", "Which POKéMON wants to learn [move]?"},
-    { 7, "Text_MimicTeach", "Oh wow! A POKé DOLL!\\pFor me? Thank you!\\pYou know what? I can teach the move [move]."},
-    { 7, "Text_MimicWhichMon", "I really love [move]! Who’s going to learn it?"},
-    { 7, "Text_MimicDeclined", "Don’t you like [move]?"},
-    { 8, "Text_MetronomeTeach", "Tch-tch-tch! I’ll teach you a nifty move.\\pTeach it to a POKéMON, and watch the fun unfold!\\pIt’s a move called [move]. Does it strike your fancy?"},
-    { 8, "Text_MetronomeTaught", "Tch-tch-tch! That’s the sound of a metronome.\\pIt inspired me to start teaching [move] to interested trainers."},
-    { 9, "Text_SoftboiledTeach", "Hello, there!\\pI’ve seen you about, but I never had a chance to chat.\\pIt must be good luck that brought us together finally.\\pI’d like to celebrate by teaching you the move [move]."},
-    { 9, "Text_SoftboiledWhichMon", "So, who’s the POKéMON that gets the chance to learn [move]?"},
-    {10, "Text_DreamEaterTeach", "Yawn! I must have dozed off in the sun.\\pI had this weird dream about a DROWZEE eating my dream.\\pAnd… I learned how to teach [move]…\\pOogh, this is too spooky!\\pLet me teach it to a POKéMON so I can forget about it!"},
-    {10, "Text_DreamEaterWhichMon", "Which POKéMON wants to learn [move]?"},
-    {11, "Text_ThunderWaveTeach", "Eeek! No! Stop! Help!\\pOh, you’re not with TEAM ROCKET. I’m sorry, I thought…\\pWill you forgive me if I teach you the [move] technique?"},
-    {11, "Text_ThunderWaveWhichMon", "Which POKéMON should I teach [move]?"},
-    {11, "Text_ThunderWaveTaught", "[move] is a useful move, but it might not work on some POKéMON."},
-    {11, "Text_ThunderWaveDeclined", "Oh… But [move] is convenient…"},
-    {12, "Text_ExplosionTeach", "Can you imagine? If this volcano were to erupt?\\pThe explosion would be the end of us. How terrifying is that?\\pWhile we’re terrified, would you like me to teach [move]?"},
-    {12, "Text_ExplosionWhichMon", "You’re terribly brave!\\pWhich POKéMON should I teach [move]?"},
-    {12, "Text_ExplosionTaught", "Using [move] while on this volcano…\\pWhat a terrifying thrill!"},
-    {13, "Text_RockSlideTeach", "When you’re up on a rocky mountain like this, rockslides are a threat.\\pCan you imagine? Boulders tumbling down on you?\\pThat’d be, like, waaaaaaaaaaah! Total terror!\\pYou don’t seem to be scared. Want to try using [move]?"},
-    {13, "Text_RockSlideWhichMon", "Which POKéMON should I teach [move]?"},
-    {14, "Text_SubstituteTeach", "Aww, I wish I was a KANGASKHAN baby.\\pI’d love to be a substitute for the baby…\\pAnd snuggle in the mother KANGASKHAN’s belly pouch.\\pBut only POKéMON can do that…\\pOn an unrelated note, want me to teach [move] to one of your POKéMON?"},
-    {14, "Text_SubstituteWhichMon", "Which POKéMON wants to learn [move]?"},
-    {14, "Text_SubstituteDeclined", "Oh, really? [move] seems so fun…"},
+    { 0, "MtText_01", "A hit of roaring ferocity!\\pPacked with destructive power!\\pWhen the chips are down, [move] is the ultimate attack! You agree, yes?\\pNow! Let me teach it to your POKéMON!"},
+    { 0, "MtText_02", "Now, we are comrades in the way of [move]!\\pYou should go before you’re seen by the misguided fool who trains only silly moves over there."},
+    { 0, "MtText_03", "You’ll be back when you understand the worth of [move]."},
+    { 1, "MtText_04", "Not many people come out here.\\pIf I train here, I’m convinced that I’ll get stronger and stronger.\\pYep, stronger and stronger…\\pHow would you like to learn a strong move? It’s [move]."},
+    { 2, "MtText_05", "A hit of brutal ferocity!\\pPacked with destructive power!\\pWhen you get right down to it, [move] is the ultimate attack! Don’t you agree?\\pOkay! I’ll teach it to your POKéMON!"},
+    { 2, "MtText_06", "Now, we are soul mates in the way of [move]!\\pYou should run before you’re seen by the deluded nitwit who trains only simple moves over there."},
+    { 2, "MtText_07", "You’ll come crawling back when you realize the value of [move]."},
+    { 3, "MtText_08", "Ready? Boing!\\pWe’re having a wrestling match to see who wimps out first.\\pIf you were to join us, you’d be squashed like a bug, though…\\pHow about I teach [move] to a POKéMON of yours instead?"},
+    { 3, "MtText_09", "Which POKéMON wants to learn how to [move]?"},
+    { 4, "MtText_10", "You should be proud of yourself, having battled your way through VICTORY ROAD so courageously.\\pIn recognition of your feat, I’ll teach you [move].\\pWould you like me to teach that technique?"},
+    { 4, "MtText_11", "Which POKéMON should I teach [move]?"},
+    { 5, "MtText_12", "Oh, hi! I finally finished POKéMON.\\pNot done yet? How about I teach you a good move?\\pThe move I have in mind is [move]."},
+    { 5, "MtText_13", "Which POKéMON should I teach [move] to?"},
+    { 5, "MtText_14", "Are you using that [move] move I taught your POKéMON?"},
+    { 6, "MtText_15", "The secrets of space… The mysteries of earth…\\pThere are so many things about which we know so little.\\pBut that should spur us to study harder, not toss in the towel.\\pThe only thing you should toss…\\pWell, how about [move]? Should I teach that to a POKéMON?"},
+    { 6, "MtText_16", "Which POKéMON wants to learn [move]?"},
+    { 7, "MtText_17", "Oh wow! A POKé DOLL!\\pFor me? Thank you!\\pYou know what? I can teach the move [move]."},
+    { 7, "MtText_18", "I really love [move]! Who’s going to learn it?"},
+    { 7, "MtText_19", "Don’t you like [move]?"},
+    { 8, "MtText_20", "Tch-tch-tch! I’ll teach you a nifty move.\\pTeach it to a POKéMON, and watch the fun unfold!\\pIt’s a move called [move]. Does it strike your fancy?"},
+    { 8, "MtText_21", "Tch-tch-tch! That’s the sound of a metronome.\\pIt inspired me to start teaching [move] to interested trainers."},
+    { 9, "MtText_22", "Hello, there!\\pI’ve seen you about, but I never had a chance to chat.\\pIt must be good luck that brought us together finally.\\pI’d like to celebrate by teaching you the move [move]."},
+    { 9, "MtText_23", "So, who’s the POKéMON that gets the chance to learn [move]?"},
+    {10, "MtText_24", "Yawn! I must have dozed off in the sun.\\pI had this weird dream about a DROWZEE eating my dream.\\pAnd… I learned how to teach [move]…\\pOogh, this is too spooky!\\pLet me teach it to a POKéMON so I can forget about it!"},
+    {10, "MtText_25", "Which POKéMON wants to learn [move]?"},
+    {11, "MtText_26", "Eeek! No! Stop! Help!\\pOh, you’re not with TEAM ROCKET. I’m sorry, I thought…\\pWill you forgive me if I teach you the [move] technique?"},
+    {11, "MtText_27", "Which POKéMON should I teach [move]?"},
+    {11, "MtText_28", "[move] is a useful move, but it might not work on some POKéMON."},
+    {11, "MtText_29", "Oh… But [move] is convenient…"},
+    {12, "MtText_30", "Can you imagine? If this volcano were to erupt?\\pThe explosion would be the end of us. How terrifying is that?\\pWhile we’re terrified, would you like me to teach [move]?"},
+    {12, "MtText_31", "You’re terribly brave!\\pWhich POKéMON should I teach [move]?"},
+    {12, "MtText_32", "Using [move] while on this volcano…\\pWhat a terrifying thrill!"},
+    {13, "MtText_33", "When you’re up on a rocky mountain like this, rockslides are a threat.\\pCan you imagine? Boulders tumbling down on you?\\pThat’d be, like, waaaaaaaaaaah! Total terror!\\pYou don’t seem to be scared. Want to try using [move]?"},
+    {13, "MtText_34", "Which POKéMON should I teach [move]?"},
+    {14, "MtText_35", "Aww, I wish I was a KANGASKHAN baby.\\pI’d love to be a substitute for the baby…\\pAnd snuggle in the mother KANGASKHAN’s belly pouch.\\pBut only POKéMON can do that…\\pOn an unrelated note, want me to teach [move] to one of your POKéMON?"},
+    {14, "MtText_36", "Which POKéMON wants to learn [move]?"},
+    {14, "MtText_37", "Oh, really? [move] seems so fun…"},
 };
 
 struct PlotlessKeyItem gKeyItems[] = {
@@ -209,7 +210,7 @@ static int IsIntroNidoranF(const struct cs_insn * insn)
 static int IsIntroNidoranF2(const struct cs_insn * insn)
 {
     cs_arm_op * ops = insn->detail->arm.operands;
-    // mov r0, SPECIES_NIDORAN_F
+    // mov r2, SPECIES_NIDORAN_F
     if (insn->id == ARM_INS_MOV
     && ops[0].type == ARM_OP_REG
     && ops[0].reg == ARM_REG_R2
@@ -217,6 +218,30 @@ static int IsIntroNidoranF2(const struct cs_insn * insn)
     && ops[1].imm == SPECIES_NIDORAN_F)
     {
         return insn->address;
+    }
+
+    return -1;
+}
+
+static int IsIntroNidoranF3(const struct cs_insn * insn)
+{
+    static int to_return = 0;
+    cs_arm_op * ops = insn->detail->arm.operands;
+
+    // ldr r0, =gMonFrontPicTable
+    if (insn->id == ARM_INS_LDR
+    && ops[0].type == ARM_OP_REG
+    && ops[0].reg == ARM_REG_R4
+    && ops[1].type == ARM_OP_MEM
+   && !ops[1].subtracted
+   && ops[1].mem.base == ARM_REG_PC
+   && ops[1].mem.index == ARM_REG_INVALID)
+    {
+        to_return = (insn->address & ~3) + ops[1].mem.disp + 4;
+    }
+    else if (IsIntroNidoranF2(insn) != -1 && to_return != 0)
+    {
+        return to_return;
     }
 
     return -1;
@@ -342,9 +367,9 @@ int main(int argc, char ** argv)
     sh_scripts = GetSectionHeaderByName("script_data");
 
     // Start writing the INI
-    print("[%s]\n", romName);
+    print("[%s (%s)]\n", romName, SPEEDCHOICE_VERSION);
     print("Game=%s\n", romCode);
-    print("Version=%s\n", SPEEDCHOICE_VERSION);
+    print("Version=1\n");
     print("Type=FRLG\n");
     print("TableFile=gba_english\n");
 
@@ -409,8 +434,8 @@ int main(int argc, char ** argv)
     print("]\n");
 
     config_set("IntroCryOffset", get_instr_addr(elfFile, "Task_OakSpeech13", IsIntroNidoranF) & 0xFFFFFF);
-    config_set("IntroSpriteOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF) & 0xFFFFFF);
-    config_set("IntroOtherOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF2) & 0xFFFFFF);
+    config_set("IntroSpriteOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF3) & 0xFFFFFF);
+    config_set("IntroOtherOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF) & 0xFFFFFF);
     print("ItemBallPic=%d\n", OBJ_EVENT_GFX_ITEM_BALL);
     Elf32_Sym * Fr_gIngameTrades = GetSymbolByName("sInGameTrades");
     print("TradeTableOffset=0x%X\n", Fr_gIngameTrades->st_value & 0xFFFFFF);
@@ -475,11 +500,11 @@ int main(int argc, char ** argv)
     }
     for (int i = 0; i < len(gTMTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gTMTexts[i].label);
-        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value) & 0xFFFFFF, gTMTexts[i].text);
+        print("TMTextSpdc[]=[%d,0x%X,%s]\n", gTMTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gTMTexts[i].text);
     }
     for (int i = 0; i < len(gMoveTutorTexts); i++) {
         Elf32_Sym * sym = GetSymbolByName(gMoveTutorTexts[i].label);
-        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value) & 0xFFFFFF, gMoveTutorTexts[i].text);
+        print("MoveTutorTextSpdc[]=[%d,0x%X,%s]\n", gMoveTutorTexts[i].tmno, (sym->st_value + 2) & 0xFFFFFF, gMoveTutorTexts[i].text);
     }
 
     for (int i = 0; i < len(gKeyItems); i++) {

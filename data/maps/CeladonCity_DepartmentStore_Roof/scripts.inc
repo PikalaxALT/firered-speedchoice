@@ -166,16 +166,19 @@ CeladonCity_DepartmentStore_Roof_EventScript_GiveDrink:: @ 816BF7C
 
 CeladonCity_DepartmentStore_Roof_EventScript_ExplainTM16:: @ 816BFDE
 	setflag FLAG_GOT_TM16_FROM_THIRSTY_GIRL
+TmText_04::
 	msgbox CeladonCity_DepartmentStore_Roof_Text_ExplainTM16
 	return
 
 CeladonCity_DepartmentStore_Roof_EventScript_ExplainTM20:: @ 816BFEA
 	setflag FLAG_GOT_TM20_FROM_THIRSTY_GIRL
+TmText_06::
 	msgbox CeladonCity_DepartmentStore_Roof_Text_ExplainTM20
 	return
 
 CeladonCity_DepartmentStore_Roof_EventScript_ExplainTM33:: @ 816BFF6
 	setflag FLAG_GOT_TM33_FROM_THIRSTY_GIRL
+TmText_13::
 	msgbox CeladonCity_DepartmentStore_Roof_Text_ExplainTM33
 	return
 

@@ -324,5 +324,5 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x9000000 $< $@
 
 $(INI): $(ROM)
-	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (1.1) (U)" --code $(GAME_CODE)
+	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (U)" --code $(GAME_CODE)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
