@@ -52,6 +52,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix Rare Candy evos cancellable in Evo Every Level
 - Allow Pokemon to evolve into later-gen targets pre-national dex
 
+### 1.0.0a5
+- Patch Unown generation loop
+
 ## See also
 
 Other disassembly and/or decompilation projects:

@@ -30,8 +30,6 @@ struct WildEncounterData
 static EWRAM_DATA struct WildEncounterData sWildEncounterData = {};
 static EWRAM_DATA bool8 sWildEncountersDisabled = FALSE;
 
-static bool8 UnlockedTanobyOrAreNotInTanoby(void);
-static u32 GenerateUnownPersonalityByLetter(u8 letter);
 static bool8 IsWildLevelAllowedByRepel(u8 level);
 static void ApplyFluteEncounterRateMod(u32 *rate);
 static u8 GetFluteEncounterRateModType(void);
@@ -41,23 +39,6 @@ static u16 WildEncounterRandom(void);
 static void AddToWildEncounterRateBuff(u8 encouterRate);
 
 #include "data/wild_encounters.h"
-
-static const u8 sUnownLetterSlots[][12] = {
-  //  A   A   A   A   A   A   A   A   A   A   A   ?
-    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 27},
-  //  C   C   C   D   D   D   H   H   H   U   U   O
-    { 2,  2,  2,  3,  3,  3,  7,  7,  7, 20, 20, 14},
-  //  N   N   N   N   S   S   S   S   I   I   E   E
-    {13, 13, 13, 13, 18, 18, 18, 18,  8,  8,  4,  4},
-  //  P   P   L   L   J   J   R   R   R   Q   Q   Q
-    {15, 15, 11, 11,  9,  9, 17, 17, 17, 16, 16, 16},
-  //  Y   Y   T   T   G   G   G   F   F   F   K   K
-    {24, 24, 19, 19,  6,  6,  6,  5,  5,  5, 10, 10},
-  //  V   V   V   W   W   W   X   X   M   M   B   B
-    {21, 21, 21, 22, 22, 22, 23, 23, 12, 12,  1,  1},
-  //  Z   Z   Z   Z   Z   Z   Z   Z   Z   Z   Z   !
-    {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 26},
-};
 
 void DisableWildEncounters(bool8 state)
 {
@@ -292,8 +273,7 @@ static u16 GetCurrentMapWildMonHeaderId(void)
                 i += alteringCaveId;
             }
 
-            if (!UnlockedTanobyOrAreNotInTanoby())
-                break;
+            // Speedchoice change: Delete Tanoby filter
             return i;
         }
     }
@@ -301,28 +281,8 @@ static u16 GetCurrentMapWildMonHeaderId(void)
     return -1;
 }
 
-static bool8 UnlockedTanobyOrAreNotInTanoby(void)
+static void GenerateWildMon(u16 species, u8 level)
 {
-    if (FlagGet(FLAG_SYS_UNLOCKED_TANOBY_RUINS))
-        return TRUE;
-    if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER))
-        return TRUE;
-    if (!(gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_LIPTOO_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_WEEPTH_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_DILFORD_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_SCUFIB_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_RIXY_CHAMBER)
-    ||  gSaveBlock1Ptr->location.mapNum == MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_VIAPOIS_CHAMBER)
-    ))
-        return TRUE;
-    return FALSE;
-}
-
-static void GenerateWildMon(u16 species, u8 level, u8 slot)
-{
-    u32 personality;
-    s8 chamber;
     ZeroEnemyPartyMons();
     if (species != SPECIES_UNOWN)
     {
@@ -331,20 +291,11 @@ static void GenerateWildMon(u16 species, u8 level, u8 slot)
     else
     {
         // Speedchoice change: Fix Unown crash
-        // chamber = gSaveBlock1Ptr->location.mapNum - MAP_NUM(SEVEN_ISLAND_TANOBY_RUINS_MONEAN_CHAMBER);
-        personality = GenerateUnownPersonalityByLetter(Random() % 28);
-        CreateMon(&gEnemyParty[0], species, level, 32, TRUE, personality, FALSE, 0);
+        u16 rval = Random();
+        u8 nature = rval % 25;
+        u8 letter = (rval >> 5) % 28;
+        CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, 32, MON_GENDERLESS, nature, letter + 1);
     }
-}
-
-static u32 GenerateUnownPersonalityByLetter(u8 letter)
-{
-    u32 personality;
-    do
-    {
-        personality = (Random() << 16) | Random();
-    } while (GetUnownLetterByPersonalityLoByte(personality) != letter);
-    return personality;
 }
 
 u8 GetUnownLetterByPersonalityLoByte(u32 personality)
@@ -368,9 +319,8 @@ u16 GetRandomFinalEvolution(u16 species)
     u8 goodEarlyWilds = gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds;
     u8 evoCount;
     u16 rval;
-    u32 seed;
-    int i;
-    for (i = 0; i < 2 && gEvolutionTable[species][0].targetSpecies != SPECIES_NONE; i++)
+
+    while (gEvolutionTable[species][0].targetSpecies != SPECIES_NONE)
     {
         for (evoCount = 1; evoCount < 5 && gEvolutionTable[species][evoCount].targetSpecies != SPECIES_NONE; evoCount++)
             ;
@@ -412,7 +362,7 @@ static bool8 TryGenerateWildMon(const struct WildPokemonInfo * info, u8 area, u8
     species = info->wildPokemon[slot].species;
     if (gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds != GOOD_OFF && level < 10)
         species = GetRandomFinalEvolution(species);
-    GenerateWildMon(info->wildPokemon[slot].species, level, slot);
+    GenerateWildMon(info->wildPokemon[slot].species, level);
     return TRUE;
 }
 
@@ -420,13 +370,13 @@ static u16 GenerateFishingEncounter(const struct WildPokemonInfo * info, u8 rod)
 {
     u8 slot = ChooseWildMonIndex_Fishing(rod);
     u8 level = ChooseWildMonLevel(&info->wildPokemon[slot]);
-    GenerateWildMon(info->wildPokemon[slot].species, level, slot);
+    GenerateWildMon(info->wildPokemon[slot].species, level);
     return info->wildPokemon[slot].species;
 }
 
-static bool8 DoWildEncounterRateDiceRoll(u16 a0)
+static bool8 DoWildEncounterRateDiceRoll(u16 rate)
 {
-    if (WildEncounterRandom() % 1600 < a0)
+    if (WildEncounterRandom() % 1600 < rate)
         return TRUE;
     return FALSE;
 }
