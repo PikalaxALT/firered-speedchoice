@@ -59,6 +59,14 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix good early wilds
 - Fix randomizer compatibility
 
+### 1.0.0a7
+- Minor tweaks to HP bar logic
+
+### 1.0.0a8
+- Finalize HP bar logic
+- Minimum catch rate
+- Disable map previews
+
 ## See also
 
 Other disassembly and/or decompilation projects:

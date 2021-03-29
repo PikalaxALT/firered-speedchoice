@@ -338,9 +338,11 @@ static u8 GetMapPreviewScreenIdx(u8 mapsec)
     return MPS_COUNT;
 }
 
+// Speedchoice change: disable
 bool8 MapHasPreviewScreen(u8 mapsec, u8 type)
 {
-    u8 idx;
+    return FALSE;
+/*    u8 idx;
 
     idx = GetMapPreviewScreenIdx(mapsec);
     if (idx != MPS_COUNT)
@@ -357,7 +359,7 @@ bool8 MapHasPreviewScreen(u8 mapsec, u8 type)
     else
     {
         return FALSE;
-    }
+    }*/
 }
 
 bool32 MapHasPreviewScreen_HandleQLState2(u8 mapsec, u8 type)

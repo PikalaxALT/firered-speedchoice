@@ -1921,7 +1921,9 @@ static void MoveBattleBarGraphically(u8 battlerId, u8 whichBar)
 static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
 {
     s32 ret, newValue;
+    // Speedchoice change: Triple speed
     scale *= 8;
+    toAdd *= BATTLE_SPEED;
 
     if (*currValue == -32768) // first function call
     {
