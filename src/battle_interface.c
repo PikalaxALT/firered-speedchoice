@@ -1918,8 +1918,7 @@ static void MoveBattleBarGraphically(u8 battlerId, u8 whichBar)
     }
 }
 
-// Speedchoice change: Refactor for multiple execution
-static s32 CalcNewBarValueInternal(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
+static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
 {
     s32 ret, newValue;
     scale *= 8;
@@ -1951,7 +1950,8 @@ static s32 CalcNewBarValueInternal(s32 maxValue, s32 oldValue, s32 receivedValue
 
     if (maxValue < scale) // handle cases of max var having less pixels than the whole bar
     {
-        s32 toAdd_ = Q_24_8(maxValue) / scale;
+        // Speedchoice change: Triple speed
+        s32 toAdd_ = Q_24_8(maxValue) * BATTLE_SPEED / scale;
 
         if (receivedValue < 0) // fill bar right
         {
@@ -1995,18 +1995,6 @@ static s32 CalcNewBarValueInternal(s32 maxValue, s32 oldValue, s32 receivedValue
         }
     }
 
-    return ret;
-}
-
-static s32 CalcNewBarValue(s32 maxValue, s32 oldValue, s32 receivedValue, s32 *currValue, u8 scale, u16 toAdd)
-{
-    s32 ret;
-    s32 i;
-    for (i = 0; i < BATTLE_SPEED; i++) {
-        ret = CalcNewBarValueInternal(maxValue, oldValue, receivedValue, currValue, scale, toAdd);
-        if (ret == -1)
-            break;
-    }
     return ret;
 }
 
