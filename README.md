@@ -70,6 +70,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0a9
 - Fix graphical glitches
 - Remove extra level-up anim
+- Make all Altering Cave encounters accessible
 
 ## See also
 

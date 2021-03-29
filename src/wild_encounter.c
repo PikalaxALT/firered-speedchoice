@@ -263,15 +263,16 @@ static u16 GetCurrentMapWildMonHeaderId(void)
         if (gWildMonHeaders[i].mapGroup == gSaveBlock1Ptr->location.mapGroup &&
             gWildMonHeaders[i].mapNum == gSaveBlock1Ptr->location.mapNum)
         {
-            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SIX_ISLAND_ALTERING_CAVE) &&
-                gSaveBlock1Ptr->location.mapNum == MAP_NUM(SIX_ISLAND_ALTERING_CAVE))
-            {
-                u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-                if (alteringCaveId > 8)
-                    alteringCaveId = 0;
-
-                i += alteringCaveId;
-            }
+            // Speedchoice change: Ignore Altering Cave
+//            if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SIX_ISLAND_ALTERING_CAVE) &&
+//                gSaveBlock1Ptr->location.mapNum == MAP_NUM(SIX_ISLAND_ALTERING_CAVE))
+//            {
+//                u16 alteringCaveId = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+//                if (alteringCaveId > 8)
+//                    alteringCaveId = 0;
+//
+//                i += alteringCaveId;
+//            }
 
             // Speedchoice change: Delete Tanoby filter
             return i;

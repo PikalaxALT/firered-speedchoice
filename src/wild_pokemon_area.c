@@ -167,8 +167,8 @@ s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
     u16 dexAreaSubspriteIdx;
     s32 dexAreaEntryLUTidx;
     s32 seviiAreas;
-    s32 alteringCaveCount;
-    s32 alteringCaveNum;
+//    s32 alteringCaveCount;
+//    s32 alteringCaveNum;
     s32 i;
 
     if (GetRoamerIndex(species) >= SPECIES_NONE)
@@ -177,19 +177,20 @@ s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
     }
 
     seviiAreas = GetUnlockedSeviiAreas();
-    alteringCaveCount = 0;
-    alteringCaveNum = VarGet(VAR_ALTERING_CAVE_WILD_SET);
-    if (alteringCaveNum > 8)
-        alteringCaveNum = 0;
+    // Speedchoice change: Ignore Altering Cave
+//    alteringCaveCount = 0;
+//    alteringCaveNum = VarGet(VAR_ALTERING_CAVE_WILD_SET);
+//    if (alteringCaveNum > 8)
+//        alteringCaveNum = 0;
     for (i = 0, areaCount = 0; gWildMonHeaders[i].mapGroup != 0xFF; i++)
     {
         mapSecId = GetMapSecIdFromWildMonHeader(&gWildMonHeaders[i]);
-        if (mapSecId == MAPSEC_ALTERING_CAVE)
-        {
-            alteringCaveCount++;
-            if (alteringCaveNum != alteringCaveCount - 1)
-                continue;
-        }
+//        if (mapSecId == MAPSEC_ALTERING_CAVE)
+//        {
+//            alteringCaveCount++;
+//            if (alteringCaveNum != alteringCaveCount - 1)
+//                continue;
+//        }
         if (PokemonInAnyEncounterTableInMap(&gWildMonHeaders[i], species))
         {
             dexAreaEntryLUTidx = 0;

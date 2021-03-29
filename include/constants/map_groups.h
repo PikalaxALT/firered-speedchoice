@@ -136,6 +136,14 @@
 #define MAP_SIX_ISLAND_DOTTED_HOLE_SAPPHIRE_ROOM (120 | (1 << 8))
 #define MAP_SIX_ISLAND_PATTERN_BUSH              (121 | (1 << 8))
 #define MAP_SIX_ISLAND_ALTERING_CAVE             (122 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM1       (123 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM2       (124 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM3       (125 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM4       (126 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM5       (127 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM6       (128 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM7       (129 | (1 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM8       (130 | (1 << 8))
 
 // Map Group 2
 #define MAP_NAVEL_ROCK_EXTERIOR                       (0 | (2 << 8))
