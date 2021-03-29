@@ -37,4 +37,12 @@ do                                          \
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) < (b) ? (b) : (a))
 
+static inline uint16_t read_hword(const unsigned char * ptr) {
+    return ptr[0] | (ptr[1] << 8);
+}
+
+static inline uint32_t read_dword(const unsigned char * ptr) {
+    return ptr[0] | (ptr[1] << 8) | (ptr[2] << 16) | (ptr[3] << 24);
+}
+
 #endif //PGEGEN_GLOBAL_H

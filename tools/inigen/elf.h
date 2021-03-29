@@ -23,5 +23,6 @@ uint32_t GetEntryPoint(void);
 int GetSectionHeaderCount(void);
 void InitElf(FILE * elfFile);
 void DestroyResources(void);
+unsigned char * elfContents;
 
 #endif //PGEGEN_ELF_H

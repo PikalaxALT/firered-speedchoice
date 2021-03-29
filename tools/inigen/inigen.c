@@ -266,7 +266,6 @@ static int IsOldManWeedle(const struct cs_insn * insn)
 /*
  * ---------------------------------------------------------
  * get_instr_addr(
- *   FILE * elfFile,
  *   const char * symname,
  *   int (*callback)(const struct cs_insn *)
  * )
@@ -283,14 +282,11 @@ static int IsOldManWeedle(const struct cs_insn * insn)
  * ---------------------------------------------------------
  */
 
-static int get_instr_addr(FILE * elfFile, const char * symname, int (*callback)(const struct cs_insn *))
+static int get_instr_addr(const char * symname, int (*callback)(const struct cs_insn *))
 {
     int retval = -1;
     Elf32_Sym * sym = GetSymbolByName(symname);
-    fseek(elfFile, (sym->st_value & ~1) - sh_text->sh_addr + sh_text->sh_offset, SEEK_SET);
-    unsigned char * data = malloc(sym->st_size);
-    if (fread(data, 1, sym->st_size, elfFile) != sym->st_size)
-        FATAL_ERROR("fread");
+    unsigned char * data = elfContents + ((sym->st_value & ~1) - sh_text->sh_addr + sh_text->sh_offset);
     struct cs_insn *insn;
     int count = cs_disasm(sCapstone, data, sym->st_size, sym->st_value & ~1, 0, &insn);
     for (int i = 0; i < count; i++) {
@@ -301,7 +297,6 @@ static int get_instr_addr(FILE * elfFile, const char * symname, int (*callback)(
         }
     }
     cs_free(insn, count);
-    free(data);
     return retval;
 }
 
@@ -433,15 +428,15 @@ int main(int argc, char ** argv)
     }
     print("]\n");
 
-    config_set("IntroCryOffset", get_instr_addr(elfFile, "Task_OakSpeech13", IsIntroNidoranF) & 0xFFFFFF);
-    config_set("IntroSpriteOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF3) & 0xFFFFFF);
-    config_set("IntroOtherOffset", get_instr_addr(elfFile, "CreateNidoranFSprite", IsIntroNidoranF) & 0xFFFFFF);
+    config_set("IntroCryOffset", get_instr_addr("Task_OakSpeech13", IsIntroNidoranF) & 0xFFFFFF);
+    config_set("IntroSpriteOffset", get_instr_addr("CreateNidoranFSprite", IsIntroNidoranF3) & 0xFFFFFF);
+    config_set("IntroOtherOffset", get_instr_addr("CreateNidoranFSprite", IsIntroNidoranF) & 0xFFFFFF);
     print("ItemBallPic=%d\n", OBJ_EVENT_GFX_ITEM_BALL);
     Elf32_Sym * Fr_gIngameTrades = GetSymbolByName("sInGameTrades");
     print("TradeTableOffset=0x%X\n", Fr_gIngameTrades->st_value & 0xFFFFFF);
     print("TradeTableSize=%d\n", Fr_gIngameTrades->st_size / 60); // hardcoded for now
     print("TradesUnused=[]\n"); // so randomizer doesn't complain
-    config_set("CatchingTutorialOpponentMonOffset", get_instr_addr(elfFile, "StartOldManTutorialBattle", IsOldManWeedle) & 0xFFFFFF);
+    config_set("CatchingTutorialOpponentMonOffset", get_instr_addr("StartOldManTutorialBattle", IsOldManWeedle) & 0xFFFFFF);
     config_sym("PCPotionOffset", "gNewGamePCItems");
 
     Elf32_Sym * Fr_gWildMonHeaders = GetSymbolByName("gWildMonHeaders");
@@ -449,20 +444,14 @@ int main(int argc, char ** argv)
     print("BattleTrappersBanned=[");
     bool foundTrapBannedMap = false;
     int encno = 0;
-    fseek(elfFile, Fr_gWildMonHeaders->st_value - sh_rodata->sh_addr + sh_rodata->sh_offset, SEEK_SET);
+    u8 * wild_headers_raw = elfContents + Fr_gWildMonHeaders->st_value - sh_rodata->sh_addr + sh_rodata->sh_offset;
+    uint8_t mapGroup;
+    uint8_t mapNum;
     for (int i = 0; i < Fr_gWildMonHeaders->st_size / 20; i++) {
-        uint8_t mapGroup;
-        uint8_t mapNum;
-        uint32_t encGroups[4];
-        if (!fread(&mapGroup, 1, 1, elfFile))
-            FATAL_ERROR("fread");
-        if (!fread(&mapNum, 1, 1, elfFile))
-            FATAL_ERROR("fread");
-        fseek(elfFile, 2, SEEK_CUR);
-        if (!fread(encGroups, 4, 4, elfFile))
-            FATAL_ERROR("fread");
+        mapGroup = wild_headers_raw[20 * i + 0];
+        mapNum   = wild_headers_raw[20 * i + 1];
         for (int j = 0; j < 4; j++) {
-            if (encGroups[j] != 0) {
+            if (read_dword(wild_headers_raw + 20 * i + 4 + 4 * j) != 0) {
                 if (mapGroup == MAP_GROUP(POKEMON_TOWER_3F) && mapNum >= MAP_NUM(POKEMON_TOWER_3F) && mapNum <= MAP_NUM(POKEMON_TOWER_7F)) {
                     if (foundTrapBannedMap) print(",");
                     print("%d", encno);
@@ -484,10 +473,7 @@ int main(int argc, char ** argv)
             Elf32_Sym * sym = GetSymbolByName(gStaticPokemon[i].mons[j].label);
             if (sym != NULL) {
                 uint32_t offs = sym->st_value + gStaticPokemon[i].mons[j].offset;
-                fseek(elfFile, offs - sh_scripts->sh_addr + sh_scripts->sh_offset, SEEK_SET);
-                uint16_t species;
-                if (!fread(&species, 2, 1, elfFile))
-                    FATAL_ERROR("fread");
+                uint16_t species = read_hword(elfContents + offs - sh_scripts->sh_addr + sh_scripts->sh_offset);
                 if (species != gStaticPokemon[i].vanilla) {
                     FATAL_ERROR("Static Pokémon %d entry %d: Expected 0x%X, got 0x%X\n", i, j, gStaticPokemon[i].vanilla, species);
                 }
@@ -511,11 +497,8 @@ int main(int argc, char ** argv)
         Elf32_Sym * sym = GetSymbolByName(gKeyItems[i].label);
         if (sym == NULL)
             FATAL_ERROR("Unable to find symbol \"%s\"\n", gKeyItems[i].label);
-        uint16_t itemId;
         uint32_t addr = sym->st_value + gKeyItems[i].offset;
-        fseek(elfFile, addr - sh_scripts->sh_addr + sh_scripts->sh_offset, SEEK_SET);
-        if (!fread(&itemId, 2, 1, elfFile))
-            FATAL_ERROR("fread");
+        uint16_t itemId = read_hword(elfContents + addr - sh_scripts->sh_addr + sh_scripts->sh_offset);
         if (itemId != gKeyItems[i].vanillaItem)
             FATAL_ERROR("Expected item %d = 0x%X, got 0x%X\n", i, gKeyItems[i].vanillaItem, itemId);
         print("PlotlessKeyItems[]=0x%X\n", addr & 0xFFFFFF);

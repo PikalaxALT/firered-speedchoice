@@ -13,6 +13,7 @@ static Elf32_Ehdr elfHeader = {};
 static int initialized = 0;
 unsigned int nSymbols = 0;
 static FILE * elfFile = NULL;
+unsigned char * elfContents = NULL;
 
 #ifdef _MSC_VER
 #define DEBUG_MSG(fmt, ...) // fprintf(stderr, fmt, __VA_ARGS__)
@@ -20,13 +21,39 @@ static FILE * elfFile = NULL;
 #define DEBUG_MSG(fmt, ...) // fprintf(stderr, fmt, ##__VA_ARGS__)
 #endif
 
+unsigned char * OpenAndReadWholeFile(const char * filename) {
+    FILE * file = fopen(filename, "rb");
+    if (file == NULL) {
+        FATAL_ERROR("Unable to open file \"%s\" for reading\n", filename);
+    }
+    fseek(file, 0, SEEK_END);
+    size_t fsize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    unsigned char * ret = malloc(fsize);
+    if (fread(ret, 1, fsize, file) != fsize) {
+        fclose(file);
+        FATAL_ERROR("Error reading file \"%s\"\n", filename);
+    };
+    fclose(file);
+    return ret;
+}
+
+unsigned char * ReadWholeFile(FILE * file) {
+    fseek(file, 0, SEEK_END);
+    size_t fsize = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    unsigned char * ret = malloc(fsize);
+    if (fread(ret, 1, fsize, file) != fsize) {
+        FATAL_ERROR("Error reading file");
+    };
+    return ret;
+}
+
 static void ReadElfHeader(void)
 {
     DEBUG_MSG("ReadElfHeader\n");
 
-    fseek(elfFile, 0, SEEK_SET);
-    if (fread(&elfHeader, sizeof(elfHeader), 1, elfFile) != 1)
-        FATAL_ERROR("fread\n");
+    elfHeader = *(Elf32_Ehdr *)elfContents;
     if (memcmp(elfHeader.e_ident, ELFMAG, SELFMAG) != 0) {
         FATAL_ERROR("malformed ELF header\n");
     }
@@ -43,13 +70,7 @@ static void ReadProgramHeaders(void)
     if (!initialized) {
         FATAL_ERROR("ELF not initialized\n");
     }
-    programHeaders = malloc(elfHeader.e_phentsize * elfHeader.e_phnum);
-    if (programHeaders == NULL) {
-        FATAL_ERROR("failed to allocate programs table\n");
-    }
-    fseek(elfFile, elfHeader.e_phoff, SEEK_SET);
-    if (fread(programHeaders, elfHeader.e_phentsize, elfHeader.e_phnum, elfFile) != elfHeader.e_phnum)
-        FATAL_ERROR("fread\n");
+    programHeaders = (Elf32_Phdr *)(elfContents + elfHeader.e_phoff);
 }
 
 static void ReadSectionHeaders(void)
@@ -59,36 +80,7 @@ static void ReadSectionHeaders(void)
     if (!initialized) {
         FATAL_ERROR("ELF not initialized\n");
     }
-    fseek(elfFile, elfHeader.e_shoff, SEEK_SET);
-    Elf32_Shdr firstHeader;
-    if (fread(&firstHeader, elfHeader.e_shentsize, 1, elfFile) != 1)
-        FATAL_ERROR("fread\n");
-    unsigned nsecs = elfHeader.e_shnum;
-    if (nsecs == SHN_UNDEF) {
-        nsecs = firstHeader.sh_size;
-    }
-    sectionHeaders = malloc(elfHeader.e_shentsize * elfHeader.e_shnum);
-    if (sectionHeaders == NULL) {
-        FATAL_ERROR("failed to allocate section table\n");
-    }
-    sectionHeaders[0] = firstHeader;
-    if (fread(sectionHeaders + 1, elfHeader.e_shentsize, nsecs - 1, elfFile) != nsecs - 1)
-        FATAL_ERROR("fread\n");
-}
-
-static char * read_strings(Elf32_Shdr * section)
-{
-    DEBUG_MSG("read_strings\n"
-              "offset: %X, size: %X\n", section->sh_offset, section->sh_size);
-
-    char * dest = malloc(section->sh_size);
-    if (dest == NULL) {
-        FATAL_ERROR("failed to allocate string table\n");
-    }
-    fseek(elfFile, section->sh_offset, SEEK_SET);
-    if (fread(dest, 1, section->sh_size, elfFile) != section->sh_size)
-        FATAL_ERROR("fread\n");
-    return dest;
+    sectionHeaders = (Elf32_Shdr *)(elfContents + elfHeader.e_shoff);
 }
 
 static void ReadStringTables(void)
@@ -98,12 +90,12 @@ static void ReadStringTables(void)
     if (sectionHeaders == NULL) {
         FATAL_ERROR("need to read section headers first\n");
     }
-    shstrtab = read_strings(&sectionHeaders[elfHeader.e_shstrndx]);
+    shstrtab = (char *)elfContents + sectionHeaders[elfHeader.e_shstrndx].sh_offset;
     for (int i = 0; i < elfHeader.e_shnum; i++)
     {
         if (i == elfHeader.e_shstrndx) continue;
         if (sectionHeaders[i].sh_type == SHT_STRTAB) {
-            strtab = read_strings(&sectionHeaders[i]);
+            strtab = (char *)elfContents + sectionHeaders[i].sh_offset;
             break;
         }
     }
@@ -135,16 +127,13 @@ static void ReadSymbols(void)
             if (symbols == NULL) {
                 FATAL_ERROR("failed to allocate symbol table\n");
             }
-            fseek(elfFile, sectionHeaders[i].sh_offset, SEEK_SET);
-            if (fread(symbols, sizeof(Elf32_Sym), nSymbols, elfFile) != nSymbols)
-                FATAL_ERROR("fread\n");
+            memcpy(symbols, elfContents + sectionHeaders[i].sh_offset, sectionHeaders[i].sh_size);
             msort(symbols, nSymbols, sizeof(Elf32_Sym), symcmp);
-            break;
+            return;
         }
     }
-    if (symbols == NULL) {
-        FATAL_ERROR("failed to find symbol table\n");
-    }
+
+    FATAL_ERROR("failed to find symbol table\n");
 }
 
 Elf32_Sym * GetSymbol(unsigned int st_idx)
@@ -244,6 +233,7 @@ void InitElf(FILE * file)
 {
     elfFile = file;
 
+    elfContents = ReadWholeFile(file);
     ReadElfHeader();
     ReadProgramHeaders();
     ReadSectionHeaders();
@@ -255,18 +245,16 @@ void DestroyResources(void)
 {
     DEBUG_MSG("DestroyResources\n");
 
-    free(strtab);
     strtab = NULL;
-    free(shstrtab);
     shstrtab = NULL;
-    free(programHeaders);
     programHeaders = NULL;
-    free(sectionHeaders);
     sectionHeaders = NULL;
     free(symbols);
     symbols = NULL;
     nSymbols = 0;
     elfHeader = (Elf32_Ehdr){};
     initialized = 0;
+    free(elfContents);
+    elfContents = NULL;
     elfFile = NULL;
 }

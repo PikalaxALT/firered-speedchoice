@@ -1,6 +1,8 @@
 gNumMusicPlayers = 4;
 gMaxLines = 0;
 
+/* __gfx_load_address = 0x08D00000; */
+
 SECTIONS {
     . = 0x2000000;
 
@@ -1035,8 +1037,7 @@ SECTIONS {
         data/multiboot_pokemon_colosseum.o(.rodata);
     } =0
 
-    . = 0x08D00000;
-    gfx_data :
+    gfx_data /* __gfx_load_address */ :
     ALIGN(4)
     {
         src/graphics.o(.rodata);

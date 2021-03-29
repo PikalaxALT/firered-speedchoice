@@ -1162,21 +1162,22 @@ static void Task_UpdateLvlInHealthbox(u8 taskId)
     }
 }
 
+// Speedchoice change: Disable level up vertical stripes
 static void DestroyExpTaskAndCompleteOnInactiveTextPrinter(u8 taskId)
 {
     u8 monIndex;
     s32 battlerId = gTasks[taskId].tExpTask_battler;
 
-    if (IsBattlerSpriteVisible((u8)battlerId) == TRUE)
-    {
-        gTasks[taskId].func = Task_CreateLevelUpVerticalStripes;
-        gTasks[taskId].data[15] = 0;
-    }
-    else
-    {
+//    if (IsBattlerSpriteVisible((u8)battlerId) == TRUE)
+//    {
+//        gTasks[taskId].func = Task_CreateLevelUpVerticalStripes;
+//        gTasks[taskId].data[15] = 0;
+//    }
+//    else
+//    {
         gBattlerControllerFuncs[battlerId] = CompleteOnInactiveTextPrinter;
         DestroyTask(taskId);
-    }
+//    }
 }
 
 static void Task_CreateLevelUpVerticalStripes(u8 taskId)

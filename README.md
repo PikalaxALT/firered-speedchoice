@@ -67,6 +67,10 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Minimum catch rate
 - Disable map previews
 
+### 1.0.0a9
+- Fix graphical glitches
+- Remove extra level-up anim
+
 ## See also
 
 Other disassembly and/or decompilation projects:
