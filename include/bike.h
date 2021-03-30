@@ -22,12 +22,19 @@ enum
     MACH_TRANS_START_MOVING
 };
 
-// Acro bike states
+enum BikeFunc {
+    BIKE_TRANS_FACE_DIRECTION,
+    BIKE_TRANS_TURNING,
+    BIKE_TRANS_MOVE,
+    BIKE_TRANS_DOWNHILL,
+    BIKE_TRANS_UPHILL
+};
+
 enum
 {
     BIKE_STATE_NORMAL,
     BIKE_STATE_TURNING,
-    BIKE_STATE_DOWNHILL,
+    BIKE_STATE_SLOPE,
 };
 
 void BikeClearState(u32 directionHistory, u32 abStartSelectHistory);

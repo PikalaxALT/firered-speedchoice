@@ -25,14 +25,6 @@ static u8 BikeInputHandler_Normal(u8 *, u16, u16);
 static u8 BikeInputHandler_Turning(u8 *, u16, u16);
 static u8 BikeInputHandler_Downhill(u8 *, u16, u16);
 
-enum BikeFunc {
-    BIKE_TRANS_FACE_DIRECTION,
-    BIKE_TRANS_TURNING,
-    BIKE_TRANS_MOVE,
-    BIKE_TRANS_DOWNHILL,
-    BIKE_TRANS_UPHILL
-};
-
 static void (*const sBikeTransitions[])(u8) =
 {
     [BIKE_TRANS_FACE_DIRECTION] = BikeTransition_FaceDirection,
@@ -44,9 +36,9 @@ static void (*const sBikeTransitions[])(u8) =
 
 static u8 (*const sBikeInputHandlers[])(u8 *, u16, u16) =
 {
-    [BIKE_STATE_NORMAL]   = BikeInputHandler_Normal,
-    [BIKE_STATE_TURNING]  = BikeInputHandler_Turning,
-    [BIKE_STATE_DOWNHILL] = BikeInputHandler_Downhill,
+    [BIKE_STATE_NORMAL]  = BikeInputHandler_Normal,
+    [BIKE_STATE_TURNING] = BikeInputHandler_Turning,
+    [BIKE_STATE_SLOPE]   = BikeInputHandler_Downhill,
 };
 
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
@@ -69,7 +61,7 @@ static u8 BikeInputHandler_Normal(u8 *direction_p, u16 newKeys, u16 heldKeys)
     {
         if (!JOY_HELD(B_BUTTON))
         {
-            gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_SLOPE;
             gPlayerAvatar.runningState = MOVING;
             if (*direction_p < DIR_NORTH)
                 return BIKE_TRANS_DOWNHILL;
@@ -80,39 +72,31 @@ static u8 BikeInputHandler_Normal(u8 *direction_p, u16 newKeys, u16 heldKeys)
         {
             if (*direction_p != DIR_NONE)
             {
-                gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+                gPlayerAvatar.acroBikeState = BIKE_STATE_SLOPE;
                 gPlayerAvatar.runningState = MOVING;
                 return BIKE_TRANS_UPHILL;
             }
-            else
-            {
-                goto _080BD17E; // for matching purpose
-            }
         }
+    }
+    if (*direction_p == DIR_NONE)
+    {
+        *direction_p = direction;
+        gPlayerAvatar.runningState = NOT_MOVING;
+        return BIKE_TRANS_FACE_DIRECTION;
     }
     else
     {
-        if (*direction_p == DIR_NONE)
+        if (*direction_p != direction && gPlayerAvatar.runningState != MOVING)
         {
-        _080BD17E:
-            *direction_p = direction;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_TURNING;
+            gPlayerAvatar.newDirBackup = *direction_p;
             gPlayerAvatar.runningState = NOT_MOVING;
-            return BIKE_TRANS_FACE_DIRECTION;
+            return GetBikeTransitionId(direction_p, newKeys, heldKeys);
         }
         else
         {
-            if (*direction_p != direction && gPlayerAvatar.runningState != MOVING)
-            {
-                gPlayerAvatar.acroBikeState = BIKE_STATE_TURNING;
-                gPlayerAvatar.newDirBackup = *direction_p;
-                gPlayerAvatar.runningState = NOT_MOVING;
-                return GetBikeTransitionId(direction_p, newKeys, heldKeys);
-            }
-            else
-            {
-                gPlayerAvatar.runningState = MOVING;
-                return BIKE_TRANS_MOVE;
-            }
+            gPlayerAvatar.runningState = MOVING;
+            return BIKE_TRANS_MOVE;
         }
     }
 }
@@ -142,7 +126,7 @@ static u8 BikeInputHandler_Downhill(u8 *direction_p, u16 newKeys, u16 heldKeys)
         else
         {
             gPlayerAvatar.runningState = MOVING;
-            gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_SLOPE;
             if (*direction_p < DIR_NORTH)
                 return BIKE_TRANS_DOWNHILL;
             else
@@ -411,7 +395,7 @@ void Bike_HandleBumpySlopeJump(void)
         tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
         if (MetatileBehavior_IsBumpySlope(tileBehavior))
         {
-            gPlayerAvatar.acroBikeState = BIKE_STATE_DOWNHILL;
+            gPlayerAvatar.acroBikeState = BIKE_STATE_SLOPE;
             PlayerUseAcroBikeOnBumpySlope(GetPlayerMovementDirection());
         }
     }
