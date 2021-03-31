@@ -5,7 +5,8 @@ Route16_NorthEntrance_1F_MapScripts:: @ 81701C2
 Route16_NorthEntrance_1F_OnTransition:: @ 81701C8
 	clearflag FLAG_SYS_ON_CYCLING_ROAD
 	checkitem ITEM_BICYCLE, 1
-	call_if TRUE, Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger
+	compare VAR_RESULT, TRUE
+	call_if_eq Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger
 	end
 
 Route16_NorthEntrance_1F_EventScript_DisableNeedBikeTrigger:: @ 81701D5

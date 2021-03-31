@@ -83,6 +83,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0b2
 - Fixed a bug in instant text introduced in the previous version
 - Fixed alignment of speedchoice version string
+- Fixed a bug that blocks progression onto Cycling Road
 
 ## See also
 
