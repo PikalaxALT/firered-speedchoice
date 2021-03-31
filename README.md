@@ -80,6 +80,10 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Divorced instant text and hold-to-mash
 - Enabled switch button on fly map
 
+### 1.0.0b2
+- Fixed a bug in instant text introduced in the previous version
+- Fixed alignment of speedchoice version string
+
 ## See also
 
 Other disassembly and/or decompilation projects:
