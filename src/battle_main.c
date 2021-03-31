@@ -2198,7 +2198,7 @@ static void BattleStartClearSetData(void)
     for (i = 0; i < sizeof(struct WishFutureKnock); ++i)
         dataPtr[i] = 0;
     gHitMarker = 0;
-    if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_POKEDUDE)) && gSaveBlock2Ptr->optionsBattleSceneOff)
+    if (!(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_POKEDUDE)) && gSaveBlock2Ptr->optionsBattleScene != OPTIONS_BATTLE_SCENE_ON)
         gHitMarker |= HITMARKER_NO_ANIMATIONS;
     gBattleScripting.battleStyle = gSaveBlock2Ptr->optionsBattleStyle;
     gMultiHitCounter = 0;

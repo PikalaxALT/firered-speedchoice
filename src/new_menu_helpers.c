@@ -714,7 +714,7 @@ void DestroyHelpMessageWindow_(void)
 void LoadSignPostWindowFrameGfx(void)
 {
     Menu_LoadStdPal();
-    sub_814FEEC(0, DLG_WINDOW_BASE_TILE_NUM, 0x10 * DLG_WINDOW_PALETTE_NUM);
+    TextWindow_LoadSignPostWindowGfx(0, DLG_WINDOW_BASE_TILE_NUM, 0x10 * DLG_WINDOW_PALETTE_NUM);
     TextWindow_SetUserSelectedFrame(0, STD_WINDOW_BASE_TILE_NUM, 0x10 * STD_WINDOW_PALETTE_NUM);
 }
 

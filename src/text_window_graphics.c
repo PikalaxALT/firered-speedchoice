@@ -1,36 +1,36 @@
 #include "global.h"
 #include "text_window_graphics.h"
 
-const u16 gUnknown_8470B0C[] = INCBIN_U16("graphics/text_window/unk_8470B0C.4bpp");
+const u16 gSignPostWindowTiles[] = INCBIN_U16("graphics/text_window/signpost_tiles.4bpp");
 
-static const u16 gUnknown_8470D6C[] = INCBIN_U16("graphics/text_window/unk_8470D6C.4bpp");
-static const u16 gUnknown_8470E8C[] = INCBIN_U16("graphics/text_window/unk_8470E8C.4bpp");
+static const u16 sWindowFrameTiles_1[] = INCBIN_U16("graphics/text_window/player_frame_1.4bpp");
+static const u16 sWindowFrameTiles_2[] = INCBIN_U16("graphics/text_window/player_frame_2.4bpp");
 static const u16 gUnk_Empty_Space_8470FAC[16] = {0};
-static const u16 gUnknown_8470FCC[] = INCBIN_U16("graphics/text_window/unk_8470FCC.4bpp");
-static const u16 gUnknown_84710EC[] = INCBIN_U16("graphics/text_window/unk_84710EC.4bpp");
-static const u16 gUnknown_847120C[] = INCBIN_U16("graphics/text_window/unk_847120C.4bpp");
-static const u16 gUnknown_847132C[] = INCBIN_U16("graphics/text_window/unk_847132C.4bpp");
-static const u16 gUnknown_847144C[] = INCBIN_U16("graphics/text_window/unk_847144C.4bpp");
-static const u16 gUnknown_847156C[] = INCBIN_U16("graphics/text_window/unk_847156C.4bpp");
+static const u16 sWindowFrameTiles_3[] = INCBIN_U16("graphics/text_window/player_frame_3.4bpp");
+static const u16 sWindowFrameTiles_4[] = INCBIN_U16("graphics/text_window/player_frame_4.4bpp");
+static const u16 sWindowFrameTiles_5[] = INCBIN_U16("graphics/text_window/player_frame_5.4bpp");
+static const u16 sWindowFrameTiles_6[] = INCBIN_U16("graphics/text_window/player_frame_6.4bpp");
+static const u16 sWindowFrameTiles_7[] = INCBIN_U16("graphics/text_window/player_frame_7.4bpp");
+static const u16 sWindowFrameTiles_8[] = INCBIN_U16("graphics/text_window/player_frame_8.4bpp");
 static const u16 gUnk_Empty_Space_847168C[16] = {0};
-static const u16 gUnknown_84716AC[] = INCBIN_U16("graphics/text_window/unk_84716AC.4bpp");
-static const u16 gUnknown_84717CC[] = INCBIN_U16("graphics/text_window/unk_84717CC.4bpp");
+static const u16 sWindowFrameTiles_9[] = INCBIN_U16("graphics/text_window/player_frame_9.4bpp");
+static const u16 sWindowFrameTiles_10[] = INCBIN_U16("graphics/text_window/player_frame_10.4bpp");
 static const u16 gUnk_Empty_Space_84718EC[16] = {0};
-static const u16 gUnknown_847190C[] = INCBIN_U16("graphics/text_window/unk_8470D6C.gbapal");
-static const u16 gUnknown_847192C[] = INCBIN_U16("graphics/text_window/unk_8470E8C.gbapal");
-static const u16 gUnknown_847194C[] = INCBIN_U16("graphics/text_window/unk_8470FCC.gbapal");
-static const u16 gUnknown_847196C[] = INCBIN_U16("graphics/text_window/unk_84710EC.gbapal");
-static const u16 gUnknown_847198C[] = INCBIN_U16("graphics/text_window/unk_847120C.gbapal");
-static const u16 gUnknown_84719AC[] = INCBIN_U16("graphics/text_window/unk_847132C.gbapal");
-static const u16 gUnknown_84719CC[] = INCBIN_U16("graphics/text_window/unk_847144C.gbapal");
-static const u16 gUnknown_84719EC[] = INCBIN_U16("graphics/text_window/unk_847156C.gbapal");
-static const u16 gUnknown_8471A0C[] = INCBIN_U16("graphics/text_window/unk_84716AC.gbapal");
-static const u16 gUnknown_8471A2C[] = INCBIN_U16("graphics/text_window/unk_84717CC.gbapal");
+static const u16 sWindowFramePals_1[] = INCBIN_U16("graphics/text_window/player_frame_1.gbapal");
+static const u16 sWindowFramePals_2[] = INCBIN_U16("graphics/text_window/player_frame_2.gbapal");
+static const u16 sWindowFramePals_3[] = INCBIN_U16("graphics/text_window/player_frame_3.gbapal");
+static const u16 sWindowFramePals_4[] = INCBIN_U16("graphics/text_window/player_frame_4.gbapal");
+static const u16 sWindowFramePals_5[] = INCBIN_U16("graphics/text_window/player_frame_5.gbapal");
+static const u16 sWindowFramePals_6[] = INCBIN_U16("graphics/text_window/player_frame_6.gbapal");
+static const u16 sWindowFramePals_7[] = INCBIN_U16("graphics/text_window/player_frame_7.gbapal");
+static const u16 sWindowFramePals_8[] = INCBIN_U16("graphics/text_window/player_frame_8.gbapal");
+static const u16 sWindowFramePals_9[] = INCBIN_U16("graphics/text_window/player_frame_9.gbapal");
+static const u16 sWindowFramePals_10[] = INCBIN_U16("graphics/text_window/player_frame_10.gbapal");
 
-const u16 gStdFrame0[] = INCBIN_U16("graphics/text_window/unk_8471A4C.4bpp");
-const u16 gStdFrame1[] = INCBIN_U16("graphics/text_window/unk_8471B6C.4bpp");
+const u16 gStdFrame0[] = INCBIN_U16("graphics/text_window/std_frame_0.4bpp");
+const u16 gStdFrame1[] = INCBIN_U16("graphics/text_window/std_frame_1.4bpp");
 
-const u16 gUnknown_8471DEC[][16] = {
+const u16 gStdPals[][16] = {
     INCBIN_U16("graphics/text_window/stdpal_0.gbapal"),
     INCBIN_U16("graphics/text_window/stdpal_1.gbapal"),
     INCBIN_U16("graphics/text_window/stdpal_2.gbapal"),
@@ -39,16 +39,16 @@ const u16 gUnknown_8471DEC[][16] = {
 };
 
 const struct TextWindowGraphics gUserFrames[] = {
-    {gUnknown_8470D6C, gUnknown_847190C},
-    {gUnknown_8470E8C, gUnknown_847192C},
-    {gUnknown_8470FCC, gUnknown_847194C},
-    {gUnknown_84710EC, gUnknown_847196C},
-    {gUnknown_847120C, gUnknown_847198C},
-    {gUnknown_847132C, gUnknown_84719AC},
-    {gUnknown_847144C, gUnknown_84719CC},
-    {gUnknown_847156C, gUnknown_84719EC},
-    {gUnknown_84716AC, gUnknown_8471A0C},
-    {gUnknown_84717CC, gUnknown_8471A2C}
+    {sWindowFrameTiles_1, sWindowFramePals_1},
+    {sWindowFrameTiles_2, sWindowFramePals_2},
+    {sWindowFrameTiles_3, sWindowFramePals_3},
+    {sWindowFrameTiles_4, sWindowFramePals_4},
+    {sWindowFrameTiles_5, sWindowFramePals_5},
+    {sWindowFrameTiles_6, sWindowFramePals_6},
+    {sWindowFrameTiles_7, sWindowFramePals_7},
+    {sWindowFrameTiles_8, sWindowFramePals_8},
+    {sWindowFrameTiles_9, sWindowFramePals_9},
+    {sWindowFrameTiles_10, sWindowFramePals_10}
 }; // NELEMS = 10
 
 const struct TextWindowGraphics * GetUserFrameGraphicsInfo(u8 idx)

@@ -22,7 +22,7 @@ void sub_814FD38(u8 bgId, u16 destOffset, u8 palIdx)
 
 void sub_814FD6C(u8 bgId, u16 destOffset, u8 palIdx)
 {
-    LoadBgTiles(bgId, gUnknown_8470B0C, 0x260, destOffset);
+    LoadBgTiles(bgId, gSignPostWindowTiles, 0x260, destOffset);
     LoadPalette(stdpal_get(1), palIdx, 32);
 }
 
@@ -60,9 +60,9 @@ void TextWindow_LoadResourcesStdFrame0(u8 windowId, u16 destOffset, u8 palIdx)
     LoadPalette(stdpal_get(0), palIdx, 32);
 }
 
-void sub_814FEEC(u8 windowId, u16 destOffset, u8 palIdx)
+void TextWindow_LoadSignPostWindowGfx(u8 windowId, u16 destOffset, u8 palIdx)
 {
-    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gUnknown_8470B0C, 0x260, destOffset);
+    LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gSignPostWindowTiles, 0x260, destOffset);
     LoadPalette(stdpal_get(1), palIdx, 32);
 }
 
@@ -162,5 +162,5 @@ const u16 *stdpal_get(u8 id)
         break;
     }
 
-    return (const u16 *)(gUnknown_8471DEC) + id;
+    return (const u16 *)(gStdPals) + id;
 }
