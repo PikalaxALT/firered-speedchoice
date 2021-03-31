@@ -116,7 +116,7 @@ void RunTextPrinters(void)
 {
     int i;
     u16 temp;
-    bool32 isInstantText = gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON;
+    bool32 isInstantText = gSaveBlock2Ptr->optionsTextSpeed == OPTIONS_TEXT_SPEED_INST;
 
     do
     {

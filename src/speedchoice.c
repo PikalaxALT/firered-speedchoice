@@ -141,7 +141,7 @@ const u8 gSpeedchoiceOptionPreset[] = _("{COLOR RED}{SHADOW GREEN}PRESET");
 const u8 gSpeedchoiceOptionName[] = _("{COLOR RED}{SHADOW GREEN}NAME");
 const u8 gSpeedchoiceOptionEXP[] = _("{COLOR RED}{SHADOW GREEN}EXP");
 const u8 gSpeedchoiceOptionPlotless[] = _("{COLOR RED}{SHADOW GREEN}PLOTLESS");
-const u8 gSpeedchoiceOptionInstantText[] = _("{COLOR RED}{SHADOW GREEN}INSTANT TEXT");
+const u8 gSpeedchoiceOptionInstantText[] = _("{COLOR RED}{SHADOW GREEN}HOLD TO MASH");
 
 // PAGE 2
 const u8 gSpeedchoiceOptionSpinners[] = _("{COLOR RED}{SHADOW GREEN}SPINNERS");
@@ -1582,9 +1582,11 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
 // Self-explanatory. Draws the header window.
 static void DrawHeaderWindow(void)
 {
+    s32 width;
     FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, 0x11);
     AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceTextHeader, 4, 1, TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceCurrentVersion, 156, 1, TEXT_SPEED_FF, NULL);
+    width = GetStringWidth(2, gSpeedchoiceCurrentVersion, GetFontAttribute(2, FONTATTR_LETTER_SPACING));
+    AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceCurrentVersion, 236 - width, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(SPD_WIN_TEXT_OPTION, 3);
 }
 

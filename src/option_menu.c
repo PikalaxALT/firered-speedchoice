@@ -131,7 +131,15 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 };
 
 const u16 sOptionMenuPalette[] = INCBIN_U16("graphics/misc/unk_83cc2e4.gbapal");
-static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {3, 2, 2, 2, 3, 10, 0};
+static const u16 sOptionMenuItemCounts[MENUITEM_COUNT] = {
+    [MENUITEM_TEXTSPEED]   = OPTIONS_TEXT_SPEED_COUNT,
+    [MENUITEM_BATTLESCENE] = OPTIONS_BATTLE_SCENE_COUNT,
+    [MENUITEM_BATTLESTYLE] = OPTIONS_BATTLE_STYLE_COUNT,
+    [MENUITEM_SOUND]       = OPTIONS_SOUND_COUNT,
+    [MENUITEM_BUTTONMODE]  = OPTIONS_BUTTON_MODE_COUNT,
+    [MENUITEM_FRAMETYPE]   = OPTIONS_FRAME_COUNT,
+    [MENUITEM_CANCEL]      = 0
+};
 
 static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
 {
@@ -144,36 +152,38 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
 
+// Speedchoice change: Instant text
 static const u8 *const sTextSpeedOptions[] =
 {
-    gText_TextSpeedSlow, 
-    gText_TextSpeedMid, 
-    gText_TextSpeedFast
+    [OPTIONS_TEXT_SPEED_SLOW] = gText_TextSpeedSlow,
+    [OPTIONS_TEXT_SPEED_MID]  = gText_TextSpeedMid,
+    [OPTIONS_TEXT_SPEED_FAST] = gText_TextSpeedFast,
+    [OPTIONS_TEXT_SPEED_INST] = gText_TextSpeedInstant,
 };
 
 static const u8 *const sBattleSceneOptions[] =
 {
-    gText_BattleSceneOn, 
-    gText_BattleSceneOff
+    [OPTIONS_BATTLE_SCENE_ON]  = gText_BattleSceneOn,
+    [OPTIONS_BATTLE_SCENE_OFF] = gText_BattleSceneOff
 };
 
 static const u8 *const sBattleStyleOptions[] =
 {
-    gText_BattleStyleShift,
-    gText_BattleStyleSet
+    [OPTIONS_BATTLE_STYLE_SHIFT] = gText_BattleStyleShift,
+    [OPTIONS_BATTLE_STYLE_SET]   = gText_BattleStyleSet
 };
 
 static const u8 *const sSoundOptions[] =
 {
-    gText_SoundMono, 
-    gText_SoundStereo
+    [OPTIONS_SOUND_MONO]   = gText_SoundMono,
+    [OPTIONS_SOUND_STEREO] = gText_SoundStereo
 };
 
 static const u8 *const sButtonTypeOptions[] =
 {
-    gText_ButtonTypeHelp,
-	gText_ButtonTypeLR,
-	gText_ButtonTypeLEqualsA
+    [OPTIONS_BUTTON_MODE_HELP]       = gText_ButtonTypeHelp,
+	[OPTIONS_BUTTON_MODE_LR]         = gText_ButtonTypeLR,
+	[OPTIONS_BUTTON_MODE_L_EQUALS_A] = gText_ButtonTypeLEqualsA
 };
 
 static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY};

@@ -77,6 +77,8 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fishing is guaranteed to hook a Pokemon if possible
 - Add a shady salesman to Cerulean City that gives a guaranteed Rare Candy
 - Replaced TM09 Bullet Seed with Sweet Scent (item ball in Mt Moon 1F)
+- Divorced instant text and hold-to-mash
+- Enabled switch button on fly map
 
 ## See also
 

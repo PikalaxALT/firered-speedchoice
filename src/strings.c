@@ -872,6 +872,7 @@ const u8 gText_OptionMenuCancel[] = _("CANCEL");
 const u8 gText_TextSpeedSlow[] = _("SLOW");
 const u8 gText_TextSpeedMid[] = _("MID");
 const u8 gText_TextSpeedFast[] = _("FAST");
+const u8 gText_TextSpeedInstant[] = _("INST");
 const u8 gText_BattleSceneOn[] = _("ON");
 const u8 gText_BattleSceneOff[] = _("OFF");
 const u8 gText_BattleStyleShift[] = _("SHIFT");
