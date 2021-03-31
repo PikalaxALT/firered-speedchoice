@@ -393,3 +393,17 @@ CeruleanCity_EventScript_GymSign:: @ 8166853
 	msgbox CeruleanCity_Text_GymSign
 	releaseall
 	end
+
+CeruleanCity_EventScript_ShadySalesman::
+	lock
+	faceplayer
+	goto_if_set FLAG_GOT_SHADY_CANDY, CeruleanCity_EventScript_GotCandy
+	msgbox CeruleanCity_Text_WantSomeCandy
+	giveitem ITEM_RARE_CANDY
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_BagIsFull
+	setflag FLAG_GOT_SHADY_CANDY
+CeruleanCity_EventScript_GotCandy::
+	msgbox CeruleanCity_Text_NotACreep
+	release
+	end

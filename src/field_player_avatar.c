@@ -1770,6 +1770,7 @@ static bool8 Fishing5(struct Task *task)
 }
 
 // Determine if fish bites
+// Speedchoice change: it always bites
 static bool8 Fishing6(struct Task *task)
 {
     bool8 bite;
@@ -1778,7 +1779,7 @@ static bool8 Fishing6(struct Task *task)
     task->tStep++;
     bite = FALSE;
 
-    if (!DoesCurrentMapHaveFishingMons() || Random() & 1)
+    if (!DoesCurrentMapHaveFishingMons()/* || Random() & 1*/)
     {
         task->tStep = FISHING_NO_BITE;
     }
@@ -1790,12 +1791,14 @@ static bool8 Fishing6(struct Task *task)
 }
 
 // Oh! A Bite!
+// Skip the nonsense with multiple bites
 static bool8 Fishing7(struct Task *task)
 {
     task->tStep += 3;
     return FALSE;
 }
 
+// Leftover from RS
 // We have a bite. Now, wait for the player to press A, or the timer to expire.
 static bool8 Fishing8(struct Task *task)
 {

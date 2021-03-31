@@ -180,3 +180,10 @@ CeruleanCity_Text_GymSign:: @ 817F4EF
     .string "LEADER: MISTY\l"
     .string "The Tomboyish Mermaid!$"
 
+CeruleanCity_Text_WantSomeCandy::
+	.string "Uhuhuhuhu…\n"
+	.string "Hey kid, want some candy?$"
+
+CeruleanCity_Text_NotACreep::
+	.string "What, you think I'm a creep?\n"
+	.string "How rude!$"

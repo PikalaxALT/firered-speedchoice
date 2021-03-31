@@ -72,6 +72,12 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Remove extra level-up anim
 - Make all Altering Cave encounters accessible
 
+### 1.0.0b1
+- Put Moon Stone and Sun Stone in Celadon Dept Store 4F
+- Fishing is guaranteed to hook a Pokemon if possible
+- Add a shady salesman to Cerulean City that gives a guaranteed Rare Candy
+- Replaced TM09 Bullet Seed with Sweet Scent (item ball in Mt Moon 1F)
+
 ## See also
 
 Other disassembly and/or decompilation projects:

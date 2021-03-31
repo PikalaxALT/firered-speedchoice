@@ -32,6 +32,8 @@ CeladonCity_DepartmentStore_4F_Items:: @ 816BC30
 	.2byte ITEM_THUNDER_STONE
 	.2byte ITEM_WATER_STONE
 	.2byte ITEM_LEAF_STONE
+	.2byte ITEM_MOON_STONE
+	.2byte ITEM_SUN_STONE
 	.2byte ITEM_NONE
 	release
 	end
