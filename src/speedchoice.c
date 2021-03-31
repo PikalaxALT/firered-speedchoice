@@ -1268,7 +1268,7 @@ extern void MainMenu_DrawWindow(const struct WindowTemplate*, u16);
  */
 static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
 {
-    FillWindowPixelBuffer(SPD_WIN_TOOLTIP, 0x11);
+    FillWindowPixelBuffer(SPD_WIN_TOOLTIP, PIXEL_FILL(1));
     AddTextPrinterParameterized(SPD_WIN_TOOLTIP, 2, str, 0, 1, speed, NULL);
     //sub_8098858(SPD_WIN_TOOLTIP, 0x1D5, 0);
     MainMenu_DrawWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP], 418);
@@ -1276,7 +1276,7 @@ static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
     CopyWindowToVram(SPD_WIN_TOOLTIP, 3);
     if(isYesNo)
     {
-        FillWindowPixelBuffer(3, 0x11);
+        FillWindowPixelBuffer(3, PIXEL_FILL(1));
         MainMenu_DrawWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_YESNO], 418);
         PutWindowTilemap(3);
         CopyWindowToVram(3, 3);
@@ -1583,7 +1583,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
 static void DrawHeaderWindow(void)
 {
     s32 width;
-    FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, 0x11);
+    FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, PIXEL_FILL(1));
     AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceTextHeader, 4, 1, TEXT_SPEED_FF, NULL);
     width = GetStringWidth(2, gSpeedchoiceCurrentVersion, GetFontAttribute(2, FONTATTR_LETTER_SPACING));
     AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceCurrentVersion, 204 - width, 1, TEXT_SPEED_FF, NULL);
@@ -1593,7 +1593,7 @@ static void DrawHeaderWindow(void)
 // Renders the frame for the options and choices window.
 void DrawOptionsAndChoicesWindow(void)
 {
-    FillWindowPixelBuffer(SPD_WIN_OPTIONS, 0x11);
+    FillWindowPixelBuffer(SPD_WIN_OPTIONS, PIXEL_FILL(1));
     CopyWindowToVram(SPD_WIN_OPTIONS, 3);
 }
 
@@ -1614,7 +1614,7 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
     u8 i;
     u8 drawCount = GetPageDrawCount(page);
 
-    FillWindowPixelBuffer(SPD_WIN_OPTIONS, 0x11);
+    FillWindowPixelBuffer(SPD_WIN_OPTIONS, PIXEL_FILL(1));
 
     // print page options.
     for(i = 0; i < drawCount; i++)

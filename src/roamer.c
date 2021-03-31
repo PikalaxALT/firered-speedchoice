@@ -58,22 +58,18 @@ void ClearRoamerData(void)
     }
 }
 
-#define GetRoamerSpecies() ({\
-    u16 a;\
-    switch (GetStarterSpecies())\
-    {\
-    default:\
-        a = SPECIES_RAIKOU;\
-        break;\
-    case SPECIES_BULBASAUR:\
-        a = SPECIES_ENTEI;\
-        break;\
-    case SPECIES_CHARMANDER:\
-        a = SPECIES_SUICUNE;\
-        break;\
-    }\
-    a;\
-})
+static inline u16 GetRoamerSpecies(void)
+{
+    switch (GetStarterSpecies())
+    {
+    default:
+        return SPECIES_RAIKOU;
+    case SPECIES_BULBASAUR:
+        return SPECIES_ENTEI;
+    case SPECIES_CHARMANDER:
+        return SPECIES_SUICUNE;
+    }
+}
 
 void CreateInitialRoamerMon(void)
 {
@@ -93,7 +89,7 @@ void CreateInitialRoamerMon(void)
     saveRoamer.cute = GetMonData(tmpMon, MON_DATA_CUTE);
     saveRoamer.smart = GetMonData(tmpMon, MON_DATA_SMART);
     saveRoamer.tough = GetMonData(tmpMon, MON_DATA_TOUGH);
-    sRoamerLocation[MAP_GRP] = 3;
+    sRoamerLocation[MAP_GRP] = MAP_GROUP(ROUTE1);
     sRoamerLocation[MAP_NUM] = sRoamerLocations[Random() % (NELEMS(sRoamerLocations) - 1)][0];
 }
 

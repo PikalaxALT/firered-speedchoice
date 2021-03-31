@@ -22,7 +22,7 @@ static const u8 sDoubleArrowTiles1[]       = INCBIN_U8("graphics/fonts/down_arro
 static const u8 sDoubleArrowTiles2[]       = INCBIN_U8("graphics/fonts/down_arrow_4.4bpp");
 
 static const u8 sDownArrowYCoords[]           = { 0x0, 0x10, 0x20, 0x10 };
-static const u8 sWindowVerticalScrollSpeeds[] = { 0x1, 0x2 , 0x4 , 0x0 };
+static const u8 sWindowVerticalScrollSpeeds[] = { 0x1, 0x2 , 0x4 , 0x10 };
 
 static const struct GlyphWidthFunc sGlyphWidthFuncs[] = {
     { 0x0, GetGlyphWidthFont0 },
@@ -542,7 +542,7 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if ((JOY_HELD(A_BUTTON | B_BUTTON) && CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE) || JOY_NEW(A_BUTTON | B_BUTTON))
+        if ((gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? gMain.heldKeys : gMain.newKeys) & (A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -560,7 +560,7 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if ((JOY_HELD(A_BUTTON | B_BUTTON) && CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE) || JOY_NEW(A_BUTTON | B_BUTTON))
+        if ((gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? gMain.heldKeys : gMain.newKeys) & (A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -620,7 +620,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
 
     switch (textPrinter->state)
     {
-    case 0:
+    case PRINTER_STATE_PRINTCHAR:
         if (JOY_HELD(A_BUTTON | B_BUTTON) && subStruct->hasPrintBeenSpedUp)
             textPrinter->delayCounter = 0;
 
@@ -632,7 +632,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 subStruct->hasPrintBeenSpedUp = TRUE;
                 textPrinter->delayCounter = 0;
             }
-            return 3;
+            return PRINTER_RET_WAIT;
         }
 
         if (gTextFlags.autoScroll)
@@ -648,10 +648,10 @@ u16 RenderText(struct TextPrinter *textPrinter)
         case CHAR_NEWLINE:
             textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x;
             textPrinter->printerTemplate.currentY += gFonts[textPrinter->printerTemplate.fontId].maxLetterHeight + textPrinter->printerTemplate.lineSpacing;
-            return 2;
+            return PRINTER_RET_CONTROL;
         case PLACEHOLDER_BEGIN:
             textPrinter->printerTemplate.currentChar++;
-            return 2;
+            return PRINTER_RET_CONTROL;
         case EXT_CTRL_CODE_BEGIN:
             currChar = *textPrinter->printerTemplate.currentChar;
             textPrinter->printerTemplate.currentChar++;
@@ -661,17 +661,17 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.fgColor = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.fgColor, textPrinter->printerTemplate.bgColor, textPrinter->printerTemplate.shadowColor);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_HIGHLIGHT:
                 textPrinter->printerTemplate.bgColor = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.fgColor, textPrinter->printerTemplate.bgColor, textPrinter->printerTemplate.shadowColor);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_SHADOW:
                 textPrinter->printerTemplate.shadowColor = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.fgColor, textPrinter->printerTemplate.bgColor, textPrinter->printerTemplate.shadowColor);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_COLOR_HIGHLIGHT_SHADOW:
                 textPrinter->printerTemplate.fgColor = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
@@ -680,29 +680,29 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.shadowColor = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 GenerateFontHalfRowLookupTable(textPrinter->printerTemplate.fgColor, textPrinter->printerTemplate.bgColor, textPrinter->printerTemplate.shadowColor);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_PALETTE:
                 textPrinter->printerTemplate.currentChar++;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_FONT:
                 subStruct->glyphId = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_RESET_FONT:
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_PAUSE:
                 textPrinter->delayCounter = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
-                textPrinter->state = 6;
-                return 2;
+                textPrinter->state = PRINTER_STATE_PAUSE;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_WAIT_BUTTON:
-                textPrinter->state = 1;
+                textPrinter->state = PRINTER_STATE_WAITBUTTON;
                 if (gTextFlags.autoScroll)
                     subStruct->autoScrollDelay = 0;
-                return 3;
+                return PRINTER_RET_WAIT;
             case EXT_CTRL_CODE_WAIT_SE:
-                textPrinter->state = 5;
-                return 3;
+                textPrinter->state = PRINTER_STATE_WAITSE;
+                return PRINTER_RET_WAIT;
             case EXT_CTRL_CODE_PLAY_BGM:
                 currChar = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
@@ -710,14 +710,14 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 textPrinter->printerTemplate.currentChar++;
                 if (!QL_IS_PLAYBACK_STATE)
                     PlayBGM(currChar);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_PLAY_SE:
                 currChar = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
                 currChar |= (*textPrinter->printerTemplate.currentChar << 8);
                 textPrinter->printerTemplate.currentChar++;
                 PlaySE(currChar);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_ESCAPE:
                 textPrinter->printerTemplate.currentChar++;
                 currChar = *textPrinter->printerTemplate.currentChar;
@@ -725,20 +725,20 @@ u16 RenderText(struct TextPrinter *textPrinter)
             case EXT_CTRL_CODE_SHIFT_RIGHT:
                 textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x + *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_SHIFT_DOWN:
                 textPrinter->printerTemplate.currentY = textPrinter->printerTemplate.y + *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_FILL_WINDOW:
                 FillWindowPixelBuffer(textPrinter->printerTemplate.windowId, PIXEL_FILL(textPrinter->printerTemplate.bgColor));
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_STOP_BGM:
                 m4aMPlayStop(&gMPlayInfo_BGM);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_RESUME_BGM:
                 m4aMPlayContinue(&gMPlayInfo_BGM);
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_CLEAR:
                 width = *textPrinter->printerTemplate.currentChar;
                 textPrinter->printerTemplate.currentChar++;
@@ -746,13 +746,13 @@ u16 RenderText(struct TextPrinter *textPrinter)
                 {
                     ClearTextSpan(textPrinter, width);
                     textPrinter->printerTemplate.currentX += width;
-                    return 0;
+                    return PRINTER_RET_CONTINUE;
                 }
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_SKIP:
                 textPrinter->printerTemplate.currentX = *textPrinter->printerTemplate.currentChar + textPrinter->printerTemplate.x;
                 textPrinter->printerTemplate.currentChar++;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_CLEAR_TO:
                 {
                     widthHelper = *textPrinter->printerTemplate.currentChar;
@@ -763,29 +763,29 @@ u16 RenderText(struct TextPrinter *textPrinter)
                     {
                         ClearTextSpan(textPrinter, width);
                         textPrinter->printerTemplate.currentX += width;
-                        return 0;
+                        return PRINTER_RET_CONTINUE;
                     }
                 }
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_MIN_LETTER_SPACING:
                 textPrinter->minLetterSpacing = *textPrinter->printerTemplate.currentChar++;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_JPN:
                 textPrinter->japanese = 1;
-                return 2;
+                return PRINTER_RET_CONTROL;
             case EXT_CTRL_CODE_ENG:
                 textPrinter->japanese = 0;
-                return 2;
+                return PRINTER_RET_CONTROL;
             }
             break;
         case CHAR_PROMPT_CLEAR:
-            textPrinter->state = 2;
+            textPrinter->state = PRINTER_STATE_PROMPTCLEAR;
             TextPrinterInitDownArrowCounters(textPrinter);
-            return 3;
+            return PRINTER_RET_WAIT;
         case CHAR_PROMPT_SCROLL:
-            textPrinter->state = 3;
+            textPrinter->state = PRINTER_STATE_PROMPTSCROLL;
             TextPrinterInitDownArrowCounters(textPrinter);
-            return 3;
+            return PRINTER_RET_WAIT;
         case CHAR_EXTRA_EMOJI:
             currChar = *textPrinter->printerTemplate.currentChar | 0x100;
             textPrinter->printerTemplate.currentChar++;
@@ -794,9 +794,9 @@ u16 RenderText(struct TextPrinter *textPrinter)
             currChar = *textPrinter->printerTemplate.currentChar++;
             gGlyphInfo.width = DrawKeypadIcon(textPrinter->printerTemplate.windowId, currChar, textPrinter->printerTemplate.currentX, textPrinter->printerTemplate.currentY);
             textPrinter->printerTemplate.currentX += gGlyphInfo.width + textPrinter->printerTemplate.letterSpacing;
-            return 0;
+            return PRINTER_RET_CONTINUE;
         case EOS:
-            return 1;
+            return PRINTER_RET_TERMINATE;
         }
 
         switch (subStruct->glyphId)
@@ -839,30 +839,30 @@ u16 RenderText(struct TextPrinter *textPrinter)
             else
                 textPrinter->printerTemplate.currentX += gGlyphInfo.width;
         }
-        return 0;
-    case 1:
+        return PRINTER_RET_CONTINUE;
+    case PRINTER_STATE_WAITBUTTON:
         if (TextPrinterWait(textPrinter))
-            textPrinter->state = 0;
-        return 3;
-    case 2:
+            textPrinter->state = PRINTER_STATE_PRINTCHAR;
+        return PRINTER_RET_WAIT;
+    case PRINTER_STATE_PROMPTCLEAR:
         if (TextPrinterWaitWithDownArrow(textPrinter))
         {
             FillWindowPixelBuffer(textPrinter->printerTemplate.windowId, PIXEL_FILL(textPrinter->printerTemplate.bgColor));
             textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x;
             textPrinter->printerTemplate.currentY = textPrinter->printerTemplate.y;
-            textPrinter->state = 0;
+            textPrinter->state = PRINTER_STATE_PRINTCHAR;
         }
-        return 3;
-    case 3:
+        return PRINTER_RET_WAIT;
+    case PRINTER_STATE_PROMPTSCROLL:
         if (TextPrinterWaitWithDownArrow(textPrinter))
         {
             TextPrinterClearDownArrow(textPrinter);
             textPrinter->scrollDistance = gFonts[textPrinter->printerTemplate.fontId].maxLetterHeight + textPrinter->printerTemplate.lineSpacing;
             textPrinter->printerTemplate.currentX = textPrinter->printerTemplate.x;
-            textPrinter->state = 4;
+            textPrinter->state = PRINTER_STATE_DOSCROLL;
         }
-        return 3;
-    case 4:
+        return PRINTER_RET_WAIT;
+    case PRINTER_STATE_DOSCROLL:
         if (textPrinter->scrollDistance)
         {
     
@@ -880,22 +880,22 @@ u16 RenderText(struct TextPrinter *textPrinter)
         }
         else
         {
-            textPrinter->state = 0;
+            textPrinter->state = PRINTER_STATE_PRINTCHAR;
         }
-        return 3;
-    case 5:
+        return PRINTER_RET_WAIT;
+    case PRINTER_STATE_WAITSE:
         if (!IsSEPlaying())
-            textPrinter->state = 0;
-        return 3;
-    case 6:
+            textPrinter->state = PRINTER_STATE_PRINTCHAR;
+        return PRINTER_RET_WAIT;
+    case PRINTER_STATE_PAUSE:
         if (textPrinter->delayCounter != 0)
             textPrinter->delayCounter--;
         else
-            textPrinter->state = 0;
-        return 3;
+            textPrinter->state = PRINTER_STATE_PRINTCHAR;
+        return PRINTER_RET_WAIT;
     }
 
-    return 1;
+    return PRINTER_RET_TERMINATE;
 }
 
 s32 GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 letterSpacing)
@@ -1042,7 +1042,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
                 width = lineWidth;
             lineWidth = 0;
             break;
-    case PLACEHOLDER_BEGIN:
+        case PLACEHOLDER_BEGIN:
             switch (*++str)
             {
                 case PLACEHOLDER_ID_STRING_VAR_1:

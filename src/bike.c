@@ -153,7 +153,6 @@ static u8 BikeInputHandler_Downhill(u8 *direction_p, u16 newKeys, u16 heldKeys)
 static void BikeTransition_FaceDirection(u8 direction)
 {
     PlayerFaceDirection(direction);
-
 }
 
 static void BikeTransition_TurnDirection(u8 direction)
@@ -163,7 +162,6 @@ static void BikeTransition_TurnDirection(u8 direction)
     if (!CanBikeFaceDirOnMetatile(direction, playerObjEvent->currentMetatileBehavior))
         direction = playerObjEvent->movementDirection;
     PlayerFaceDirection(direction);
-
 }
 
 static void BikeTransition_Moving(u8 direction)

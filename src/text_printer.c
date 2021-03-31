@@ -1,10 +1,9 @@
 #include "global.h"
 #include "window.h"
 #include "text.h"
-#include "speedchoice.h"
 
 static EWRAM_DATA struct TextPrinter sTempTextPrinter = {0};
-static EWRAM_DATA struct TextPrinter sTextPrinters[NUM_TEXT_PRINTERS] = {0};
+static EWRAM_DATA struct TextPrinter sTextPrinters[WINDOWS_MAX] = {0};
 
 static u16 sFontHalfRowLookupTable[0x51];
 static u16 sLastTextBgColor;
@@ -42,7 +41,7 @@ void SetFontsPointer(const struct FontInfo *fonts)
 void DeactivateAllTextPrinters (void)
 {
     int printer;
-    for (printer = 0; printer < NUM_TEXT_PRINTERS; ++printer)
+    for (printer = 0; printer < WINDOWS_MAX; ++printer)
         sTextPrinters[printer].active = 0;
 }
 
@@ -101,12 +100,12 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *textSubPrinter, u8 speed, void
         sTempTextPrinter.textSpeed = 0;
         for (j = 0; j < 0x400; ++j)
         {
-            if ((u32)RenderFont(&sTempTextPrinter) == 1)
+            if (RenderFont(&sTempTextPrinter) == PRINTER_RET_TERMINATE)
                 break;
         }
 
         if (speed != TEXT_SPEED_FF)
-          CopyWindowToVram(sTempTextPrinter.printerTemplate.windowId, COPYWIN_GFX);
+            CopyWindowToVram(sTempTextPrinter.printerTemplate.windowId, COPYWIN_GFX);
         sTextPrinters[textSubPrinter->windowId].active = 0;
     }
     return TRUE;
@@ -121,35 +120,36 @@ void RunTextPrinters(void)
     do
     {
         int numEmpty = 0;
-        for (i = 0; i < NUM_TEXT_PRINTERS; ++i)
+        for (i = 0; i < WINDOWS_MAX; ++i)
         {
             if (sTextPrinters[i].active != 0)
             {
                 temp = RenderFont(&sTextPrinters[i]);
                 switch (temp)
                 {
-                case 0:
+                case PRINTER_RET_CONTINUE:
                     CopyWindowToVram(sTextPrinters[i].printerTemplate.windowId, COPYWIN_GFX);
                     if (sTextPrinters[i].callback != NULL)
                     {
                         sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
                     }
                     break;
-                case 3:
+                case PRINTER_RET_WAIT:
                     if (sTextPrinters[i].callback != NULL)
                     {
                         sTextPrinters[i].callback(&sTextPrinters[i].printerTemplate, temp);
                     }
-                    return;
-                case 1:
+                    isInstantText = FALSE;
+                    break;
+                case PRINTER_RET_TERMINATE:
                     sTextPrinters[i].active = 0;
-                    return;
+                    break;
                 }
             }
             else
                 numEmpty++;
         }
-        if (numEmpty == NUM_TEXT_PRINTERS)
+        if (numEmpty == WINDOWS_MAX)
             return;
     } while (isInstantText);
 }
