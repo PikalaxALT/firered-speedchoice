@@ -31,6 +31,7 @@
 #include "mevent.h"
 #include "naming_screen.h"
 #include "party_menu.h"
+#include "speedchoice.h"
 #include "dynamic_placeholder_text_util.h"
 #include "new_menu_helpers.h"
 #include "constants/songs.h"
@@ -548,7 +549,8 @@ void DoPicboxCancel(void)
     PicboxCancel();
 }
 
-void SetVermilionTrashCans(void)
+// Speedchoice change: Trash cans
+void SetVermilionTrashCans_Vanilla(void)
 {
     u16 idx = (Random() % 15) + 1;
     gSpecialVar_0x8004 = idx;
@@ -645,6 +647,27 @@ void SetVermilionTrashCans(void)
             gSpecialVar_0x8005 = gSpecialVar_0x8004 - 1;
         else
             gSpecialVar_0x8005 = gSpecialVar_0x8004 + 1;
+    }
+}
+
+void SetVermilionTrashCans(void)
+{
+    switch (gSaveBlock2Ptr->speedchoiceConfig.easySurgeCans)
+    {
+    default:
+    case SURGE_KEEP:
+        SetVermilionTrashCans_Vanilla();
+        break;
+    case SURGE_NERF:
+        gSpecialVar_0x8004 = 11; // bottom left corner
+        gSpecialVar_0x8005 = 12; // immediately to the right of it
+        break;
+    case SURGE_HELL:
+        do {
+            gSpecialVar_0x8004 = (Random() % 15) + 1;
+            gSpecialVar_0x8005 = (Random() % 15) + 1;
+        } while (gSpecialVar_0x8004 == gSpecialVar_0x8005);
+        break;
     }
 }
 

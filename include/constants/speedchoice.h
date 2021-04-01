@@ -37,13 +37,14 @@
 #define GEN_7_X_ITEMS       18 // Implemented
 #define EVO_EVERY_LEVEL     19 // Implemented
 #define HM_BADGE_CHECKS     20 // Implemented
+#define EASY_SURGE_CANS     21 // TODO
 
-#define CURRENT_OPTIONS_NUM 21
+#define CURRENT_OPTIONS_NUM 22
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
-#define PAGE        21
-#define START_GAME  22
+#define PAGE        CURRENT_OPTIONS_NUM + 0
+#define START_GAME  CURRENT_OPTIONS_NUM + 1
 
 
 /*
@@ -197,6 +198,13 @@
 
 #define BADGE_PURGE 0
 #define BADGE_KEEP 1
+
+// --------------------
+// EASY_SURGE_CANS ENUM
+// --------------------
+#define SURGE_NERF 0
+#define SURGE_KEEP 1
+#define SURGE_HELL 2
 
 // Enumeration for optionType in the Speedchoice struct below.
 

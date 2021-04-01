@@ -88,6 +88,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0b3
 - Add Escape option to the start menu
 - Added Plotless hook on Bill in Cinnabar
+- Added option to nerf Lt. Surge's trash cans.
 
 ## See also
 
