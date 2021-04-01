@@ -83,18 +83,18 @@
 // Used by Quest Log.
 #define VAR_QUEST_LOG_MON_COUNTS           0x4027
 #define VAR_MENEWS_JISAN_STEP_COUNTER      0x4028
-#define VAR_0x4029                         0x4029
-#define VAR_0x402A                         0x402A
-#define VAR_0x402B                         0x402B
+#define VAR_0x4029                         0x4029 // Unused
+#define VAR_0x402A                         0x402A // Unused
+#define VAR_0x402B                         0x402B // Unused
 #define VAR_RESET_RTC_ENABLE               0x402C
-#define VAR_0x402D                         0x402D
-#define VAR_0x402E                         0x402E
+#define VAR_0x402D                         0x402D // Unused
+#define VAR_0x402E                         0x402E // Unused
 
-#define VAR_0x402F                         0x402F
+#define VAR_0x402F                         0x402F // Unused
 
 #define VAR_ICE_STEP_COUNT                 0x4030
 #define VAR_STARTER_MON                    0x4031 // 0: Bulbasaur, 1: Squirtle, 2: Charmander
-#define VAR_0x4032                         0x4032
+#define VAR_RTC_RESET                      0x4032
 #define VAR_ENIGMA_BERRY_AVAILABLE         0x4033
 
 #define VAR_0x4034                         0x4034
@@ -105,7 +105,7 @@
 #define VAR_FANCLUB_LOSE_FAN_TIMER         0x4039
 #define VAR_ELEVATOR_FLOOR                 0x403A
 #define VAR_RESORT_GORGEOUS_REWARD         0x403B
-#define VAR_0x403C                         0x403C
+#define VAR_RS_NATIONAL_DEX                0x403C
 #define VAR_HERACROSS_SIZE_RECORD          0x403D
 #define VAR_DEOXYS_INTERACTION_NUM         0x403E
 #define VAR_0x403F                         0x403F
@@ -123,7 +123,7 @@
 #define VAR_LINK_WIN_BRAG_STATE            0x404B
 #define VAR_POKELOT_RND2                   0x404C
 #define VAR_QL_ENTRANCE                    0x404D
-#define VAR_0x404E                         0x404E
+#define VAR_NATIONAL_DEX                   0x404E
 #define VAR_LOTAD_SIZE_RECORD              0x404F
 
 // Map Scene
@@ -158,7 +158,7 @@
 #define VAR_MAP_SCENE_PEWTER_CITY                                              0x406C
 #define VAR_0x406D                                                             0x406D
 #define VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE                        0x406E
-#define VAR_CABLE_CLUB_STATE                                                    0x406F
+#define VAR_CABLE_CLUB_STATE                                                   0x406F
 #define VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY                                    0x4070
 #define VAR_MAP_SCENE_CINNABAR_ISLAND                                          0x4071
 #define VAR_0x4072                                                             0x4072

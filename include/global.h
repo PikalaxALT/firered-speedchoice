@@ -618,9 +618,9 @@ struct RecordMixingDayCareMail
 
 struct MENewsJisanStruct
 {
-    u8 unk_0_0:2;
-    u8 unk_0_2:3;
-    u8 unk_0_5:3;
+    u8 state:2;
+    u8 timesShared:3;
+    u8 receivedBerries:3;
     u8 berry;
 };
 

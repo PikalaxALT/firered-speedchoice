@@ -1364,28 +1364,28 @@
 
 #define FLAG_SYS_POKEMON_GET                                        (SYS_FLAGS + 0x28)
 #define FLAG_SYS_POKEDEX_GET                                        (SYS_FLAGS + 0x29)
-#define FLAG_0x82A                                                  (SYS_FLAGS + 0x2A)
-#define FLAG_0x82B                                                  (SYS_FLAGS + 0x2B)
+#define FLAG_0x82A                                                  (SYS_FLAGS + 0x2A) // Unused
+#define FLAG_0x82B                                                  (SYS_FLAGS + 0x2B) // Unused
 #define FLAG_SYS_GAME_CLEAR                                         (SYS_FLAGS + 0x2C)
 #define FLAG_SYS_SET_TRAINER_CARD_PROFILE                           (SYS_FLAGS + 0x2D)
-#define FLAG_0x82E                                                  (SYS_FLAGS + 0x2E)
+#define FLAG_0x82E                                                  (SYS_FLAGS + 0x2E) // Unused
 #define FLAG_SYS_B_DASH                                             (SYS_FLAGS + 0x2F)
 #define FLAG_SYS_ON_CYCLING_ROAD                                    (SYS_FLAGS + 0x30)
-#define FLAG_0x831                                                  (SYS_FLAGS + 0x31)
-#define FLAG_0x832                                                  (SYS_FLAGS + 0x32)
-#define FLAG_0x833                                                  (SYS_FLAGS + 0x33)
+#define FLAG_0x831                                                  (SYS_FLAGS + 0x31) // Unused
+#define FLAG_0x832                                                  (SYS_FLAGS + 0x32) // Unused
+#define FLAG_0x833                                                  (SYS_FLAGS + 0x33) // Unused
 #define FLAG_SYS_NOT_SOMEONES_PC                                    (SYS_FLAGS + 0x34)
-#define FLAG_0x835                                                  (SYS_FLAGS + 0x35)
-#define FLAG_0x836                                                  (SYS_FLAGS + 0x36)
-#define FLAG_0x837                                                  (SYS_FLAGS + 0x37)
-#define FLAG_0x838                                                  (SYS_FLAGS + 0x38)
+#define FLAG_0x835                                                  (SYS_FLAGS + 0x35) // Unused
+#define FLAG_0x836                                                  (SYS_FLAGS + 0x36) // Unused
+#define FLAG_SYS_RTC_RESET_ENABLED                                  (SYS_FLAGS + 0x37) // RS
+#define FLAG_SYS_RS_NATIONAL_DEX                                    (SYS_FLAGS + 0x38) // RS
 #define FLAG_SYS_MYSTERY_GIFT_ENABLED                               (SYS_FLAGS + 0x39)
-#define FLAG_0x83A                                                  (SYS_FLAGS + 0x3A)
+#define FLAG_0x83A                                                  (SYS_FLAGS + 0x3A) // Unused
 #define FLAG_SYS_RIBBON_GET                                         (SYS_FLAGS + 0x3B)
 #define FLAG_SYS_SAW_HELP_SYSTEM_INTRO                              (SYS_FLAGS + 0x3C)
-#define FLAG_0x83D                                                  (SYS_FLAGS + 0x3D)
+#define FLAG_0x83D                                                  (SYS_FLAGS + 0x3D) // Unused
 #define FLAG_OPENED_START_MENU                                      (SYS_FLAGS + 0x3E)
-#define FLAG_0x83F                                                  (SYS_FLAGS + 0x3F)
+#define FLAG_0x83F                                                  (SYS_FLAGS + 0x3F) // Unused
 #define FLAG_SYS_NATIONAL_DEX                                       (SYS_FLAGS + 0x40)
 #define FLAG_SYS_PC_STORAGE_DISABLED                                (SYS_FLAGS + 0x41)
 #define FLAG_SYS_INFORMED_OF_LOCAL_WIRELESS_PLAYER                  (SYS_FLAGS + 0x42)
@@ -1520,9 +1520,9 @@
 #define SPECIAL_FLAGS_START 0x4000
 #define SPECIAL_FLAGS_COUNT 16
 #define FLAG_DONT_SHOW_MAP_NAME_POPUP    0x4000
-#define FLAG_DONT_TRANSITION_MUSIC    0x4001
-#define FLAG_SPECIAL_FLAG_0x4002    0x4002
-#define FLAG_SPECIAL_FLAG_0x4003    0x4003
-#define FLAG_SPECIAL_FLAG_0x4004    0x4004
+#define FLAG_DONT_TRANSITION_MUSIC       0x4001
+#define FLAG_SPECIAL_FLAG_0x4002         0x4002
+#define FLAG_SPECIAL_FLAG_0x4003         0x4003
+#define FLAG_SPECIAL_FLAG_0x4004         0x4004
 
 #endif // GUARD_CONSTANTS_FLAGS_H

@@ -6,141 +6,193 @@
 #include "constants/items.h"
 
 static u32 GetMENewsJisanRewardItem(struct MENewsJisanStruct *);
-static void MENewsJisanIncrementCounterUnk0_5(struct MENewsJisanStruct *);
+static void MENewsJisanIncrementRewardCounter(struct MENewsJisanStruct *);
 static u32 GetMENewsJisanState(struct MENewsJisanStruct *);
-static void MENewsJisanIncrementCounterUnk0_2(struct MENewsJisanStruct *);
-static void MENewsJisanResetCounterUnk0_2(struct MENewsJisanStruct *);
+static void MENewsJisanIncrementSharedCounter(struct MENewsJisanStruct *);
+static void MENewsJisanResetSharedCounter(struct MENewsJisanStruct *);
 
-void MENewsJisan_SetRandomReward(u32 a0)
+// Based on the type of event received, set a berry as a reward.
+// For receiving news, you get one of these types of berry at random:
+//     ITEM_RAZZ_BERRY
+//     ITEM_BLUK_BERRY
+//     ITEM_NANAB_BERRY
+//     ITEM_WEPEAR_BERRY
+//     ITEM_PINAP_BERRY
+//     ITEM_POMEG_BERRY
+//     ITEM_KELPSY_BERRY
+//     ITEM_QUALOT_BERRY
+//     ITEM_HONDEW_BERRY
+//     ITEM_GREPA_BERRY
+//     ITEM_TAMATO_BERRY
+//     ITEM_CORNN_BERRY
+//     ITEM_MAGOST_BERRY
+//     ITEM_RABUTA_BERRY
+//     ITEM_NOMEL_BERRY
+//
+// For sharing news with other people, you get one of these types of berry at random:
+//     ITEM_CHERI_BERRY
+//     ITEM_CHESTO_BERRY
+//     ITEM_PECHA_BERRY
+//     ITEM_RAWST_BERRY
+//     ITEM_ASPEAR_BERRY
+//     ITEM_LEPPA_BERRY
+//     ITEM_ORAN_BERRY
+//     ITEM_PERSIM_BERRY
+//     ITEM_LUM_BERRY
+//     ITEM_SITRUS_BERRY
+//     ITEM_FIGY_BERRY
+//     ITEM_WIKI_BERRY
+//     ITEM_MAGO_BERRY
+//     ITEM_AGUAV_BERRY
+//     ITEM_IAPAPA_BERRY
+//
+// The more people are involved, the more berries you get as a reward.
+void MENewsJisan_SetRandomReward(u32 type)
 {
-    struct MENewsJisanStruct *r5 = GetMENewsJisanStructPtr();
+    struct MENewsJisanStruct *jisan_p = GetMENewsJisanStructPtr();
 
-    r5->unk_0_0 = a0;
-    switch (a0)
+    jisan_p->state = type;
+    switch (type)
     {
-    case 0:
+    case JISAN_REWARD_NONE:
         break;
-    case 1:
-    case 2:
-        r5->berry = (Random() % 15) + ITEM_TO_BERRY(ITEM_RAZZ_BERRY);
+    case JISAN_REWARD_RECV_FRIEND:
+    case JISAN_REWARD_RECV_WIRELESS:
+        jisan_p->berry = (Random() % 15) + ITEM_TO_BERRY(ITEM_RAZZ_BERRY);
         break;
-    case 3:
-        r5->berry = (Random() % 15) + ITEM_TO_BERRY(ITEM_CHERI_BERRY);
+    case JISAN_REWARD_SEND:
+        jisan_p->berry = (Random() % 15) + ITEM_TO_BERRY(ITEM_CHERI_BERRY);
         break;
     }
 }
 
+// Initialize the news exchange state
 void MENewsJisanReset(void)
 {
-    struct MENewsJisanStruct *r5 = GetMENewsJisanStructPtr();
+    struct MENewsJisanStruct *jisan_p = GetMENewsJisanStructPtr();
 
-    r5->unk_0_0 = 0;
-    r5->unk_0_2 = 0;
-    r5->unk_0_5 = 0;
-    r5->berry = 0;
+    jisan_p->state = 0;
+    jisan_p->timesShared = 0;
+    jisan_p->receivedBerries = 0;
+    jisan_p->berry = 0;
     VarSet(VAR_MENEWS_JISAN_STEP_COUNTER, 0);
 }
 
+// You can receive up to 5 berries. After that, you need
+// to walk 500 steps (or two Max Repels' worth).
 void MENewsJisanStepCounter(void)
 {
-    u16 *r4 = GetVarPointer(VAR_MENEWS_JISAN_STEP_COUNTER);
-    struct MENewsJisanStruct *r2 = GetMENewsJisanStructPtr();
-    struct MENewsJisanStruct r0 = *r2;
+    u16 *var_p = GetVarPointer(VAR_MENEWS_JISAN_STEP_COUNTER);
+    struct MENewsJisanStruct *jisan_p = GetMENewsJisanStructPtr();
 
-    if ((u8)r0.unk_0_5 > 4 && ++(*r4) >= 500)
-    {
-        r2->unk_0_5 = 0;
-        *r4 = 0;
-    }
+    if (jisan_p->receivedBerries < JISAN_REWARD_LIMIT)
+        return;
+
+    ++(*var_p);
+    if (*var_p < JISAN_RESET_STEPS)
+        return;
+
+    jisan_p->receivedBerries = 0;
+    *var_p = 0;
 }
 
+// Script special. Returns the reward state to the variable passed to
+// the script command `specialvar`. If there is a reward to be given,
+// the item id is placed in gSpecialVar_Result.
 u16 GetMENewsJisanItemAndState(void)
 {
-    u16 *r6 = &gSpecialVar_Result;
-    struct MENewsJisanStruct *r4 = GetMENewsJisanStructPtr();
-    u16 r5;
+    u16 *result_p = &gSpecialVar_Result;
+    struct MENewsJisanStruct *jisan_p = GetMENewsJisanStructPtr();
+    u16 state;
 
     if (!IsMysteryGiftEnabled() || !ValidateReceivedWonderNews())
-        return 0;
+        return JISAN_STATE_RECEIVED_NONE;
 
-    r5 = GetMENewsJisanState(r4);
+    state = GetMENewsJisanState(jisan_p);
 
-    switch (r5)
+    switch (state)
     {
-    case 0:
+    case JISAN_STATE_RECEIVED_NONE:
         break;
-    case 1:
-        *r6 = GetMENewsJisanRewardItem(r4);
+    case JISAN_STATE_RECEIVED_SINGLE:
+        *result_p = GetMENewsJisanRewardItem(jisan_p);
         break;
-    case 2:
-        *r6 = GetMENewsJisanRewardItem(r4);
+    case JISAN_STATE_RECEIVED_MULTIPLE:
+        *result_p = GetMENewsJisanRewardItem(jisan_p);
         break;
-    case 3:
+    case JISAN_STATE_SHARED_NONE:
         break;
-    case 4:
-        *r6 = GetMENewsJisanRewardItem(r4);
-        MENewsJisanIncrementCounterUnk0_2(r4);
+    case JISAN_STATE_SHARED_SINGLE:
+        *result_p = GetMENewsJisanRewardItem(jisan_p);
+        MENewsJisanIncrementSharedCounter(jisan_p);
         break;
-    case 5:
-        *r6 = GetMENewsJisanRewardItem(r4);
-        MENewsJisanResetCounterUnk0_2(r4);
+    case JISAN_STATE_SHARED_MULTIPLE:
+        *result_p = GetMENewsJisanRewardItem(jisan_p);
+        MENewsJisanResetSharedCounter(jisan_p);
         break;
-    case 6:
+    case JISAN_STATE_EXHAUSTED:
         break;
     }
 
-    return r5;
+    return state;
 }
 
-static u32 GetMENewsJisanRewardItem(struct MENewsJisanStruct *a0)
+// Retrieves the stored reward and prepares the internal state to
+// receive more news.
+static u32 GetMENewsJisanRewardItem(struct MENewsJisanStruct *jisan_p)
 {
-    u32 r4;
+    u32 item_id;
 
-    a0->unk_0_0 = 0;
-    r4 = a0->berry + FIRST_BERRY_INDEX - 1;
-    a0->berry = 0;
-    MENewsJisanIncrementCounterUnk0_5(a0);
-    return r4;
+    jisan_p->state = JISAN_REWARD_NONE;
+    item_id = jisan_p->berry + FIRST_BERRY_INDEX - 1;
+    jisan_p->berry = 0;
+    MENewsJisanIncrementRewardCounter(jisan_p);
+    return item_id;
 }
 
-static void MENewsJisanResetCounterUnk0_2(struct MENewsJisanStruct *a0)
+// Resets the counter which keeps track of how many times news was shared.
+static void MENewsJisanResetSharedCounter(struct MENewsJisanStruct *jisan_p)
 {
-    a0->unk_0_2 = 0;
+    jisan_p->timesShared = 0;
 }
 
-static void MENewsJisanIncrementCounterUnk0_2(struct MENewsJisanStruct *a0)
+// Capped increment for the counter described above.
+static void MENewsJisanIncrementSharedCounter(struct MENewsJisanStruct *jisan_p)
 {
-    a0->unk_0_2++;
-    if ((u8)a0->unk_0_2 > 4)
-        a0->unk_0_2 = 4;
+    jisan_p->timesShared++;
+    if (jisan_p->timesShared > JISAN_SHARED_LIMIT)
+        jisan_p->timesShared = JISAN_SHARED_LIMIT;
 }
 
-static void MENewsJisanIncrementCounterUnk0_5(struct MENewsJisanStruct *a0)
+// Capped increment for the counter which tracks how many times berries were
+// received.
+static void MENewsJisanIncrementRewardCounter(struct MENewsJisanStruct *jisan_p)
 {
-    a0->unk_0_5++;
-    if ((u8)a0->unk_0_5 > 5)
-        a0->unk_0_5 = 5;
+    jisan_p->receivedBerries++;
+    if (jisan_p->receivedBerries > JISAN_REWARD_LIMIT)
+        jisan_p->receivedBerries = JISAN_REWARD_LIMIT;
 }
 
-static u32 GetMENewsJisanState(struct MENewsJisanStruct *a0)
+// Based on what type of reward was received, returns the state value
+// to be reported to the script command handler.
+static u32 GetMENewsJisanState(struct MENewsJisanStruct *jisan_p)
 {
-    struct MENewsJisanStruct r0;
-    if ((u8)a0->unk_0_5 == 5)
-        return 6;
+    if (jisan_p->receivedBerries == JISAN_REWARD_LIMIT)
+        return JISAN_STATE_EXHAUSTED;
 
-    r0 = *a0;
-    switch (r0.unk_0_0)
+    switch (jisan_p->state)
     {
-    case 0:
-        return 3;
-    case 1:
-        return 1;
-    case 2:
-        return 2;
-    case 3:
-        if ((u8)r0.unk_0_2 < 3)
-            return 4;
-        return 5;
+    case JISAN_REWARD_NONE:
+        return JISAN_STATE_SHARED_NONE;
+    case JISAN_REWARD_RECV_FRIEND:
+        return JISAN_STATE_RECEIVED_SINGLE;
+    case JISAN_REWARD_RECV_WIRELESS:
+        return JISAN_STATE_RECEIVED_MULTIPLE;
+    case JISAN_REWARD_SEND:
+        if (jisan_p->timesShared < 3)
+            return JISAN_STATE_SHARED_SINGLE;
+        else
+            return JISAN_STATE_SHARED_MULTIPLE;
     default:
         AGB_ASSERT_EX(0, ABSPATH("menews_jisan.c"), 383);
         return 0;

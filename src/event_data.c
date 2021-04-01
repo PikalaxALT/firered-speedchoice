@@ -49,36 +49,36 @@ void ClearTempFieldEventData(void)
     FlagClear(FLAG_SYS_INFORMED_OF_LOCAL_WIRELESS_PLAYER);
 }
 
-void sub_806E168(void)
+void RS_DisableNationalPokedex(void)
 {
-    u16 *ptr = GetVarPointer(VAR_0x403C);
+    u16 *ptr = GetVarPointer(VAR_RS_NATIONAL_DEX);
     gSaveBlock2Ptr->pokedex.nationalMagic = 0;
     *ptr = 0;
-    FlagClear(FLAG_0x838);
+    FlagClear(FLAG_SYS_RS_NATIONAL_DEX);
 }
 
-void sub_806E190(void)
+void RS_EnableNationalPokedex(void)
 {
-    u16 *ptr = GetVarPointer(VAR_0x403C);
+    u16 *ptr = GetVarPointer(VAR_RS_NATIONAL_DEX);
     gSaveBlock2Ptr->pokedex.nationalMagic = 0xDA;
     *ptr = 0x0302;
-    FlagSet(FLAG_0x838);
+    FlagSet(FLAG_SYS_RS_NATIONAL_DEX);
 }
 
-bool32 sub_806E1C0(void)
+bool32 RS_IsNationalDexEnabled(void)
 {
     if (gSaveBlock2Ptr->pokedex.nationalMagic != 0xDA)
         return FALSE;
-    if (VarGet(VAR_0x403C) != 0x0302)
+    if (VarGet(VAR_RS_NATIONAL_DEX) != 0x0302)
         return FALSE;
-    if (!FlagGet(FLAG_0x838))
+    if (!FlagGet(FLAG_SYS_RS_NATIONAL_DEX))
         return FALSE;
     return TRUE;
 }
 
-void sub_806E204(void)
+void DisableNationalDex(void)
 {
-    u16 *ptr = GetVarPointer(VAR_0x404E);
+    u16 *ptr = GetVarPointer(VAR_NATIONAL_DEX);
     gSaveBlock2Ptr->pokedex.unknown2 = 0;
     *ptr = 0;
     FlagClear(FLAG_SYS_NATIONAL_DEX);
@@ -86,7 +86,7 @@ void sub_806E204(void)
 
 void EnableNationalPokedex(void)
 {
-    u16 *ptr = GetVarPointer(VAR_0x404E);
+    u16 *ptr = GetVarPointer(VAR_NATIONAL_DEX);
     gSaveBlock2Ptr->pokedex.unknown2 = 0xB9;
     *ptr = 0x6258;
     FlagSet(FLAG_SYS_NATIONAL_DEX);
@@ -96,7 +96,7 @@ bool32 IsNationalPokedexEnabled(void)
 {
     if (gSaveBlock2Ptr->pokedex.unknown2 != 0xB9)
         return FALSE;
-    if (VarGet(VAR_0x404E) != 0x6258)
+    if (VarGet(VAR_NATIONAL_DEX) != 0x6258)
         return FALSE;
     if (!FlagGet(FLAG_SYS_NATIONAL_DEX))
         return FALSE;
@@ -153,21 +153,21 @@ void ResetMysteryEventVars(void)
 
 void DisableResetRTC(void)
 {
-    VarSet(VAR_0x4032, 0);
-    FlagClear(FLAG_0x837);
+    VarSet(VAR_RTC_RESET, 0);
+    FlagClear(FLAG_SYS_RTC_RESET_ENABLED);
 }
 
 void EnableResetRTC(void)
 {
-    VarSet(VAR_0x4032, 0x0920);
-    FlagSet(FLAG_0x837);
+    VarSet(VAR_RTC_RESET, 0x0920);
+    FlagSet(FLAG_SYS_RTC_RESET_ENABLED);
 }
 
 bool32 CanResetRTC(void)
 {
-    if (!FlagGet(FLAG_0x837))
+    if (!FlagGet(FLAG_SYS_RTC_RESET_ENABLED))
         return FALSE;
-    if (VarGet(VAR_0x4032) != 0x0920)
+    if (VarGet(VAR_RTC_RESET) != 0x0920)
         return FALSE;
     return TRUE;
 }
