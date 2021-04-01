@@ -29,6 +29,10 @@ CinnabarIsland_Text_HeyIfItIsntPlayer:: @ 8180C90
     .string "Huh?\n"
     .string "Hey, if it isn't {PLAYER}!$"
 
+CinnabarIsland_Text_WantThisJunk::
+	.string "You want this junk? It's yours,\n"
+	.string "my friend.$"
+
 CinnabarIsland_Text_ComeWithMeToOneIsland:: @ 8180CAA
     .string "Look, it's me, BILL.\n"
     .string "Long time no see!\p"
