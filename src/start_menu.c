@@ -10,6 +10,7 @@
 #include "link_rfu.h"
 #include "help_message.h"
 #include "event_data.h"
+#include "item_use.h"
 #include "fieldmap.h"
 #include "safari_zone.h"
 #include "start_menu.h"
@@ -38,6 +39,8 @@
 #include "speedchoice.h"
 #include "constants/songs.h"
 #include "constants/field_weather.h"
+#include "constants/items.h"
+#include "constants/trainer_types.h"
 
 enum StartMenuOption
 {
@@ -50,6 +53,7 @@ enum StartMenuOption
     STARTMENU_EXIT,
     STARTMENU_RETIRE,
     STARTMENU_PLAYER2,
+    STARTMENU_ESCAPE,
     MAX_STARTMENU_ITEMS
 };
 
@@ -65,6 +69,7 @@ static EWRAM_DATA bool8 (*sStartMenuCallback)(void) = NULL;
 static EWRAM_DATA u8 sStartMenuCursorPos = 0;
 static EWRAM_DATA u8 sNumStartMenuItems = 0;
 static EWRAM_DATA u8 sStartMenuOrder[MAX_STARTMENU_ITEMS] = {};
+EWRAM_DATA bool32 sUsedEscapeOption = FALSE;
 static EWRAM_DATA s8 sDrawStartMenuState[2] = {};
 static EWRAM_DATA u8 sSafariZoneStatsWindowId = 0;
 static ALIGNED(4) EWRAM_DATA u8 sSaveStatsWindowId = 0;
@@ -84,6 +89,7 @@ static bool8 StartMenuPokedexCallback(void);
 static bool8 StartMenuPokemonCallback(void);
 static bool8 StartMenuBagCallback(void);
 static bool8 StartMenuPlayerCallback(void);
+static bool8 StartMenuEscapeCallback(void);
 static bool8 StartMenuSaveCallback(void);
 static bool8 StartMenuOptionCallback(void);
 static bool8 StartMenuExitCallback(void);
@@ -115,15 +121,16 @@ static void CloseSaveStatsWindow(void);
 static void CloseStartMenu(void);
 
 static const struct MenuAction sStartMenuActionTable[] = {
-    { gStartMenuText_Pokedex, {.u8_void = StartMenuPokedexCallback} },
-    { gStartMenuText_Pokemon, {.u8_void = StartMenuPokemonCallback} },
-    { gStartMenuText_Bag, {.u8_void = StartMenuBagCallback} },
-    { gStartMenuText_Player, {.u8_void = StartMenuPlayerCallback} },
-    { gStartMenuText_Save, {.u8_void = StartMenuSaveCallback} },
-    { gStartMenuText_Option, {.u8_void = StartMenuOptionCallback} },
-    { gStartMenuText_Exit, {.u8_void = StartMenuExitCallback} },
-    { gStartMenuText_Retire, {.u8_void = StartMenuSafariZoneRetireCallback} },
-    { gStartMenuText_Player, {.u8_void = StartMenuLinkPlayerCallback} }
+    [STARTMENU_POKEDEX] = { gStartMenuText_Pokedex, {.u8_void = StartMenuPokedexCallback} },
+    [STARTMENU_POKEMON] = { gStartMenuText_Pokemon, {.u8_void = StartMenuPokemonCallback} },
+    [STARTMENU_BAG] = { gStartMenuText_Bag, {.u8_void = StartMenuBagCallback} },
+    [STARTMENU_PLAYER] = { gStartMenuText_Player, {.u8_void = StartMenuPlayerCallback} },
+    [STARTMENU_SAVE] = { gStartMenuText_Save, {.u8_void = StartMenuSaveCallback} },
+    [STARTMENU_OPTION] = { gStartMenuText_Option, {.u8_void = StartMenuOptionCallback} },
+    [STARTMENU_EXIT] = { gStartMenuText_Exit, {.u8_void = StartMenuExitCallback} },
+    [STARTMENU_RETIRE] = { gStartMenuText_Retire, {.u8_void = StartMenuSafariZoneRetireCallback} },
+    [STARTMENU_PLAYER2] = { gStartMenuText_Player, {.u8_void = StartMenuLinkPlayerCallback} },
+    [STARTMENU_ESCAPE] = { gStartMenuText_Escape, {.u8_void = StartMenuEscapeCallback} }
 };
 
 static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
@@ -207,6 +214,49 @@ void DoMapObjectTimerBackup(void)
     }
 }
 
+// Speedchoice change: Escape option
+bool8 CanUseFly(void)
+{
+    return Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) ? TRUE : FALSE;
+}
+
+void CloseMenuWithoutScriptContext(void)
+{
+    ClearStdWindowAndFrame(GetStartMenuWindowId(), TRUE);
+    RemoveStartMenuWindow();
+    ClearPlayerHeldMovementAndUnfreezeObjectEvents();
+}
+
+static void ItemUseInEscape_EscapeRope(u8 taskId)
+{
+    sUsedEscapeOption = TRUE;
+    gSpecialVar_ItemId = ITEM_ESCAPE_ROPE;
+    sItemUseOnFieldCB = ItemUseOnFieldCB_EscapeRope; // do escape rope attempt.
+    gTasks[taskId].data[3] = 1; // dont fade to black! Not in a submenu.
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+static bool8 StartMenuEscapeCallback(void)
+{
+    CloseMenuWithoutScriptContext();
+    CreateTask(ItemUseInEscape_EscapeRope, 0xFF);
+    return TRUE;
+}
+
+bool8 IsMapEscapeOption(void)
+{
+    u8 i;
+
+    if (CanUseFly())
+        return FALSE;
+
+    for (i = 0; i < OBJECT_EVENTS_COUNT; i++)
+        if (gObjectEvents[i].trainerType == TRAINER_TYPE_NORMAL || gObjectEvents[i].trainerType == TRAINER_TYPE_BURIED)
+            return TRUE;
+
+    return FALSE;
+}
+
 static void SetUpStartMenu(void)
 {
     sNumStartMenuItems = 0;
@@ -235,7 +285,10 @@ static void SetUpStartMenu_NormalField(void)
     AppendToStartMenuItems(STARTMENU_PLAYER);
     AppendToStartMenuItems(STARTMENU_SAVE);
     AppendToStartMenuItems(STARTMENU_OPTION);
-    AppendToStartMenuItems(STARTMENU_EXIT);
+    if (IsMapEscapeOption())
+        AppendToStartMenuItems(STARTMENU_ESCAPE);
+    else
+        AppendToStartMenuItems(STARTMENU_EXIT);
 }
 
 static void SetUpStartMenu_SafariZone(void)
@@ -476,7 +529,9 @@ static void StartMenu_FadeScreenIfLeavingOverworld(void)
 {
     if (sStartMenuCallback != StartMenuSaveCallback
      && sStartMenuCallback != StartMenuExitCallback
-     && sStartMenuCallback != StartMenuSafariZoneRetireCallback)
+     && sStartMenuCallback != StartMenuSafariZoneRetireCallback
+     && sStartMenuCallback != StartMenuEscapeCallback
+     )
     {
         StopPokemonLeagueLightingEffectTask();
         FadeScreen(FADE_TO_BLACK, 0);

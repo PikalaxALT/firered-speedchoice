@@ -41,7 +41,7 @@
 #include "constants/songs.h"
 #include "constants/field_weather.h"
 
-static EWRAM_DATA void (*sItemUseOnFieldCB)(u8 taskId) = NULL;
+EWRAM_DATA void (*sItemUseOnFieldCB)(u8 taskId) = NULL;
 
 static void FieldCB_FadeInFromBlack(void);
 static void Task_WaitFadeIn_CallItemUseOnFieldCB(u8 taskId);
@@ -62,9 +62,8 @@ static void InitBerryPouchFromBattle(void);
 static void InitTeachyTvFromBag(void);
 static void Task_InitTeachyTvFromField(u8 taskId);
 static void sub_80A19E8(u8 taskId);
-static void sub_80A1A44(void);
+static void RemoveUsedItem(void);
 static void sub_80A1B48(u8 taskId);
-static void sub_80A1C08(u8 taskId);
 static void sub_80A1CAC(void);
 static void sub_80A1CC0(u8 taskId);
 static void sub_80A1D58(void);
@@ -156,7 +155,7 @@ static void Task_FadeOuFromBackToField(u8 taskId)
     }
 }
 
-static void sub_80A103C(u8 taskId)
+void SetUpItemUseOnFieldCallback(u8 taskId)
 {
     if (gTasks[taskId].data[3] != 1)
     {
@@ -269,7 +268,7 @@ void FieldUseFunc_MachBike(u8 taskId)
     else if (Overworld_IsBikingAllowed() == TRUE && !IsBikingDisallowedByPlayer())
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_Bicycle;
-        sub_80A103C(taskId);
+        SetUpItemUseOnFieldCallback(taskId);
     }
     else
         PrintNotTheTimeToUseThat(taskId, gTasks[taskId].data[3]);
@@ -290,7 +289,7 @@ void FieldUseFunc_OldRod(u8 taskId)
     if (ItemUseCheckFunc_Rod() == TRUE)
     {
         sItemUseOnFieldCB = ItemUseOnFieldCB_Rod;
-        sub_80A103C(taskId);
+        SetUpItemUseOnFieldCallback(taskId);
     }
     else
         PrintNotTheTimeToUseThat(taskId, gTasks[taskId].data[3]);
@@ -333,7 +332,7 @@ void ItemUseOutOfBattle_Itemfinder(u8 taskId)
 {
     IncrementGameStat(GAME_STAT_USED_ITEMFINDER);
     sItemUseOnFieldCB = ItemUseOnFieldCB_Itemfinder;
-    sub_80A103C(taskId);
+    SetUpItemUseOnFieldCallback(taskId);
 }
 
 void FieldUseFunc_CoinCase(u8 taskId)
@@ -586,12 +585,12 @@ static void sub_80A19E8(u8 taskId)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
         VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(gSpecialVar_ItemId));
-        sub_80A1A44();
+        RemoveUsedItem();
         DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
 }
 
-static void sub_80A1A44(void)
+static void RemoveUsedItem(void)
 {
     RemoveBagItem(gSpecialVar_ItemId, 1);
     Pocket_CalculateNItemsAndMaxShowed(ItemId_GetPocket(gSpecialVar_ItemId));
@@ -645,23 +644,26 @@ void ItemUseOutOfBattle_EscapeRope(u8 taskId)
     if (CanUseEscapeRopeOnCurrMap() == TRUE)
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, gMapHeader.regionMapSectionId);
-        sItemUseOnFieldCB = sub_80A1C08;
-        sub_80A103C(taskId);
+        sItemUseOnFieldCB = ItemUseOnFieldCB_EscapeRope;
+        SetUpItemUseOnFieldCallback(taskId);
     }
     else
         PrintNotTheTimeToUseThat(taskId, gTasks[taskId].data[3]);
 }
 
-static void sub_80A1C08(u8 taskId)
+extern bool32 sUsedEscapeOption;
+
+void ItemUseOnFieldCB_EscapeRope(u8 taskId)
 {
     Overworld_ResetStateAfterDigEscRope();
-    sub_80A1A44();
+    RemoveUsedItem();
     gTasks[taskId].data[0] = 0;
-    DisplayItemMessageOnField(taskId, 2, gStringVar4, sub_80A1C44);
+    DisplayItemMessageOnField(taskId, 2, gStringVar4, Task_UseDigEscapeRopeOnField);
 }
 
-void sub_80A1C44(u8 taskId)
+void Task_UseDigEscapeRopeOnField(u8 taskId)
 {
+    sInSubMenu = FALSE;
     ResetInitialPlayerAvatarState();
     StartEscapeRopeFieldEffect();
     DestroyTask(taskId);
@@ -746,7 +748,7 @@ void FieldUseFunc_VsSeeker(u8 taskId)
     else
     {
         sItemUseOnFieldCB = Task_VsSeeker_0;
-        sub_80A103C(taskId);
+        SetUpItemUseOnFieldCallback(taskId);
     }
 }
 
@@ -846,7 +848,7 @@ void BattleUseFunc_PokeDoll(u8 taskId)
 {
     if (!(gBattleTypeFlags & BATTLE_TYPE_TRAINER))
     {
-        sub_80A1A44();
+        RemoveUsedItem();
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, 0, gSpecialVar_ItemId, 0xFFFF);
         DisplayItemMessageInBag(taskId, 2, gStringVar4, ItemMenu_StartFadeToExitCallback);
     }

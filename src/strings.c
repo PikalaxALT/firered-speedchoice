@@ -160,6 +160,7 @@ const u8 gStartMenuText_Pokedex[] = _("POKéDEX");
 const u8 gStartMenuText_Bag[] = _("BAG");
 const u8 gUnknown_8416289[] = _("ポケナビ");
 const u8 gStartMenuText_Player[] = _("{PLAYER}");
+const u8 gStartMenuText_Escape[] = _("ESCAPE");
 const u8 gStartMenuText_Save[] = _("SAVE");
 const u8 gStartMenuText_Option[] = _("OPTION");
 const u8 gStartMenuText_Exit[] = _("EXIT");

@@ -85,6 +85,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fixed alignment of speedchoice version string
 - Fixed a bug that blocks progression onto Cycling Road
 
+### 1.0.0b3
+- Add Escape option to the start menu
+
 ## See also
 
 Other disassembly and/or decompilation projects:

@@ -6,6 +6,9 @@
 void Task_ItemUse_CloseMessageBoxAndReturnToField_VsSeeker(u8);
 void ItemUse_SetQuestLogEvent(u8, struct Pokemon *, u16, u16);
 
+extern void (*sItemUseOnFieldCB)(u8 taskId);
+void SetUpItemUseOnFieldCallback(u8 taskId);
+
 void FieldUseFunc_OrangeMail(u8 taskId);
 void FieldUseFunc_MachBike(u8 taskId);
 void FieldUseFunc_OldRod(u8 taskId);
@@ -38,9 +41,11 @@ void ItemUseOutOfBattle_EscapeRope(u8 taskId);
 void ItemUseOutOfBattle_EnigmaBerry(u8 taskId);
 void ItemUseInBattle_EnigmaBerry(u8 taskId);
 void ItemUseOutOfBattle_Itemfinder(u8 taskId);
-void sub_80A1C44(u8 taskId);
+void Task_UseDigEscapeRopeOnField(u8 taskId);
 u8 CanUseEscapeRopeOnCurrMap(void);
 u8 CheckIfItemIsTMHMOrEvolutionStone(u16 itemId);
 void FieldUseFunc_DoneButton(u8 taskId);
+
+void ItemUseOnFieldCB_EscapeRope(u8 taskId);
 
 #endif //GUARD_ITEM_USE_H
