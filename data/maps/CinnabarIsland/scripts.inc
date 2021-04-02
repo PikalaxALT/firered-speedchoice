@@ -73,6 +73,7 @@ CinnabarIsland_EventScript_ReturnFromSeviiIslands:: @ 8166FA0
 	lockall
 	textcolor 0
 	msgbox CinnabarIsland_Text_IfYouHaveTriPassYouCanGoAgain
+CinnabarIsland_EventScript_SkipSeviiIslands::
 	closemessage
 	applymovement LOCALID_BILL, CinnabarIsland_Movement_BillExit
 	waitmovement 0
@@ -106,7 +107,7 @@ CinnabarIsland_EventScript_BillScene:: @ 8166FCD
 	call_if_set FLAG_TEMP_2, CinnabarIsland_EventScript_BillApproachPlayer2
 	msgbox CinnabarIsland_Text_HeyIfItIsntPlayer
 	checkspeedchoice PLOTLESS, PLOT_KEEP
-	call_if FALSE, CinnabarIsland_EventScript_BillPlotlessItems
+	goto_if FALSE, CinnabarIsland_EventScript_BillPlotlessItems
 	msgbox CinnabarIsland_Text_ComeWithMeToOneIsland, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq CinnabarIsland_EventScript_AgreeSailToOneIsland
@@ -125,6 +126,7 @@ CinnabarIsland_EventScript_BillPlotlessItems::
 	setflag FLAG_GOT_RUBY
 	setflag FLAG_SYS_CAN_LINK_WITH_RS
 	setflag FLAG_HIDE_CERULEAN_CAVE_GUARD
+	setflag FLAG_SEVII_DETOUR_FINISHED
 	setflag FLAG_HIDE_LORELEI_IN_HER_HOUSE
 	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 7
 	setflag FLAG_HIDE_RUBY
@@ -132,8 +134,9 @@ CinnabarIsland_EventScript_BillPlotlessItems::
 	setflag FLAG_RECOVERED_SAPPHIRE
 	special InitRoamer
 	checkspeedchoice PLOTLESS, PLOT_FULL
-	goto_if TRUE, CinnabarIsland_EventScript_BillFullPlotlessFlags
-	return
+	call_if TRUE, CinnabarIsland_EventScript_BillFullPlotlessFlags
+	goto CinnabarIsland_EventScript_SkipSeviiIslands
+	end
 
 CinnabarIsland_EventScript_BillFullPlotlessFlags::
 	setvar VAR_MAP_SCENE_ROCKET_WAREHOUSE, 1
