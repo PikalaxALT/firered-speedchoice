@@ -132,7 +132,7 @@ extern u8 gGlobalFieldTintMode;
 extern bool8 (* gFieldCallback2)(void);
 
 void SetLastHealLocationWarp(u8 healLocaionId);
-void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum);
+void LoadMap_OnConnection(u8 mapGroup, u8 mapNum);
 void CB2_ReturnToFieldFromDiploma(void);
 void CB2_OverworldBasic(void);
 void CB2_NewGame(void);

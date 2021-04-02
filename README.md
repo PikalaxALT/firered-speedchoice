@@ -90,6 +90,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Added Plotless hook on Bill in Cinnabar
 - Added option to nerf Lt. Surge's trash cans.
 
+### 1.0.0b4
+- Hell trash cans now reroll on save&quit
+
 ## See also
 
 Other disassembly and/or decompilation projects:

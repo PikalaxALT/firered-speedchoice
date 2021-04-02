@@ -747,7 +747,8 @@ bool8 SetDiveWarpDive(u16 x, u16 y)
 
 // Map loaders
 
-void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
+// On map connection
+void LoadMap_OnConnection(u8 mapGroup, u8 mapNum)
 {
     int paletteIndex;
 
@@ -783,7 +784,8 @@ void LoadMapFromCameraTransition(u8 mapGroup, u8 mapNum)
         ShowMapNamePopup(TRUE);
 }
 
-static void mli0_load_map(bool32 a1)
+// On warp in
+static void LoadMap_OnWarp(bool32 a1)
 {
     bool8 isOutdoors;
 
@@ -810,7 +812,8 @@ static void mli0_load_map(bool32 a1)
     InitMap();
 }
 
-static void sub_80559A8(void)
+// On Quest Log
+static void LoadMap_OnQuestLog(void)
 {
     bool8 isOutdoors;
 
@@ -1777,7 +1780,7 @@ static bool32 map_loading_iteration_3(u8 *state)
         (*state)++;
         break;
     case 1:
-        mli0_load_map(TRUE);
+        LoadMap_OnWarp(TRUE);
         (*state)++;
         break;
     case 2:
@@ -1850,7 +1853,7 @@ static bool32 load_map_stuff(u8 *state, bool32 a1)
     case 0:
         InitOverworldBgs();
         FieldClearVBlankHBlankCallbacks();
-        mli0_load_map(a1);
+        LoadMap_OnWarp(a1);
         (*state)++;
         break;
     case 1:
@@ -1972,7 +1975,7 @@ static bool32 map_loading_iteration_2_link(u8 *state)
         break;
     case 1:
         QuestLog_InitPalettesBackup();
-        sub_8057024(1);
+        sub_8057024(TRUE);
         (*state)++;
         break;
     case 2:
@@ -2099,7 +2102,7 @@ static void InitOverworldGraphicsRegisters(void)
     ChangeBgY(3, 0, 0);
 }
 
-static void sub_8057024(u32 a1)
+static void sub_8057024(bool32 a1)
 {
     ResetTasks();
     ResetSpriteData();
@@ -2255,12 +2258,12 @@ static bool32 LoadMap_QLPlayback(u8 *state)
         if (GetQuestLogStartType() == QL_START_WARP)
         {
             gUnknown_2031DE0 = FALSE;
-            mli0_load_map(FALSE);
+            LoadMap_OnWarp(FALSE);
         }
         else
         {
             gUnknown_2031DE0 = TRUE;
-            sub_80559A8();
+            LoadMap_OnQuestLog();
         }
         (*state)++;
         break;
@@ -2431,7 +2434,7 @@ static bool8 MapLdr_Credits(void)
     {
     case 0:
         InitOverworldBgs_NoResetHeap();
-        mli0_load_map(FALSE);
+        LoadMap_OnWarp(FALSE);
         (*state)++;
         break;
     case 1:

@@ -712,7 +712,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // EASY SURGE CANS OPTION
         // ----------------------------------
         [EASY_SURGE_CANS] = {
-            /* Option Count   */ 3,
+            /* Option Count   */ 4,
             /* Option Type    */ NORMAL,
             /* Option Preset  */ gSpeedchoiceOptionEasySurgeCans,
             /* Option Text    */ OptionChoiceConfigNerfKeep,

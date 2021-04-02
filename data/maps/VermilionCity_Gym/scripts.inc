@@ -9,8 +9,20 @@ VermilionCity_Gym_MapScripts:: @ 816B69E
 	.byte 0
 
 VermilionCity_Gym_OnLoad:: @ 816B6A9
+	checkspeedchoice EASY_SURGE_CANS, SURGE_WHY
+	goto_if TRUE, VermilionCity_Gym_OnLoad_HellCans
 	call_if_set FOUND_FIRST_SWITCH, VermilionCity_Gym_EventScript_SetOneBeamOff
 	call_if_set FLAG_FOUND_BOTH_VERMILION_GYM_SWITCHES, VermilionCity_Gym_EventScript_SetBeamsOff
+	end
+
+VermilionCity_Gym_OnLoad_HellCans::
+	goto_if_set FLAG_FOUND_BOTH_VERMILION_GYM_SWITCHES, VermilionCity_Gym_EventScript_CallSetBeamsOff
+	clearflag FOUND_FIRST_SWITCH
+	call VermilionCity_Gym_EventScript_InitTrashCans
+	end
+
+VermilionCity_Gym_EventScript_CallSetBeamsOff::
+	call VermilionCity_Gym_EventScript_SetBeamsOff
 	end
 
 VermilionCity_Gym_EventScript_SetOneBeamOff:: @ 816B6BC

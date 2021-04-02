@@ -2,6 +2,7 @@
 #include "script.h"
 #include "event_data.h"
 #include "quest_log.h"
+#include "constants/map_scripts.h"
 
 #define RAM_SCRIPT_MAGIC 51
 #define SCRIPT_STACK_SIZE 20
@@ -394,41 +395,41 @@ u8 *mapheader_get_first_match_from_tagged_ptr_list(u8 tag)
     {
         u16 varIndex1;
         u16 varIndex2;
-        varIndex1 = ptr[0] | (ptr[1] << 8);
+        varIndex1 = T1_READ_16(ptr);
         if (!varIndex1)
             return NULL;
         ptr += 2;
-        varIndex2 = ptr[0] | (ptr[1] << 8);
+        varIndex2 = T1_READ_16(ptr);
         ptr += 2;
         if (VarGet(varIndex1) == VarGet(varIndex2))
-            return (u8 *)(ptr[0] + (ptr[1] << 8) + (ptr[2] << 16) + (ptr[3] << 24));
+            return (u8 *)T2_READ_PTR(ptr);
         ptr += 4;
     }
 }
 
 void RunOnLoadMapScript(void)
 {
-    mapheader_run_script_by_tag(1);
+    mapheader_run_script_by_tag(MAP_SCRIPT_ON_LOAD);
 }
 
 void RunOnTransitionMapScript(void)
 {
-    mapheader_run_script_by_tag(3);
+    mapheader_run_script_by_tag(MAP_SCRIPT_ON_TRANSITION);
 }
 
 void RunOnResumeMapScript(void)
 {
-    mapheader_run_script_by_tag(5);
+    mapheader_run_script_by_tag(MAP_SCRIPT_ON_RESUME);
 }
 
 void RunOnReturnToFieldMapScript(void)
 {
-    mapheader_run_script_by_tag(7);
+    mapheader_run_script_by_tag(MAP_SCRIPT_ON_RETURN_TO_FIELD);
 }
 
 void RunOnDiveWarpMapScript(void)
 {
-    mapheader_run_script_by_tag(6);
+    mapheader_run_script_by_tag(MAP_SCRIPT_ON_DIVE_WARP);
 }
 
 bool8 TryRunOnFrameMapScript(void)
@@ -438,7 +439,7 @@ bool8 TryRunOnFrameMapScript(void)
     if(gQuestLogState == QL_STATE_PLAYBACK_LAST)
         return 0;
 
-    ptr = mapheader_get_first_match_from_tagged_ptr_list(2);
+    ptr = mapheader_get_first_match_from_tagged_ptr_list(MAP_SCRIPT_ON_FRAME_TABLE);
 
     if (!ptr)
         return 0;
@@ -449,7 +450,7 @@ bool8 TryRunOnFrameMapScript(void)
 
 void TryRunOnWarpIntoMapScript(void)
 {
-    u8 *ptr = mapheader_get_first_match_from_tagged_ptr_list(4);
+    u8 *ptr = mapheader_get_first_match_from_tagged_ptr_list(MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE);
     if (ptr)
         ScriptContext2_RunNewScript(ptr);
 }

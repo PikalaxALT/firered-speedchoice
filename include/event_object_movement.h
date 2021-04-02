@@ -123,7 +123,7 @@ u8 GetFishingDirectionAnimNum(u8 direction);
 u8 GetFishingNoCatchDirectionAnimNum(u8 a0);
 void ObjectEventSetGraphicsId(struct ObjectEvent *objectEvent, u8 a1);
 u8 sub_805EB44(u8, u8, s16, s16);
-void InitObjectEventPalettes(u8 mode);
+void InitObjectEventPalettes(u8 reflectionType);
 bool8 ObjectEventIsMovementOverridden(struct ObjectEvent *objectEvent);
 u8 ObjectEventCheckHeldMovementStatus(struct ObjectEvent *objectEvent);
 u8 GetWalkNormalMovementAction(u32);
