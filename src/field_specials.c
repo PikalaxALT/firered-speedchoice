@@ -663,6 +663,7 @@ void SetVermilionTrashCans(void)
         gSpecialVar_0x8005 = 12; // immediately to the right of it
         break;
     case SURGE_HELL:
+    case SURGE_WHY:
         do {
             gSpecialVar_0x8004 = (Random() % 15) + 1;
             gSpecialVar_0x8005 = (Random() % 15) + 1;
