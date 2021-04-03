@@ -175,15 +175,7 @@
     "SixIsland_DottedHole_B4F",
     "SixIsland_DottedHole_SapphireRoom",
     "SixIsland_PatternBush",
-    "SixIsland_AlteringCave",
-    "SixIsland_AlteringCave_Room1",
-    "SixIsland_AlteringCave_Room2",
-    "SixIsland_AlteringCave_Room3",
-    "SixIsland_AlteringCave_Room4",
-    "SixIsland_AlteringCave_Room5",
-    "SixIsland_AlteringCave_Room6",
-    "SixIsland_AlteringCave_Room7",
-    "SixIsland_AlteringCave_Room8"
+    "SixIsland_AlteringCave"
   ],
   "gMapGroup2": [
     "NavelRock_Exterior",
@@ -245,7 +237,15 @@
     "BirthIsland_Exterior",
     "OneIsland_KindleRoad_EmberSpa",
     "BirthIsland_Harbor",
-    "NavelRock_Harbor"
+    "NavelRock_Harbor",
+    "SixIsland_AlteringCave_Room1",
+    "SixIsland_AlteringCave_Room2",
+    "SixIsland_AlteringCave_Room3",
+    "SixIsland_AlteringCave_Room4",
+    "SixIsland_AlteringCave_Room5",
+    "SixIsland_AlteringCave_Room6",
+    "SixIsland_AlteringCave_Room7",
+    "SixIsland_AlteringCave_Room8"
   ],
   "gMapGroup3": [
     "PalletTown",

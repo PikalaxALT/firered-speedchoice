@@ -672,6 +672,7 @@ void SetVermilionTrashCans(void)
     }
 }
 
+// RESORT GORGEOUS
 static const u16 sResortGorgeousDeluxeRewards[] = {
     ITEM_BIG_PEARL,
     ITEM_PEARL,
@@ -683,18 +684,18 @@ static const u16 sResortGorgeousDeluxeRewards[] = {
 
 void IncrementResortGorgeousStepCounter(void)
 {
-    u16 var4035 = VarGet(VAR_RESORT_GOREGEOUS_STEP_COUNTER);
+    u16 steps = VarGet(VAR_RESORT_GOREGEOUS_STEP_COUNTER);
     if (VarGet(VAR_RESORT_GORGEOUS_REQUESTED_MON) != SPECIES_NONE)
     {
-        var4035++;
-        if (var4035 >= 250)
+        steps++;
+        if (steps >= 250)
         {
             VarSet(VAR_RESORT_GORGEOUS_REQUESTED_MON, 0xFFFF);
             VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, 0);
         }
         else
         {
-            VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, var4035);
+            VarSet(VAR_RESORT_GOREGEOUS_STEP_COUNTER, steps);
         }
     }
 }
@@ -715,13 +716,17 @@ static u16 SampleResortGorgeousMon(void)
 {
     u16 i;
     u16 species;
+
+    // Try 100 times to roll a Pokemon you've seen
     for (i = 0; i < 100; i++)
     {
         species = (Random() % (NUM_SPECIES - 1)) + 1;
-        if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), 0) == TRUE)
+        if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) == TRUE)
             return species;
     }
-    while (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), 0) != TRUE)
+
+    // Walk backwards until you reach a Pokemon you've seen
+    while (GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_SEEN) != TRUE)
     {
         if (species == SPECIES_BULBASAUR)
             species = NUM_SPECIES - 1;
@@ -733,7 +738,7 @@ static u16 SampleResortGorgeousMon(void)
 
 static u16 SampleResortGorgeousReward(void)
 {
-    if ((Random() % 100) >= 30)
+    if ((Random() % 100) >= 30) // 70% chance
         return ITEM_LUXURY_BALL;
     else
         return sResortGorgeousDeluxeRewards[Random() % NELEMS(sResortGorgeousDeluxeRewards)];

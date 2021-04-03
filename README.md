@@ -94,6 +94,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Hell trash cans now reroll on save&quit
 - Guaranteed Rock Smash encounters
 - Fixed revocation of Rainbow Pass effectiveness after completing Lostelle quest
+- Fixed Altering Cave exit warps
 
 ## See also
 

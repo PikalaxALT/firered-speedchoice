@@ -132,6 +132,9 @@ CinnabarIsland_EventScript_BillPlotlessItems::
 	setflag FLAG_HIDE_SAPPHIRE
 	setflag FLAG_RECOVERED_SAPPHIRE
 	setflag FLAG_HIDE_ONE_ISLAND_BILL
+	setflag FLAG_TWO_ISLAND_SHOP_EXPANDED_1
+	setflag FLAG_TWO_ISLAND_SHOP_EXPANDED_2
+	setflag FLAG_TWO_ISLAND_SHOP_EXPANDED_3
 	special InitRoamer
 	checkspeedchoice PLOTLESS, PLOT_FULL
 	call_if TRUE, CinnabarIsland_EventScript_BillFullPlotlessFlags

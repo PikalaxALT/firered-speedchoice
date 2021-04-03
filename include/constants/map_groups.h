@@ -136,14 +136,6 @@
 #define MAP_SIX_ISLAND_DOTTED_HOLE_SAPPHIRE_ROOM (120 | (1 << 8))
 #define MAP_SIX_ISLAND_PATTERN_BUSH              (121 | (1 << 8))
 #define MAP_SIX_ISLAND_ALTERING_CAVE             (122 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM1       (123 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM2       (124 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM3       (125 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM4       (126 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM5       (127 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM6       (128 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM7       (129 | (1 << 8))
-#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM8       (130 | (1 << 8))
 
 // Map Group 2
 #define MAP_NAVEL_ROCK_EXTERIOR                       (0 | (2 << 8))
@@ -206,6 +198,14 @@
 #define MAP_ONE_ISLAND_KINDLE_ROAD_EMBER_SPA          (57 | (2 << 8))
 #define MAP_BIRTH_ISLAND_HARBOR                       (58 | (2 << 8))
 #define MAP_NAVEL_ROCK_HARBOR                         (59 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM1            (60 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM2            (61 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM3            (62 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM4            (63 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM5            (64 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM6            (65 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM7            (66 | (2 << 8))
+#define MAP_SIX_ISLAND_ALTERING_CAVE_ROOM8            (67 | (2 << 8))
 
 // Map Group 3
 #define MAP_PALLET_TOWN                          (0 | (3 << 8))
