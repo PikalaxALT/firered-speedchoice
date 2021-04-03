@@ -1225,7 +1225,7 @@ const u32 gEasyChatSelectGroupHelp_Tiles[] = INCBIN_U32("graphics/link_rfu/unk_8
 const u32 gEasyChatModeIcons_Tiles[] = INCBIN_U32("graphics/link_rfu/unk_8E9A168.4bpp.lz");
 
 const u32 gUnknown_8E9A460[] = INCBIN_U32("graphics/interface/trainer_memo.4bpp.lz");
-const u32 gUnknown_8E9B310[] = INCBIN_U32("graphics/interface/trainer_memo_pal1.gbapal");
+const u32 gTrainerMemoPal1[] = INCBIN_U32("graphics/interface/trainer_memo_pal1.gbapal");
 const u32 gUnknown_8E9B3B0[] = INCBIN_U32("graphics/interface/trainer_memo_pal2.gbapal");
 const u32 gUnknown_8E9B3D0[] = INCBIN_U32("graphics/interface/trainer_memo_pal3.gbapal");
 
