@@ -76,10 +76,10 @@ VermilionCity_EventScript_CheckHasAuroraTicket:: @ 8166977
 
 VermilionCity_EventScript_CheckSeagallopPresent:: @ 8166996
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
-	compare VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5
-	goto_if_ge VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
-	compare VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1
-	goto_if_ge VermilionCity_EventScript_ChooseSeagallopDestTriPass
+	checkitem ITEM_RAINBOW_PASS, 1
+	goto_if TRUE,VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
+	checkitem ITEM_TRI_PASS, 1
+	goto_if TRUE, VermilionCity_EventScript_ChooseSeagallopDestTriPass
 	msgbox VermilionCity_Text_TheShipSetSail
 	release
 	end
@@ -220,10 +220,10 @@ VermilionCity_EventScript_DontHaveSSTicket:: @ 8166BDE
 
 VermilionCity_EventScript_CheckSeagallopPresentTrigger:: @ 8166BED
 	setvar VAR_0x8004, SEAGALLOP_VERMILION_CITY
-	compare VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5
-	goto_if_ge VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
-	compare VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 1
-	goto_if_ge VermilionCity_EventScript_ChooseSeagallopDestTriPass
+	checkitem ITEM_RAINBOW_PASS, 1
+	goto_if TRUE, VermilionCity_EventScript_ChooseSeagallopDestRainbowPass
+	checkitem ITEM_TRI_PASS, 1
+	goto_if TRUE, VermilionCity_EventScript_ChooseSeagallopDestTriPass
 	msgbox VermilionCity_Text_TheShipSetSail
 	closemessage
 	goto VermilionCity_EventScript_WalkUpPier

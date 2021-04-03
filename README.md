@@ -93,6 +93,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0b4
 - Hell trash cans now reroll on save&quit
 - Guaranteed Rock Smash encounters
+- Fixed revocation of Rainbow Pass effectiveness after completing Lostelle quest
 
 ## See also
 
