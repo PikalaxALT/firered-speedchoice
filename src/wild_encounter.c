@@ -526,8 +526,9 @@ void RockSmashWildEncounter(void)
         gSpecialVar_Result = FALSE;
     else if (gWildMonHeaders[headerIdx].rockSmashMonsInfo == NULL)
         gSpecialVar_Result = FALSE;
-    else if (DoWildEncounterRateTest(gWildMonHeaders[headerIdx].rockSmashMonsInfo->encounterRate, TRUE) != TRUE)
-        gSpecialVar_Result = FALSE;
+    // Speedchoice change: No RNG basis for a rock smash encounter
+//    else if (DoWildEncounterRateTest(gWildMonHeaders[headerIdx].rockSmashMonsInfo->encounterRate, TRUE) != TRUE)
+//        gSpecialVar_Result = FALSE;
     else if (TryGenerateWildMon(gWildMonHeaders[headerIdx].rockSmashMonsInfo, WILD_AREA_ROCKS, WILD_CHECK_REPEL) == TRUE)
     {
         StartWildBattle();
