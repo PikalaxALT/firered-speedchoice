@@ -1921,14 +1921,14 @@ static u16 GetTutorMove(u8 tutor)
 {
     switch (tutor)
     {
-    case TUTOR_MOVE_FRENZY_PLANT:
+    case MOVETUTOR_FRENZY_PLANT:
         return MOVE_FRENZY_PLANT;
-    case TUTOR_MOVE_BLAST_BURN:
+    case MOVETUTOR_BLAST_BURN:
         return MOVE_BLAST_BURN;
-    case TUTOR_MOVE_HYDRO_CANNON:
+    case MOVETUTOR_HYDRO_CANNON:
         return MOVE_HYDRO_CANNON;
-    case TUTOR_MOVE_THUNDER_WAVE:
-        if (CheckSpeedchoiceOption(EASY_FALSE_SWIPE, EASY_FALSE_SWIPE_TUTOR) == TRUE)
+    case MOVETUTOR_THUNDER_WAVE:
+        if (gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe == EASY_FALSE_SWIPE_TUTOR)
             return MOVE_FALSE_SWIPE;
         // fallthrough
     default:
@@ -1940,17 +1940,17 @@ static bool8 CanLearnTutorMove(u16 species, u8 tutor)
 {
     switch (tutor)
     {
-    case TUTOR_MOVE_FRENZY_PLANT:
+    case MOVETUTOR_FRENZY_PLANT:
         if (species == SPECIES_VENUSAUR)
             return TRUE;
         else
             return FALSE;
-    case TUTOR_MOVE_BLAST_BURN:
+    case MOVETUTOR_BLAST_BURN:
         if (species == SPECIES_CHARIZARD)
             return TRUE;
         else
             return FALSE;
-    case TUTOR_MOVE_HYDRO_CANNON:
+    case MOVETUTOR_HYDRO_CANNON:
         if (species == SPECIES_BLASTOISE)
             return TRUE;
         else
@@ -5856,7 +5856,7 @@ void ChooseMonForTradingBoard(u8 menuType, MainCallback callback)
 
 void ChooseMonForMoveTutor(void)
 {
-    if (gSpecialVar_0x8005 < TUTOR_MOVE_COUNT)
+    if (gSpecialVar_0x8005 < MOVETUTOR_COUNT)
     {
         InitPartyMenu(PARTY_MENU_TYPE_FIELD,
                       PARTY_LAYOUT_SINGLE,

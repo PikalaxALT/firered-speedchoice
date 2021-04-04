@@ -774,7 +774,7 @@ static const struct WindowTemplate sUnknown_8463F24[] =
 
 static const struct WindowTemplate sWindowTemplates_Info[] = 
 {
-    [POKESUM_WIN_INFO_3] = {
+    [POKESUM_WIN_INFO_3 - 3] = {
         .bg = 0,
         .tilemapLeft = 15,
         .tilemapTop = 2,
@@ -783,7 +783,7 @@ static const struct WindowTemplate sWindowTemplates_Info[] =
         .paletteNum = 6,
         .baseBlock = 0x0001
     },
-    [POKESUM_WIN_INFO_4] = {
+    [POKESUM_WIN_INFO_4 - 3] = {
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 14,
@@ -792,7 +792,7 @@ static const struct WindowTemplate sWindowTemplates_Info[] =
         .paletteNum = 6,
         .baseBlock = 0x00b5
     },
-    [POKESUM_WIN_INFO_5] = {
+    [POKESUM_WIN_INFO_5 - 3] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
@@ -801,7 +801,7 @@ static const struct WindowTemplate sWindowTemplates_Info[] =
         .paletteNum = 0,
         .baseBlock = 0x0000
     },
-    [POKESUM_WIN_INFO_6] = {
+    [POKESUM_WIN_INFO_6 - 3] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
@@ -814,7 +814,7 @@ static const struct WindowTemplate sWindowTemplates_Info[] =
 
 static const struct WindowTemplate sWindowTemplates_Skills[] = 
 {
-    [POKESUM_WIN_SKILLS_3] = {
+    [POKESUM_WIN_SKILLS_3 - 3] = {
         .bg = 0,
         .tilemapLeft = 20,
         .tilemapTop = 2,
@@ -823,7 +823,7 @@ static const struct WindowTemplate sWindowTemplates_Skills[] =
         .paletteNum = 6,
         .baseBlock = 0x0001
     },
-    [POKESUM_WIN_SKILLS_4] = {
+    [POKESUM_WIN_SKILLS_4 - 3] = {
         .bg = 0,
         .tilemapLeft = 6,
         .tilemapTop = 12,
@@ -832,7 +832,7 @@ static const struct WindowTemplate sWindowTemplates_Skills[] =
         .paletteNum = 6,
         .baseBlock = 0x008d
     },
-    [POKESUM_WIN_SKILLS_5] = {
+    [POKESUM_WIN_SKILLS_5 - 3] = {
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 16,
@@ -841,7 +841,7 @@ static const struct WindowTemplate sWindowTemplates_Skills[] =
         .paletteNum = 6,
         .baseBlock = 0x00c5
     },
-    [POKESUM_WIN_SKILLS_6] = {
+    [POKESUM_WIN_SKILLS_6 - 3] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 0,
@@ -854,7 +854,7 @@ static const struct WindowTemplate sWindowTemplates_Skills[] =
 
 static const struct WindowTemplate sWindowTemplates_Moves[] = 
 {
-    [POKESUM_WIN_MOVES_3] = {
+    [POKESUM_WIN_MOVES_3 - 3] = {
         .bg = 0,
         .tilemapLeft = 20,
         .tilemapTop = 2,
@@ -863,7 +863,7 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
         .paletteNum = 8,
         .baseBlock = 0x0001
     },
-    [POKESUM_WIN_MOVES_4] = {
+    [POKESUM_WIN_MOVES_4 - 3] = {
         .bg = 0,
         .tilemapLeft = 0,
         .tilemapTop = 7,
@@ -872,7 +872,7 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
         .paletteNum = 6,
         .baseBlock = 0x00b5
     },
-    [POKESUM_WIN_MOVES_5] = {
+    [POKESUM_WIN_MOVES_5 - 3] = {
         .bg = 0,
         .tilemapLeft = 15,
         .tilemapTop = 2,
@@ -881,7 +881,7 @@ static const struct WindowTemplate sWindowTemplates_Moves[] =
         .paletteNum = 6,
         .baseBlock = 0x0178
     },
-    [POKESUM_WIN_MOVES_6] = {
+    [POKESUM_WIN_MOVES_6 - 3] = {
         .bg = 0,
         .tilemapLeft = 6,
         .tilemapTop = 4,
