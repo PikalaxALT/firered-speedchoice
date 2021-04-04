@@ -1019,7 +1019,7 @@ static const u16 sTMHMMoves_Duplicate[] =
     MOVE_TOXIC,
     MOVE_HAIL,
     MOVE_BULK_UP,
-    MOVE_SWEET_SCENT,
+    MOVE_BULLET_SEED,
     MOVE_HIDDEN_POWER,
     MOVE_SUNNY_DAY,
     MOVE_TAUNT,
@@ -1037,7 +1037,7 @@ static const u16 sTMHMMoves_Duplicate[] =
     MOVE_THUNDERBOLT,
     MOVE_THUNDER,
     MOVE_EARTHQUAKE,
-    MOVE_RETURN,
+    MOVE_SWEET_SCENT,
     MOVE_DIG,
     MOVE_PSYCHIC,
     MOVE_SHADOW_BALL,
@@ -1200,7 +1200,7 @@ static const u8 sPartyMenuActionCounts[] =
 static const u16 sFieldMoves[] =
 {
     MOVE_FLASH, MOVE_CUT, MOVE_FLY, MOVE_STRENGTH, MOVE_SURF, MOVE_ROCK_SMASH, MOVE_WATERFALL, MOVE_TELEPORT,
-    MOVE_DIG, MOVE_MILK_DRINK, MOVE_SOFT_BOILED, MOVE_SWEET_SCENT, FIELD_MOVE_END // this may be misuse of enum. same in emerald
+    MOVE_DIG, MOVE_MILK_DRINK, MOVE_SOFT_BOILED, MOVE_BULLET_SEED, FIELD_MOVE_END // this may be misuse of enum. same in emerald
 };
 
 static struct
@@ -1246,7 +1246,7 @@ static const u16 sTMHMMoves[] =
     MOVE_TOXIC,
     MOVE_HAIL,
     MOVE_BULK_UP,
-    MOVE_SWEET_SCENT,
+    MOVE_BULLET_SEED,
     MOVE_HIDDEN_POWER,
     MOVE_SUNNY_DAY,
     MOVE_TAUNT,
@@ -1264,7 +1264,7 @@ static const u16 sTMHMMoves[] =
     MOVE_THUNDERBOLT,
     MOVE_THUNDER,
     MOVE_EARTHQUAKE,
-    MOVE_RETURN,
+    MOVE_SWEET_SCENT,
     MOVE_DIG,
     MOVE_PSYCHIC,
     MOVE_SHADOW_BALL,
