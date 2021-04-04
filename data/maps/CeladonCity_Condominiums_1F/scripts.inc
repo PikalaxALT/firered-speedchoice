@@ -25,6 +25,7 @@ CeladonCity_Condominiums_1F_Plotless::
 	setflag FLAG_HIDE_TOWER_FUJI
 	clearflag FLAG_HIDE_POKEHOUSE_FUJI
 	setflag FLAG_RESCUED_MR_FUJI
+	setflag FLAG_CAN_USE_ROCKET_HIDEOUT_LIFT
 	checkspeedchoice PLOTLESS, PLOT_FULL
 	goto_if TRUE, CeladonCity_Condominiums_1F_FullPlotless
 	return

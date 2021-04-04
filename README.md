@@ -92,11 +92,16 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 
 ### 1.0.0b4
 - Hell trash cans now reroll on save&quit
+- Why trash cans
 - Guaranteed Rock Smash encounters
 - Fixed revocation of Rainbow Pass effectiveness after completing Lostelle quest
 - Fixed Altering Cave exit warps
 - Add dex beep
 - Revert TM09 to Bullet Seed, and set TM27 to Sweet Scent
+
+### 1.0.0b5
+- Fix issues with the Lift Key and Card Key not working properly in plotless
+- Secondary fix for revocation of Rainbow Pass effectiveness after completing Lostelle quest
 
 ## See also
 

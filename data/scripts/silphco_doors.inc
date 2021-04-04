@@ -507,7 +507,8 @@ SilphCo_11F_EventScript_Door:: @ 81A8B09
     end
 
 EventScript_TryUnlockDoor:: @ 81A8B23
-    goto_if_set FLAG_HIDE_SILPH_CO_5F_CARD_KEY, EventScript_OpenDoor
+	checkitem ITEM_CARD_KEY, 1
+	goto_if TRUE, EventScript_OpenDoor
     goto EventScript_NeedCardKey
     end
 
