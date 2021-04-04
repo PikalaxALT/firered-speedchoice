@@ -159,9 +159,12 @@ static const struct RoamerPair sRoamerPairs[] = {
     { SPECIES_RAIKOU,  SPECIES_SQUIRTLE   }
 };
 
+// Speedchoice change: Set up for dex sound
+EWRAM_DATA static bool8 sInSameMap = 0;
+
 s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
 {
-    s32 areaCount;
+    s32 areaCount = 0;
     s32 j;
     s32 mapSecId;
     u16 dexAreaSubspriteIdx;
@@ -171,9 +174,11 @@ s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
 //    s32 alteringCaveNum;
     s32 i;
 
-    if (GetRoamerIndex(species) >= SPECIES_NONE)
+    sInSameMap = FALSE;
+
+    if (GetRoamerIndex(species) >= 0)
     {
-        return CountRoamerNests(species, subsprites);
+        areaCount = CountRoamerNests(species, subsprites);
     }
 
     seviiAreas = GetUnlockedSeviiAreas();
@@ -182,7 +187,7 @@ s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
 //    alteringCaveNum = VarGet(VAR_ALTERING_CAVE_WILD_SET);
 //    if (alteringCaveNum > 8)
 //        alteringCaveNum = 0;
-    for (i = 0, areaCount = 0; gWildMonHeaders[i].mapGroup != 0xFF; i++)
+    for (i = 0; gWildMonHeaders[i].mapGroup != 0xFF; i++)
     {
         mapSecId = GetMapSecIdFromWildMonHeader(&gWildMonHeaders[i]);
 //        if (mapSecId == MAPSEC_ALTERING_CAVE)
@@ -215,10 +220,19 @@ s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
                     }
                 }
             }
+            if (gWildMonHeaders[i].mapGroup == gSaveBlock1Ptr->location.mapGroup && gWildMonHeaders[i].mapNum == gSaveBlock1Ptr->location.mapNum)
+            {
+                sInSameMap = TRUE;
+            }
         }
     }
 
     return areaCount;
+}
+
+bool8 InSameMapAsWildMon(void)
+{
+    return sInSameMap;
 }
 
 static s32 GetRoamerIndex(u16 species)

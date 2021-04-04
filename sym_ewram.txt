@@ -237,6 +237,8 @@
 	.align 2
 	.include "src/help_system_util.o"
 	.align 2
+	.include "src/wild_pokemon_area.o"
+	.align 2
 	.include "src/dynamic_placeholder_text_util.o"
 	.align 2
 	.include "src/berry_pouch.o"

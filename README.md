@@ -95,6 +95,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Guaranteed Rock Smash encounters
 - Fixed revocation of Rainbow Pass effectiveness after completing Lostelle quest
 - Fixed Altering Cave exit warps
+- Add dex beep
 
 ## See also
 

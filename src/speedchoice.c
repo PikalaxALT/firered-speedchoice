@@ -166,7 +166,7 @@ const u8 gSpeedchoiceOptionEvoEveryLv[] = _("{COLOR RED}{SHADOW GREEN}EVO EVERY 
 
 // PAGE 5
 const u8 gSpeedchoiceOptionHmBadgeChk[] = _("{COLOR RED}{SHADOW GREEN}HM BADGE CHK");
-const u8 gSpeedchoiceOptionEasySurgeCans[] = _("{COLOR RED}{SHADOW GREEN}EASY SURGE CANS");
+const u8 gSpeedchoiceOptionEasySurgeCans[] = _("{COLOR RED}{SHADOW GREEN}EASY SURGE");
 
 // CONSTANT OPTIONS
 const u8 gSpeedchoiceOptionPage[] = _("{COLOR RED}{SHADOW GREEN}PAGE");
