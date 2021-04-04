@@ -122,6 +122,8 @@ CinnabarIsland_EventScript_BillPlotlessItems::
 	giveitem ITEM_AURORA_TICKET
 	setflag FLAG_SYS_SEVII_MAP_123
 	setflag FLAG_SYS_SEVII_MAP_4567
+	setflag FLAG_ENABLE_SHIP_NAVEL_ROCK
+	setflag FLAG_ENABLE_SHIP_BIRTH_ISLAND
 	special SetPostgameFlags
 	setflag FLAG_GOT_RUBY
 	setflag FLAG_SYS_CAN_LINK_WITH_RS
