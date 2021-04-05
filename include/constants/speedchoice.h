@@ -16,35 +16,35 @@
 #define SPEEDCHOICE_VERSION STR(SPEEDCHOICE_VERSION_MAJOR) "." STR(SPEEDCHOICE_VERSION_MINOR) "." STR(SPEEDCHOICE_VERSION_RELSTEP)
 #endif
 
-#define PRESET               0 // N/A
-#define PLAYER_NAME_SET      1 // Implemented
-#define EXPMATH              2 // Implemented
-#define PLOTLESS             3 // Implemented
-#define INSTANTTEXT          4 // Implemented
-#define SPINNERS             5 // Implemented
-#define EARLYSURF            6 // Implemented
-#define MAXVISION            7 // Implemented
-#define NEWWILDENC           8 // Implemented
-#define RUN_EVERYWHERE       9 // Implemented
-#define BETTER_MARTS        10 // Implemented
-#define GOOD_EARLY_WILDS    11 // Implemented
-#define NICE_MENU_ORDER     12 // Implemented
-#define EASY_FALSE_SWIPE    13 // Implemented
-#define EASY_DEX_REWARDS    14 // Implemented
-#define FAST_CATCH          15 // Implemented
-#define EARLY_BIKE          16 // Implemented
-#define FAST_EGG_HATCH      17 // Implemented
-#define GEN_7_X_ITEMS       18 // Implemented
-#define EVO_EVERY_LEVEL     19 // Implemented
-#define HM_BADGE_CHECKS     20 // Implemented
-#define EASY_SURGE_CANS     21 // TODO
+#define PRESET               0u // N/A
+#define PLAYER_NAME_SET      1u // Implemented
+#define EXPMATH              2u // Implemented
+#define PLOTLESS             3u // Implemented
+#define INSTANTTEXT          4u // Implemented
+#define SPINNERS             5u // Implemented
+#define EARLYSURF            6u // Implemented
+#define MAXVISION            7u // Implemented
+#define NEWWILDENC           8u // Implemented
+#define RUN_EVERYWHERE       9u // Implemented
+#define BETTER_MARTS        10u // Implemented
+#define GOOD_EARLY_WILDS    11u // Implemented
+#define NICE_MENU_ORDER     12u // Implemented
+#define EASY_FALSE_SWIPE    13u // Implemented
+#define EASY_DEX_REWARDS    14u // Implemented
+#define FAST_CATCH          15u // Implemented
+#define EARLY_BIKE          16u // Implemented
+#define FAST_EGG_HATCH      17u // Implemented
+#define GEN_7_X_ITEMS       18u // Implemented
+#define EVO_EVERY_LEVEL     19u // Implemented
+#define HM_BADGE_CHECKS     20u // Implemented
+#define EASY_SURGE_CANS     21u // Implemented
 
-#define CURRENT_OPTIONS_NUM 22
+#define CURRENT_OPTIONS_NUM 22u
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
-#define PAGE        CURRENT_OPTIONS_NUM + 0
-#define START_GAME  CURRENT_OPTIONS_NUM + 1
+#define PAGE        (CURRENT_OPTIONS_NUM + 0u)
+#define START_GAME  (CURRENT_OPTIONS_NUM + 1u)
 
 
 /*

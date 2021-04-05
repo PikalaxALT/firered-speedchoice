@@ -775,8 +775,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     u8 i;
 
     // set the local config for the current menu. Do NOT overwrite the preset!
-    for(i = 1; i < CURRENT_OPTIONS_NUM; i++)
-        gLocalSpeedchoiceConfig.optionConfig[i] = preset[i];
+    memcpy(gLocalSpeedchoiceConfig.optionConfig + 1, preset + 1, CURRENT_OPTIONS_NUM - 1);
 
     // this would be a for loop, but i want to use the fewest bits possible to
     // avoid shifting RAM too much: hence the ugly per-option saving.
@@ -1178,9 +1177,7 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         bufferedName[4] = EXT_CTRL_CODE_SHADOW;
         bufferedName[5] = TEXT_COLOR_LIGHT_RED;
         // copy the name.
-        StringCopyN(bufferedName + 6, gTempPlayerName, PLAYER_NAME_LENGTH);
-        // add terminator.
-        bufferedName[6 + PLAYER_NAME_LENGTH] = EOS;
+        StringCopy7(bufferedName + 6, gTempPlayerName);
         DrawOptionMenuChoice(bufferedName, x_preset, y, 0);
     }
         // Assume everything else is a normal option render.
@@ -1277,52 +1274,42 @@ static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
         gTasks[taskId].func = Task_WaitForTooltip;
 }
 
-// Count leading zeroes. Self-explanatory.
-u32 CountLeadingZeros(u32 value)
-{
-    u32 result = 0;
-
-    if (!value)
-        return 32;
-
-    while (value < 0x80000000)
-    {
-        result ++;
-        value <<= 1;
-    }
-
-    return result;
-}
-
-// Convert number of options to bits that are used. Used to assist calculating CV.
-u8 GetNumBitsUsed(u8 numOptions)
-{
-    if(numOptions < 2) { return 1; }
-    return 32 - CountLeadingZeros(numOptions - 1);
-}
-
 // Calculate the Check Value given a given option configuration. Used for verifying ROM
 // check value + option config before starting a run/race.
 u32 CalculateCheckValue(void)
 {
     u32 checkValue;
-    u8 i; // current option
-    u8 totalBitsUsed;
+    // Promoted to s32 because the actual width is not important
+    s32 i; // current option
+    s32 totalBitsUsed;
+    u32 curBitsUsed;
 
     // do checkvalue increment for 32-bit value.
-    for(checkValue = 0, i = 0, totalBitsUsed = 0; i < CURRENT_OPTIONS_NUM; i++)
+    for (checkValue = 0, i = 0, totalBitsUsed = 0; i < CURRENT_OPTIONS_NUM; i++)
     {
         checkValue += gLocalSpeedchoiceConfig.optionConfig[i] << totalBitsUsed;
-        totalBitsUsed += GetNumBitsUsed(SpeedchoiceOptions[i].optionCount);
+        // Because MAX_CHOICES == 6, this is valid.
+        // Otherwise we'd need to do some actual work.
+        curBitsUsed = (SpeedchoiceOptions[i].optionCount + 1u) / 2u;
+        totalBitsUsed += curBitsUsed;
+
+        // Prevent useless shifts.
+        // This sizeof check is to control whether the compiler actually
+        // builds this statement.
+        if (sizeof(struct SpeedchoiceSaveOptions) > 4)
+        {
+            if (totalBitsUsed >= 32)
+            {
+                totalBitsUsed -= 32;
+                if (totalBitsUsed)
+                    checkValue += gLocalSpeedchoiceConfig.optionConfig[i] >> (curBitsUsed - totalBitsUsed);
+            }
+        }
     }
 
     // seed RNG with checkValue for more hash-like number.
-    checkValue = 0x41c64e6d * checkValue + 0x00006073;
-
     // xor with randomizer value, if one is present.
-    checkValue = checkValue ^ gRandomizerCheckValue;
-
-    return checkValue;
+    return LC_RNG(checkValue) ^ gRandomizerCheckValue;
 }
 
 // Flush the settings to the Save Block.
