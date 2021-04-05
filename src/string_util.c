@@ -299,18 +299,20 @@ u8 *StringExpandPlaceholders(u8 *dest, const u8 *src)
 
                 switch (c)
                 {
-                    case 0x07:
-                    case 0x09:
-                    case 0x0F:
-                    case 0x15:
-                    case 0x16:
-                    case 0x17:
-                    case 0x18:
+                    case EXT_CTRL_CODE_RESET_FONT:
+                    case EXT_CTRL_CODE_WAIT_BUTTON:
+                    case EXT_CTRL_CODE_FILL_WINDOW:
+                    case EXT_CTRL_CODE_JPN:
+                    case EXT_CTRL_CODE_ENG:
+                    case EXT_CTRL_CODE_STOP_BGM:
+                    case EXT_CTRL_CODE_RESUME_BGM:
                         break;
-                    case 0x04:
+                    case EXT_CTRL_CODE_COLOR_HIGHLIGHT_SHADOW:
                         *dest++ = *src++;
-                    case 0x0B:
+                        // fallthrough
+                    case EXT_CTRL_CODE_PLAY_BGM:
                         *dest++ = *src++;
+                        // fallthrough
                     default:
                         *dest++ = *src++;
                 }
@@ -318,9 +320,9 @@ u8 *StringExpandPlaceholders(u8 *dest, const u8 *src)
             case EOS:
                 *dest = EOS;
                 return dest;
-            case 0xFA:
-            case 0xFB:
-            case 0xFE:
+            case CHAR_PROMPT_SCROLL:
+            case CHAR_PROMPT_CLEAR:
+            case CHAR_NEWLINE:
             default:
                 *dest++ = c;
         }
@@ -329,8 +331,8 @@ u8 *StringExpandPlaceholders(u8 *dest, const u8 *src)
 
 u8 *StringBraille(u8 *dest, const u8 *src)
 {
-    u8 setBrailleFont[] = { 0xFC, 0x06, 0x06, 0xFF };
-    u8 gotoLine2[] = { 0xFE, 0xFC, 0x0E, 0x02, 0xFF };
+    u8 setBrailleFont[] = _("{SIZE 6}");
+    u8 gotoLine2[] = _("\n{SHIFT_DOWN 2}");
 
     dest = StringCopy(dest, setBrailleFont);
 
@@ -343,7 +345,7 @@ u8 *StringBraille(u8 *dest, const u8 *src)
             case EOS:
                 *dest = c;
                 return dest;
-            case 0xFE:
+            case CHAR_NEWLINE:
                 dest = StringCopy(dest, gotoLine2);
                 break;
             default:
@@ -514,12 +516,9 @@ u8 *StringCopyPadded(u8 *dest, const u8 *src, u8 c, u16 n)
             n--;
     }
 
-    n--;
-
-    while (n != (u16)-1)
+    while (n-- != 0)
     {
         *dest++ = c;
-        n--;
     }
 
     *dest = EOS;
@@ -544,7 +543,7 @@ u8 *StringCopyN_Multibyte(u8 *dest, const u8 *src, u32 n)
         else
         {
             *dest++ = *src++;
-            if (*(src - 1) == 0xF9)
+            if (*(src - 1) == CHAR_EXTRA_EMOJI)
                 *dest++ = *src++;
         }
     }
@@ -559,7 +558,7 @@ u32 StringLength_Multibyte(const u8 *str)
 
     while (*str != EOS)
     {
-        if (*str == 0xF9)
+        if (*str == CHAR_EXTRA_EMOJI)
             str++;
         str++;
         length++;
@@ -570,21 +569,21 @@ u32 StringLength_Multibyte(const u8 *str)
 
 u8 *WriteColorChangeControlCode(u8 *dest, u32 colorType, u8 color)
 {
-    *dest = 0xFC;
+    *dest = EXT_CTRL_CODE_BEGIN;
     dest++;
 
     switch (colorType)
     {
     case 0:
-        *dest = 1;
+        *dest = EXT_CTRL_CODE_COLOR;
         dest++;
         break;
     case 1:
-        *dest = 3;
+        *dest = EXT_CTRL_CODE_SHADOW;
         dest++;
         break;
     case 2:
-        *dest = 2;
+        *dest = EXT_CTRL_CODE_HIGHLIGHT;
         dest++;
         break;
     }
@@ -599,31 +598,31 @@ u8 GetExtCtrlCodeLength(u8 code)
 {
     static const u8 lengths[] =
     {
-        1,
-        2,
-        2,
-        2,
-        4,
-        2,
-        2,
-        1,
-        2,
-        1,
-        1,
-        3,
-        2,
-        2,
-        2,
-        1,
-        3,
-        2,
-        2,
-        2,
-        2,
-        1,
-        1,
-        1,
-        1,
+        [0]                                    = 1,
+        [EXT_CTRL_CODE_COLOR]                  = 2,
+        [EXT_CTRL_CODE_HIGHLIGHT]              = 2,
+        [EXT_CTRL_CODE_SHADOW]                 = 2,
+        [EXT_CTRL_CODE_COLOR_HIGHLIGHT_SHADOW] = 4,
+        [EXT_CTRL_CODE_PALETTE]                = 2,
+        [EXT_CTRL_CODE_FONT]                   = 2,
+        [EXT_CTRL_CODE_RESET_FONT]             = 1,
+        [EXT_CTRL_CODE_PAUSE]                  = 2,
+        [EXT_CTRL_CODE_WAIT_BUTTON]            = 1,
+        [EXT_CTRL_CODE_WAIT_SE]                = 1,
+        [EXT_CTRL_CODE_PLAY_BGM]               = 3,
+        [EXT_CTRL_CODE_ESCAPE]                 = 2,
+        [EXT_CTRL_CODE_SHIFT_RIGHT]            = 2,
+        [EXT_CTRL_CODE_SHIFT_DOWN]             = 2,
+        [EXT_CTRL_CODE_FILL_WINDOW]            = 1,
+        [EXT_CTRL_CODE_PLAY_SE]                = 3,
+        [EXT_CTRL_CODE_CLEAR]                  = 2,
+        [EXT_CTRL_CODE_SKIP]                   = 2,
+        [EXT_CTRL_CODE_CLEAR_TO]               = 2,
+        [EXT_CTRL_CODE_MIN_LETTER_SPACING]     = 2,
+        [EXT_CTRL_CODE_JPN]                    = 1,
+        [EXT_CTRL_CODE_ENG]                    = 1,
+        [EXT_CTRL_CODE_STOP_BGM]               = 1,
+        [EXT_CTRL_CODE_RESUME_BGM]             = 1,
     };
 
     u8 length = 0;
@@ -634,7 +633,7 @@ u8 GetExtCtrlCodeLength(u8 code)
 
 static const u8 *SkipExtCtrlCode(const u8 *s)
 {
-    while (*s == 0xFC)
+    while (*s == EXT_CTRL_CODE_BEGIN)
     {
         s++;
         s += GetExtCtrlCodeLength(*s);
@@ -658,11 +657,11 @@ s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2)
         if (*str1 < *str2)
         {
             retVal = -1;
-            if (*str2 == 0xFF)
+            if (*str2 == EOS)
                 retVal = 1;
         }
 
-        if (*str1 == 0xFF)
+        if (*str1 == EOS)
             return retVal;
 
         str1++;
@@ -671,7 +670,7 @@ s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2)
 
     retVal = 1;
 
-    if (*str1 == 0xFF)
+    if (*str1 == EOS)
         retVal = -1;
 
     return retVal;
@@ -685,20 +684,17 @@ void ConvertInternationalString(u8 *s, u8 language)
 
         StripExtCtrlCodes(s);
         i = StringLength(s);
-        s[i++] = 0xFC;
-        s[i++] = 22;
-        s[i++] = 0xFF;
+        s[i++] = EXT_CTRL_CODE_BEGIN;
+        s[i++] = EXT_CTRL_CODE_ENG;
+        s[i++] = EOS;
 
-        i--;
-
-        while (i != (u8)-1)
+        while (i-- != 0)
         {
             s[i + 2] = s[i];
-            i--;
         }
 
-        s[0] = 0xFC;
-        s[1] = 21;
+        s[0] = EXT_CTRL_CODE_BEGIN;
+        s[1] = EXT_CTRL_CODE_JPN;
     }
 }
 
@@ -706,9 +702,9 @@ void StripExtCtrlCodes(u8 *str)
 {
     u16 srcIndex = 0;
     u16 destIndex = 0;
-    while (str[srcIndex] != 0xFF)
+    while (str[srcIndex] != EOS)
     {
-        if (str[srcIndex] == 0xFC)
+        if (str[srcIndex] == EXT_CTRL_CODE_BEGIN)
         {
             srcIndex++;
             srcIndex += GetExtCtrlCodeLength(str[srcIndex]);
@@ -718,5 +714,5 @@ void StripExtCtrlCodes(u8 *str)
             str[destIndex++] = str[srcIndex++];
         }
     }
-    str[destIndex] = 0xFF;
+    str[destIndex] = EOS;
 }
