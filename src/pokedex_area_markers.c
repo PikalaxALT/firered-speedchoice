@@ -201,7 +201,7 @@ u8 Ctor_PokedexAreaMarkers(u16 species, u16 tilesTag, u8 palIdx, u8 y)
     return taskId;
 }
 
-void sub_81343F4(u8 taskId)
+void Dtor_PokedexAreaMarkers(u8 taskId)
 {
     struct PAM_TaskData * data = (void *)gTasks[taskId].data;
     FreeSpriteTilesByTag(data->tilesTag);
