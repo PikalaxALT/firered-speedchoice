@@ -357,8 +357,8 @@ const u8 *GetPresetPtr(enum Preset presetID) {
 // ---------------------------------------
 const struct OptionChoiceConfig OptionChoiceConfigYesNo[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextYes },
-        { 150, (u8 *)&gSpeedchoiceTextNo  },
+        { 120, gSpeedchoiceTextYes },
+        { 150, gSpeedchoiceTextNo  },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL },
@@ -367,8 +367,8 @@ const struct OptionChoiceConfig OptionChoiceConfigYesNo[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigOnOff[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextOn  },
-        { 150, (u8 *)&gSpeedchoiceTextOff },
+        { 120, gSpeedchoiceTextOn  },
+        { 150, gSpeedchoiceTextOff },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL },
@@ -377,19 +377,19 @@ const struct OptionChoiceConfig OptionChoiceConfigOnOff[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigNerfKeep[MAX_CHOICES] =
     {
-        { 85, (u8 *)&gSpeedchoiceTextNerf },
-        { 120, (u8 *)&gSpeedchoiceTextKeep },
-        { 150, (u8 *)&gSpeedchoiceTextHell },
-        { 180, (u8 *)&gSpeedchoiceTextWhy },
+        { 85, gSpeedchoiceTextNerf },
+        { 120, gSpeedchoiceTextKeep },
+        { 150, gSpeedchoiceTextHell },
+        { 180, gSpeedchoiceTextWhy },
         { -1, NULL },
         { -1, NULL }
     };
 
 const struct OptionChoiceConfig OptionChoiceConfigSemiFull[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextSemi },
-        { 150, (u8 *)&gSpeedchoiceTextKeep },
-        { 180, (u8 *)&gSpeedchoiceTextFull },
+        { 120, gSpeedchoiceTextSemi },
+        { 150, gSpeedchoiceTextKeep },
+        { 180, gSpeedchoiceTextFull },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL }
@@ -397,9 +397,9 @@ const struct OptionChoiceConfig OptionChoiceConfigSemiFull[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigOffRand[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextOff    },
-        { 150, (u8 *)&gSpeedchoiceTextStatic },
-        { 180, (u8 *)&gSpeedchoiceTextRand   },
+        { 120, gSpeedchoiceTextOff    },
+        { 150, gSpeedchoiceTextStatic },
+        { 180, gSpeedchoiceTextRand   },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL }
@@ -407,9 +407,9 @@ const struct OptionChoiceConfig OptionChoiceConfigOffRand[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigOffTutorHM[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextOff   },
-        { 145, (u8 *)&gSpeedchoiceTextTutor },
-        { 180, (u8 *)&gSpeedchoiceTextHM05  },
+        { 120, gSpeedchoiceTextOff   },
+        { 145, gSpeedchoiceTextTutor },
+        { 180, gSpeedchoiceTextHM05  },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL }
@@ -417,9 +417,9 @@ const struct OptionChoiceConfig OptionChoiceConfigOffTutorHM[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigSaneHell[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextOff  },
-        { 150, (u8 *)&gSpeedchoiceTextSane },
-        { 180, (u8 *)&gSpeedchoiceTextHell },
+        { 120, gSpeedchoiceTextOff  },
+        { 150, gSpeedchoiceTextSane },
+        { 180, gSpeedchoiceTextHell },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL }
@@ -427,9 +427,9 @@ const struct OptionChoiceConfig OptionChoiceConfigSaneHell[MAX_CHOICES] =
 
 const struct OptionChoiceConfig OptionChoiceConfigKeepNone[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceTextKeep },
-        { 150, (u8 *)&gSpeedchoiceTextBW   },
-        { 180, (u8 *)&gSpeedchoiceTextNone },
+        { 120, gSpeedchoiceTextKeep },
+        { 150, gSpeedchoiceTextBW   },
+        { 180, gSpeedchoiceTextNone },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL }
@@ -464,8 +464,8 @@ const struct OptionChoiceConfig OptionChoiceConfigPlayerName[MAX_CHOICES] =
 // not a normal config struct, but used for the arrows for multi choice.
 const struct OptionChoiceConfig Arrows[MAX_CHOICES] =
     {
-        { 120, (u8 *)&gSpeedchoiceOptionLeftArrow },
-        { 195, (u8 *)&gSpeedchoiceOptionRightArrow },
+        { 120, gSpeedchoiceOptionLeftArrow },
+        { 195, gSpeedchoiceOptionRightArrow },
         { -1, NULL },
         { -1, NULL },
         { -1, NULL },
@@ -958,15 +958,8 @@ static void HighlightOptionMenuItem(u8 index)
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE_(index * 16 + 40, index * 16 + 56));
 }
 
-void CB2_InitSpeedchoice(void);
-
 // The Options menu relies on a CB2 init while New Game relied on a task switchover. As a hack, I
 // used this to transition it over. It's a bit messy but whatever.
-void Task_InitSpeedchoiceMenu(u8 taskId)
-{
-    SetMainCallback2(CB2_InitSpeedchoice);
-    DestroyTask(taskId);
-}
 
 static void DrawHeaderWindow(void);
 static void Task_SpeedchoiceMenuFadeIn(u8 taskId);
@@ -1122,20 +1115,7 @@ void CB2_InitSpeedchoice(void)
 #define CHAR_PERCENT 0x5B
 
 // Replaces MENUOPTIONCOORDS in speedchoice.h.
-#define NEWMENUOPTIONCOORDS(i)  ((i * 16) + 2)
-
-// Deprecated function. Originally was going to be used to select % of experience, I think.
-static u8 *FormatPercentNumber(char *text, u8 selection, u8 x, u8 y, u8 style) // style is unused
-{
-    memcpy(text, gSystemText_TerminatorS, 3); // copy the palette control code.
-
-    // there are no more than 10 pages, so format it as a single digit.
-    text[3] = (selection / 100) + CHAR_0; // hundreds
-    text[4] = ((selection % 100) / 10) + CHAR_0;    // tens
-    text[5] = ((selection % 100) % 10) + CHAR_0; // ones
-    text[6] = CHAR_PERCENT;
-    text[7] = EOS;
-}
+#define NEWMENUOPTIONCOORDS(i)  (((i) * 16) + 2)
 
 // Render the page number.
 static void DrawPageChoice(u8 selection)
@@ -1151,7 +1131,7 @@ static void DrawPageChoice(u8 selection)
 }
 
 // Render the text for the choices for each option.
-static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u8 row, bool8 isPercent)
+static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u8 row)
 {
     u8 styles[MAX_CHOICES];
     u8 numChoices = option->optionCount;
@@ -1183,7 +1163,6 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         // Player name needs special handling as well.
     else if(option->optionType == PLAYER_NAME)
     {
-        u8 i;
         u8 bufferedName[6 + PLAYER_NAME_LENGTH + 1]; // account for the color strings
         s16 y = NEWMENUOPTIONCOORDS(row);
         s16 x_left = OptionChoiceConfigPlayerName[0].x;
@@ -1199,11 +1178,9 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         bufferedName[4] = EXT_CTRL_CODE_SHADOW;
         bufferedName[5] = TEXT_COLOR_LIGHT_RED;
         // copy the name.
-        for(i = 0; i < PLAYER_NAME_LENGTH; i++) {
-            bufferedName[i + 6] = gTempPlayerName[i];
-        }
+        StringCopyN(bufferedName + 6, gTempPlayerName, PLAYER_NAME_LENGTH);
         // add terminator.
-        bufferedName[13] = EOS;
+        bufferedName[6 + PLAYER_NAME_LENGTH] = EOS;
         DrawOptionMenuChoice(bufferedName, x_preset, y, 0);
     }
         // Assume everything else is a normal option render.
@@ -1213,7 +1190,7 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         {
             s16 x = option->options[i].x;
             s16 y = NEWMENUOPTIONCOORDS(row);
-            u8 *string = option->options[i].string;
+            const u8 *string = option->options[i].string;
 
             DrawOptionMenuChoice(string, x, y, styles[i]);
         }
@@ -1570,7 +1547,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
                 //else
                 u8 oldSelection = gLocalSpeedchoiceConfig.optionConfig[trueIndex];
                 gLocalSpeedchoiceConfig.optionConfig[trueIndex] = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], selection, FALSE);
-                DrawGeneralChoices((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], gLocalSpeedchoiceConfig.optionConfig[trueIndex], gLocalSpeedchoiceConfig.pageIndex, FALSE);
+                DrawGeneralChoices((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], gLocalSpeedchoiceConfig.optionConfig[trueIndex], gLocalSpeedchoiceConfig.pageIndex);
                 if(oldSelection != gLocalSpeedchoiceConfig.optionConfig[trueIndex] || gForceUpdate) {
                     DrawPageOptions(gLocalSpeedchoiceConfig.pageNum); // HACK!!! The page has to redraw. But only redraw it if the selection changed, otherwise it lags.
                     gForceUpdate = FALSE;
@@ -1638,7 +1615,7 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
 
         AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, string, 4, NEWMENUOPTIONCOORDS(i), TEXT_SPEED_FF, NULL);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
-        DrawGeneralChoices(option, gLocalSpeedchoiceConfig.optionConfig[i + ((page-1) * 5)], i, FALSE);
+        DrawGeneralChoices(option, gLocalSpeedchoiceConfig.optionConfig[i + ((page-1) * 5)], i);
     }
 
     AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, gSpeedchoiceOptionPage, 4, NEWMENUOPTIONCOORDS(5), TEXT_SPEED_FF, NULL);

@@ -57,7 +57,7 @@
 struct OptionChoiceConfig
 {
     s16 x; // do not store the Y coordinate. Y is automatically calculated depending on the row the option is placed and therefore is not necessary.
-    u8 *string; // can be null
+    const u8 *string; // can be null
 };
 
 /*
