@@ -102,6 +102,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0b5
 - Fix issues with the Lift Key and Card Key not working properly in plotless
 - Secondary fix for revocation of Rainbow Pass effectiveness after completing Lostelle quest
+- Fix Surge trash cans settings HELL and WHY becoming NERF and KEEP, respectively
 
 ## See also
 

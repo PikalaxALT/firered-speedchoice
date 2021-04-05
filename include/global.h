@@ -280,7 +280,7 @@ struct SpeedchoiceSaveOptions
                       u32 gen7XItems:1;
     /*0x02:7,0x03:0*/ u32 evoEveryLevel:2;
                       u32 hmBadgeChecks:1;
-                      u32 easySurgeCans:1;
+                      u32 easySurgeCans:2;
 };
 
 struct DoneButtonStats
