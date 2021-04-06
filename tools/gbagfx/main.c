@@ -151,10 +151,10 @@ void HandleGbaToPngCommand(char *inputPath, char *outputPath, int argc, char **a
             if (options.metatileHeight < 1)
                 FATAL_ERROR("metatile height must be positive.\n");
         }
-        else if (strcmp(option, "-tilemap") == 0)
+        else if (strcmp(option, "-tiles") == 0)
         {
             if (i + 1 >= argc)
-                FATAL_ERROR("No tilemap value following \"-tilemap\".\n");
+                FATAL_ERROR("No tiles value following \"-tiles\".\n");
             i++;
             options.tilemapFilePath = argv[i];
         }

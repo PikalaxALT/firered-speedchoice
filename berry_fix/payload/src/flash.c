@@ -66,7 +66,7 @@ static const struct SaveBlockChunk sSaveBlockChunks[] =
 };
 
 const u16 gInfoMessagesPal[] = INCBIN_U16("graphics/msg_box.gbapal");
-const u8 gInfoMessagesTilemap[] = INCBIN_U8("graphics/msg_box.tilemap.lz");
+const u8 gInfoMessagesTilemap[] = INCBIN_U8("graphics/msg_box.tiles.lz");
 const u8 gInfoMessagesGfx[] = INCBIN_U8("graphics/msg_box.4bpp.lz");
 
 bool32 flash_maincb_ident_is_valid(void)
