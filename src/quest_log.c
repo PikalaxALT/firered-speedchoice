@@ -152,7 +152,7 @@ static const struct WindowTemplate sQuestLogHeaderWindowTemplates[3] = {
 
 static const u8 sTextColors[3] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_DYNAMIC_COLOR_3};
 
-static const u16 sUnknown_8456638[] = INCBIN_U16("graphics/unknown/unknown_8456638.bin");
+static const u16 sUnknown_8456638[] = INCBIN_U16("graphics/unknown/unknown_8456638.4bpp");
 
 static const u8 sQuestLogTextLineYCoords[] = {17, 10, 3};
 
@@ -998,10 +998,11 @@ static void DrawQuestLogSceneDescription(void)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void sub_8111D90(u8 a0)
+// Soft-encoding of a tilemap
+static void sub_8111D90(u8 windowId)
 {
     const u16 *src = sUnknown_8456638;
-    u16 *buffer = Alloc(0x1680);
+    u16 *buffer = Alloc(30 * 6 * 32);
     u8 i, j, y;
 
     if (buffer)
@@ -1030,7 +1031,7 @@ static void sub_8111D90(u8 a0)
             }
         }
 
-        CopyToWindowPixelBuffer(a0, (const u8 *)buffer, 0x1680, 0);
+        CopyToWindowPixelBuffer(windowId, (const u8 *)buffer, 30 * 6 * 32, 0);
         Free(buffer);
     }
 }

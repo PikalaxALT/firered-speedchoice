@@ -1014,7 +1014,7 @@ void AllocateMonSpritesGfx(void)
 
     gMonSpritesGfxPtr = NULL;
     gMonSpritesGfxPtr = AllocZeroed(sizeof(*gMonSpritesGfxPtr));
-    gMonSpritesGfxPtr->firstDecompressed = AllocZeroed(0x8000);
+    gMonSpritesGfxPtr->firstDecompressed = AllocZeroed(0x2000 * MAX_BATTLERS_COUNT);
     for (i = 0; i < MAX_BATTLERS_COUNT; ++i)
     {
         gMonSpritesGfxPtr->sprites[i] = gMonSpritesGfxPtr->firstDecompressed + (i * 0x2000);

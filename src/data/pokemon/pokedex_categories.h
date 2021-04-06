@@ -1,3 +1,9 @@
+// Creates a hierarchy of Pokemon by category, and further
+// ubdivision into pages of up to 4 species per page.
+// The 4-per-page is a hard limit currently. You cannot
+// increase this number without resizing and rearranging
+// the graphics in pokedex_screen.c
+
 static const u16 sDexCategory_GrasslandPkmn_Page1[] = {
     SPECIES_RATTATA,
     SPECIES_RATICATE,

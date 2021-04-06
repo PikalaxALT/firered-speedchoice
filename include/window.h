@@ -58,7 +58,7 @@ void FreeAllWindowBuffers(void);
 // Mode parameter for funcs below
 #define COPYWIN_MAP  1
 #define COPYWIN_GFX  2
-#define COPYWIN_BOTH 3
+#define COPYWIN_BOTH (COPYWIN_MAP | COPYWIN_GFX)
 
 void CopyWindowToVram(u8 windowId, u8 mode);
 void CopyWindowToVram8Bit(u8 windowId, u8 mode);

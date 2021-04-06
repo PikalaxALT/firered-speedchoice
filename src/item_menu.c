@@ -541,10 +541,10 @@ static bool8 BagMenuInitBgsAndAllocTilemapBuffer(void)
     void **buff;
     ResetAllBgsCoordinatesAndBgCntRegs();
     buff = &sBagBgTilemapBuffer;
-    *buff = Alloc(0x800);
+    *buff = Alloc(BG_SCREEN_SIZE);
     if (*buff == NULL)
         return FALSE;
-    memset(*buff, 0, 0x800);
+    memset(*buff, 0, BG_SCREEN_SIZE);
     ResetBgsAndClearDma3BusyFlags(FALSE);
     InitBgsFromTemplates(0, sBgTemplates, NELEMS(sBgTemplates));
     SetBgTilemapBuffer(1, *buff);

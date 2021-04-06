@@ -100,7 +100,7 @@ static void MainCB2_SetUp(void)
         gMain.state++;
         break;
     case 2:
-        sBg3TilemapBuffer_p = AllocZeroed(0x800);
+        sBg3TilemapBuffer_p = AllocZeroed(BG_SCREEN_SIZE);
         ResetBgsAndClearDma3BusyFlags(0);
         InitBgsFromTemplates(0, sBgTemplates, NELEMS(sBgTemplates));
         SetBgTilemapBuffer(3, sBg3TilemapBuffer_p);

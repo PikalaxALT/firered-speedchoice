@@ -421,7 +421,7 @@ static void LoadBGTemplates(void)
     void ** ptr;
     ResetAllBgsCoordinatesAndBgCntRegs();
     ptr = &sTilemapBuffer;
-    *ptr = AllocZeroed(0x800);
+    *ptr = AllocZeroed(BG_SCREEN_SIZE);
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sBGTemplates, NELEMS(sBGTemplates));
     SetBgTilemapBuffer(2, *ptr);

@@ -411,10 +411,10 @@ static void Task_ItemPcWaitFadeAndBail(u8 taskId)
 static bool8 ItemPc_InitBgs(void)
 {
     ResetAllBgsCoordinatesAndBgCntRegs();
-    sBg1TilemapBuffer = Alloc(0x800);
+    sBg1TilemapBuffer = Alloc(BG_SCREEN_SIZE);
     if (sBg1TilemapBuffer == NULL)
         return FALSE;
-    memset(sBg1TilemapBuffer, 0, 0x800);
+    memset(sBg1TilemapBuffer, 0, BG_SCREEN_SIZE);
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sBgTemplates, NELEMS(sBgTemplates));
     SetBgTilemapBuffer(1, sBg1TilemapBuffer);
@@ -458,13 +458,13 @@ static bool8 ItemPc_LoadGraphics(void)
     return FALSE;
 }
 
-#define try_alloc(ptr__, size) ({ \
-    void ** ptr = (void **)&(ptr__);             \
+#define try_alloc(ptr__, size) ({       \
+    void ** ptr = (void **)&(ptr__);    \
     *ptr = Alloc(size);                 \
     if (*ptr == NULL)                   \
     {                                   \
-        ItemPc_FreeResources();                  \
-        ItemPc_FadeAndBail();                  \
+        ItemPc_FreeResources();         \
+        ItemPc_FadeAndBail();           \
         return FALSE;                   \
     }                                   \
 })

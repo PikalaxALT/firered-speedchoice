@@ -648,11 +648,11 @@ static bool8 TryAllocItemIconTilesBuffers(void)
     void ** ptr1, ** ptr2;
 
     ptr1 = &sItemIconTilesBuffer;
-    *ptr1 = Alloc(0x120);
+    *ptr1 = Alloc(24 * 24 / 8 * 4);
     if (*ptr1 == NULL)
         return FALSE;
     ptr2 = &sItemIconTilesBufferPadded;
-    *ptr2 = AllocZeroed(0x200);
+    *ptr2 = AllocZeroed(32 * 32 / 8 * 4);
     if (*ptr2 == NULL)
     {
         Free(*ptr1);

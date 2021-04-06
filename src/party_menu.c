@@ -623,10 +623,10 @@ static void ResetPartyMenu(void)
 static bool8 AllocPartyMenuBg(void)
 {
     ResetAllBgsCoordinatesAndBgCntRegs();
-    sPartyBgTilemapBuffer = Alloc(0x800);
+    sPartyBgTilemapBuffer = Alloc(BG_SCREEN_SIZE);
     if (sPartyBgTilemapBuffer == NULL)
         return FALSE;
-    memset(sPartyBgTilemapBuffer, 0, 0x800);
+    memset(sPartyBgTilemapBuffer, 0, BG_SCREEN_SIZE);
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sPartyMenuBgTemplates, NELEMS(sPartyMenuBgTemplates));
     SetBgTilemapBuffer(1, sPartyBgTilemapBuffer);
@@ -4226,7 +4226,7 @@ void SetUsedFlyQuestLogEvent(const u8 *healLocCtrlData)
     ptr->mapNum = healLocCtrlData[1];
     mapHeader = Overworld_GetMapHeaderByGroupAndId(ptr->mapGroup, ptr->mapNum);
     Free(ptr);
-    ptr2 = Alloc(4);
+    ptr2 = Alloc(sizeof(struct FieldMoveWarpParams));
     ptr2->species = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_SPECIES2);
     ptr2->fieldMove = FIELD_MOVE_FLY;
     ptr2->regionMapSectionId = mapHeader->regionMapSectionId;

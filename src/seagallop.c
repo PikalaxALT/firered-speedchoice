@@ -194,7 +194,7 @@ static void CB2_SetUpSeagallopScene(void)
         break;
     case 2:
         ptr = &sBg3TilemapBuffer;
-        *ptr = AllocZeroed(0x800);
+        *ptr = AllocZeroed(BG_SCREEN_SIZE);
         ResetBgsAndClearDma3BusyFlags(0);
         InitBgsFromTemplates(0, sBGTemplates, NELEMS(sBGTemplates));
         SetBgTilemapBuffer(3, *ptr);
@@ -216,7 +216,7 @@ static void CB2_SetUpSeagallopScene(void)
         gMain.state++;
         break;
     case 4:
-        if (IsDma3ManagerBusyWithBgCopy() != DIRN_EASTBOUND)
+        if (IsDma3ManagerBusyWithBgCopy() != TRUE)
         {
             ShowBg(0);
             ShowBg(3);

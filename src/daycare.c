@@ -283,7 +283,7 @@ static const struct BgTemplate sBgTemplates_EggHatch[2] =
         .bg = 0,
         .charBaseIndex = 2,
         .mapBaseIndex = 24,
-        .screenSize = 3,
+        .screenSize = 3, // 512x512
         .paletteMode = 0,
         .priority = 0,
         .baseTile = 0
@@ -293,7 +293,7 @@ static const struct BgTemplate sBgTemplates_EggHatch[2] =
         .bg = 1,
         .charBaseIndex = 0,
         .mapBaseIndex = 8,
-        .screenSize = 1,
+        .screenSize = 1, // 512x256
         .paletteMode = 0,
         .priority = 2,
         .baseTile = 0
@@ -1797,8 +1797,8 @@ static void CB2_EggHatch_0(void)
         ChangeBgY(0, 0, 0);
 
         SetBgAttribute(1, 7, 2);
-        SetBgTilemapBuffer(1, Alloc(0x1000));
-        SetBgTilemapBuffer(0, Alloc(0x2000));
+        SetBgTilemapBuffer(1, Alloc(2 * BG_SCREEN_SIZE)); // 512x256
+        SetBgTilemapBuffer(0, Alloc(4 * BG_SCREEN_SIZE)); // 512x512
 
         DeactivateAllTextPrinters();
         ResetPaletteFade();
