@@ -532,9 +532,7 @@ u8 *StringFillWithTerminator(u8 *dest, u16 n)
 
 u8 *StringCopyN_Multibyte(u8 *dest, const u8 *src, u32 n)
 {
-    u32 i;
-
-    for (i = n - 1; i != -1u; i--)
+    while (n-- != 0)
     {
         if (*src == EOS)
         {
@@ -567,22 +565,22 @@ u32 StringLength_Multibyte(const u8 *str)
     return length;
 }
 
-u8 *WriteColorChangeControlCode(u8 *dest, u32 colorType, u8 color)
+u8 *WriteColorChangeControlCode(u8 *dest, enum ColorControlCode colorType, u8 color)
 {
     *dest = EXT_CTRL_CODE_BEGIN;
     dest++;
 
     switch (colorType)
     {
-    case 0:
+    case STR_COLOR_CNT_COLOR:
         *dest = EXT_CTRL_CODE_COLOR;
         dest++;
         break;
-    case 1:
+    case STR_COLOR_CNT_SHADOW:
         *dest = EXT_CTRL_CODE_SHADOW;
         dest++;
         break;
-    case 2:
+    case STR_COLOR_CNT_HIGHLIGHT:
         *dest = EXT_CTRL_CODE_HIGHLIGHT;
         dest++;
         break;
@@ -656,9 +654,7 @@ s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2)
 
         if (*str1 < *str2)
         {
-            retVal = -1;
-            if (*str2 == EOS)
-                retVal = 1;
+            retVal = *str2 == EOS ? 1 : -1;
         }
 
         if (*str1 == EOS)
@@ -668,10 +664,7 @@ s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2)
         str2++;
     }
 
-    retVal = 1;
-
-    if (*str1 == EOS)
-        retVal = -1;
+    retVal = *str1 == EOS ? -1 : 1;
 
     return retVal;
 }

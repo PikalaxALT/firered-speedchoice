@@ -10,6 +10,13 @@ enum StringConvertMode
     STR_CONV_MODE_LEADING_ZEROS
 };
 
+enum ColorControlCode
+{
+    STR_COLOR_CNT_COLOR,
+    STR_COLOR_CNT_SHADOW,
+    STR_COLOR_CNT_HIGHLIGHT,
+};
+
 u8 *StringCopy10(u8 *dest, const u8 *src);
 u8 *StringGetEnd10(u8 *str);
 u8 *StringCopy7(u8 *dest, const u8 *src);
@@ -32,7 +39,7 @@ u8 *StringCopyPadded(u8 *dest, const u8 *src, u8 c, u16 n);
 u8 *StringFillWithTerminator(u8 *dest, u16 n);
 u8 *StringCopyN_Multibyte(u8 *dest, const u8 *src, u32 n);
 u32 StringLength_Multibyte(const u8 *str);
-u8 *WriteColorChangeControlCode(u8 *dest, u32 colorType, u8 color);
+u8 *WriteColorChangeControlCode(u8 *dest, enum ColorControlCode colorType, u8 color);
 bool32 IsStringJapanese(u8 *str);
 bool32 sub_800924C(u8 *str, s32 n);
 u8 GetExtCtrlCodeLength(u8 code);

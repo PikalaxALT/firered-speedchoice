@@ -1431,15 +1431,15 @@ static void PrintECFields(void)
             }
             else
             {
-                str = WriteColorChangeControlCode(str, 0, TEXT_COLOR_RED);
+                str = WriteColorChangeControlCode(str, STR_COLOR_CNT_COLOR, TEXT_COLOR_RED);
                 ecWord++;
                 for (k = 0; k < 7; k++)
                 {
                     *str++ = CHAR_EXTRA_EMOJI;
-                    *str++ = 9;
+                    *str++ = 9; // UNDERSCORE
                 }
 
-                str = WriteColorChangeControlCode(str, 0, TEXT_COLOR_DARK_GREY);
+                str = WriteColorChangeControlCode(str, STR_COLOR_CNT_COLOR, TEXT_COLOR_DARK_GREY);
             }
 
             str = StringAppend(str, sText_Clear17);

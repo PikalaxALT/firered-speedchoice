@@ -5780,14 +5780,14 @@ static void PutLevelAndGenderOnLvlUpBox(void)
     {
         if (monGender == MON_MALE)
         {
-            txtPtr = WriteColorChangeControlCode(txtPtr, 0, 0xC);
-            txtPtr = WriteColorChangeControlCode(txtPtr, 1, 0xD);
+            txtPtr = WriteColorChangeControlCode(txtPtr, STR_COLOR_CNT_COLOR, TEXT_DYNAMIC_COLOR_3);
+            txtPtr = WriteColorChangeControlCode(txtPtr, STR_COLOR_CNT_SHADOW, TEXT_DYNAMIC_COLOR_4);
             *(txtPtr++) = CHAR_MALE;
         }
         else
         {
-            txtPtr = WriteColorChangeControlCode(txtPtr, 0, 0xE);
-            txtPtr = WriteColorChangeControlCode(txtPtr, 1, 0xF);
+            txtPtr = WriteColorChangeControlCode(txtPtr, STR_COLOR_CNT_COLOR, TEXT_DYNAMIC_COLOR_5);
+            txtPtr = WriteColorChangeControlCode(txtPtr, STR_COLOR_CNT_SHADOW, TEXT_DYNAMIC_COLOR_6);
             *(txtPtr++) = CHAR_FEMALE;
         }
         *(txtPtr++) = EOS;
