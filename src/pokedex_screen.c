@@ -137,10 +137,10 @@ static void Task_DexScreen_RegisterMonToPokedex(u8 taskId);
 
 #include "data/pokemon_graphics/footprint_table.h"
 
-const u32 sCategoryMonInfoBgTiles[] = INCBIN_U32("graphics/pokedex/unk_8440124.4bpp.lz");
-const u32 sKantoDexTiles[] = INCBIN_U32("graphics/pokedex/unk_8440274.4bpp.lz");
-const u32 sNatDexTiles[] = INCBIN_U32("graphics/pokedex/unk_84403AC.4bpp.lz");
-const u16 sKantoDexPalette[] = INCBIN_U16("graphics/pokedex/unk_84404C8.gbapal");
+const u32 sCategoryMonInfoBgTiles[] = INCBIN_U32("graphics/interface/pokedex_mini_page.4bpp.lz");
+const u32 sKantoDexTiles[] = INCBIN_U32("graphics/interface/pokedex_kanto_dex_bgtiles.4bpp.lz");
+const u32 sNatDexTiles[] = INCBIN_U32("graphics/interface/pokedex_national_dex_bgtiles.4bpp.lz");
+const u16 sKantoDexPalette[0x2000] = INCBIN_U16("graphics/interface/pokedex_kanto_dex_bgpals.gbapal");
 
 const u16 sDexScreen_CategoryCursorPals[] = {
     RGB(24, 22, 17), RGB(26, 24, 20),
@@ -151,47 +151,47 @@ const u16 sDexScreen_CategoryCursorPals[] = {
     RGB(26, 20, 15), RGB(27, 23, 19)
 };
 
-const u16 sNationalDexPalette[] = INCBIN_U16("graphics/pokedex/unk_84406E0.gbapal");
-const u32 sTopMenuIconTiles_Cave[] = INCBIN_U32("graphics/pokedex/unk_84408E0.4bpp.lz");
-const u32 sTopMenuIconTiles_Urban[] = INCBIN_U32("graphics/pokedex/unk_8440BD8.4bpp.lz");
-const u32 sTopMenuSelectionIconTiles_Cancel[] = INCBIN_U32("graphics/pokedex/unk_8440EF0.4bpp.lz");
-const u32 sTopMenuIconTiles_Forest[] = INCBIN_U32("graphics/pokedex/unk_844112C.4bpp.lz");
-const u32 sTopMenuIconTiles_Grassland[] = INCBIN_U32("graphics/pokedex/unk_84414BC.4bpp.lz");
-const u32 sTopMenuIconTiles_QuestionMark[] = INCBIN_U32("graphics/pokedex/unk_8441808.4bpp.lz");
-const u32 sTopMenuIconTiles_Mountain[] = INCBIN_U32("graphics/pokedex/unk_8441A40.4bpp.lz");
-const u32 sTopMenuIconTiles_Rare[] = INCBIN_U32("graphics/pokedex/unk_8441D54.4bpp.lz");
-const u32 sTopMenuIconTiles_Sea[] = INCBIN_U32("graphics/pokedex/unk_8442004.4bpp.lz");
-const u32 sTopMenuIconTiles_Numerical[] = INCBIN_U32("graphics/pokedex/unk_844223C.4bpp.lz");
-const u32 sTopMenuIconTiles_RoughTerrain[] = INCBIN_U32("graphics/pokedex/unk_84424E4.4bpp.lz");
-const u32 sTopMenuIconTiles_WatersEdge[] = INCBIN_U32("graphics/pokedex/unk_8442838.4bpp.lz");
-const u32 sTopMenuIconTiles_Type[] = INCBIN_U32("graphics/pokedex/unk_8442BC0.4bpp.lz");
-const u32 sTopMenuIconTiles_Lightest[] = INCBIN_U32("graphics/pokedex/unk_8442EF8.4bpp.lz");
-const u32 sTopMenuIconTiles_Smallest[] = INCBIN_U32("graphics/pokedex/unk_844318C.4bpp.lz");
-const u16 sTopMenuIconPals_Cave[] = INCBIN_U16("graphics/pokedex/unk_84408E0.gbapal");
-const u16 sTopMenuIconPals_Urban[] = INCBIN_U16("graphics/pokedex/unk_8440BD8.gbapal");
-const u16 sTopMenuSelectionIconPals_Cancel[] = INCBIN_U16("graphics/pokedex/unk_8440EF0.gbapal");
-const u16 sTopMenuIconPals_Forest[] = INCBIN_U16("graphics/pokedex/unk_844112C.gbapal");
-const u16 sTopMenuIconPals_Grassland[] = INCBIN_U16("graphics/pokedex/unk_84414BC.gbapal");
-const u16 sTopMenuIconPals_QuestionMark[] = INCBIN_U16("graphics/pokedex/unk_8441808.gbapal");
-const u16 sTopMenuIconPals_Mountain[] = INCBIN_U16("graphics/pokedex/unk_8441A40.gbapal");
-const u16 sTopMenuIconPals_Rare[] = INCBIN_U16("graphics/pokedex/unk_8441D54.gbapal");
-const u16 sTopMenuIconPals_Sea[] = INCBIN_U16("graphics/pokedex/unk_8442004.gbapal");
-const u16 sTopMenuIconPals_Numerical[] = INCBIN_U16("graphics/pokedex/unk_844223C.gbapal");
-const u16 sTopMenuIconPals_RoughTerrain[] = INCBIN_U16("graphics/pokedex/unk_84424E4.gbapal");
-const u16 sTopMenuIconPals_WatersEdge[] = INCBIN_U16("graphics/pokedex/unk_8442838.gbapal");
-const u16 sTopMenuIconPals_Type[] = INCBIN_U16("graphics/pokedex/unk_8442BC0.gbapal");
-const u16 sTopMenuIconPals_Lightest[] = INCBIN_U16("graphics/pokedex/unk_8442EF8.gbapal");
-const u16 sTopMenuIconPals_Smallest[] = INCBIN_U16("graphics/pokedex/unk_844318C.gbapal");
-const u8 sDexScreen_CaughtIcon[] = INCBIN_U8("graphics/pokedex/unk_8443600.4bpp");
-const u32 sTilemap_AreaMap_Kanto[] = INCBIN_U32("graphics/pokedex/unk_8443620.4bpp.lz");
-const u32 sTilemap_AreaMap_OneIsland[] = INCBIN_U32("graphics/pokedex/unk_8443910.4bpp.lz");
-const u32 sTilemap_AreaMap_TwoIsland[] = INCBIN_U32("graphics/pokedex/unk_8443988.4bpp.lz");
-const u32 sTilemap_AreaMap_ThreeIsland[] = INCBIN_U32("graphics/pokedex/unk_84439FC.4bpp.lz");
-const u32 sTilemap_AreaMap_FourIsland[] = INCBIN_U32("graphics/pokedex/unk_8443A78.4bpp.lz");
-const u32 sTilemap_AreaMap_FiveIsland[] = INCBIN_U32("graphics/pokedex/unk_8443AF8.4bpp.lz");
-const u32 sTilemap_AreaMap_SixIsland[] = INCBIN_U32("graphics/pokedex/unk_8443BB0.4bpp.lz");
-const u32 sTilemap_AreaMap_SevenIsland[] = INCBIN_U32("graphics/pokedex/unk_8443C54.4bpp.lz");
-const u16 sBlitTiles_WideEllipse[] = INCBIN_U16("graphics/pokedex/unk_8443D00.4bpp");
+const u16 sNationalDexPalette[0x2000] = INCBIN_U16("graphics/interface/pokedex_national_dex_bgpals.gbapal");
+const u32 sTopMenuIconTiles_Cave[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_cave.4bpp.lz");
+const u32 sTopMenuIconTiles_Urban[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_urban.4bpp.lz");
+const u32 sTopMenuSelectionIconTiles_Cancel[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_cancel.4bpp.lz");
+const u32 sTopMenuIconTiles_Forest[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_forest.4bpp.lz");
+const u32 sTopMenuIconTiles_Grassland[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_grassland.4bpp.lz");
+const u32 sTopMenuIconTiles_QuestionMark[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_qmark.4bpp.lz");
+const u32 sTopMenuIconTiles_Mountain[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_mountain.4bpp.lz");
+const u32 sTopMenuIconTiles_Rare[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_rare.4bpp.lz");
+const u32 sTopMenuIconTiles_Sea[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_sea.4bpp.lz");
+const u32 sTopMenuIconTiles_Numerical[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_numerical.4bpp.lz");
+const u32 sTopMenuIconTiles_RoughTerrain[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_rough_terrain.4bpp.lz");
+const u32 sTopMenuIconTiles_WatersEdge[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_waters_edge.4bpp.lz");
+const u32 sTopMenuIconTiles_Type[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_type.4bpp.lz");
+const u32 sTopMenuIconTiles_Lightest[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_lightest.4bpp.lz");
+const u32 sTopMenuIconTiles_Smallest[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_smallest.4bpp.lz");
+const u16 sTopMenuIconPals_Cave[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_cave.gbapal");
+const u16 sTopMenuIconPals_Urban[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_urban.gbapal");
+const u16 sTopMenuSelectionIconPals_Cancel[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_cancel.gbapal");
+const u16 sTopMenuIconPals_Forest[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_forest.gbapal");
+const u16 sTopMenuIconPals_Grassland[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_grassland.gbapal");
+const u16 sTopMenuIconPals_QuestionMark[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_qmark.gbapal");
+const u16 sTopMenuIconPals_Mountain[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_mountain.gbapal");
+const u16 sTopMenuIconPals_Rare[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_rare.gbapal");
+const u16 sTopMenuIconPals_Sea[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_sea.gbapal");
+const u16 sTopMenuIconPals_Numerical[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_numerical.gbapal");
+const u16 sTopMenuIconPals_RoughTerrain[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_rough_terrain.gbapal");
+const u16 sTopMenuIconPals_WatersEdge[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_waters_edge.gbapal");
+const u16 sTopMenuIconPals_Type[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_type.gbapal");
+const u16 sTopMenuIconPals_Lightest[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_lightest.gbapal");
+const u16 sTopMenuIconPals_Smallest[] = INCBIN_U16("graphics/interface/pokedex_cat_icon_smallest.gbapal");
+const u8 sDexScreen_CaughtIcon[] = INCBIN_U8("graphics/interface/pokedex_caught_marker.4bpp");
+const u32 sTilemap_AreaMap_Kanto[] = INCBIN_U32("graphics/interface/pokedex_map_kanto.4bpp.lz");
+const u32 sTilemap_AreaMap_OneIsland[] = INCBIN_U32("graphics/interface/pokedex_map_one_island.4bpp.lz");
+const u32 sTilemap_AreaMap_TwoIsland[] = INCBIN_U32("graphics/interface/pokedex_map_two_island.4bpp.lz");
+const u32 sTilemap_AreaMap_ThreeIsland[] = INCBIN_U32("graphics/interface/pokedex_map_three_island.4bpp.lz");
+const u32 sTilemap_AreaMap_FourIsland[] = INCBIN_U32("graphics/interface/pokedex_map_four_island.4bpp.lz");
+const u32 sTilemap_AreaMap_FiveIsland[] = INCBIN_U32("graphics/interface/pokedex_map_five_island.4bpp.lz");
+const u32 sTilemap_AreaMap_SixIsland[] = INCBIN_U32("graphics/interface/pokedex_map_six_island.4bpp.lz");
+const u32 sTilemap_AreaMap_SevenIsland[] = INCBIN_U32("graphics/interface/pokedex_map_seven_island.4bpp.lz");
+const u16 sBlitTiles_WideEllipse[] = INCBIN_U16("graphics/interface/pokedex_blit_wide_ellipse.4bpp");
 
 #include "data/pokemon/pokedex_orders.h"
 
@@ -765,7 +765,7 @@ struct {
     {&sWindowTemplate_AreaMap_SevenIsland, sTilemap_AreaMap_SevenIsland},
 };
 
-static const u16 sCategoryPageIconWindowBg[] = INCBIN_U16("graphics/pokedex/unk_845228C.bin");
+static const u16 sCategoryPageIconWindowBg[] = INCBIN_U16("graphics/interface/pokedex_page_icon_tilemap.bin");
 
 // Circular window x/y; Rectangular window x/y
 static const u8 sPageIconCoords_1Mon[1][4] = {
@@ -809,7 +809,7 @@ static const u8 * const sDexCategoryNamePtrs[] = {
     gText_DexCategory_RarePkmn,
 };
 
-const u16 sPalette_Silhouette[] = INCBIN_U16("graphics/pokedex/unk_8452368.gbapal");
+const u16 sPalette_Silhouette[] = INCBIN_U16("graphics/interface/pokedex_silhouette_sprite_pal.gbapal");
 
 static const u8 sDexScreenPageTurnColumns[][30] = {
     {30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30},
@@ -1021,7 +1021,7 @@ static void Task_PokedexScreen(u8 taskId)
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0, RGB_WHITEALPHA);
         }
         else
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 16, 0, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 16, 0, RGB_WHITEALPHA);
         sPokedexScreenData->state = 5;
         break;
     case 5:
@@ -1055,15 +1055,15 @@ static void Task_PokedexScreen(u8 taskId)
                 {
                     RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
                     sPokedexScreenData->category = sPokedexScreenData->modeSelectInput;
-                    BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+                    BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
                     sPokedexScreenData->state = 7;
                 }
                 break;
             case DEX_MODE(NUMERICAL_KANTO):
             case DEX_MODE(NUMERICAL_NATIONAL):
                 RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-                sPokedexScreenData->dexOrderId = sPokedexScreenData->modeSelectInput - 9;
-                BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+                sPokedexScreenData->dexOrderId = sPokedexScreenData->modeSelectInput - DEX_CATEGORY_COUNT;
+                BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
                 sPokedexScreenData->state = 9;
                 break;
             case DEX_MODE(ATOZ):
@@ -1071,9 +1071,9 @@ static void Task_PokedexScreen(u8 taskId)
             case DEX_MODE(LIGHTEST):
             case DEX_MODE(SMALLEST):
                 RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-                sPokedexScreenData->dexOrderId = sPokedexScreenData->modeSelectInput - 9;
+                sPokedexScreenData->dexOrderId = sPokedexScreenData->modeSelectInput - DEX_CATEGORY_COUNT;
                 sPokedexScreenData->characteristicOrderMenuItemsAbove = sPokedexScreenData->characteristicOrderMenuCursorPos = 0;
-                BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+                BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
                 sPokedexScreenData->state = 8;
                 break;
             }
@@ -1222,7 +1222,7 @@ static void Task_DexScreen_NumericalOrder(u8 taskId)
         break;
     case 4:
         ShowBg(1);
-        BeginNormalPaletteFade(0xFFFF7FFF, 0, 16, 0, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(~0x8000, 0, 16, 0, RGB_WHITEALPHA);
         sPokedexScreenData->state = 5;
         break;
     case 5:
@@ -1239,14 +1239,14 @@ static void Task_DexScreen_NumericalOrder(u8 taskId)
             {
                 sPokedexScreenData->dexSpecies = sPokedexScreenData->characteristicMenuInput;
                 RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-                BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+                BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
                 sPokedexScreenData->state = 7;
             }
         }
         else if (JOY_NEW(B_BUTTON))
         {
             RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
             sPokedexScreenData->state = 1;
         }
         break;
@@ -1308,7 +1308,7 @@ static void Task_DexScreen_CharacteristicOrder(u8 taskId)
         break;
     case 4:
         ShowBg(1);
-        BeginNormalPaletteFade(0xFFFF7FFF, 0, 16, 0, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(~0x8000, 0, 16, 0, RGB_WHITEALPHA);
         sPokedexScreenData->state = 5;
         break;
     case 5:
@@ -1324,14 +1324,14 @@ static void Task_DexScreen_CharacteristicOrder(u8 taskId)
             if (((sPokedexScreenData->characteristicMenuInput >> 16) & 1) && !DexScreen_LookUpCategoryBySpecies(sPokedexScreenData->characteristicMenuInput))
             {
                 RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-                BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+                BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
                 sPokedexScreenData->state = 7;
             }
         }
         else if (JOY_NEW(B_BUTTON))
         {
             RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
             sPokedexScreenData->state = 1;
         }
         break;
@@ -1545,10 +1545,9 @@ struct PokedexListItem
 
 static void ItemPrintFunc_OrderedListMenu(u8 windowId, s32 itemId, u8 y)
 {
-    u32 itemId_ = itemId;
-    u16 species = itemId_;
-    bool8 seen = (itemId_ >> 16) & 1;  // not used but required to match
-    bool8 caught = (itemId_ >> 17) & 1;
+    u16 species = (u32)itemId;
+    bool8 seen = ((u32)itemId >> 16) & 1;  // not used but required to match
+    bool8 caught = ((u32)itemId >> 17) & 1;
     u8 type1;
     DexScreen_PrintMonDexNo(sPokedexScreenData->numericalOrderWindowId, 0, species, 12, y);
     if (caught)
@@ -1639,7 +1638,7 @@ static void Task_DexScreen_CategorySubmenu(u8 taskId)
         sPokedexScreenData->state = 3;
         break;
     case 3:
-        BeginNormalPaletteFade(0xFFFF7FFF, 0, 16, 0, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(~0x8000, 0, 16, 0, RGB_WHITEALPHA);
         ShowBg(3);
         ShowBg(2);
         ShowBg(1);
@@ -1726,7 +1725,7 @@ static void Task_DexScreen_CategorySubmenu(u8 taskId)
     case 7:
         RemoveScrollIndicatorArrowPair(sPokedexScreenData->scrollArrowsTaskId);
         ListMenuRemoveCursorObject(sPokedexScreenData->categoryPageCursorTaskId, 0);
-        BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
         sPokedexScreenData->state = 1;
         break;
     case 8:
@@ -1976,7 +1975,7 @@ static void Task_DexScreen_ShowMonPage(u8 taskId)
         sPokedexScreenData->state = 4;
         break;
     case 4:
-        BeginNormalPaletteFade(0xFFFF7FFF, 0, 16, 0, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(~0x8000, 0, 16, 0, RGB_WHITEALPHA);
         ShowBg(3);
         ShowBg(2);
         ShowBg(1);
@@ -1993,19 +1992,19 @@ static void Task_DexScreen_ShowMonPage(u8 taskId)
         else if (JOY_NEW(B_BUTTON))
         {
             RemoveDexPageWindows();
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
             sPokedexScreenData->state = 1;
         }
         else if (JOY_NEW(DPAD_UP) && DexScreen_TryScrollMonsVertical(1))
         {
             RemoveDexPageWindows();
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
             sPokedexScreenData->state = 6;
         }
         else if (JOY_NEW(DPAD_DOWN) && DexScreen_TryScrollMonsVertical(0))
         {
             RemoveDexPageWindows();
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
             sPokedexScreenData->state = 6;
         }
         else
@@ -2036,7 +2035,7 @@ static void Task_DexScreen_ShowMonPage(u8 taskId)
         if (JOY_NEW(A_BUTTON))
         {
             StopPokedexBeep();
-            BeginNormalPaletteFade(0xFFFF7FFF, 0, 0, 16, RGB_WHITEALPHA);
+            BeginNormalPaletteFade(~0x8000, 0, 0, 16, RGB_WHITEALPHA);
             sPokedexScreenData->state = 12;
         }
         else if (JOY_NEW(B_BUTTON))
@@ -3476,13 +3475,13 @@ void DexScreen_PrintStringWithAlignment(const u8 * str, enum TextMode mode)
 
     switch (mode)
     {
-    case 0:
+    case TEXT_LEFT:
         x = 8;
         break;
-    case 1:
+    case TEXT_CENTER:
         x = (u32)(240 - GetStringWidth(2, str, 0)) / 2;
         break;
-    case 2:
+    case TEXT_RIGHT:
     default:
         x = 232 - GetStringWidth(2, str, 0);
         break;
