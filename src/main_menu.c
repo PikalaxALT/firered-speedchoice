@@ -73,51 +73,58 @@ void MainMenu_EraseWindow(const struct WindowTemplate * template);
 static const u8 sString_Dummy[] = _("");
 static const u8 sString_Newline[] = _("\n");
 
+#define WIN_TILE_TOP     1
+#define WIN_TILE_LEFT    3
+#define WIN_TILES_WIDE  24
+#define WIN_NEWGAME_H    2
+#define WIN_CONTINUE_H  10
+#define WIN_MYSGIFT_H    2
+
 static const struct WindowTemplate sWindowTemplate[] = {
     [MAIN_MENU_WINDOW_NEWGAME_ONLY] = {
         .bg = 0,
-        .tilemapLeft = 3,
-        .tilemapTop = 1,
-        .width = 24,
-        .height = 2,
+        .tilemapLeft = WIN_TILE_LEFT,
+        .tilemapTop = WIN_TILE_TOP,
+        .width = WIN_TILES_WIDE,
+        .height = WIN_NEWGAME_H,
         .paletteNum = 15,
-        .baseBlock = 0x001
+        .baseBlock = 1
     }, 
     [MAIN_MENU_WINDOW_CONTINUE] = {
         .bg = 0,
-        .tilemapLeft = 3,
-        .tilemapTop = 1,
-        .width = 24,
-        .height = 10,
+        .tilemapLeft = WIN_TILE_LEFT,
+        .tilemapTop = WIN_TILE_TOP,
+        .width = WIN_TILES_WIDE,
+        .height = WIN_CONTINUE_H,
         .paletteNum = 15,
-        .baseBlock = 0x001
+        .baseBlock = 1
     }, 
     [MAIN_MENU_WINDOW_NEWGAME] = {
         .bg = 0,
-        .tilemapLeft = 3,
-        .tilemapTop = 13,
-        .width = 24,
-        .height = 2,
+        .tilemapLeft = WIN_TILE_LEFT,
+        .tilemapTop = WIN_TILE_TOP + WIN_CONTINUE_H + 2,
+        .width = WIN_TILES_WIDE,
+        .height = WIN_NEWGAME_H,
         .paletteNum = 15,
-        .baseBlock = 0x0f1
+        .baseBlock = 1 + WIN_CONTINUE_H * WIN_TILES_WIDE
     }, 
     [MAIN_MENU_WINDOW_MYSTERYGIFT] = {
         .bg = 0,
-        .tilemapLeft = 3,
-        .tilemapTop = 17,
-        .width = 24,
-        .height = 2,
+        .tilemapLeft = WIN_TILE_LEFT,
+        .tilemapTop = WIN_TILE_TOP + WIN_CONTINUE_H + WIN_NEWGAME_H + 4,
+        .width = WIN_TILES_WIDE,
+        .height = WIN_MYSGIFT_H,
         .paletteNum = 15,
-        .baseBlock = 0x121
+        .baseBlock = 1 + (WIN_CONTINUE_H + WIN_NEWGAME_H) * WIN_TILES_WIDE
     }, 
     [MAIN_MENU_WINDOW_ERROR] = {
         .bg = 0,
-        .tilemapLeft = 3,
+        .tilemapLeft = WIN_TILE_LEFT,
         .tilemapTop = 15,
-        .width = 24,
+        .width = WIN_TILES_WIDE,
         .height = 4,
         .paletteNum = 15,
-        .baseBlock = 0x001
+        .baseBlock = 1
     }, 
     [MAIN_MENU_WINDOW_COUNT] = DUMMY_WIN_TEMPLATE
 };
@@ -333,13 +340,19 @@ static void Task_WaitFadeAndPrintMainMenuText(u8 taskId)
 
 static const u8 sText_SpeedchoiceVersion[] = _("v" SPEEDCHOICE_VERSION);
 
+static void PrintSpeedchoiceVersion(u8 windowId)
+{
+    s32 width = GetStringWidth(2, sText_SpeedchoiceVersion, 1);
+    AddTextPrinterParameterized3(windowId, 2, (8 * WIN_TILES_WIDE - 2) - width, 2, sTextColor1, -1, sText_SpeedchoiceVersion);
+}
+
 static void Task_PrintMainMenuText(u8 taskId)
 {
     u16 pal;
     SetGpuReg(REG_OFFSET_WIN0H, 0);
     SetGpuReg(REG_OFFSET_WIN0V, 0);
-    SetGpuReg(REG_OFFSET_WININ, 0x0001);
-    SetGpuReg(REG_OFFSET_WINOUT, 0x0021);
+    SetGpuReg(REG_OFFSET_WININ, WIN_RANGE(0, 1));
+    SetGpuReg(REG_OFFSET_WINOUT, WIN_RANGE(0, 33));
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_TGT1_BG1 | BLDCNT_TGT1_BG2 | BLDCNT_TGT1_BG3 | BLDCNT_TGT1_OBJ | BLDCNT_TGT1_BD | BLDCNT_EFFECT_DARKEN);
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 0));
     SetGpuReg(REG_OFFSET_BLDY, 7);
@@ -354,6 +367,7 @@ static void Task_PrintMainMenuText(u8 taskId)
     default:
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_NEWGAME_ONLY, PIXEL_FILL(10));
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME_ONLY, 2, 2, 2, sTextColor1, -1, gText_NewGame);
+        PrintSpeedchoiceVersion(MAIN_MENU_WINDOW_NEWGAME_ONLY);
         MainMenu_DrawWindow_2(&sWindowTemplate[MAIN_MENU_WINDOW_NEWGAME_ONLY]);
         PutWindowTilemap(MAIN_MENU_WINDOW_NEWGAME_ONLY);
         CopyWindowToVram(MAIN_MENU_WINDOW_NEWGAME_ONLY, COPYWIN_BOTH);
@@ -362,11 +376,8 @@ static void Task_PrintMainMenuText(u8 taskId)
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_CONTINUE, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_NEWGAME, PIXEL_FILL(10));
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 2, 2, sTextColor1, -1, gText_Continue);
-        {
-            s32 width = GetStringWidth(2, sText_SpeedchoiceVersion, 1);
-            AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 190 - width, 2, sTextColor1, -1, sText_SpeedchoiceVersion);
-        }
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME, 2, 2, 2, sTextColor1, -1, gText_NewGame);
+        PrintSpeedchoiceVersion(MAIN_MENU_WINDOW_CONTINUE);
         PrintContinueStats();
         MainMenu_DrawWindow_2(&sWindowTemplate[MAIN_MENU_WINDOW_CONTINUE]);
         MainMenu_DrawWindow_2(&sWindowTemplate[MAIN_MENU_WINDOW_NEWGAME]);
@@ -383,6 +394,7 @@ static void Task_PrintMainMenuText(u8 taskId)
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME, 2, 2, 2, sTextColor1, -1, gText_NewGame);
         gTasks[taskId].tMGErrorType = 1;
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_MYSTERYGIFT, 2, 2, 2, sTextColor1, -1, gText_MysteryGift);
+        PrintSpeedchoiceVersion(MAIN_MENU_WINDOW_CONTINUE);
         PrintContinueStats();
         MainMenu_DrawWindow_2(&sWindowTemplate[MAIN_MENU_WINDOW_CONTINUE]);
         MainMenu_DrawWindow_2(&sWindowTemplate[MAIN_MENU_WINDOW_NEWGAME]);
