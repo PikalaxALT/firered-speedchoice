@@ -15,6 +15,7 @@
 #include "help_system.h"
 #include "pokedex.h"
 #include "text_window.h"
+#include "speedchoice.h"
 #include "done_button.h"
 #include "text_window_graphics.h"
 #include "constants/songs.h"
@@ -330,6 +331,8 @@ static void Task_WaitFadeAndPrintMainMenuText(u8 taskId)
     }
 }
 
+static const u8 sText_SpeedchoiceVersion[] = _("v" SPEEDCHOICE_VERSION);
+
 static void Task_PrintMainMenuText(u8 taskId)
 {
     u16 pal;
@@ -359,6 +362,10 @@ static void Task_PrintMainMenuText(u8 taskId)
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_CONTINUE, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_NEWGAME, PIXEL_FILL(10));
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 2, 2, sTextColor1, -1, gText_Continue);
+        {
+            s32 width = GetStringWidth(2, sText_SpeedchoiceVersion, 1);
+            AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 190 - width, 2, sTextColor1, -1, sText_SpeedchoiceVersion);
+        }
         AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME, 2, 2, 2, sTextColor1, -1, gText_NewGame);
         PrintContinueStats();
         MainMenu_DrawWindow_2(&sWindowTemplate[MAIN_MENU_WINDOW_CONTINUE]);

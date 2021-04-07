@@ -492,7 +492,7 @@ $(TITLESCREENGFXDIR)/leafgreen/box_art_mon.4bpp: %.4bpp: %.png
 $(CREDITSGFXDIR)/unk_8EAE548.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 77
 
-POKEDEXAREAMARKERSDATADIR := graphics/pokedex/area_markers
+POKEDEXAREAMARKERSDATADIR := graphics/pokedex_area_markers
 
 POKEDEXAREAMARKERFILES := \
 	$(POKEDEXAREAMARKERSDATADIR)/marker_0.4bpp \
@@ -523,3 +523,6 @@ $(INTROGFXDIR)/unk_8406654.4bpp: %.4bpp: %.png
 
 $(INTROGFXDIR)/unk_8405B28.4bpp: %.4bpp: %.png
 	$(GFX) $< $@ -num_tiles 17
+
+$(INTROGFXDIR)/copyright.4bpp: %.4bpp: %.png
+	$(GFX) $< $@ -num_tiles 47

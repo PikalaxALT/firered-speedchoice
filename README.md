@@ -104,6 +104,10 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Secondary fix for revocation of Rainbow Pass effectiveness after completing Lostelle quest
 - Fix Surge trash cans settings HELL and WHY becoming NERF and KEEP, respectively
 
+### 1.0.0rc1
+- Print version on continue screen
+- Add extra tag to copyright screen
+
 ## See also
 
 Other disassembly and/or decompilation projects:

@@ -130,9 +130,9 @@ static void Rev1_GameFreakScene_CreatePresentsText(void);
 
 extern const u32 gMultiBootProgram_PokemonColosseum_Start[];
 
-static const u16 sCopyrightGraphicsPal[] = INCBIN_U16("graphics/intro/unk_8402260.gbapal");
-static const u8 sCopyrightGraphicsTiles[] = INCBIN_U8("graphics/intro/unk_8402280.4bpp.lz");
-static const u8 sCopyrightGraphicsMap[] = INCBIN_U8("graphics/intro/unk_84024E4.bin.lz");
+static const u16 sCopyrightGraphicsPal[] = INCBIN_U16("graphics/intro/copyright.gbapal");
+static const u8 sCopyrightGraphicsTiles[] = INCBIN_U8("graphics/intro/copyright.4bpp.lz");
+static const u8 sCopyrightGraphicsMap[] = INCBIN_U8("graphics/intro/copyright.bin.lz");
 static const u16 sBg3Pal_GameFreakPresents[] = INCBIN_U16("graphics/intro/unk_8402630.gbapal");
 static const u8 sBg3Tiles_GameFreakPresents[] = INCBIN_U8("graphics/intro/unk_8402650.4bpp.lz");
 static const u8 sBg3Map_GameFreakPresents[] = INCBIN_U8("graphics/intro/unk_8402668.bin.lz");
