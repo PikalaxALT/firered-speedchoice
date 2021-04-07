@@ -4,7 +4,7 @@
 
 static EWRAM_DATA const u8 *sStringPointers[8] = {0};
 
-static const u8 sTextColorTable[] =
+static const u8 sTextColorTable[NUM_OBJ_EVENT_GFX / 2] =
 {
  // [LOW_NYBBLE / 2]                            = 0xXY, // HIGH_NYBBLE
     [OBJ_EVENT_GFX_RED_NORMAL / 2]              = 0x00, // OBJ_EVENT_GFX_RED_BIKE
@@ -87,15 +87,12 @@ static const u8 sTextColorTable[] =
 
 void DynamicPlaceholderTextUtil_Reset(void)
 {
-    const u8 **ptr = sStringPointers;
-    u8 *fillval = NULL;
-    const u8 **ptr2 = ptr + (NELEMS(sStringPointers) - 1);
-    
-    do
+    s32 i;
+
+    for (i = 0; i < (s32)NELEMS(sStringPointers); i++)
     {
-        *ptr2-- = fillval;
+        sStringPointers[i] = NULL;
     }
-    while ((intptr_t)ptr2 >= (intptr_t)ptr);
 }
 
 void DynamicPlaceholderTextUtil_SetPlaceholderPtr(u8 idx, const u8 *ptr)
@@ -131,11 +128,11 @@ const u8 *DynamicPlaceholderTextUtil_GetPlaceholderPtr(u8 idx)
 
 u8 GetColorFromTextColorTable(u16 graphicId)
 {
-    u32 test = graphicId >> 1;
-    u32 shift = (graphicId & 1) << 2;
+    u32 idx = graphicId / 2;
+    u32 shift = (graphicId % 2) * 4;
 
-    if (test >= NELEMS(sTextColorTable))
+    if (idx >= NELEMS(sTextColorTable))
         return 3;
     else
-        return (sTextColorTable[graphicId >> 1] >> shift) & 0xF;
+        return (sTextColorTable[idx] >> shift) & 0xF;
 }
