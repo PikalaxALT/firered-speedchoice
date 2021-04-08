@@ -1594,11 +1594,11 @@ static void AirCutterProjectileStep1(u8 taskId)
 
 void AnimTask_AirCutterProjectile(u8 taskId)
 {
-    s16 attackerY = 0;
-    s16 attackerX = 0;
-    s16 targetX = 0;
-    s16 targetY = 0;
-    s16 xDiff, yDiff;
+    fx16 attackerY = 0;
+    fx16 attackerX = 0;
+    fx16 targetX = 0;
+    fx16 targetY = 0;
+    fx16 xDiff, yDiff;
 
     if (IsContest())
     {
@@ -1644,7 +1644,7 @@ void AnimTask_AirCutterProjectile(u8 taskId)
         xDiff = attackerX - targetX;
 
     gTasks[taskId].data[5] = mul_Q_8_8(xDiff, inv_Q_8_8(gBattleAnimArgs[2] & ~1));
-    gTasks[taskId].data[6] = mul_Q_8_8(gTasks[taskId].data[5], 0x80);
+    gTasks[taskId].data[6] = mul_Q_8_8(gTasks[taskId].data[5], Q_8_8(0.5));
     gTasks[taskId].data[7] = gBattleAnimArgs[2];
     if (targetY >= attackerY)
     {

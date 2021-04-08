@@ -1412,7 +1412,7 @@ static void Task_OakSpeech38_3(u8 taskId)
     SetBgAttribute(2, 6, 1);
     data[0] = 0;
     data[1] = 0;
-    data[2] = 256;
+    data[2] = Q_8_8(1);
     data[15] = 0;
     gTasks[taskId].func = Task_OakSpeech39;
 }
@@ -1429,11 +1429,11 @@ static void Task_OakSpeech39(u8 taskId)
         if (sOakSpeechResources->helpPage == 40)
             PlaySE(SE_WARP_IN);
         r0 = data[2];
-        data[2] -= 32;
-        x = inv_Q_8_8(r0 - 8);
-        y = inv_Q_8_8(data[2] - 16);
+        data[2] -= Q_8_8(0.125);
+        x = inv_Q_8_8(r0 - Q_8_8(0.03125));
+        y = inv_Q_8_8(data[2] - Q_8_8(0.0625));
         SetBgAffine(2, 0x7800, 0x5400, 0x78, 0x54, x, y, 0);
-        if (data[2] <= 96)
+        if (data[2] <= Q_8_8(0.375))
         {
             data[15] = 1;
             data[0] = 36;

@@ -882,15 +882,7 @@ void BerryCrush_UnsetVBlankCallback(void)
 
 void BerryCrush_UpdateSav2Records(void)
 {
-    u32 var0, var1;
-
-    var0 = sBerryCrushGamePtr->unk68.unk04;
-    var0 <<= 8;
-    var0 = div_Q_24_8(var0, 60 << 8);
-    var1 = sBerryCrushGamePtr->unk68.unk0A;
-    var1 <<= 8;
-    var1 = div_Q_24_8(var1, var0) & 0xFFFF;
-    sBerryCrushGamePtr->pressingSpeed = var1;
+    sBerryCrushGamePtr->pressingSpeed = div_Q_24_8(Q_24_8(sBerryCrushGamePtr->unk68.unk0A), div_Q_24_8(Q_24_8(sBerryCrushGamePtr->unk68.unk04), Q_24_8(60))) & 0xFFFF;
     switch (sBerryCrushGamePtr->playerCount)
     {
     case 2:
@@ -1225,7 +1217,7 @@ static u32 BerryCrushCommand_WaitForOthersToPickBerries(struct BerryCrushGame * 
         }
         game->unk10 = 0;
         ResetBlockReceivedFlags();
-        game->unk20 = div_Q_24_8(game->unk18 << 8, 0x2000);
+        game->unk20 = div_Q_24_8(Q_24_8(game->unk18), Q_24_8(32));
         break;
     case 5:
         ClearDialogWindowAndFrame(0, TRUE);
@@ -1383,8 +1375,6 @@ static void BerryCrush_ProcessGamePartnerInput(struct BerryCrushGame * game)
     u16 r3;
     u16 *curRecvCmd;
     u8 i = 0;
-    s32 r2_ = 0;
-    s32 r0;
 
     for (i = 0; i < game->playerCount; ++i)
     {
@@ -1438,14 +1428,9 @@ static void BerryCrush_ProcessGamePartnerInput(struct BerryCrushGame * game)
         numPressedA += gUnknown_846E2E8[numPressedA - 1];
         game->unk34 += numPressedA;
         game->unk1A += numPressedA;
-        r0 = game->unk18;
-        r2_ = game->unk1A;
-        if (r0 - r2_ > 0)
+        if (game->unk18 - game->unk1A > 0)
         {
-            r2_ <<= 8;
-            r2_ = div_Q_24_8(r2_, game->unk20);
-            r2_ >>= 8;
-            game->unk24 = r2_;
+            game->unk24 = Q_24_8_TO_INT(div_Q_24_8(Q_24_8(game->unk1A), game->unk20));
         }
         else
         {
@@ -1774,8 +1759,8 @@ static u32 BerryCrushCommand_HandleTimeUp(struct BerryCrushGame * game, u8 *para
 static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSED u8 *params)
 {
     u8 i, j, r3;
-    s32 r2;
-    s32 r4;
+    fx32 r2;
+    fx32 r4;
     u16 r6;
 
     switch (game->cmdState)
@@ -1810,16 +1795,11 @@ static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSE
         game->unk68.unk04 = game->timer;
         game->unk68.unk06 = game->unk18 / (game->timer / 60);
         // (unk30 * 50 / unk32) + 50
-        r2 = mul_Q_24_8(game->unk30 << 8, 50 << 8);
-        r2 = div_Q_24_8(r2, game->unk32 << 8) + (50 << 8);
-        r2 >>= 8;
+        r2 = Q_24_8_TO_INT(div_Q_24_8(mul_Q_24_8(Q_24_8(game->unk30), Q_24_8(50)), Q_24_8(game->unk32)) + Q_24_8(50));
         game->unk68.unk08 = r2 & 0x7F;
         // powder + playerCount * (r2 / 100)
-        r2 <<= 8;
-        r2 = div_Q_24_8(r2, 100 << 8);
-        r4 = (game->powder * game->playerCount) << 8;
-        r4 = mul_Q_24_8(r4, r2);
-        game->unk68.unk00 = r4 >> 8;
+        r4 = mul_Q_24_8(Q_24_8(game->powder * game->playerCount), div_Q_24_8(Q_24_8(r2), Q_24_8(100)));
+        game->unk68.unk00 = Q_24_8_TO_INT(r4);
         game->unk68.unk20[0][7] = Random() % 3;
         for (i = 0; i < game->playerCount; ++i)
         {
@@ -1832,50 +1812,35 @@ static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSE
             case 0:
                 if (game->unk98[i].unk16 != 0)
                 {
-                    r2 = game->unk98[i].unk14;
-                    r2 <<= 8;
-                    r2 = mul_Q_24_8(r2, 0x6400);
-                    r4 = game->unk98[i].unk16;
-                    r4 <<= 8;
-                    r4 = div_Q_24_8(r2, r4);
+                    r4 = div_Q_24_8(mul_Q_24_8(Q_24_8(game->unk98[i].unk14), Q_24_8(100)), Q_24_8(game->unk98[i].unk16));
                 }
                 else
                 {
-                    r4 = 0;
+                    r4 = Q_24_8(0);
                 }
                 break;
             case 1:
                 if (game->unk98[i].unk16 != 0)
                 {
-                    r2 = game->unk98[i].unk18;
-                    r2 <<= 8;
-                    r2 = mul_Q_24_8(r2, 0x6400);
-                    r4 = game->unk98[i].unk16;
-                    r4 <<= 8;
-                    r4 = div_Q_24_8(r2, r4);
+                    r4 = div_Q_24_8(mul_Q_24_8(Q_24_8(game->unk98[i].unk18), Q_24_8(100)), Q_24_8(game->unk98[i].unk16));
                 }
                 else
                 {
-                    r4 = 0;
+                    r4 = Q_24_8(0);
                 }
                 break;
             case 2:
                 if (game->unk98[i].unk16 == 0)
                 {
-                    r4 = 0;
+                    r4 = Q_24_8(0);
                 }
                 else if (game->unk98[i].unk1A >= game->timer)
                 {
-                    r4 = 0x6400;
+                    r4 = Q_24_8(100);
                 }
                 else
                 {
-                    r2 = game->unk98[i].unk1A;
-                    r2 <<= 8;
-                    r2 = mul_Q_24_8(r2, 0x6400);
-                    r4 = game->timer;
-                    r4 <<= 8;
-                    r4 = div_Q_24_8(r2, r4);
+                    r4 = div_Q_24_8(mul_Q_24_8(Q_24_8(game->unk98[i].unk1A), Q_24_8(100)), Q_24_8(game->timer));
                 }
                 break;
             }
@@ -2481,20 +2446,20 @@ void SpriteCB_DropBerryIntoCrusher(struct Sprite * sprite)
     s16 *data = sprite->data;
 
     data[1] += data[2];
-    sprite->pos2.y += data[1] >> 8;
+    sprite->pos2.y += Q_N_S_TO_INT(data[1] >> 1, 7);
     if (data[7] & 0x8000)
     {
         sprite->data[0] += data[3];
         data[4] += data[5];
-        sprite->pos2.x = Sin(data[4] >> 7, data[6]);
-        if ((data[7] & 0x8000) && (data[4] >> 7) > 126)
+        sprite->pos2.x = Sin(Q_N_S_TO_INT(data[4], 7), data[6]);
+        if ((data[7] & 0x8000) && Q_N_S_TO_INT(data[4], 7) > 126)
         {
             sprite->pos2.x = 0;
             data[7] &= 0x7FFF;
         }
     }
 
-    sprite->pos1.x = data[0] >> 7;
+    sprite->pos1.x = Q_N_S_TO_INT(data[0], 7);
     if (sprite->pos1.y + sprite->pos2.y >= (data[7] & 0x7FFF))
     {
         sprite->callback = SpriteCallbackDummy;
@@ -2611,15 +2576,15 @@ static void FramesToMinSec(struct BerryCrushGame_138 * manager, u16 frames)
 {
     u8 i = 0;
     u32 fractionalFrames = 0;
-    s16 r3 = 0;
+    fx16 fractionalSeconds = 0;
 
     manager->minutes = frames / 3600;
     manager->secondsInt = (frames % 3600) / 60;
-    r3 = mul_Q_8_8((frames % 60) << 8, 4);
+    fractionalSeconds = mul_Q_8_8(Q_8_8(frames % 60), Q_8_8(0.0166666667));
 
     for (i = 0; i < 8; i++)
     {
-        if ((r3 >> (7 - i)) & 1)
+        if ((fractionalSeconds >> (7 - i)) & 1)
             fractionalFrames += sPressingSpeedConversionTable[i];
     }
 
