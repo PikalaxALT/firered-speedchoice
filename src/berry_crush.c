@@ -886,10 +886,10 @@ void BerryCrush_UpdateSav2Records(void)
 
     var0 = sBerryCrushGamePtr->unk68.unk04;
     var0 <<= 8;
-    var0 = MathUtil_Div32(var0, 60 << 8);
+    var0 = div_Q_24_8(var0, 60 << 8);
     var1 = sBerryCrushGamePtr->unk68.unk0A;
     var1 <<= 8;
-    var1 = MathUtil_Div32(var1, var0) & 0xFFFF;
+    var1 = div_Q_24_8(var1, var0) & 0xFFFF;
     sBerryCrushGamePtr->pressingSpeed = var1;
     switch (sBerryCrushGamePtr->playerCount)
     {
@@ -1225,7 +1225,7 @@ static u32 BerryCrushCommand_WaitForOthersToPickBerries(struct BerryCrushGame * 
         }
         game->unk10 = 0;
         ResetBlockReceivedFlags();
-        game->unk20 = MathUtil_Div32(game->unk18 << 8, 0x2000);
+        game->unk20 = div_Q_24_8(game->unk18 << 8, 0x2000);
         break;
     case 5:
         ClearDialogWindowAndFrame(0, TRUE);
@@ -1443,7 +1443,7 @@ static void BerryCrush_ProcessGamePartnerInput(struct BerryCrushGame * game)
         if (r0 - r2_ > 0)
         {
             r2_ <<= 8;
-            r2_ = MathUtil_Div32(r2_, game->unk20);
+            r2_ = div_Q_24_8(r2_, game->unk20);
             r2_ >>= 8;
             game->unk24 = r2_;
         }
@@ -1810,15 +1810,15 @@ static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSE
         game->unk68.unk04 = game->timer;
         game->unk68.unk06 = game->unk18 / (game->timer / 60);
         // (unk30 * 50 / unk32) + 50
-        r2 = MathUtil_Mul32(game->unk30 << 8, 50 << 8);
-        r2 = MathUtil_Div32(r2, game->unk32 << 8) + (50 << 8);
+        r2 = mul_Q_24_8(game->unk30 << 8, 50 << 8);
+        r2 = div_Q_24_8(r2, game->unk32 << 8) + (50 << 8);
         r2 >>= 8;
         game->unk68.unk08 = r2 & 0x7F;
         // powder + playerCount * (r2 / 100)
         r2 <<= 8;
-        r2 = MathUtil_Div32(r2, 100 << 8);
+        r2 = div_Q_24_8(r2, 100 << 8);
         r4 = (game->powder * game->playerCount) << 8;
-        r4 = MathUtil_Mul32(r4, r2);
+        r4 = mul_Q_24_8(r4, r2);
         game->unk68.unk00 = r4 >> 8;
         game->unk68.unk20[0][7] = Random() % 3;
         for (i = 0; i < game->playerCount; ++i)
@@ -1834,10 +1834,10 @@ static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSE
                 {
                     r2 = game->unk98[i].unk14;
                     r2 <<= 8;
-                    r2 = MathUtil_Mul32(r2, 0x6400);
+                    r2 = mul_Q_24_8(r2, 0x6400);
                     r4 = game->unk98[i].unk16;
                     r4 <<= 8;
-                    r4 = MathUtil_Div32(r2, r4);
+                    r4 = div_Q_24_8(r2, r4);
                 }
                 else
                 {
@@ -1849,10 +1849,10 @@ static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSE
                 {
                     r2 = game->unk98[i].unk18;
                     r2 <<= 8;
-                    r2 = MathUtil_Mul32(r2, 0x6400);
+                    r2 = mul_Q_24_8(r2, 0x6400);
                     r4 = game->unk98[i].unk16;
                     r4 <<= 8;
-                    r4 = MathUtil_Div32(r2, r4);
+                    r4 = div_Q_24_8(r2, r4);
                 }
                 else
                 {
@@ -1872,10 +1872,10 @@ static u32 BerryCrushCommand_TabulateResults(struct BerryCrushGame * game, UNUSE
                 {
                     r2 = game->unk98[i].unk1A;
                     r2 <<= 8;
-                    r2 = MathUtil_Mul32(r2, 0x6400);
+                    r2 = mul_Q_24_8(r2, 0x6400);
                     r4 = game->timer;
                     r4 <<= 8;
-                    r4 = MathUtil_Div32(r2, r4);
+                    r4 = div_Q_24_8(r2, r4);
                 }
                 break;
             }
@@ -2437,11 +2437,10 @@ void BerryCrush_CreateBerrySprites(struct BerryCrushGame * game, struct BerryCru
 {
     u8 i;
     u8 spriteId;
-    s16 var0, var1;
+    s16 distance, var1;
     s16 *data;
-    int var3;
-    s16 var5;
-    u32 var6;
+    s16 speed;
+    u32 var2;
 
     for (i = 0; i < game->playerCount; i++)
     {
@@ -2456,25 +2455,21 @@ void BerryCrush_CreateBerrySprites(struct BerryCrushGame * game, struct BerryCru
         spritesManager->berrySprites[i]->pos1.x = spritesManager->seatCoords[i]->unk8 + 120;
         spritesManager->berrySprites[i]->pos1.y = -16;
         data = spritesManager->berrySprites[i]->data;
-        var5 = 512;
-        data[1] = var5;
+        speed = Q_N_S(4, 7);
+        data[1] = speed;
         data[2] = 32;
         data[7] = 112;
-        var0 = spritesManager->seatCoords[i]->unkA - spritesManager->seatCoords[i]->unk8;
-        var3 = var0;
-        if (var0 < 0)
-            var3 += 3;
-
-        data[6] = var3 >> 2;
-        var0 *= 128;
-        var6 = var5 + 32;
-        var6 = var6 / 2;
-        var1 = MathUtil_Div16Shift(7, 0x3F80, var6);
-        data[0] = (u16)spritesManager->berrySprites[i]->pos1.x * 128;
-        data[3] = MathUtil_Div16Shift(7, var0, var1);
-        var1 = MathUtil_Mul16Shift(7, var1, 85);
+        distance = spritesManager->seatCoords[i]->unkA - spritesManager->seatCoords[i]->unk8;
+        data[6] = distance / 4;
+        distance = Q_N_S(distance, 7);
+        var2 = speed + 32;
+        var2 = var2 / 2;
+        var1 = div_Q_N_S(7, Q_N_S(127, 7), var2);
+        data[0] = Q_N_S(spritesManager->berrySprites[i]->pos1.x, 7);
+        data[3] = div_Q_N_S(7, distance, var1);
+        var1 = mul_Q_N_S(7, var1, Q_N_S(0.6666666, 7));
         data[4] = 0;
-        data[5] = MathUtil_Div16Shift(7, 0x3F80, var1);
+        data[5] = div_Q_N_S(7, Q_N_S(127, 7), var1);
         data[7] |= 0x8000;
         if (spritesManager->seatCoords[i]->unk8 < 0)
             StartSpriteAffineAnim(spritesManager->berrySprites[i], 1);
@@ -2620,7 +2615,7 @@ static void FramesToMinSec(struct BerryCrushGame_138 * manager, u16 frames)
 
     manager->minutes = frames / 3600;
     manager->secondsInt = (frames % 3600) / 60;
-    r3 = MathUtil_Mul16((frames % 60) << 8, 4);
+    r3 = mul_Q_8_8((frames % 60) << 8, 4);
 
     for (i = 0; i < 8; i++)
     {
@@ -3166,12 +3161,12 @@ static void sub_814F0D8(struct Sprite * sprite)
     r7[2] = 32;
     r7[7] = 168;
     r4 = sprite->pos2.x * 128;
-    r5 = MathUtil_Div16Shift(7, (168 - sprite->pos1.y) << 7, (r2 + 32) >> 1);
+    r5 = div_Q_N_S(7, (168 - sprite->pos1.y) << 7, (r2 + 32) >> 1);
     sprite->data[0] = sprite->pos1.x << 7;
-    r7[3] = MathUtil_Div16Shift(7, r4, r5);
-    r2 = MathUtil_Mul16Shift(7, r5, 85);
+    r7[3] = div_Q_N_S(7, r4, r5);
+    r2 = mul_Q_N_S(7, r5, 85);
     r7[4] = r8;
-    r7[5] = MathUtil_Div16Shift(7, 0x3F80, r2);
+    r7[5] = div_Q_N_S(7, 0x3F80, r2);
     r7[6] = sprite->pos2.x / 4;
     r7[7] |= 0x8000;
     sprite->pos2.y = r8;

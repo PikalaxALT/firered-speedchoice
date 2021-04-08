@@ -29,6 +29,9 @@ typedef u8  bool8;
 typedef u16 bool16;
 typedef u32 bool32;
 
+typedef s16 fx16;
+typedef s32 fx32;
+
 struct BgCnt
 {
     u16 priority:2;

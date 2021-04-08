@@ -1492,14 +1492,14 @@ static void AnimAirWaveProjectile_Step1(struct Sprite *sprite)
     sprite->data[1] += sprite->data[5];
     sprite->data[2] += sprite->data[6];
     if (1 & task->data[7])
-        sprite->pos2.x = ((u16)sprite->data[1] >> 8) * -1;
+        sprite->pos2.x = -Q_8_8_TO_INT((u16)sprite->data[1]);
     else
-        sprite->pos2.x = (u16)sprite->data[1] >> 8;
+        sprite->pos2.x = Q_8_8_TO_INT((u16)sprite->data[1]);;
 
     if (1 & task->data[8])
-        sprite->pos2.y = ((u16)sprite->data[2] / 256u) * -1;
+        sprite->pos2.y = -Q_8_8_TO_INT((u16)sprite->data[2]);
     else
-        sprite->pos2.y = (u16)sprite->data[2] / 256u;
+        sprite->pos2.y = Q_8_8_TO_INT((u16)sprite->data[2]);
 
     if (sprite->data[0]-- <= 0)
     {
@@ -1519,40 +1519,40 @@ void AnimAirWaveProjectile(struct Sprite *sprite)
     sprite->data[1] += (-2 & task->data[7]);
     sprite->data[2] += (-2 & task->data[8]);
     if (1 & task->data[7])
-        sprite->pos2.x = ((u16)sprite->data[1] >> 8) * -1;
+        sprite->pos2.x = -Q_8_8_TO_INT((u16)sprite->data[1]);
     else
-        sprite->pos2.x = (u16)sprite->data[1] >> 8;
+        sprite->pos2.x = Q_8_8_TO_INT((u16)sprite->data[1]);
 
     if (1 & task->data[8])
-        sprite->pos2.y = ((u16)sprite->data[2] / 256u) * -1;
+        sprite->pos2.y = -Q_8_8_TO_INT((u16)sprite->data[2]);
     else
-        sprite->pos2.y = (u16)sprite->data[2] / 256u;
+        sprite->pos2.y = Q_8_8_TO_INT((u16)sprite->data[2]);
 
     if (sprite->data[0]-- <= 0)
     {
         sprite->data[0] = 8;
         task->data[5] = 4;
-        a = MathUtil_Inv16(0x1000);
+        a = inv_Q_8_8(Q_8_8(16));
         sprite->pos1.x += sprite->pos2.x;
         sprite->pos1.y += sprite->pos2.y;
         sprite->pos2.y = 0;
         sprite->pos2.x = 0;
         if (task->data[11] >= sprite->pos1.x)
-            b = (task->data[11] - sprite->pos1.x) << 8;
+            b = Q_8_8((u8)(task->data[11] - sprite->pos1.x));
         else
-            b = (sprite->pos1.x - task->data[11]) << 8;
+            b = Q_8_8((u8)(sprite->pos1.x - task->data[11]));
 
         if (task->data[12] >= sprite->pos1.y)
-            c = (task->data[12] - sprite->pos1.y) << 8;
+            c = Q_8_8((u8)(task->data[12] - sprite->pos1.y));
         else
-            c = (sprite->pos1.y - task->data[12]) << 8;
+            c = Q_8_8((u8)(sprite->pos1.y - task->data[12]));
 
         sprite->data[2] = 0;
         sprite->data[1] = 0;
         sprite->data[6] = 0;
         sprite->data[5] = 0;
-        sprite->data[3] = MathUtil_Mul16(MathUtil_Mul16(b, a), MathUtil_Inv16(0x1C0));
-        sprite->data[4] = MathUtil_Mul16(MathUtil_Mul16(c, a), MathUtil_Inv16(0x1C0));
+        sprite->data[3] = mul_Q_8_8(mul_Q_8_8(b, a), inv_Q_8_8(Q_8_8(1.75)));
+        sprite->data[4] = mul_Q_8_8(mul_Q_8_8(c, a), inv_Q_8_8(Q_8_8(1.75)));
         sprite->callback = AnimAirWaveProjectile_Step1;
     }
 }
@@ -1643,18 +1643,18 @@ void AnimTask_AirCutterProjectile(u8 taskId)
     else
         xDiff = attackerX - targetX;
 
-    gTasks[taskId].data[5] = MathUtil_Mul16(xDiff, MathUtil_Inv16(gBattleAnimArgs[2] & ~1));
-    gTasks[taskId].data[6] = MathUtil_Mul16(gTasks[taskId].data[5], 0x80);
+    gTasks[taskId].data[5] = mul_Q_8_8(xDiff, inv_Q_8_8(gBattleAnimArgs[2] & ~1));
+    gTasks[taskId].data[6] = mul_Q_8_8(gTasks[taskId].data[5], 0x80);
     gTasks[taskId].data[7] = gBattleAnimArgs[2];
     if (targetY >= attackerY)
     {
         yDiff = targetY - attackerY;
-        gTasks[taskId].data[8] = MathUtil_Mul16(yDiff, MathUtil_Inv16(gTasks[taskId].data[5])) & ~1;
+        gTasks[taskId].data[8] = mul_Q_8_8(yDiff, inv_Q_8_8(gTasks[taskId].data[5])) & ~1;
     }
     else
     {
         yDiff = attackerY - targetY;
-        gTasks[taskId].data[8] = MathUtil_Mul16(yDiff, MathUtil_Inv16(gTasks[taskId].data[5])) | 1;
+        gTasks[taskId].data[8] = mul_Q_8_8(yDiff, inv_Q_8_8(gTasks[taskId].data[5])) | 1;
     }
 
     gTasks[taskId].data[3] = gBattleAnimArgs[3];

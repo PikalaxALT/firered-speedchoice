@@ -21,9 +21,6 @@
 #undef abs
 #define abs(a) ((a) < 0 ? -(a) : (a))
 
-#define Q_24_8(n)  ((s32)((n) * 256))
-#define Q_24_8_TO_INT(n) ((int)((n) >> 8))
-
 struct TestingBar
 {
     s32 maxValue;
