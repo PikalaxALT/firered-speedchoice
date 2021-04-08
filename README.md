@@ -107,6 +107,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0rc1
 - Print version on continue screen
 - Add extra tag to copyright screen
+- Add error screen if emulator is incorrectly configured
 
 ## See also
 

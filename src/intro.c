@@ -13,6 +13,8 @@
 #include "decompress.h"
 #include "util.h"
 #include "trig.h"
+#include "load_save.h"
+#include "flash_missing_screen.h"
 #include "done_button.h"
 #include "constants/songs.h"
 
@@ -775,7 +777,12 @@ static void VBlankCB_Copyright(void)
 static void CB2_WaitFadeBeforeSetUpIntro(void)
 {
     if (!UpdatePaletteFade())
-        SetMainCallback2(CB2_SetUpIntro);
+    {
+        if (gFlashMemoryPresent != TRUE)
+            SetMainCallback2(CB2_FlashMissingScreen);
+        else
+            SetMainCallback2(CB2_SetUpIntro);
+    }
 }
 
 static void load_copyright_graphics(u16 charBase, u16 screenBase, u16 palOffset)
