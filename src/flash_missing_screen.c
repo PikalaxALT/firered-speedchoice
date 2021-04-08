@@ -126,14 +126,14 @@ static void Task_FlashMissingScreen_Step(u8 taskId);
 
 static void DrawFrame(void)
 {
-    FillBgTilemapBufferRect_Palette0(0, 1, 1, 1, 1, 1);
-    FillBgTilemapBufferRect_Palette0(0, 2, 2, 1, 26, 1);
-    FillBgTilemapBufferRect_Palette0(0, 3, 28, 1, 1, 1);
-    FillBgTilemapBufferRect_Palette0(0, 4, 1, 2, 1, 16);
-    FillBgTilemapBufferRect_Palette0(0, 6, 28, 2, 1, 16);
-    FillBgTilemapBufferRect_Palette0(0, 7, 1, 18, 1, 1);
-    FillBgTilemapBufferRect_Palette0(0, 8, 2, 18, 26, 1);
-    FillBgTilemapBufferRect_Palette0(0, 9, 28, 18, 1, 1);
+    FillBgTilemapBufferRect(0, 1, 1, 1, 1, 1, 2);
+    FillBgTilemapBufferRect(0, 2, 2, 1, 26, 1, 2);
+    FillBgTilemapBufferRect(0, 3, 28, 1, 1, 1, 2);
+    FillBgTilemapBufferRect(0, 4, 1, 2, 1, 16, 2);
+    FillBgTilemapBufferRect(0, 6, 28, 2, 1, 16, 2);
+    FillBgTilemapBufferRect(0, 7, 1, 18, 1, 1, 2);
+    FillBgTilemapBufferRect(0, 8, 2, 18, 26, 1, 2);
+    FillBgTilemapBufferRect(0, 9, 28, 18, 1, 1, 2);
 }
 
 static void Task_FlashMissingScreen(u8 taskId)
