@@ -435,36 +435,40 @@ static const struct SpritePalette sUISpritePalettes[] = {
 static const struct BgTemplate sUIBgTemplates[4] = {
     {
         .bg = 3,
-        .charBaseIndex = 0x03,
-        .mapBaseIndex =  0x1e,
+        .charBaseIndex = 3,
+        .mapBaseIndex =  30,
         .screenSize = 0,
         .paletteMode = FALSE,
         .priority = 3,
-        .baseTile = 0x000},
+        .baseTile = 0x000
+    },
     {
         .bg = 2,
-        .charBaseIndex = 0x03,
-        .mapBaseIndex =  0x1b,
+        .charBaseIndex = 3,
+        .mapBaseIndex =  27,
         .screenSize = 0,
         .paletteMode = FALSE,
         .priority = 2,
-        .baseTile = 0x000},
+        .baseTile = 0x000
+    },
     {
         .bg = 1,
-        .charBaseIndex = 0x03,
-        .mapBaseIndex =  0x1c,
+        .charBaseIndex = 3,
+        .mapBaseIndex =  28,
         .screenSize = 1,
         .paletteMode = FALSE,
         .priority = 0,
-        .baseTile = 0x000},
+        .baseTile = 0x000
+    },
     {
         .bg = 0,
-        .charBaseIndex = 0x00,
-        .mapBaseIndex =  0x1f,
+        .charBaseIndex = 0,
+        .mapBaseIndex =  31,
         .screenSize = 0,
         .paletteMode = FALSE,
         .priority = 2,
-        .baseTile = 0x000},
+        .baseTile = 0x000
+    },
 };
 
 static const struct WindowTemplate sUIWindowTemplates[] = {
@@ -743,7 +747,7 @@ static void Task_TopMenuHandleInput(u8 taskId)
             else if (cursorPos != sFameCheckerData->numUnlockedPersons - 1) // anything but CANCEL
             {
                 PlaySE(SE_M_LOCK_ON);
-                FillWindowPixelRect(FCWINDOWID_ICONDESC, 0x00, 0, 0, 88, 32);
+                FillWindowPixelRect(FCWINDOWID_ICONDESC, PIXEL_FILL(0), 0, 0, 88, 32);
                 FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_ICONDESC);
                 UpdateInfoBoxTilemap(2, 4);
                 UpdateInfoBoxTilemap(1, 5);
@@ -932,7 +936,7 @@ static void FC_MoveSelectorCursor(u8 taskId, s8 dx, s8 dy)
     gSprites[data[0]].pos1.y += dy;
     for (i = 0; i < 6; i++)
         SetMessageSelectorIconObjMode(sFameCheckerData->spriteIds[i], ST_OAM_OBJ_BLEND);
-    FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
+    FillWindowPixelRect(FCWINDOWID_MSGBOX, PIXEL_FILL(1), 0, 0, 0xd0, 0x20);
     MessageBoxPrintEmptyText();
     if (SetMessageSelectorIconObjMode(sFameCheckerData->spriteIds[data[1]], ST_OAM_OBJ_NORMAL) == TRUE)
     {
@@ -954,7 +958,7 @@ static void GetPickModeText(void)
     }
     else
     {
-        FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
+        FillWindowPixelRect(FCWINDOWID_MSGBOX, PIXEL_FILL(1), 0, 0, 0xd0, 0x20);
         if (HasUnlockedAllFlavorTextsForCurrentPerson() == TRUE)
             whichText = NUM_FAMECHECKER_PERSONS;
         StringExpandPlaceholders(gStringVar4, sFameCheckerNameAndQuotesPointers[sFameCheckerData->unlockedPersons[who] + whichText]);
@@ -967,7 +971,7 @@ static void PrintSelectedNameInBrightGreen(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     u16 cursorPos = FameCheckerGetCursorY();
-    FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
+    FillWindowPixelRect(FCWINDOWID_MSGBOX, PIXEL_FILL(1), 0, 0, 0xd0, 0x20);
     StringExpandPlaceholders(gStringVar4, sFameCheckerFlavorTextPointers[sFameCheckerData->unlockedPersons[cursorPos] * 6 + data[1]]);
     AddTextPrinterParameterized2(FCWINDOWID_MSGBOX, 2, gStringVar4, GetTextSpeedSetting(), NULL, 2, 1, 3);
     FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_MSGBOX);
@@ -975,7 +979,7 @@ static void PrintSelectedNameInBrightGreen(u8 taskId)
 
 static void WipeMsgBoxAndTransfer(void)
 {
-    FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
+    FillWindowPixelRect(FCWINDOWID_MSGBOX, PIXEL_FILL(1), 0, 0, 0xd0, 0x20);
     FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_MSGBOX);
 }
 
@@ -1078,7 +1082,7 @@ static void PrintUIHelp(u8 state)
             src = gFameCheckerText_PickScreenUI;
     }
     width = GetStringWidth(0, src, 0);
-    FillWindowPixelRect(FCWINDOWID_UIHELP, 0x00, 0, 0, 0xc0, 0x10);
+    FillWindowPixelRect(FCWINDOWID_UIHELP, PIXEL_FILL(0), 0, 0, 0xc0, 0x10);
     AddTextPrinterParameterized4(FCWINDOWID_UIHELP, 0, 188 - width, 0, 0, 2, sTextColor_White, -1, src);
     FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_UIHELP);
 }
@@ -1390,7 +1394,7 @@ static void UpdateIconDescriptionBox(u8 whichText)
     u32 idx = 6 * sFameCheckerData->unlockedPersons[FameCheckerGetCursorY()] + whichText;
     HandleFlavorTextModeSwitch(TRUE);
     gIconDescriptionBoxIsOpen = 1;
-    FillWindowPixelRect(FCWINDOWID_ICONDESC, 0x00, 0, 0, 0x58, 0x20);
+    FillWindowPixelRect(FCWINDOWID_ICONDESC, PIXEL_FILL(0), 0, 0, 0x58, 0x20);
     width = (0x54 - GetStringWidth(0, sFlavorTextOriginLocationTexts[idx], 0)) / 2;
     AddTextPrinterParameterized4(FCWINDOWID_ICONDESC, 0, width, 0, 0, 2, sTextColor_DkGrey, -1, sFlavorTextOriginLocationTexts[idx]);
     StringExpandPlaceholders(gStringVar1, sFlavorTextOriginObjectNameTexts[idx]);
@@ -1473,7 +1477,7 @@ static void FC_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list
             }
             else
             {
-                FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
+                FillWindowPixelRect(FCWINDOWID_MSGBOX, PIXEL_FILL(1), 0, 0, 0xd0, 0x20);
                 FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_MSGBOX);
             }
         }
@@ -1508,7 +1512,7 @@ static void Task_SwitchToPickMode(u8 taskId)
 
 static void PrintCancelDescription(void)
 {
-    FillWindowPixelRect(FCWINDOWID_MSGBOX, 0x11, 0, 0, 0xd0, 0x20);
+    FillWindowPixelRect(FCWINDOWID_MSGBOX, PIXEL_FILL(1), 0, 0, 0xd0, 0x20);
     AddTextPrinterParameterized2(FCWINDOWID_MSGBOX, 2, gFameCheckerText_FameCheckerWillBeClosed, 0, NULL, 2, 1, 3);
     FC_PutWindowTilemapAndCopyWindowToVramMode3(FCWINDOWID_MSGBOX);
 }
