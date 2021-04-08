@@ -1906,6 +1906,9 @@ void CreateMonWithEVSpread(struct Pokemon *mon, u16 species, u8 level, u8 fixedI
 
     CreateMon(mon, species, level, fixedIV, 0, 0, 0, 0);
 
+#ifdef BUGFIX
+    if (!evSpread) return;
+#endif
     evsBits = evSpread;
 
     for (i = 0; i < NUM_STATS; i++)
@@ -1946,7 +1949,7 @@ void CreateBattleTowerMon(struct Pokemon *mon, struct BattleTowerPokemon *src)
     /*
     StringCopy(nickname, src->nickname);
 
-    if (nickname[0] == 0xFC && nickname[1] == 0x15)
+    if (nickname[0] == EXT_CTRL_CODE_BEGIN && nickname[1] == EXT_CTRL_CODE_JPN)
         language = LANGUAGE_JAPANESE;
     else
         language = GAME_LANGUAGE;

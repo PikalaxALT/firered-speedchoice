@@ -14,7 +14,7 @@ void AllocateBattleResources(void)
     {
         s32 i;
 
-        for (i = 0; i < 4; ++i)
+        for (i = 0; i < MAX_BATTLERS_COUNT; ++i)
             gPokedudeBattlerStates[i] = AllocZeroed(sizeof(struct PokedudeBattlerState));
     }
     gBattleStruct = AllocZeroed(sizeof(*gBattleStruct));
@@ -30,7 +30,7 @@ void AllocateBattleResources(void)
     gLinkBattleSendBuffer = AllocZeroed(BATTLE_BUFFER_LINK_SIZE);
     gLinkBattleRecvBuffer = AllocZeroed(BATTLE_BUFFER_LINK_SIZE);
     gBattleAnimMons_BgTilesBuffer = AllocZeroed(0x2000);
-    gBattleAnimMons_BgTilemapBuffer = AllocZeroed(0x1000);
+    gBattleAnimMons_BgTilemapBuffer = AllocZeroed(BG_SCREEN_SIZE * 2);
     SetBgTilemapBuffer(1, gBattleAnimMons_BgTilemapBuffer);
     SetBgTilemapBuffer(2, gBattleAnimMons_BgTilemapBuffer);
 }
@@ -43,7 +43,7 @@ void FreeBattleResources(void)
     {
         s32 i;
 
-        for (i = 0; i < 4; ++i)
+        for (i = 0; i < MAX_BATTLERS_COUNT; ++i)
         {
             FREE_AND_SET_NULL(gPokedudeBattlerStates[i]);
         }
@@ -84,6 +84,7 @@ void AdjustFriendshipOnBattleFaint(u8 battlerId)
     }
     if (gBattleMons[opposingBattlerId].level > gBattleMons[battlerId].level)
     {
+        // Pokemon don't like being used as death fodder!
         if (gBattleMons[opposingBattlerId].level - gBattleMons[battlerId].level > 29)
             AdjustFriendship(&gPlayerParty[gBattlerPartyIndexes[battlerId]], FRIENDSHIP_EVENT_FAINT_LARGE);
         else

@@ -10,6 +10,9 @@
 #include "constants/union_room.h"
 #include "constants/event_objects.h"
 
+#define UR_SPRITE_START_ID (MAX_SPRITES - MAX_UNION_ROOM_PLAYERS)
+#define UR_PLAYER_SPRITE_ID(playerIdx, facingDir)(5 * (playerIdx) + (facingDir))
+
 static EWRAM_DATA struct UnionObj * UnionObjWork = NULL;
 static EWRAM_DATA u32 sUnionObjRefreshTimer = 0;
 
@@ -40,7 +43,7 @@ static const u8 sUnionObjectEventGfxIds[][10] = {
     }
 };
 
-static const s16 sUnionPartnerCoords[][2] = {
+static const s16 sUnionPartnerCoords[MAX_UNION_ROOM_PLAYERS][2] = {
     { 4,  6},
     {13,  8},
     {10,  6},
@@ -75,7 +78,7 @@ static const u8 sUnionGroupMemberFacings[] = {
     DIR_NORTH
 };
 
-static const u8 sUnionRoomLocalIds[] = {
+static const u8 sUnionRoomLocalIds[MAX_UNION_ROOM_PLAYERS] = {
     9,
     8,
     7,
@@ -86,20 +89,20 @@ static const u8 sUnionRoomLocalIds[] = {
     3
 };
 
-static const u16 sUnref_8457128[] = {
-    0x63,
-    0x64,
-    0x65,
-    0x66,
-    0x67,
-    0x68,
-    0x69,
-    0x6A
+UNUSED static const u16 sUnionRoomHideShowFlags[MAX_UNION_ROOM_PLAYERS] = {
+    FLAG_HIDE_UNION_ROOM_PLAYER_1,
+    FLAG_HIDE_UNION_ROOM_PLAYER_2,
+    FLAG_HIDE_UNION_ROOM_PLAYER_3,
+    FLAG_HIDE_UNION_ROOM_PLAYER_4,
+    FLAG_HIDE_UNION_ROOM_PLAYER_5,
+    FLAG_HIDE_UNION_ROOM_PLAYER_6,
+    FLAG_HIDE_UNION_ROOM_PLAYER_7,
+    FLAG_HIDE_UNION_ROOM_PLAYER_8
 };
 
 static bool32 is_walking_or_running(void)
 {
-    if (gPlayerAvatar.tileTransitionState == 2 || gPlayerAvatar.tileTransitionState == 0)
+    if (gPlayerAvatar.tileTransitionState == T_TILE_CENTER || gPlayerAvatar.tileTransitionState == T_NOT_MOVING)
     {
         return TRUE;
     }
@@ -233,15 +236,15 @@ static const u8 sMovement_UnionPlayerExit[2] = {
     MOVEMENT_ACTION_STEP_END
 };
 
-static bool32 AnimateUnionRoomPlayerDespawn(s8 * a0, u32 playerIdx, struct UnionObj * ptr)
+static bool32 AnimateUnionRoomPlayerDespawn(s8 * state_p, u32 playerIdx, struct UnionObj * ptr)
 {
-    switch (*a0)
+    switch (*state_p)
     {
     case 0:
         if (SetUnionRoomPlayerEnterExitMovement(playerIdx, sMovement_UnionPlayerExit) == TRUE)
         {
             HideUnionRoomPlayer(playerIdx);
-            (*a0)++;
+            (*state_p)++;
         }
         break;
     case 1:
@@ -249,7 +252,7 @@ static bool32 AnimateUnionRoomPlayerDespawn(s8 * a0, u32 playerIdx, struct Union
         {
             RemoveUnionRoomPlayerObjectEvent(playerIdx);
             HideUnionRoomPlayer(playerIdx);
-            *a0 = 0;
+            *state_p = 0;
             return TRUE;
         }
         break;
@@ -438,9 +441,9 @@ void CreateGroupMemberObjectsInvisible(u8 * sprite_ids, s32 group)
 
     for (i = 0; i < 5; i++)
     {
-        s32 obj_id = 5 * group + i;
-        sprite_ids[obj_id] = sprite_new(OBJ_EVENT_GFX_MAN, obj_id - 0x38, sUnionPartnerCoords[group][0] + sFacingDirectionOffsets[i][0], sUnionPartnerCoords[group][1] + sFacingDirectionOffsets[i][1], 3, 1);
-        RfuUnionObjectToggleInvisibility(obj_id - 0x38, TRUE);
+        s32 obj_id = UR_PLAYER_SPRITE_ID(group, i);
+        sprite_ids[obj_id] = sprite_new(OBJ_EVENT_GFX_MAN, obj_id - UR_SPRITE_START_ID, sUnionPartnerCoords[group][0] + sFacingDirectionOffsets[i][0], sUnionPartnerCoords[group][1] + sFacingDirectionOffsets[i][1], 3, 1);
+        RfuUnionObjectToggleInvisibility(obj_id - UR_SPRITE_START_ID, TRUE);
     }
 }
 
@@ -472,7 +475,7 @@ static u8 UnionPartnerObjectGetFacing(u32 member, u32 group, struct GFtgtGname *
     {
         return sUnionGroupMemberFacings[member];
     }
-    else if (gname->activity == 0x45)
+    else if (gname->activity == (ACTIVITY_CHAT | IN_UNION_ROOM))
     {
         return DIR_SOUTH;
     }
@@ -484,19 +487,19 @@ static u8 UnionPartnerObjectGetFacing(u32 member, u32 group, struct GFtgtGname *
 
 static u32 RfuUnionGroupMemberIsInvisible(u32 group, u32 member)
 {
-    return RfuUnionObjectIsInvisible(5 * group + member - 0x38);
+    return RfuUnionObjectIsInvisible(UR_PLAYER_SPRITE_ID(group, member) - UR_SPRITE_START_ID);
 }
 
 static void SpawnGroupMember(u32 groupNo, u32 memberNo, u8 direction, struct GFtgtGname * gname)
 {
     s32 x, y;
-    s32 objId = 5 * groupNo + memberNo;
+    s32 objId = UR_PLAYER_SPRITE_ID(groupNo, memberNo);
     if (RfuUnionGroupMemberIsInvisible(groupNo, memberNo) == TRUE)
     {
-        RfuUnionObjectToggleInvisibility(objId - 0x38, FALSE);
-        RfuUnionObjectStartWarp(objId - 0x38, UNION_ROOM_SPAWN_IN);
+        RfuUnionObjectToggleInvisibility(objId - UR_SPRITE_START_ID, FALSE);
+        RfuUnionObjectStartWarp(objId - UR_SPRITE_START_ID, UNION_ROOM_SPAWN_IN);
     }
-    RfuUnionObjectSetFacingDirection(objId - 0x38, direction);
+    RfuUnionObjectSetFacingDirection(objId - UR_SPRITE_START_ID, direction);
     UnionPartnerObjectSetFacing(memberNo, groupNo, UnionPartnerObjectGetFacing(memberNo, groupNo, gname));
     GetUnionRoomPlayerFacingCoords(groupNo, memberNo, &x, &y);
     MapGridSetMetatileImpassabilityAt(x, y, TRUE);
@@ -505,7 +508,7 @@ static void SpawnGroupMember(u32 groupNo, u32 memberNo, u8 direction, struct GFt
 static void DespawnGroupMember(u32 group, u32 member)
 {
     s32 x, y;
-    RfuUnionObjectStartWarp(5 * group + member - 0x38, UNION_ROOM_SPAWN_OUT);
+    RfuUnionObjectStartWarp(UR_PLAYER_SPRITE_ID(group, member) - UR_SPRITE_START_ID, UNION_ROOM_SPAWN_OUT);
     GetUnionRoomPlayerFacingCoords(group, member, &x, &y);
     MapGridSetMetatileImpassabilityAt(x, y, FALSE);
 }
@@ -517,7 +520,7 @@ static void AssembleGroup(u32 group, struct GFtgtGname * gname)
 
     PlayerGetDestCoords(&x, &y);
     player_get_pos_including_state_based_drift(&x2, &y2);
-    if (RfuUnionObjectIsInvisible(5 * group - 0x38) == TRUE)
+    if (RfuUnionObjectIsInvisible(UR_PLAYER_SPRITE_ID(group, 0) - UR_SPRITE_START_ID) == TRUE)
     {
         if (IsUnionRoomPlayerFacingTileAt(group, 0, x, y) == TRUE || IsUnionRoomPlayerFacingTileAt(group, 0, x2, y2) == TRUE)
         {
@@ -543,21 +546,21 @@ static void SpawnGroupLeaderAndMembers(u32 group, struct GFtgtGname * gname)
     u32 i;
     switch (gname->activity)
     {
-    case 0x40:
-    case 0x54:
+    case ACTIVITY_NONE | IN_UNION_ROOM:
+    case ACTIVITY_PLYRTALK | IN_UNION_ROOM:
         SpawnGroupLeader(group, gname->playerGender, gname->unk_00.playerTrainerId[0]);
         for (i = 0; i < 5; i++)
         {
             DespawnGroupMember(group, i);
         }
         break;
-    case 0x41:
-    case 0x44:
-    case 0x45:
-    case 0x48:
-    case 0x51:
-    case 0x52:
-    case 0x53:
+    case ACTIVITY_BATTLE | IN_UNION_ROOM:
+    case ACTIVITY_TRADE | IN_UNION_ROOM:
+    case ACTIVITY_CHAT | IN_UNION_ROOM:
+    case ACTIVITY_CARD | IN_UNION_ROOM:
+    case ACTIVITY_ACCEPT | IN_UNION_ROOM:
+    case ACTIVITY_DECLINE | IN_UNION_ROOM:
+    case ACTIVITY_NPCTALK | IN_UNION_ROOM:
         DespawnGroupLeader(group);
         AssembleGroup(group, gname);
         break;
@@ -621,7 +624,7 @@ bool32 RfuUnionTool_GetGroupAndMemberInFrontOfPlayer(struct UnkStruct_Main0 *mai
     {
         for (j = 0; j < 5; j++)
         {
-            s32 objId = 5 * i + j;
+            s32 objId = UR_PLAYER_SPRITE_ID(i, j);
             if (x != sUnionPartnerCoords[i][0] + sFacingDirectionOffsets[j][0] + 7)
             {
                 continue;
@@ -630,11 +633,11 @@ bool32 RfuUnionTool_GetGroupAndMemberInFrontOfPlayer(struct UnkStruct_Main0 *mai
             {
                 continue;
             }
-            if (RfuUnionObjectIsInvisible(objId - 0x38) != 0)
+            if (RfuUnionObjectIsInvisible(objId - UR_SPRITE_START_ID) != 0)
             {
                 continue;
             }
-            if (RfuUnionObjectIsWarping(objId - 0x38) != 0)
+            if (RfuUnionObjectIsWarping(objId - UR_SPRITE_START_ID) != 0)
             {
                 continue;
             }
@@ -654,6 +657,8 @@ bool32 RfuUnionTool_GetGroupAndMemberInFrontOfPlayer(struct UnkStruct_Main0 *mai
 static void UnionPartnerObjectSetFacing(s32 member, s32 group, u8 direction)
 {
     TurnObjectEvent(5 * group - 0x38 + member, direction);
+    // should be line below, but order is swapped here
+    // TurnObjectEvent(UR_PLAYER_SPRITE_ID(group, member) - UR_SPRITE_START_ID, direction);
 }
 
 void UpdateUnionGroupMemberFacing(u32 member, u32 group, struct UnkStruct_Main0 *main0_p)

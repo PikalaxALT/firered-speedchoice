@@ -35,12 +35,8 @@
 #define UNITS_METRIC
 #endif // ENGLISH
 
-// Crashes may occur due to section reordering in the modern build,
-// so we force BUGFIX here.
-#if MODERN
 #ifndef BUGFIX
 #define BUGFIX
 #endif // BUGFIX
-#endif // MODERN
 
 #endif // GUARD_CONFIG_H

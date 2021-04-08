@@ -34,6 +34,8 @@
 
 #define IN_UNION_ROOM   0x40
 
+#define MAX_UNION_ROOM_PLAYERS 8
+
 // Used in UR_AddTextPrinterParameterized
 #define UR_COLOR_DKE_WHT_LTE 0
 #define UR_COLOR_RED_WHT_LTR 1
