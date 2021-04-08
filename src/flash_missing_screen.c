@@ -7,6 +7,7 @@
 #include "text_window.h"
 #include "speedchoice.h"
 #include "new_menu_helpers.h"
+#include "constants/songs.h"
 
 extern const u16 sMainMenuTextPal[16];
 
@@ -139,17 +140,27 @@ static void Task_FlashMissingScreen(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
-        gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_SLOW;
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         DrawFrame();
-        AddTextPrinterParameterized(0, 2, sText_FatalError, 0, 0, OPTIONS_TEXT_SPEED_SLOW, NULL);
+        AddTextPrinterParameterized(0, 2, sText_FatalError, 2, 0, TEXT_SPEED_FF, NULL);
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_BOTH);
         gTasks[taskId].func = Task_FlashMissingScreen_Step;
+        gTasks[taskId].data[0] = 0;
     }
 }
 
 static void Task_FlashMissingScreen_Step(u8 taskId)
 {
-
+    switch (gTasks[taskId].data[0]++)
+    {
+    case 0:
+    case 30:
+        PlaySE(SE_BOO);
+        break;
+    case 60:
+        PlaySE(SE_BOO);
+        DestroyTask(taskId);
+        break;
+    }
 }
