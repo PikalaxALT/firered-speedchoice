@@ -6,6 +6,7 @@
 #include "flash_missing_screen.h"
 #include "text_window.h"
 #include "new_menu_helpers.h"
+#include "menu.h"
 #include "constants/songs.h"
 
 EWRAM_DATA u8 gWhichErrorMessage = 0;
@@ -40,52 +41,64 @@ static const struct WindowTemplate sWindowTemplates[] = {
     DUMMY_WIN_TEMPLATE
 };
 
-static const u8 sText_FlashMissing_1[] = _("{COLOR RED}{SHADOW LIGHT_RED}No valid backup media was detected.");
-static const u8 sText_FlashMissing_2[] = _("{COLOR BLUE}{SHADOW LIGHT_BLUE}Pokémon FireRed{COLOR RED}{SHADOW LIGHT_RED} requires the 1M");
+static const u8 sText_FlashMissing_1[] = _("No valid backup media was detected.");
+static const u8 sText_FlashMissing_2[] = _("Pokémon FireRed{COLOR RED}{SHADOW LIGHT_RED} requires the 1M");
 static const u8 sText_FlashMissing_3[] = _("sub-circuit board to be installed.");
 static const u8 sText_FlashMissing_5[] = _("Please turn off the power.");
 static const u8 sText_FlashMissing_7[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}mGBA: Tools {RIGHT_ARROW} Game overrides…");
 static const u8 sText_FlashMissing_8[] = _("NOGBA: Options {RIGHT_ARROW} Files Setup");
 static const u8 sText_FlashMissing_9[] = _("VBA: Emulator not supported");
 
-static const u8 sText_PipelineFail_1[] = _("{COLOR RED}{SHADOW LIGHT_RED}Emulation accuracy test failed.");
-static const u8 sText_PipelineFail_2[] = _("{COLOR RED}{SHADOW LIGHT_RED}Inaccurate emulators are not");
-static const u8 sText_PipelineFail_3[] = _("{COLOR RED}{SHADOW LIGHT_RED}approved for {COLOR BLUE}{SHADOW LIGHT_BLUE}PSR {COLOR RED}{SHADOW LIGHT_RED}races.");
+static const u8 sText_PipelineFail_1[] = _("Emulation accuracy test failed.");
+static const u8 sText_PipelineFail_2[] = _("Inaccurate emulators are not");
+static const u8 sText_PipelineFail_3[] = _("approved for {COLOR BLUE}{SHADOW LIGHT_BLUE}PSR {COLOR RED}{SHADOW LIGHT_RED}races.");
 
 static const u8 sText_PressAnyKeyToContinue[] = _("Press Button A or B to continue.");
 
-static const u8 *const sTexts_FatalError[][9] = {
+struct FatalErrorText
+{
+    u8 alignment;
+    u8 color;
+    const u8 * str;
+};
+
+struct FatalErrorCnt
+{
+    bool8 isFatal;
+    struct FatalErrorText texts[9];
+};
+
+static const u8 sTextColors[][3] = {
+    { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
+    { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
+    { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE }
+};
+
+static const struct FatalErrorCnt sTexts_FatalError[] = {
     {
-        sText_FlashMissing_1,
-        sText_FlashMissing_2,
-        sText_FlashMissing_3,
-        NULL,
-        sText_FlashMissing_5,
-        NULL,
-        sText_FlashMissing_7,
-        sText_FlashMissing_8,
-        sText_FlashMissing_9
+        TRUE,
+        {
+            {1, 1, sText_FlashMissing_1},
+            {1, 2, sText_FlashMissing_2},
+            {1, 1, sText_FlashMissing_3},
+            {},
+            {1, 1, sText_FlashMissing_5},
+            {},
+            {0, 0, sText_FlashMissing_7},
+            {0, 0, sText_FlashMissing_8},
+            {0, 0, sText_FlashMissing_9}
+        }
     },
     {
-        NULL,
-        NULL,
-        sText_PipelineFail_1,
-        sText_PipelineFail_2,
-        sText_PipelineFail_3,
+        FALSE,
+        {
+            {},
+            {},
+            {1, 1, sText_PipelineFail_1},
+            {1, 1, sText_PipelineFail_2},
+            {1, 1, sText_PipelineFail_3},
+        }
     }
-};
-
-static const u8 sXposSpecs[][9] = {
-    {
-        1, 1, 1, 0, 1, 0, 0, 0, 0
-    }, {
-        0, 0, 1, 1, 1, 0, 0, 0, 0
-    }
-};
-
-static const bool8 sIsFatal[] = {
-    TRUE,
-    FALSE
 };
 
 static void MainCB2(void)
@@ -205,10 +218,18 @@ static void Task_FlashMissingScreen(u8 taskId)
         s32 i;
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         DrawFrame();
-        for (i = 0; i < NELEMS(sTexts_FatalError[gWhichErrorMessage]); i++)
+        for (i = 0; i < 9; i++)
         {
-            if (sTexts_FatalError[gWhichErrorMessage][i] != NULL)
-                AddTextPrinterParameterized(0, 2, sTexts_FatalError[gWhichErrorMessage][i], GetStringXpos(sTexts_FatalError[gWhichErrorMessage][i], sXposSpecs[gWhichErrorMessage][i]), 14 * i + 3, TEXT_SPEED_FF, NULL);
+            if (sTexts_FatalError[gWhichErrorMessage].texts[i].str != NULL)
+                AddTextPrinterParameterized3(
+                    0,
+                    2,
+                    GetStringXpos(sTexts_FatalError[gWhichErrorMessage].texts[i].str, sTexts_FatalError[gWhichErrorMessage].texts[i].alignment),
+                    14 * i + 3,
+                    sTextColors[sTexts_FatalError[gWhichErrorMessage].texts[i].color],
+                    TEXT_SPEED_FF,
+                    sTexts_FatalError[gWhichErrorMessage].texts[i].str
+                );
         }
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_BOTH);
@@ -230,11 +251,19 @@ static void Task_FlashMissingScreen_Step(u8 taskId)
         break;
     case 60:
         PlaySE(SE_BOO);
-        if (sIsFatal[gWhichErrorMessage])
+        if (sTexts_FatalError[gWhichErrorMessage].isFatal)
             DestroyTask(taskId);
         break;
     case 180:
-        AddTextPrinterParameterized(0, 2, sText_PressAnyKeyToContinue, GetStringXpos(sText_PressAnyKeyToContinue, 1), 14 * 8 + 3, TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized3(
+            0,
+            2,
+            GetStringXpos(sText_PressAnyKeyToContinue, 1),
+            14 * 8 + 3,
+            sTextColors[0],
+            TEXT_SPEED_FF,
+            sText_PressAnyKeyToContinue
+        );
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_BOTH);
         gTasks[taskId].func = Task_WaitButton;
