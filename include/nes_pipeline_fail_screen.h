@@ -8,5 +8,6 @@ enum {
 };
 
 bool8 NESPipelineTest(void);
+bool8 TimingTest(void);
 
 #endif //POKEFIRERED_NES_PIPELINE_FAIL_SCREEN_H

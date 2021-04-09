@@ -784,7 +784,7 @@ static void CB2_WaitFadeBeforeSetUpIntro(void)
             gWhichErrorMessage = 0;
             SetMainCallback2(CB2_FlashMissingScreen);
         }
-        else if (!NESPipelineTest())
+        else if (!NESPipelineTest() || !TimingTest())
         {
             gWhichErrorMessage = 1;
             SetMainCallback2(CB2_FlashMissingScreen);
