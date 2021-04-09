@@ -5,11 +5,13 @@
 #include "scanline_effect.h"
 #include "flash_missing_screen.h"
 #include "text_window.h"
-#include "speedchoice.h"
 #include "new_menu_helpers.h"
 #include "constants/songs.h"
 
+EWRAM_DATA u8 gWhichErrorMessage = 0;
+
 extern const u16 sMainMenuTextPal[16];
+extern void CB2_SetUpIntro(void);
 
 static const u16 sBgPals[] = INCBIN_U16("graphics/interface/save_failed_screen.gbapal");
 
@@ -38,7 +40,53 @@ static const struct WindowTemplate sWindowTemplates[] = {
     DUMMY_WIN_TEMPLATE
 };
 
-static const u8 sText_FatalError[] = _("{COLOR RED}{SHADOW LIGHT_RED}No valid backup media was detected.\n  {COLOR BLUE}{SHADOW LIGHT_BLUE}Pokémon FireRed{COLOR RED}{SHADOW LIGHT_RED} requires the 1M\n sub-circuit board to be installed.\n\n     Please turn off the power.\n\n{COLOR DARK_GREY}{SHADOW LIGHT_GREY}mGBA: Tools {RIGHT_ARROW} Game overrides…\nNOGBA: Options {RIGHT_ARROW} Files Setup\nVBA: Emulator not supported");
+static const u8 sText_FlashMissing_1[] = _("{COLOR RED}{SHADOW LIGHT_RED}No valid backup media was detected.");
+static const u8 sText_FlashMissing_2[] = _("{COLOR BLUE}{SHADOW LIGHT_BLUE}Pokémon FireRed{COLOR RED}{SHADOW LIGHT_RED} requires the 1M");
+static const u8 sText_FlashMissing_3[] = _("sub-circuit board to be installed.");
+static const u8 sText_FlashMissing_5[] = _("Please turn off the power.");
+static const u8 sText_FlashMissing_7[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}mGBA: Tools {RIGHT_ARROW} Game overrides…");
+static const u8 sText_FlashMissing_8[] = _("NOGBA: Options {RIGHT_ARROW} Files Setup");
+static const u8 sText_FlashMissing_9[] = _("VBA: Emulator not supported");
+
+static const u8 sText_PipelineFail_1[] = _("{COLOR RED}{SHADOW LIGHT_RED}Emulation accuracy test failed.");
+static const u8 sText_PipelineFail_2[] = _("{COLOR RED}{SHADOW LIGHT_RED}Inaccurate emulators are not");
+static const u8 sText_PipelineFail_3[] = _("{COLOR RED}{SHADOW LIGHT_RED}approved for {COLOR BLUE}{SHADOW LIGHT_BLUE}PSR {COLOR RED}{SHADOW LIGHT_RED}races.");
+
+static const u8 sText_PressAnyKeyToContinue[] = _("Press Button A or B to continue.");
+
+static const u8 *const sTexts_FatalError[][9] = {
+    {
+        sText_FlashMissing_1,
+        sText_FlashMissing_2,
+        sText_FlashMissing_3,
+        NULL,
+        sText_FlashMissing_5,
+        NULL,
+        sText_FlashMissing_7,
+        sText_FlashMissing_8,
+        sText_FlashMissing_9
+    },
+    {
+        NULL,
+        NULL,
+        sText_PipelineFail_1,
+        sText_PipelineFail_2,
+        sText_PipelineFail_3,
+    }
+};
+
+static const u8 sXposSpecs[][9] = {
+    {
+        1, 1, 1, 0, 1, 0, 0, 0, 0
+    }, {
+        0, 0, 1, 1, 1, 0, 0, 0, 0
+    }
+};
+
+static const bool8 sIsFatal[] = {
+    TRUE,
+    FALSE
+};
 
 static void MainCB2(void)
 {
@@ -136,19 +184,41 @@ static void DrawFrame(void)
     FillBgTilemapBufferRect(0, 9, 28, 18, 1, 1, 2);
 }
 
+static s32 GetStringXpos(const u8 * str, u8 mode)
+{
+    switch (mode)
+    {
+    case 0:
+    default:
+        return 2;
+    case 1:
+        return (204 - GetStringWidth(2, str, 1)) / 2 + 2;
+    case 2:
+        return 206 - GetStringWidth(2, str, 1);
+    }
+}
+
 static void Task_FlashMissingScreen(u8 taskId)
 {
     if (!gPaletteFade.active)
     {
+        s32 i;
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         DrawFrame();
-        AddTextPrinterParameterized(0, 2, sText_FatalError, 2, 0, TEXT_SPEED_FF, NULL);
+        for (i = 0; i < NELEMS(sTexts_FatalError[gWhichErrorMessage]); i++)
+        {
+            if (sTexts_FatalError[gWhichErrorMessage][i] != NULL)
+                AddTextPrinterParameterized(0, 2, sTexts_FatalError[gWhichErrorMessage][i], GetStringXpos(sTexts_FatalError[gWhichErrorMessage][i], sXposSpecs[gWhichErrorMessage][i]), 14 * i + 3, TEXT_SPEED_FF, NULL);
+        }
         PutWindowTilemap(0);
         CopyWindowToVram(0, COPYWIN_BOTH);
         gTasks[taskId].func = Task_FlashMissingScreen_Step;
         gTasks[taskId].data[0] = 0;
     }
 }
+
+static void Task_WaitButton(u8 taskId);
+static void Task_WaitFadeOut(u8 taskId);
 
 static void Task_FlashMissingScreen_Step(u8 taskId)
 {
@@ -160,7 +230,33 @@ static void Task_FlashMissingScreen_Step(u8 taskId)
         break;
     case 60:
         PlaySE(SE_BOO);
-        DestroyTask(taskId);
+        if (sIsFatal[gWhichErrorMessage])
+            DestroyTask(taskId);
         break;
+    case 180:
+        AddTextPrinterParameterized(0, 2, sText_PressAnyKeyToContinue, GetStringXpos(sText_PressAnyKeyToContinue, 1), 14 * 8 + 3, TEXT_SPEED_FF, NULL);
+        PutWindowTilemap(0);
+        CopyWindowToVram(0, COPYWIN_BOTH);
+        gTasks[taskId].func = Task_WaitButton;
+        break;
+    }
+}
+
+static void Task_WaitButton(u8 taskId)
+{
+    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    {
+        PlaySE(SE_SELECT);
+        BeginNormalPaletteFade(0xFFFFFFFF, 8, 0, 16, RGB_BLACK);
+        gTasks[taskId].func = Task_WaitFadeOut;
+    }
+}
+
+static void Task_WaitFadeOut(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        SetMainCallback2(CB2_SetUpIntro);
+        DestroyTask(taskId);
     }
 }

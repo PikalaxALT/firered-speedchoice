@@ -2,5 +2,6 @@
 #define POKEFIRERED_FLASH_MISSING_SCREEN_H
 
 void CB2_FlashMissingScreen(void);
+extern u8 gWhichErrorMessage;
 
 #endif //POKEFIRERED_FLASH_MISSING_SCREEN_H

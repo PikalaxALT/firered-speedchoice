@@ -108,6 +108,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Print version on continue screen
 - Add extra tag to copyright screen
 - Add error screen if emulator is incorrectly configured
+- Add instruction prefetch accuracy test
 
 ## See also
 

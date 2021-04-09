@@ -15,6 +15,7 @@
 #include "trig.h"
 #include "load_save.h"
 #include "flash_missing_screen.h"
+#include "nes_pipeline_fail_screen.h"
 #include "done_button.h"
 #include "constants/songs.h"
 
@@ -62,7 +63,7 @@ static EWRAM_DATA u16 sTrailingSparklesYspeed = 0;
 static EWRAM_DATA u16 sTrailingSparklesXprecision = 0;
 static EWRAM_DATA u16 sTrailingSparklesYprecision = 0;
 
-static void CB2_SetUpIntro(void);
+void CB2_SetUpIntro(void);
 static void CB2_Intro(void);
 static void VBlankCB_Intro(void);
 static void Intro_ResetGpuRegs(void);
@@ -779,7 +780,15 @@ static void CB2_WaitFadeBeforeSetUpIntro(void)
     if (!UpdatePaletteFade())
     {
         if (gFlashMemoryPresent != TRUE)
+        {
+            gWhichErrorMessage = 0;
             SetMainCallback2(CB2_FlashMissingScreen);
+        }
+        else if (NESPipelineTest() != 255)
+        {
+            gWhichErrorMessage = 1;
+            SetMainCallback2(CB2_FlashMissingScreen);
+        }
         else
             SetMainCallback2(CB2_SetUpIntro);
     }
@@ -892,7 +901,7 @@ void CB2_CopyrightScreen(void)
     RunCopyrightScreen();
 }
 
-static void CB2_SetUpIntro(void)
+void CB2_SetUpIntro(void)
 {
     switch (gMain.state)
     {
