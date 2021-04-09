@@ -38,7 +38,7 @@ static const struct WindowTemplate sWindowTemplates[] = {
     DUMMY_WIN_TEMPLATE
 };
 
-static const u8 sText_FatalError[] = _("{COLOR BLUE}{SHADOW YELLOW}No valid backup media was detected.\n  {COLOR LIGHT_GRAY}{SHADOW BLACK}Pokémon FireRed{COLOR BLUE}{SHADOW YELLOW} requires the 1M\n sub-circuit board to be installed.\n\n     Please turn off the power.\n\n{COLOR RED}{SHADOW GREEN}mGBA: Tools {RIGHT_ARROW} Game overrides…\nNOGBA: Options {RIGHT_ARROW} Files Setup\nVBA: Emulator not supported");
+static const u8 sText_FatalError[] = _("{COLOR RED}{SHADOW LIGHT_RED}No valid backup media was detected.\n  {COLOR BLUE}{SHADOW LIGHT_BLUE}Pokémon FireRed{COLOR RED}{SHADOW LIGHT_RED} requires the 1M\n sub-circuit board to be installed.\n\n     Please turn off the power.\n\n{COLOR DARK_GREY}{SHADOW LIGHT_GREY}mGBA: Tools {RIGHT_ARROW} Game overrides…\nNOGBA: Options {RIGHT_ARROW} Files Setup\nVBA: Emulator not supported");
 
 static void MainCB2(void)
 {

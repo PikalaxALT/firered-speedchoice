@@ -97,84 +97,84 @@ enum
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (System Text)             */
 /* ----------------------------------------------- */
-const u8 gSystemText_TerminatorS[] = _("{COLOR BLUE}$");
+const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Header Text)             */
 /* ----------------------------------------------- */
-const u8 gSpeedchoiceTextHeader[] = _("{COLOR RED}{SHADOW GREEN}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR RED}{SHADOW GREEN}v" SPEEDCHOICE_VERSION);
+const u8 gSpeedchoiceTextHeader[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SPEEDCHOICE MENU");
+const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}v" SPEEDCHOICE_VERSION);
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Option Choices)          */
 /* ----------------------------------------------- */
-const u8 gSpeedchoiceTextYes[]    = _("{COLOR RED}{SHADOW GREEN}YES");
-const u8 gSpeedchoiceTextNo[]     = _("{COLOR RED}{SHADOW GREEN}NO");
+const u8 gSpeedchoiceTextYes[]    = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}YES");
+const u8 gSpeedchoiceTextNo[]     = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NO");
 
-const u8 gSpeedchoiceTextOn[]     = _("{COLOR RED}{SHADOW GREEN}ON");
-const u8 gSpeedchoiceTextOff[]    = _("{COLOR RED}{SHADOW GREEN}OFF");
+const u8 gSpeedchoiceTextOn[]     = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}ON");
+const u8 gSpeedchoiceTextOff[]    = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}OFF");
 
-const u8 gSpeedchoiceTextNerf[]   = _("{COLOR RED}{SHADOW GREEN}PURGE");
-const u8 gSpeedchoiceTextKeep[]   = _("{COLOR RED}{SHADOW GREEN}KEEP");
-const u8 gSpeedchoiceTextHell[]   = _("{COLOR RED}{SHADOW GREEN}HELL");
-const u8 gSpeedchoiceTextWhy[]   = _("{COLOR RED}{SHADOW GREEN}WHY");
+const u8 gSpeedchoiceTextNerf[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PURGE");
+const u8 gSpeedchoiceTextKeep[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}KEEP");
+const u8 gSpeedchoiceTextHell[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HELL");
+const u8 gSpeedchoiceTextWhy[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}WHY");
 
-const u8 gSpeedchoiceTextSemi[]   = _("{COLOR RED}{SHADOW GREEN}SEMI");
-const u8 gSpeedchoiceTextFull[]   = _("{COLOR RED}{SHADOW GREEN}FULL");
+const u8 gSpeedchoiceTextSemi[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SEMI");
+const u8 gSpeedchoiceTextFull[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FULL");
 
-const u8 gSpeedchoiceTextStatic[] = _("{COLOR RED}{SHADOW GREEN}SAME");
-const u8 gSpeedchoiceTextRand[]   = _("{COLOR RED}{SHADOW GREEN}RAND");
-const u8 gSpeedchoiceTextSane[]   = _("{COLOR RED}{SHADOW GREEN}SANE");
+const u8 gSpeedchoiceTextStatic[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SAME");
+const u8 gSpeedchoiceTextRand[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}RAND");
+const u8 gSpeedchoiceTextSane[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SANE");
 
-const u8 gSpeedchoiceTextBW[]     = _("{COLOR RED}{SHADOW GREEN}BW");
-const u8 gSpeedchoiceTextNone[]   = _("{COLOR RED}{SHADOW GREEN}NONE");
+const u8 gSpeedchoiceTextBW[]     = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BW");
+const u8 gSpeedchoiceTextNone[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NONE");
 
-const u8 gSpeedchoiceTextTutor[] = _("{COLOR RED}{SHADOW GREEN}TUTOR");
-const u8 gSpeedchoiceTextHM05[]   = _("{COLOR RED}{SHADOW GREEN}HM05");
+const u8 gSpeedchoiceTextTutor[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TUTOR");
+const u8 gSpeedchoiceTextHM05[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HM05");
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Option Names)            */
 /* ----------------------------------------------- */
 
 // PAGE 1
-const u8 gSpeedchoiceOptionPreset[] = _("{COLOR RED}{SHADOW GREEN}PRESET");
-const u8 gSpeedchoiceOptionName[] = _("{COLOR RED}{SHADOW GREEN}NAME");
-const u8 gSpeedchoiceOptionEXP[] = _("{COLOR RED}{SHADOW GREEN}EXP");
-const u8 gSpeedchoiceOptionPlotless[] = _("{COLOR RED}{SHADOW GREEN}PLOTLESS");
-const u8 gSpeedchoiceOptionInstantText[] = _("{COLOR RED}{SHADOW GREEN}HOLD TO MASH");
+const u8 gSpeedchoiceOptionPreset[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PRESET");
+const u8 gSpeedchoiceOptionName[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NAME");
+const u8 gSpeedchoiceOptionEXP[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EXP");
+const u8 gSpeedchoiceOptionPlotless[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLOTLESS");
+const u8 gSpeedchoiceOptionInstantText[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HOLD TO MASH");
 
 // PAGE 2
-const u8 gSpeedchoiceOptionSpinners[] = _("{COLOR RED}{SHADOW GREEN}SPINNERS");
-const u8 gSpeedchoiceOptionEarlySurf[] = _("{COLOR RED}{SHADOW GREEN}EARLY SURF");
-const u8 gSpeedchoiceOptionMaxVision[] = _("{COLOR RED}{SHADOW GREEN}MAX VISION");
-const u8 gSpeedchoiceOptionNewWildEnc[] = _("{COLOR RED}{SHADOW GREEN}NEW WILD ENC.");
-const u8 gSpeedchoiceOptionRunEverywhere[] = _("{COLOR RED}{SHADOW GREEN}RUN EVERYWHERE");
+const u8 gSpeedchoiceOptionSpinners[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SPINNERS");
+const u8 gSpeedchoiceOptionEarlySurf[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EARLY SURF");
+const u8 gSpeedchoiceOptionMaxVision[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MAX VISION");
+const u8 gSpeedchoiceOptionNewWildEnc[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NEW WILD ENC.");
+const u8 gSpeedchoiceOptionRunEverywhere[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}RUN EVERYWHERE");
 
 // PAGE 3
-const u8 gSpeedchoiceOptionBetterMarts[] = _("{COLOR RED}{SHADOW GREEN}BETTER MARTS");
-const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR RED}{SHADOW GREEN}GOOD EARLY WILDS");
-const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR RED}{SHADOW GREEN}NICE MENU ORDER");
-const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR RED}{SHADOW GREEN}EASY FALSE SWIPE");
-const u8 gSpeedchocieOptionEasyDexRewards[] = _("{COLOR RED}{SHADOW GREEN}EASY DEX REWARDS");
+const u8 gSpeedchoiceOptionBetterMarts[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BETTER MARTS");
+const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}GOOD EARLY WILDS");
+const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NICE MENU ORDER");
+const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EASY FALSE SWIPE");
+const u8 gSpeedchocieOptionEasyDexRewards[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EASY DEX REWARDS");
 
 // PAGE 4
-const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR RED}{SHADOW GREEN}FAST CATCH");
-const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR RED}{SHADOW GREEN}EARLY BIKE");
-const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR RED}{SHADOW GREEN}FAST EGG HATCH");
-const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR RED}{SHADOW GREEN}GEN 7 X ITEMS");
-const u8 gSpeedchoiceOptionEvoEveryLv[] = _("{COLOR RED}{SHADOW GREEN}EVO EVERY LV");
+const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FAST CATCH");
+const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EARLY BIKE");
+const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FAST EGG HATCH");
+const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}GEN 7 X ITEMS");
+const u8 gSpeedchoiceOptionEvoEveryLv[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EVO EVERY LV");
 
 // PAGE 5
-const u8 gSpeedchoiceOptionHmBadgeChk[] = _("{COLOR RED}{SHADOW GREEN}HM BADGE CHK");
-const u8 gSpeedchoiceOptionEasySurgeCans[] = _("{COLOR RED}{SHADOW GREEN}EASY SURGE");
+const u8 gSpeedchoiceOptionHmBadgeChk[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HM BADGE CHK");
+const u8 gSpeedchoiceOptionEasySurgeCans[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EASY SURGE");
 
 // CONSTANT OPTIONS
-const u8 gSpeedchoiceOptionPage[] = _("{COLOR RED}{SHADOW GREEN}PAGE");
-const u8 gSpeedchoiceOptionStartGame[] = _("{COLOR RED}{SHADOW GREEN}START GAME");
+const u8 gSpeedchoiceOptionPage[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PAGE");
+const u8 gSpeedchoiceOptionStartGame[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}START GAME");
 
 // ARROWS
-const u8 gSpeedchoiceOptionLeftArrow[] = _("{COLOR BLUE}{SHADOW YELLOW}{LEFT_ARROW}");
-const u8 gSpeedchoiceOptionRightArrow[] = _("{COLOR BLUE}{SHADOW YELLOW}{RIGHT_ARROW}");
+const u8 gSpeedchoiceOptionLeftArrow[] = _("{COLOR RED}{SHADOW LIGHT_RED}{LEFT_ARROW}");
+const u8 gSpeedchoiceOptionRightArrow[] = _("{COLOR RED}{SHADOW LIGHT_RED}{RIGHT_ARROW}");
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Tooltip Text)            */
@@ -217,10 +217,10 @@ const u8 gSpeedchoiceEscapeText[] = _("ESCAPE");
 /* ---- PRESETS ---- */
 /* ----------------- */
 const u8 gPresetNames[][20] = {
-    _("{COLOR RED}{SHADOW GREEN}VANILLA"),
-    _("{COLOR RED}{SHADOW GREEN}BINGO"),
-    _("{COLOR RED}{SHADOW GREEN}CEA"),
-    _("{COLOR RED}{SHADOW GREEN}RACE"),
+    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}VANILLA"),
+    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BINGO"),
+    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}CEA"),
+    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}RACE"),
 };
 
 // use local config optionConfig[0] for preset!
@@ -1169,7 +1169,7 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         s16 length = GetStringWidth(1, gTempPlayerName, 0);
         s16 x_preset = 4 + x_left + (x_right - x_left - length) / 2;
 
-        // format the name with {COLOR RED}{SHADOW GREEN} first.
+        // format the name with {COLOR DARK_GREY}{SHADOW LIGHT_GREY} first.
         bufferedName[0] = EXT_CTRL_CODE_BEGIN;
         bufferedName[1] = EXT_CTRL_CODE_COLOR;
         bufferedName[2] = TEXT_COLOR_RED;

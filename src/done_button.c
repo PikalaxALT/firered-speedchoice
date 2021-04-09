@@ -540,74 +540,74 @@ struct LocalFrameTimerLoad
 
 EWRAM_DATA struct LocalFrameTimerLoad gLocalFrameTimers = {0};
 
-const u8 gTODOString[] = _("{COLOR RED}{SHADOW GREEN}TODO");
+const u8 gTODOString[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TODO");
 
 // PAGE 1
-const u8 gTimersHeader[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (TIMERS)");
-const u8 gTimersTotalTime[] = _("{COLOR RED}{SHADOW GREEN}TOTAL TIME: ");
-const u8 gTimersOverworldTime[] = _("{COLOR RED}{SHADOW GREEN}OVERWORLD TIME: ");
-const u8 gTimersTimeInBattle[] = _("{COLOR RED}{SHADOW GREEN}TIME IN BATTLE: ");
-const u8 gTimersTimeInMenus[] = _("{COLOR RED}{SHADOW GREEN}TIME IN MENUS: ");
-const u8 gTimersTimeInIntros[] = _("{COLOR RED}{SHADOW GREEN}TIME IN INTROS: ");
+const u8 gTimersHeader[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (TIMERS)");
+const u8 gTimersTotalTime[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TOTAL TIME: ");
+const u8 gTimersOverworldTime[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}OVERWORLD TIME: ");
+const u8 gTimersTimeInBattle[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TIME IN BATTLE: ");
+const u8 gTimersTimeInMenus[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TIME IN MENUS: ");
+const u8 gTimersTimeInIntros[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TIME IN INTROS: ");
 
 // PAGE 2
-const u8 gMovementHeader[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (MOVEMENT)");
-const u8 gMovementTotalSteps[] = _("{COLOR RED}{SHADOW GREEN}TOTAL STEPS: ");
-const u8 gMovementStepsWalked[] = _("{COLOR RED}{SHADOW GREEN}STEPS WALKED: ");
-const u8 gMovementStepsBiked[] = _("{COLOR RED}{SHADOW GREEN}STEPS BIKED: ");
-const u8 gMovementStepsSurfed[] = _("{COLOR RED}{SHADOW GREEN}STEPS SURFED: ");
-const u8 gMovementStepsRan[] = _("{COLOR RED}{SHADOW GREEN}STEPS RAN: ");
-const u8 gMovementBonks[] = _("{COLOR RED}{SHADOW GREEN}BONKS: ");
+const u8 gMovementHeader[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (MOVEMENT)");
+const u8 gMovementTotalSteps[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TOTAL STEPS: ");
+const u8 gMovementStepsWalked[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}STEPS WALKED: ");
+const u8 gMovementStepsBiked[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}STEPS BIKED: ");
+const u8 gMovementStepsSurfed[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}STEPS SURFED: ");
+const u8 gMovementStepsRan[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}STEPS RAN: ");
+const u8 gMovementBonks[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BONKS: ");
 
 // PAGE 3
-const u8 gBattle1Header[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (BATTLE 1)");
-const u8 gBattle1TotalBattles[] = _("{COLOR RED}{SHADOW GREEN}TOTAL BATTLES: ");
-const u8 gBattle1WildBattles[] = _("{COLOR RED}{SHADOW GREEN}WILD BATTLES: ");
-const u8 gBattle1TrainerBattles[] = _("{COLOR RED}{SHADOW GREEN}TRAINER BATTLES: ");
-const u8 gBattle1BattlesFledFrom[] = _("{COLOR RED}{SHADOW GREEN}BATTLES FLED FROM: ");
-const u8 gBattle1FailedEscapes[] = _("{COLOR RED}{SHADOW GREEN}FAILED ESCAPES: ");
+const u8 gBattle1Header[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (BATTLE 1)");
+const u8 gBattle1TotalBattles[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TOTAL BATTLES: ");
+const u8 gBattle1WildBattles[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}WILD BATTLES: ");
+const u8 gBattle1TrainerBattles[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TRAINER BATTLES: ");
+const u8 gBattle1BattlesFledFrom[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BATTLES FLED FROM: ");
+const u8 gBattle1FailedEscapes[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FAILED ESCAPES: ");
 
 // PAGE 4
-const u8 gBattle2Header[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (BATTLE 2)");
-const u8 gBattle2EnemyPkmnFainted[] = _("{COLOR RED}{SHADOW GREEN}ENEMY PKMN FAINTED: ");
-const u8 gBattle2ExpGained[] = _("{COLOR RED}{SHADOW GREEN}EXP GAINED: ");
-const u8 gBattle2OwnPkmnFainted[] = _("{COLOR RED}{SHADOW GREEN}OWN PKMN FAINTED: ");
-const u8 gBattle2NumSwitchouts[] = _("{COLOR RED}{SHADOW GREEN}NUM SWITCHOUTS: ");
-const u8 gBattle2BallsThrown[] = _("{COLOR RED}{SHADOW GREEN}BALLS THROWN: ");
-const u8 gBattle2PkmnCaptured[] = _("{COLOR RED}{SHADOW GREEN}PKMN CAPTURED: ");
+const u8 gBattle2Header[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (BATTLE 2)");
+const u8 gBattle2EnemyPkmnFainted[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}ENEMY PKMN FAINTED: ");
+const u8 gBattle2ExpGained[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EXP GAINED: ");
+const u8 gBattle2OwnPkmnFainted[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}OWN PKMN FAINTED: ");
+const u8 gBattle2NumSwitchouts[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NUM SWITCHOUTS: ");
+const u8 gBattle2BallsThrown[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BALLS THROWN: ");
+const u8 gBattle2PkmnCaptured[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PKMN CAPTURED: ");
 
 // PAGE 5
-const u8 gBattle3Header[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (BATTLE 3)");
-const u8 gBattle3MovesHitBy[] = _("{COLOR RED}{SHADOW GREEN}MOVES HIT BY: ");
-const u8 gBattle3MovesMissed[] = _("{COLOR RED}{SHADOW GREEN}MOVES MISSED: ");
-const u8 gBattle3SEMovesUsed[] = _("{COLOR RED}{SHADOW GREEN}S.E. MOVES USED: ");
-const u8 gBattle3NVEMovesUsed[] = _("{COLOR RED}{SHADOW GREEN}N.V.E. MOVES USED: ");
-const u8 gBattle3CriticalHits[] = _("{COLOR RED}{SHADOW GREEN}CRITICAL HITS: ");
-const u8 gBattle3OHKOs[] = _("{COLOR RED}{SHADOW GREEN}OHKOs: ");
+const u8 gBattle3Header[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (BATTLE 3)");
+const u8 gBattle3MovesHitBy[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MOVES HIT BY: ");
+const u8 gBattle3MovesMissed[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MOVES MISSED: ");
+const u8 gBattle3SEMovesUsed[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}S.E. MOVES USED: ");
+const u8 gBattle3NVEMovesUsed[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}N.V.E. MOVES USED: ");
+const u8 gBattle3CriticalHits[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}CRITICAL HITS: ");
+const u8 gBattle3OHKOs[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}OHKOs: ");
 
 // PAGE 6
-const u8 gBattle4Header[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (BATTLE 4)");
-const u8 gBattle4DamageDealt[] = _("{COLOR RED}{SHADOW GREEN}DAMAGE DEALT: ");
-const u8 gBattle4DamageTaken[] = _("{COLOR RED}{SHADOW GREEN}DAMAGE TAKEN: ");
+const u8 gBattle4Header[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (BATTLE 4)");
+const u8 gBattle4DamageDealt[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}DAMAGE DEALT: ");
+const u8 gBattle4DamageTaken[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}DAMAGE TAKEN: ");
 
 // PAGE 7
-const u8 gMoneyItemsHeader[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (MONEY & ITEMS)");
-const u8 gMoneyItemsMoneyMade[] = _("{COLOR RED}{SHADOW GREEN}MONEY MADE: ");
-const u8 gMoneyItemsMoneySpent[] = _("{COLOR RED}{SHADOW GREEN}MONEY SPENT: ");
-const u8 gMoneyItemsMoneyLost[] = _("{COLOR RED}{SHADOW GREEN}MONEY LOST: ");
-const u8 gMoneyItemsItemsPickedUp[] = _("{COLOR RED}{SHADOW GREEN}ITEMS PICKED UP: ");
-const u8 gMoneyItemsItemsBought[] = _("{COLOR RED}{SHADOW GREEN}ITEMS BOUGHT: ");
-const u8 gMoneyItemsItemsSold[] = _("{COLOR RED}{SHADOW GREEN}ITEMS SOLD: ");
+const u8 gMoneyItemsHeader[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (MONEY & ITEMS)");
+const u8 gMoneyItemsMoneyMade[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MONEY MADE: ");
+const u8 gMoneyItemsMoneySpent[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MONEY SPENT: ");
+const u8 gMoneyItemsMoneyLost[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MONEY LOST: ");
+const u8 gMoneyItemsItemsPickedUp[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}ITEMS PICKED UP: ");
+const u8 gMoneyItemsItemsBought[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}ITEMS BOUGHT: ");
+const u8 gMoneyItemsItemsSold[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}ITEMS SOLD: ");
 
 // PAGE 8
-const u8 gMiscHeader[] = _("{COLOR RED}{SHADOW GREEN}PLAYER STATS (MISC.)");
-const u8 gMiscTimesSaved[] = _("{COLOR RED}{SHADOW GREEN}TIMES SAVED: ");
-const u8 gMiscSaveReloads[] = _("{COLOR RED}{SHADOW GREEN}SAVE RELOADS: ");
-const u8 gMiscEvosAttempted[] = _("{COLOR RED}{SHADOW GREEN}EVOS ATTEMPTED: ");
-const u8 gMiscEvosCompleted[] = _("{COLOR RED}{SHADOW GREEN}EVOS COMPLETED: ");
-const u8 gMiscEvosCancelled[] = _("{COLOR RED}{SHADOW GREEN}EVOS CANCELLED: ");
+const u8 gMiscHeader[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLAYER STATS (MISC.)");
+const u8 gMiscTimesSaved[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TIMES SAVED: ");
+const u8 gMiscSaveReloads[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SAVE RELOADS: ");
+const u8 gMiscEvosAttempted[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EVOS ATTEMPTED: ");
+const u8 gMiscEvosCompleted[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EVOS COMPLETED: ");
+const u8 gMiscEvosCancelled[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EVOS CANCELLED: ");
 
-const u8 gPageText[] = _("{COLOR RED}{SHADOW GREEN}{LEFT_ARROW} PAGE {STR_VAR_1} {RIGHT_ARROW}");
+const u8 gPageText[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}{LEFT_ARROW} PAGE {STR_VAR_1} {RIGHT_ARROW}");
 
 #define CHAR_0 0xA1
 
@@ -671,8 +671,8 @@ const u8 *GetFormattedFrameTimerStr(enum DoneButtonStat stat, enum DoneButtonSta
     return (const u8 *)gBufferedString;
 }
 
-const u8 gBufferedString4[] = _("{COLOR RED}{SHADOW GREEN}{STR_VAR_1}");
-const u8 gBufferedString5[] = _("{COLOR RED}{SHADOW GREEN}{STR_VAR_1}({STR_VAR_2})");
+const u8 gBufferedString4[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}{STR_VAR_1}");
+const u8 gBufferedString5[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}{STR_VAR_1}({STR_VAR_2})");
 
 int GetNumDigits(int n)
 {
