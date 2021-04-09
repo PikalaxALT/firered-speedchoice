@@ -802,7 +802,7 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
     {
         u8 battler;
 
-        u8 text[20] = __("{COLOR 01}{HIGHLIGHT 02}");
+        u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT DARK_GREY}");
         battler = gSprites[healthboxSpriteId].hMain_Battler;
         if (IsDoubleBattle() == TRUE || GetBattlerSide(battler) == B_SIDE_OPPONENT)
         {
@@ -851,7 +851,7 @@ static void UpdateHpTextInHealthboxInDoubles(u8 healthboxSpriteId, s16 value, u8
 
     u8 battlerId;
 
-    u8 text[20] = __("{COLOR 01}{HIGHLIGHT 00}");
+    u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT TRANSPARENT}");
     battlerId = gSprites[healthboxSpriteId].hMain_Battler;
 
     if (gBattleSpritesDataPtr->battlerData[battlerId].hpNumbersNoBars) // don't print text if only bars are visible
@@ -908,7 +908,7 @@ static void UpdateHpTextInHealthboxInDoubles(u8 healthboxSpriteId, s16 value, u8
 // Prints mon's nature, catch and flee rate. Probably used to test pokeblock-related features.
 static void PrintSafariMonInfo(u8 healthboxSpriteId, struct Pokemon *mon)
 {
-    u8 text[20] = __("{COLOR 01}{HIGHLIGHT 02}");
+    u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT DARK_GREY}");
     s32 j, spriteTileNum;
     u8 *barFontGfx;
     u8 i, var, nature, healthBarSpriteId;
@@ -1462,7 +1462,7 @@ static void SpriteCB_StatusSummaryBallsOnSwitchout(struct Sprite *sprite)
     sprite->pos2.y = gSprites[barSpriteId].pos2.y;
 }
 
-static const u8 gUnknown_8260556[] = _("{HIGHLIGHT 02}");
+static const u8 gUnknown_8260556[] = _("{HIGHLIGHT DARK_GREY}");
 
 void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
 {
