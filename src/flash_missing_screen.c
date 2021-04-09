@@ -11,6 +11,11 @@
 
 EWRAM_DATA u8 gWhichErrorMessage = 0;
 
+#define TX_MARG_LEFT 2
+#define TX_MARG_RIGHT 2
+#define TX_MARG_TOP 3
+#define TX_WINWID 26
+
 extern const u16 sMainMenuTextPal[16];
 extern void CB2_SetUpIntro(void);
 
@@ -33,7 +38,7 @@ static const struct WindowTemplate sWindowTemplates[] = {
         0,
         2,
         2,
-        26,
+        TX_WINWID,
         16,
         15,
         10
@@ -68,35 +73,47 @@ struct FatalErrorCnt
     struct FatalErrorText texts[9];
 };
 
+enum {
+    FMS_COLOR_GREY = 0,
+    FMS_COLOR_RED,
+    FMS_COLOR_BLUE
+};
+
+enum {
+    TEXT_LEFT,
+    TEXT_CENTER,
+    TEXT_RIGHT
+};
+
 static const u8 sTextColors[][3] = {
-    { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
-    { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
-    { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE }
+    [FMS_COLOR_GREY] = { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
+    [FMS_COLOR_RED] = { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
+    [FMS_COLOR_BLUE] = { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE }
 };
 
 static const struct FatalErrorCnt sTexts_FatalError[] = {
-    {
+    [FATAL_NO_FLASH] = {
         TRUE,
         {
-            {1, 1, sText_FlashMissing_1},
-            {1, 2, sText_FlashMissing_2},
-            {1, 1, sText_FlashMissing_3},
+            {TEXT_CENTER, FMS_COLOR_RED, sText_FlashMissing_1},
+            {TEXT_CENTER, FMS_COLOR_BLUE, sText_FlashMissing_2},
+            {TEXT_CENTER, FMS_COLOR_RED, sText_FlashMissing_3},
             {},
-            {1, 1, sText_FlashMissing_5},
+            {TEXT_CENTER, FMS_COLOR_RED, sText_FlashMissing_5},
             {},
-            {0, 0, sText_FlashMissing_7},
-            {0, 0, sText_FlashMissing_8},
-            {0, 0, sText_FlashMissing_9}
+            {TEXT_LEFT, FMS_COLOR_GREY, sText_FlashMissing_7},
+            {TEXT_LEFT, FMS_COLOR_GREY, sText_FlashMissing_8},
+            {TEXT_LEFT, FMS_COLOR_GREY, sText_FlashMissing_9}
         }
     },
-    {
+    [FATAL_ACCU_FAIL] = {
         FALSE,
         {
             {},
             {},
-            {1, 1, sText_PipelineFail_1},
-            {1, 1, sText_PipelineFail_2},
-            {1, 1, sText_PipelineFail_3},
+            {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_1},
+            {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_2},
+            {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_3},
         }
     }
 };
@@ -201,13 +218,13 @@ static s32 GetStringXpos(const u8 * str, u8 mode)
 {
     switch (mode)
     {
-    case 0:
+    case TEXT_LEFT:
     default:
-        return 2;
-    case 1:
-        return (204 - GetStringWidth(2, str, 1)) / 2 + 2;
-    case 2:
-        return 206 - GetStringWidth(2, str, 1);
+        return TX_MARG_RIGHT;
+    case TEXT_CENTER:
+        return (((TX_WINWID) * 8 - (TX_MARG_LEFT) - (TX_MARG_RIGHT)) - GetStringWidth(2, str, 1)) / 2 + TX_MARG_LEFT;
+    case TEXT_RIGHT:
+        return ((TX_WINWID) * 8 - (TX_MARG_RIGHT)) - GetStringWidth(2, str, 1);
     }
 }
 
@@ -225,7 +242,7 @@ static void Task_FlashMissingScreen(u8 taskId)
                     0,
                     2,
                     GetStringXpos(sTexts_FatalError[gWhichErrorMessage].texts[i].str, sTexts_FatalError[gWhichErrorMessage].texts[i].alignment),
-                    14 * i + 3,
+                    14 * i + TX_MARG_TOP,
                     sTextColors[sTexts_FatalError[gWhichErrorMessage].texts[i].color],
                     TEXT_SPEED_FF,
                     sTexts_FatalError[gWhichErrorMessage].texts[i].str
@@ -239,6 +256,7 @@ static void Task_FlashMissingScreen(u8 taskId)
 }
 
 static void Task_WaitButton(u8 taskId);
+static void Task_BeginFadeOut(u8 taskId);
 static void Task_WaitFadeOut(u8 taskId);
 
 static void Task_FlashMissingScreen_Step(u8 taskId)
@@ -258,9 +276,9 @@ static void Task_FlashMissingScreen_Step(u8 taskId)
         AddTextPrinterParameterized3(
             0,
             2,
-            GetStringXpos(sText_PressAnyKeyToContinue, 1),
-            14 * 8 + 3,
-            sTextColors[0],
+            GetStringXpos(sText_PressAnyKeyToContinue, TEXT_CENTER),
+            14 * 8 + TX_MARG_TOP,
+            sTextColors[FMS_COLOR_GREY],
             TEXT_SPEED_FF,
             sText_PressAnyKeyToContinue
         );
@@ -276,6 +294,15 @@ static void Task_WaitButton(u8 taskId)
     if (JOY_NEW(A_BUTTON | B_BUTTON))
     {
         PlaySE(SE_SELECT);
+        gTasks[taskId].data[0] = 60;
+        gTasks[taskId].func = Task_BeginFadeOut;
+    }
+}
+
+static void Task_BeginFadeOut(u8 taskId)
+{
+    if (--gTasks[taskId].data[0] == 0)
+    {
         BeginNormalPaletteFade(0xFFFFFFFF, 8, 0, 16, RGB_BLACK);
         gTasks[taskId].func = Task_WaitFadeOut;
     }

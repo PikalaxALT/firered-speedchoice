@@ -227,6 +227,7 @@ SECTIONS {
         src/save_failed_screen.o(.text);
         src/flash_missing_screen.o(.text);
         src/nes_pipeline_fail_screen.o(.text);
+        src/pipeline_suite_asm.o(.text);
         src/clear_save_data_screen.o(.text);
         src/evolution_graphics.o(.text);
         src/fldeff_teleport.o(.text);
@@ -534,6 +535,7 @@ SECTIONS {
         src/save_failed_screen.o(.rodata);
         src/flash_missing_screen.o(.rodata);
         src/nes_pipeline_fail_screen.o(.rodata);
+        src/pipeline_suite_asm.o(.rodata);
         src/clear_save_data_screen.o(.rodata);
         src/evolution_graphics.o(.rodata);
         src/new_menu_helpers.o(.rodata);
