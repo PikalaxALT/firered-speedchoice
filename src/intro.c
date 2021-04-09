@@ -762,7 +762,7 @@ static const struct SpritePalette sFightSceneSpritePalettes[] = {
 	{sSpritePals_Grass, 8},
 	{sSpritePals_GengarSwipe, 10},
 	{sSpritePals_NidorinoRecoilDust, 11},
-#ifdef BUGFIX
+#ifdef UBFIX
     {0}
 #endif
 };

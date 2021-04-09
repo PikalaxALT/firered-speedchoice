@@ -35,8 +35,12 @@
 #define UNITS_METRIC
 #endif // ENGLISH
 
+// Fix bugs and undefined behavior
 #ifndef BUGFIX
 #define BUGFIX
 #endif // BUGFIX
+#ifndef UBFIX
+#define UBFIX
+#endif //UBFIX
 
 #endif // GUARD_CONFIG_H
