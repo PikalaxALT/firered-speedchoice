@@ -1,11 +1,27 @@
 #ifndef GUARD_LIBGCNMULTIBOOT_H
 #define GUARD_LIBGCNMULTIBOOT_H
 
+#define MBPROGRESS_NONE                0
+#define MBPROGRESS_LOGO_CORRECT        1
+#define MBPROGRESS_READY_TO_BOOT       2
+
 struct GcmbStruct
 {
-    u16 gcmb_field_0;
-    vu8 gcmb_field_2;
-    u8 filler3[0x2C - 0x3];
+    vu8 counter1;
+    vu8 counter2;
+    vu8 mbProgress;
+    vu8 savedVcount;
+    vu32 keyA;
+    vu32 keyB;
+    vu32 keyC;
+    vu16 bootKey;
+    vu16 imageSize;
+    vu32 sessionKey;
+    vu32 hashVal;
+    vu32 keyCderivation;
+    u32 * volatile baseDestPtr;
+    u32 * volatile curDestPtr;
+    void (* volatile serialIntrHandler)(struct GcmbStruct *, u32);
 };
 
 void GameCubeMultiBoot_Main(struct GcmbStruct *pStruct);

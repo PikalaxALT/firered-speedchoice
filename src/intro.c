@@ -834,7 +834,7 @@ static bool8 RunCopyrightScreen(void)
         break;
     case 140:
         GameCubeMultiBoot_Main(&sGcmb);
-        if (sGcmb.gcmb_field_2 != 1)
+        if (sGcmb.mbProgress != MBPROGRESS_LOGO_CORRECT)
         {
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
             gMain.state++;
@@ -844,9 +844,9 @@ static bool8 RunCopyrightScreen(void)
         if (!UpdatePaletteFade())
         {
             gMain.state++;
-            if (sGcmb.gcmb_field_2 != 0)
+            if (sGcmb.mbProgress != MBPROGRESS_NONE)
             {
-                if (sGcmb.gcmb_field_2 == 2)
+                if (sGcmb.mbProgress == MBPROGRESS_READY_TO_BOOT)
                 {
                     // Gc6e
                     if (*((u32 *)0x020000AC) == 0x65366347)

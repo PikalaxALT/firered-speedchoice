@@ -106,38 +106,38 @@ void FreeInternal(void *heapStart, void *p)
     AGB_ASSERT_EX(p != NULL, ABSPATH("gflib/malloc.c"), 195);
 
     if (p) {
-        struct MemBlock *head = (struct MemBlock *)heapStart;
-        struct MemBlock *pos = (struct MemBlock *)((u8 *)p - sizeof(struct MemBlock));
-        AGB_ASSERT_EX(pos->magic_number == MALLOC_SYSTEM_ID, ABSPATH("gflib/malloc.c"), 204);
-        AGB_ASSERT_EX(pos->flag == TRUE, ABSPATH("gflib/malloc.c"), 205);
-        pos->flag = FALSE;
+        struct MemBlock *head_ = (struct MemBlock *)heapStart;
+        struct MemBlock *pos_ = (struct MemBlock *)((u8 *)p - sizeof(struct MemBlock));
+        AGB_ASSERT_EX(pos_->magic_number == MALLOC_SYSTEM_ID, ABSPATH("gflib/malloc.c"), 204);
+        AGB_ASSERT_EX(pos_->flag == TRUE, ABSPATH("gflib/malloc.c"), 205);
+        pos_->flag = FALSE;
 
         // If the freed block isn't the last one, merge with the next block
         // if it's not in use.
-        if (pos->next != head) {
-            if (!pos->next->flag) {
-                AGB_ASSERT_EX(pos->next->magic_number == MALLOC_SYSTEM_ID, ABSPATH("gflib/malloc.c"), 211);
-                pos->size += sizeof(struct MemBlock) + pos->next->size;
-                pos->next->magic_number = 0;
-                pos->next = pos->next->next;
-                if (pos->next != head)
-                    pos->next->prev = pos;
+        if (pos_->next != head_) {
+            if (!pos_->next->flag) {
+                AGB_ASSERT_EX(pos_->next->magic_number == MALLOC_SYSTEM_ID, ABSPATH("gflib/malloc.c"), 211);
+                pos_->size += sizeof(struct MemBlock) + pos_->next->size;
+                pos_->next->magic_number = 0;
+                pos_->next = pos_->next->next;
+                if (pos_->next != head_)
+                    pos_->next->prev = pos_;
             }
         }
 
         // If the freed block isn't the first one, merge with the previous block
         // if it's not in use.
-        if (pos != head) {
-            if (!pos->prev->flag) {
-                AGB_ASSERT_EX(pos->prev->magic_number == MALLOC_SYSTEM_ID, ABSPATH("gflib/malloc.c"), 228);
+        if (pos_ != head_) {
+            if (!pos_->prev->flag) {
+                AGB_ASSERT_EX(pos_->prev->magic_number == MALLOC_SYSTEM_ID, ABSPATH("gflib/malloc.c"), 228);
 
-                pos->prev->next = pos->next;
+                pos_->prev->next = pos_->next;
 
-                if (pos->next != head)
-                    pos->next->prev = pos->prev;
+                if (pos_->next != head_)
+                    pos_->next->prev = pos_->prev;
 
-                pos->magic_number = 0;
-                pos->prev->size += sizeof(struct MemBlock) + pos->size;
+                pos_->magic_number = 0;
+                pos_->prev->size += sizeof(struct MemBlock) + pos_->size;
             }
         }
     }
@@ -159,7 +159,7 @@ void *AllocZeroedInternal(void *heapStart, u32 size)
 
 bool32 CheckMemBlockInternal(void *heapStart, void *pointer)
 {
-    struct MemBlock *head = (struct MemBlock *)heapStart;
+    struct MemBlock *head_ = (struct MemBlock *)heapStart;
     struct MemBlock *block = (struct MemBlock *)((u8 *)pointer - sizeof(struct MemBlock));
 
     if (block->magic_number != MALLOC_SYSTEM_ID)
@@ -168,16 +168,16 @@ bool32 CheckMemBlockInternal(void *heapStart, void *pointer)
     if (block->next->magic_number != MALLOC_SYSTEM_ID)
         return FALSE;
 
-    if (block->next != head && block->next->prev != block)
+    if (block->next != head_ && block->next->prev != block)
         return FALSE;
 
     if (block->prev->magic_number != MALLOC_SYSTEM_ID)
         return FALSE;
 
-    if (block->prev != head && block->prev->next != block)
+    if (block->prev != head_ && block->prev->next != block)
         return FALSE;
 
-    if (block->next != head && block->next != (struct MemBlock *)(block->data + block->size))
+    if (block->next != head_ && block->next != (struct MemBlock *)(block->data + block->size))
         return FALSE;
 
     return TRUE;
@@ -192,12 +192,12 @@ void InitHeap(void *heapStart, u32 heapSize)
 
 void *Alloc(u32 size)
 {
-    AllocInternal(sHeapStart, size);
+    return AllocInternal(sHeapStart, size);
 }
 
 void *AllocZeroed(u32 size)
 {
-    AllocZeroedInternal(sHeapStart, size);
+    return AllocZeroedInternal(sHeapStart, size);
 }
 
 void Free(void *pointer)
@@ -212,13 +212,13 @@ bool32 CheckMemBlock(void *pointer)
 
 bool32 CheckHeap()
 {
-    struct MemBlock *pos = (struct MemBlock *)sHeapStart;
+    struct MemBlock *pos_ = (struct MemBlock *)sHeapStart;
 
     do {
-        if (!CheckMemBlockInternal(sHeapStart, pos->data))
+        if (!CheckMemBlockInternal(sHeapStart, pos_->data))
             return FALSE;
-        pos = pos->next;
-    } while (pos != (struct MemBlock *)sHeapStart);
+        pos_ = pos_->next;
+    } while (pos_ != (struct MemBlock *)sHeapStart);
 
     return TRUE;
 }
