@@ -792,8 +792,8 @@ static bool8 HandleWildEncounterCooldown(u32 currMetatileAttrs)
     minSteps = GetMapBaseEncounterCooldown(encounterType);
     if (minSteps == 0xFF)
         return FALSE;
-    minSteps *= 256;
-    encRate = 5 * 256;
+    minSteps = Q_24_8(minSteps);
+    encRate = Q_24_8(5);
     switch (GetFluteEncounterRateModType())
     {
     case 1:
@@ -822,8 +822,8 @@ static bool8 HandleWildEncounterCooldown(u32 currMetatileAttrs)
         encRate *= 2;
         break;
     }
-    minSteps /= 256;
-    encRate /= 256;
+    minSteps = Q_24_8_TO_INT(minSteps);
+    encRate = Q_24_8_TO_INT(encRate);
     if (sWildEncounterData.stepsSinceLastEncounter >= minSteps)
         return TRUE;
     sWildEncounterData.stepsSinceLastEncounter++;
