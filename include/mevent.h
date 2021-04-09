@@ -33,7 +33,7 @@ struct MEvent_Str_2
     u8 fill_00[0x40];
 };
 
-struct UnkStruct_8467FB8
+struct MysteryEventCardOrNewsGfxTemplate
 {
     u8 textPal1:4;
     u8 textPal2:4;

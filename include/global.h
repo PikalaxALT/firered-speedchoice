@@ -729,8 +729,8 @@ struct MEWonderNewsData
     u16 newsId;
     u8 shareState;
     u8 unk_03;
-    u8 unk_04[40];
-    u8 unk_2C[10][40];
+    u8 title[40];
+    u8 messages[10][40];
 };
 
 struct MEWonderNewsStruct

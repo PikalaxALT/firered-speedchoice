@@ -600,14 +600,14 @@ u32 ChangeBgX(u8 bg, u32 value, u8 op)
 
     switch (op)
     {
-        case 0:
+        case BG_SCROLL_SET:
         default:
             sGpuBgConfigs2[bg].bg_x = value;
             break;
-        case 1:
+        case BG_SCROLL_ADD:
             sGpuBgConfigs2[bg].bg_x += value;
             break;
-        case 2:
+        case BG_SCROLL_SUB:
             sGpuBgConfigs2[bg].bg_x -= value;
             break;
     }
@@ -679,14 +679,14 @@ u32 ChangeBgY(u8 bg, u32 value, u8 op)
 
     switch (op)
     {
-        case 0:
+        case BG_SCROLL_SET:
         default:
             sGpuBgConfigs2[bg].bg_y = value;
             break;
-        case 1:
+        case BG_SCROLL_ADD:
             sGpuBgConfigs2[bg].bg_y += value;
             break;
-        case 2:
+        case BG_SCROLL_SUB:
             sGpuBgConfigs2[bg].bg_y -= value;
             break;
     }

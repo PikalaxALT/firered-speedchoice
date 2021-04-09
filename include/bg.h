@@ -57,6 +57,13 @@ enum BgTileAllocMode
     BG_TILE_FREE,
 };
 
+enum BgScrollOp
+{
+    BG_SCROLL_SET,
+    BG_SCROLL_ADD,
+    BG_SCROLL_SUB,
+};
+
 struct BgTemplate
 {
     u16 bg:2;                   // 0x1, 0x2 -> 0x3

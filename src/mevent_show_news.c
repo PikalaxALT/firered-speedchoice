@@ -7,40 +7,59 @@
 #include "menu.h"
 #include "link_rfu.h"
 
-struct UnkStruct_203F3CC
+#define UP    0
+#define DOWN  1
+
+struct WonderNewsWork
 {
     /*0000*/ struct MEWonderNewsData wonderNews;
-    /*01bc*/ const struct UnkStruct_8467FB8 * bgSpec;
+    /*01bc*/ const struct MysteryEventCardOrNewsGfxTemplate * bgSpec;
     /*01c0*/ u8 verticalScrollDisabled:1;
-    u8 state:7;
+             u8 state:7;
     /*01c1*/ u8 menuIndicatorsId;
-    /*01c2*/ u8 unk_01C2_0:1;
-    u8 unk_01C2_1:7;
+    /*01c2*/ u8 inputDisabled:1;
+             u8 yScrollSpeed:7;
     /*01c3*/ u8 scrollDirection:1;
-    u8 unk_01C3_1:7;
-    /*01c4*/ u16 numMails;
+             u8 yPos:7;
+    /*01c4*/ u16 fullyDownThreshold;
     /*01c6*/ u16 scrollOffset;
     /*01c8*/ u16 windowIds[2];
     /*01cc*/ u8 filler_01CC[2];
     /*01ce*/ u8 title[41];
     /*01f7*/ u8 messages[10][41];
     /*0394*/ struct ScrollArrowsTemplate scrollArrowsTemplate;
-    /*03a4*/ u8 buffer_03A4[0x1000];
+    /*03a4*/ u8 decompressBuffer[0x1000];
 };
 
-static EWRAM_DATA struct UnkStruct_203F3CC * sWork = NULL;
+static EWRAM_DATA struct WonderNewsWork * sWork = NULL;
 
-static void sub_8146980(void);
-static void sub_8146A30(void);
-static void sub_8146B58(void);
+static void WonderNews_CopyMessageBuffersToTemp(void);
+static void WonderNews_PrintTitleAndMessages(void);
+static void WonderNews_ScrollList(void);
 
 static const u8 sTextPals[][3] = {
     {0, 2, 3},
     {0, 1, 2}
 };
-static const struct WindowTemplate gUnknown_8468040[] = {
-    {0, 1, 0, 28,  3, 15, 0x000},
-    {2, 1, 3, 28, 20, 15, 0x000}
+static const struct WindowTemplate sWindowTemplates[] = {
+    {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 0,
+        .width = 28,
+        .height = 3,
+        .paletteNum = 15,
+        .baseBlock = 0x000
+    },
+    {
+        .bg = 2,
+        .tilemapLeft = 1,
+        .tilemapTop = 3,
+        .width = 28,
+        .height = 20,
+        .paletteNum = 15,
+        .baseBlock = 0x000
+    }
 };
 static const struct ScrollArrowsTemplate sScrollArrowsTemplate = {
     0x02, 0xe8, 0x18, 0x03, 0xe8, 0x98,
@@ -58,10 +77,10 @@ static const u8 sNews2Gfx[] = INCBIN_U8("graphics/mevent/gfx_46830C.4bpp.lz");
 static const u8 sNews2Map[] = INCBIN_U8("graphics/mevent/tilemap_46837C.bin.lz");
 static const u8 sNews6Gfx[] = INCBIN_U8("graphics/mevent/gfx_468448.4bpp.lz");
 static const u8 sNews6Map[] = INCBIN_U8("graphics/mevent/tilemap_4684D8.bin.lz");
-static const u8 sNews7Gfx[] = INCBIN_U8("graphics/mevent/gfx_4685B4.4bpp.lz");
-static const u8 sNews7Map[] = INCBIN_U8("graphics/mevent/tilemap_468644.bin.lz");
+static const u8 sNews7Gfx[] = INCBIN_U8("graphics/mevent/gfx_468448.4bpp.lz");    // Duplicate
+static const u8 sNews7Map[] = INCBIN_U8("graphics/mevent/tilemap_4684D8.bin.lz"); // Duplicate
 
-static const struct UnkStruct_8467FB8 sBgSpecs[] = {
+static const struct MysteryEventCardOrNewsGfxTemplate sBgSpecs[] = {
     {1, 0, 0, 0, sNews0Gfx, sNews0Map, sNews1Pal},
     {1, 0, 0, 0, sNews1Gfx, sNews1Map, gCard1Pal},
     {1, 0, 0, 0, sNews2Gfx, sNews2Map, gCard2Pal},
@@ -76,7 +95,7 @@ bool32 InitWonderNewsResources(const struct MEWonderNewsData * news)
 {
     if (news == NULL)
         return FALSE;
-    sWork = AllocZeroed(sizeof(struct UnkStruct_203F3CC));
+    sWork = AllocZeroed(sizeof(struct WonderNewsWork));
     if (sWork == NULL)
         return FALSE;
     sWork->wonderNews = *news;
@@ -91,7 +110,7 @@ void DestroyWonderNewsResources(void)
 {
     if (sWork != NULL)
     {
-        *sWork = (struct UnkStruct_203F3CC){};
+        *sWork = (struct WonderNewsWork){};
         Free(sWork);
         sWork = NULL;
     }
@@ -130,25 +149,25 @@ s32 FadeToWonderNewsMenu(void)
         CopyBgTilemapBufferToVram(2);
         CopyBgTilemapBufferToVram(3);
         DecompressAndCopyTileDataToVram(3, sWork->bgSpec->tiles, 0, 8, 0);
-        sWork->windowIds[0] = AddWindow(&gUnknown_8468040[0]);
-        sWork->windowIds[1] = AddWindow(&gUnknown_8468040[1]);
+        sWork->windowIds[0] = AddWindow(&sWindowTemplates[0]);
+        sWork->windowIds[1] = AddWindow(&sWindowTemplates[1]);
         break;
     case 3:
         if (FreeTempTileDataBuffersIfPossible())
             return 0;
         gPaletteFade.bufferTransferDisabled = TRUE;
         LoadPalette(sWork->bgSpec->pal, 0x10, 0x20);
-        LZ77UnCompWram(sWork->bgSpec->map, sWork->buffer_03A4);
-        CopyRectToBgTilemapBufferRect(1, sWork->buffer_03A4, 0, 0, 30, 3, 0, 0, 30, 3, 1, 8, 0);
-        CopyRectToBgTilemapBufferRect(3, sWork->buffer_03A4, 0, 3, 30, 23, 0, 3, 30, 23, 1, 8, 0);
+        LZ77UnCompWram(sWork->bgSpec->map, sWork->decompressBuffer);
+        CopyRectToBgTilemapBufferRect(1, sWork->decompressBuffer, 0, 0, 30, 3, 0, 0, 30, 3, 1, 8, 0);
+        CopyRectToBgTilemapBufferRect(3, sWork->decompressBuffer, 0, 3, 30, 23, 0, 3, 30, 23, 1, 8, 0);
         CopyBgTilemapBufferToVram(1);
         CopyBgTilemapBufferToVram(3);
         break;
     case 4:
-        sub_8146980();
+        WonderNews_CopyMessageBuffersToTemp();
         break;
     case 5:
-        sub_8146A30();
+        WonderNews_PrintTitleAndMessages();
         CopyBgTilemapBufferToVram(0);
         CopyBgTilemapBufferToVram(2);
         break;
@@ -257,9 +276,9 @@ void MENews_AddScrollIndicatorArrowPair(void)
 
 u32 MENews_GetInput(u16 input)
 {
-    if (sWork->unk_01C2_0)
+    if (sWork->inputDisabled)
     {
-        sub_8146B58();
+        WonderNews_ScrollList();
         return 0xFF;
     }
     switch (input)
@@ -273,44 +292,44 @@ u32 MENews_GetInput(u16 input)
             return 0xFF;
         if (sWork->verticalScrollDisabled)
             return 0xFF;
-        sWork->scrollDirection = FALSE;
+        sWork->scrollDirection = UP;
         break;
     case DPAD_DOWN:
-        if (sWork->scrollOffset == sWork->numMails)
+        if (sWork->scrollOffset == sWork->fullyDownThreshold)
             return 0xFF;
         if (sWork->verticalScrollDisabled)
             return 0xFF;
-        sWork->scrollDirection = TRUE;
+        sWork->scrollDirection = DOWN;
         break;
     default:
         return 0xFF;
     }
-    sWork->unk_01C2_0 = TRUE;
-    sWork->unk_01C2_1 = 2;
-    sWork->unk_01C3_1 = 0;
-    if (sWork->scrollDirection == FALSE)
+    sWork->inputDisabled = TRUE;
+    sWork->yScrollSpeed = 2;
+    sWork->yPos = 0;
+    if (sWork->scrollDirection == UP)
         return 2;
     else
         return 3;
 }
 
-static void sub_8146980(void)
+static void WonderNews_CopyMessageBuffersToTemp(void)
 {
     u8 i = 0;
-    memcpy(sWork->title, sWork->wonderNews.unk_04, 40);
+    memcpy(sWork->title, sWork->wonderNews.title, 40);
     sWork->title[40] = EOS;
     for (; i < 10; ++i)
     {
-        memcpy(sWork->messages[i], sWork->wonderNews.unk_2C[i], 40);
+        memcpy(sWork->messages[i], sWork->wonderNews.messages[i], 40);
         sWork->messages[i][40] = EOS;
         if (i > 7 && sWork->messages[i][0] != EOS)
-            ++sWork->numMails;
+            ++sWork->fullyDownThreshold;
     }
     sWork->scrollArrowsTemplate = sScrollArrowsTemplate;
-    sWork->scrollArrowsTemplate.fullyDownThreshold = sWork->numMails;
+    sWork->scrollArrowsTemplate.fullyDownThreshold = sWork->fullyDownThreshold;
 }
 
-static void sub_8146A30(void)
+static void WonderNews_PrintTitleAndMessages(void)
 {
     u8 i = 0;
     s32 x;
@@ -318,7 +337,8 @@ static void sub_8146A30(void)
     PutWindowTilemap(sWork->windowIds[1]);
     FillWindowPixelBuffer(sWork->windowIds[0], 0);
     FillWindowPixelBuffer(sWork->windowIds[1], 0);
-    x = (0xe0 - GetStringWidth(3, sWork->title, GetFontAttribute(3, 2))) / 2;
+    x = ((28 * 8) - GetStringWidth(3, sWork->title, GetFontAttribute(3, 2))) / 2; // center align
+    // don't escape left bound
     if (x < 0)
         x = 0;
     AddTextPrinterParameterized3(sWork->windowIds[0], 3, x, 6, sTextPals[sWork->bgSpec->textPal1], 0, sWork->title);
@@ -330,28 +350,27 @@ static void sub_8146A30(void)
     CopyWindowToVram(sWork->windowIds[1], COPYWIN_BOTH);
 }
 
-static void sub_8146B58(void)
+static void WonderNews_ScrollList(void)
 {
-    u16 r4 = sWork->unk_01C2_1;
-    r4 <<= 8;
-    if (sWork->scrollDirection)
+    fx16 r4 = Q_8_8(sWork->yScrollSpeed);
+    if (sWork->scrollDirection != UP)
     {
-        ChangeBgY(2, r4, 1);
-        ChangeBgY(3, r4, 1);
+        ChangeBgY(2, r4, BG_SCROLL_ADD);
+        ChangeBgY(3, r4, BG_SCROLL_ADD);
     }
     else
     {
-        ChangeBgY(2, r4, 2);
-        ChangeBgY(3, r4, 2);
+        ChangeBgY(2, r4, BG_SCROLL_SUB);
+        ChangeBgY(3, r4, BG_SCROLL_SUB);
     }
-    sWork->unk_01C3_1 += sWork->unk_01C2_1;
-    if (sWork->unk_01C3_1 > 15)
+    sWork->yPos += sWork->yScrollSpeed;
+    if (sWork->yPos > 15)
     {
-        if (sWork->scrollDirection)
+        if (sWork->scrollDirection != UP)
             ++sWork->scrollOffset;
         else
             --sWork->scrollOffset;
-        sWork->unk_01C2_0 = FALSE;
-        sWork->unk_01C3_1 = 0;
+        sWork->inputDisabled = FALSE;
+        sWork->yPos = 0;
     }
 }

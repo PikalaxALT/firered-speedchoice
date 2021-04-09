@@ -19,7 +19,7 @@ struct MEventScreenMgr
 {
     /*0000*/ struct MEWonderCardData wonderCard;
     /*014c*/ struct MEventBuffer_3430_Sub buff3430Sub;
-    /*0170*/ const struct UnkStruct_8467FB8 * bgSpec;
+    /*0170*/ const struct MysteryEventCardOrNewsGfxTemplate * bgSpec;
     /*0174*/ u8 state;
     /*0175*/ u8 recordIdx;
     /*0176*/ u16 windowIds[3];
@@ -123,7 +123,7 @@ static const struct SpriteTemplate sShadowSpriteTemplate = {
     0x8000, 0x8000, &gOamData_AffineOff_ObjNormal_32x16, gDummySpriteAnimTable, NULL, gDummySpriteAffineAnimTable, SpriteCallbackDummy
 };
 
-static const struct UnkStruct_8467FB8 sCardGfxPtrs[8] = {
+static const struct MysteryEventCardOrNewsGfxTemplate sCardGfxPtrs[8] = {
     {1, 0, 0, 0, sCard0Gfx, sCard0Map, sCard0Pal},
     {1, 0, 0, 1, sCard1Gfx, sCard1Map, gCard1Pal},
     {1, 0, 0, 2, sCard2Gfx, sCard2Map, gCard2Pal},
@@ -346,7 +346,7 @@ static void sub_8145A98(void)
 
 static void sub_8145D18(u8 whichWindow)
 {
-    s8 sp0C = 0;
+    s8 i = 0;
     s32 windowId = sMEventScreenData->windowIds[whichWindow];
     PutWindowTilemap(windowId);
     FillWindowPixelBuffer(windowId, 0);
@@ -367,9 +367,9 @@ static void sub_8145D18(u8 whichWindow)
             break;
         }
         case 1:
-            for (; sp0C < 4; sp0C++)
+            for (; i < 4; i++)
             {
-                AddTextPrinterParameterized3(windowId, 3, 0, 16 * sp0C + 2, gUnknown_8467068[sMEventScreenData->bgSpec->textPal2], 0, sMEventScreenData->mainMessageLines[sp0C]);
+                AddTextPrinterParameterized3(windowId, 3, 0, 16 * i + 2, gUnknown_8467068[sMEventScreenData->bgSpec->textPal2], 0, sMEventScreenData->mainMessageLines[i]);
             }
             break;
         case 2:
@@ -383,14 +383,14 @@ static void sub_8145D18(u8 whichWindow)
                 s32 x = 0;
                 s32 y = sTextYCoords[sMEventScreenData->wonderCard.unk_08_0] + 16;
                 s32 spacing = GetFontAttribute(3, 2);
-                for (; sp0C < sMEventScreenData->recordIdx; sp0C++)
+                for (; i < sMEventScreenData->recordIdx; i++)
                 {
-                    AddTextPrinterParameterized3(windowId, 3, x, y, gUnknown_8467068[sMEventScreenData->bgSpec->textPal3], 0, sMEventScreenData->recordStrings[sp0C].nameTxt);
-                    if (sMEventScreenData->recordStrings[sp0C].numberTxt[0] != EOS)
+                    AddTextPrinterParameterized3(windowId, 3, x, y, gUnknown_8467068[sMEventScreenData->bgSpec->textPal3], 0, sMEventScreenData->recordStrings[i].nameTxt);
+                    if (sMEventScreenData->recordStrings[i].numberTxt[0] != EOS)
                     {
-                        x += GetStringWidth(3, sMEventScreenData->recordStrings[sp0C].nameTxt, spacing);
-                        AddTextPrinterParameterized3(windowId, 2, x, y, gUnknown_8467068[sMEventScreenData->bgSpec->textPal3], 0, sMEventScreenData->recordStrings[sp0C].numberTxt);
-                        x += GetStringWidth(3, sMEventScreenData->recordStrings[sp0C].numberTxt, spacing) + sMEventScreenData->recordStrings[sp0C].nDigits;
+                        x += GetStringWidth(3, sMEventScreenData->recordStrings[i].nameTxt, spacing);
+                        AddTextPrinterParameterized3(windowId, 2, x, y, gUnknown_8467068[sMEventScreenData->bgSpec->textPal3], 0, sMEventScreenData->recordStrings[i].numberTxt);
+                        x += GetStringWidth(3, sMEventScreenData->recordStrings[i].numberTxt, spacing) + sMEventScreenData->recordStrings[i].nDigits;
                     }
                 }
             }
