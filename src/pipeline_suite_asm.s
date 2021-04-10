@@ -24,7 +24,6 @@ TimerPrescalerTest:
 	ldr r1, [r0, #4]
 	ldr r0, [r0]
 
-	@ Spin cycles
 	mov r2, #0x400
 	mov r4, r0
 	mov r5, #0

@@ -16,6 +16,8 @@
 #include "save_failed_screen.h"
 #include "speedchoice.h"
 #include "quest_log.h"
+#include "flash_missing_screen.h"
+#include "nes_pipeline_fail_screen.h"
 #include "done_button.h"
 
 extern u32 intr_main[];
@@ -135,6 +137,7 @@ void AgbMain()
     REG_WAITCNT = WAITCNT_PREFETCH_ENABLE | WAITCNT_WS0_S_1 | WAITCNT_WS0_N_3;
     InitKeys();
     InitIntrHandlers();
+    RunEmulationAccuracyTests();
     m4aSoundInit();
     EnableVCountIntrAtLine150();
     InitRFU();
@@ -154,8 +157,8 @@ void AgbMain()
     AGBPrintInit();
 
 //#if REVISION == 1
-//    if (gFlashMemoryPresent != TRUE)
-//        SetMainCallback2(NULL);
+    if (gFlashMemoryPresent != TRUE)
+        gWhichErrorMessage = FATAL_NO_FLASH;
 //#endif
 
     gLinkTransferringData = FALSE;

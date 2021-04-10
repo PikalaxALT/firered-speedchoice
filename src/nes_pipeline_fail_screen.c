@@ -1,6 +1,9 @@
 #include <stdarg.h>
 #include "global.h"
 #include "nes_pipeline_fail_screen.h"
+#include "flash_missing_screen.h"
+#include "string_util.h"
+#include "text.h"
 
 static u8 buffer[512];
 
@@ -60,4 +63,21 @@ bool8 TimingTest(void)
 
     REG_IME = imeBak;
     return failMask == 0;
+}
+
+static const u8 sText_InsnPrefetch[] = _("Instruction Prefetch\n");
+static const u8 sText_TimerPrescaler[] = _("Timer Prescaler\n");
+
+void RunEmulationAccuracyTests(void)
+{
+    gWhichErrorMessage = FATAL_OKAY;
+    gWhichTestFailed[0] = EOS;
+    if (!NESPipelineTest()) {
+        gWhichErrorMessage = FATAL_ACCU_FAIL;
+        StringAppend(gWhichTestFailed, sText_InsnPrefetch);
+    }
+    if (!TimingTest()) {
+        gWhichErrorMessage = FATAL_ACCU_FAIL;
+        StringAppend(gWhichTestFailed, sText_TimerPrescaler);
+    }
 }

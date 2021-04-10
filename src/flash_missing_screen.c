@@ -10,6 +10,7 @@
 #include "constants/songs.h"
 
 EWRAM_DATA u8 gWhichErrorMessage = 0;
+EWRAM_DATA u8 gWhichTestFailed[100] = {};
 
 #define TX_MARG_LEFT 2
 #define TX_MARG_RIGHT 2
@@ -56,7 +57,8 @@ static const u8 sText_FlashMissing_9[] = _("VBA: Emulator not supported");
 
 static const u8 sText_PipelineFail_1[] = _("Emulation accuracy test failed.");
 static const u8 sText_PipelineFail_2[] = _("Inaccurate emulators are not");
-static const u8 sText_PipelineFail_3[] = _("approved for {COLOR BLUE}{SHADOW LIGHT_BLUE}PSR {COLOR RED}{SHADOW LIGHT_RED}races.");
+static const u8 sText_PipelineFail_3[] = _("approved for {COLOR GREEN}{SHADOW LIGHT_GREEN}PSR {COLOR RED}{SHADOW LIGHT_RED}races.");
+static const u8 sText_PipelineFail_4[] = _("FAILED TEST(S):");
 
 static const u8 sText_PressAnyKeyToContinue[] = _("Press Button A or B to continue.");
 
@@ -76,7 +78,8 @@ struct FatalErrorCnt
 enum {
     FMS_COLOR_GREY = 0,
     FMS_COLOR_RED,
-    FMS_COLOR_BLUE
+    FMS_COLOR_BLUE,
+    FMS_COLOR_GREEN,
 };
 
 enum {
@@ -88,7 +91,8 @@ enum {
 static const u8 sTextColors[][3] = {
     [FMS_COLOR_GREY] = { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
     [FMS_COLOR_RED] = { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
-    [FMS_COLOR_BLUE] = { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE }
+    [FMS_COLOR_BLUE] = { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE },
+    [FMS_COLOR_GREEN] = { TEXT_COLOR_WHITE, TEXT_COLOR_GREEN, TEXT_COLOR_LIGHT_GREEN },
 };
 
 static const struct FatalErrorCnt sTexts_FatalError[] = {
@@ -109,11 +113,11 @@ static const struct FatalErrorCnt sTexts_FatalError[] = {
     [FATAL_ACCU_FAIL] = {
         FALSE,
         {
-            {},
-            {},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_1},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_2},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_3},
+            {TEXT_LEFT, FMS_COLOR_GREY, sText_PipelineFail_4},
+            {TEXT_CENTER, FMS_COLOR_BLUE, gWhichTestFailed}
         }
     }
 };

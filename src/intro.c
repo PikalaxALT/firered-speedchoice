@@ -779,16 +779,8 @@ static void CB2_WaitFadeBeforeSetUpIntro(void)
 {
     if (!UpdatePaletteFade())
     {
-        if (gFlashMemoryPresent != TRUE)
-        {
-            gWhichErrorMessage = 0;
+        if (gWhichErrorMessage != FATAL_OKAY)
             SetMainCallback2(CB2_FlashMissingScreen);
-        }
-        else if (!NESPipelineTest() || !TimingTest())
-        {
-            gWhichErrorMessage = 1;
-            SetMainCallback2(CB2_FlashMissingScreen);
-        }
         else
             SetMainCallback2(CB2_SetUpIntro);
     }
