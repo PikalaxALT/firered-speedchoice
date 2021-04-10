@@ -70,19 +70,45 @@ bool8 TimingTest(void)
     return failMask == 0;
 }
 
-static const u8 sText_InsnPrefetch[] = _("Instruction Prefetch\n");
-static const u8 sText_TimerPrescaler[] = _("Timer Prescaler\n");
+static const u8 sText_InsnPrefetch[] = _("Insn Prefetch");
+static const u8 sText_TimerPrescaler[] = _("Timer Prescaler");
+
+static const struct TestSpec {
+    const u8 * name;
+    bool8 (*const func)(void);
+} sTestSpecs[] = {
+    {sText_InsnPrefetch, NESPipelineTest},
+    {sText_TimerPrescaler, TimingTest},
+};
 
 void RunEmulationAccuracyTests(void)
 {
+    s32 i;
+    s32 c;
+    u8 * ptr;
     gWhichErrorMessage = FATAL_OKAY;
     gWhichTestFailed[0] = EOS;
-    if (!NESPipelineTest()) {
-        gWhichErrorMessage = FATAL_ACCU_FAIL;
-        StringAppend(gWhichTestFailed, sText_InsnPrefetch);
-    }
-    if (!TimingTest()) {
-        gWhichErrorMessage = FATAL_ACCU_FAIL;
-        StringAppend(gWhichTestFailed, sText_TimerPrescaler);
+    ptr = gWhichTestFailed;
+    for (i = 0, c = 0; i < NELEMS(sTestSpecs); i++)
+    {
+        if (!sTestSpecs[i].func())
+        {
+            gWhichErrorMessage = FATAL_ACCU_FAIL;
+            if (c % 2)
+            {
+                s32 x = 206 - GetStringWidth(2, sTestSpecs[i].name, 1);
+                *ptr++ = EXT_CTRL_CODE_BEGIN;
+                *ptr++ = EXT_CTRL_CODE_CLEAR_TO;
+                *ptr++ = x;
+                ptr = StringCopy(ptr, sTestSpecs[i].name);
+                *ptr++ = CHAR_NEWLINE;
+                *ptr = EOS;
+            }
+            else
+            {
+                ptr = StringCopy(ptr, sTestSpecs[i].name);
+            }
+            c++;
+        }
     }
 }

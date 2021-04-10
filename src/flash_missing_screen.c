@@ -117,7 +117,7 @@ static const struct FatalErrorCnt sTexts_FatalError[] = {
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_2},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_3},
             {TEXT_LEFT, FMS_COLOR_GREY, sText_PipelineFail_4},
-            {TEXT_CENTER, FMS_COLOR_BLUE, gWhichTestFailed}
+            {TEXT_LEFT, FMS_COLOR_BLUE, gWhichTestFailed}
         }
     }
 };
