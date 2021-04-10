@@ -5,8 +5,6 @@
 #include "string_util.h"
 #include "text.h"
 
-static u8 buffer[512];
-
 extern const char NESPipelineTest_Internal[];
 extern const char NESPipelineTest_Internal_End[];
 extern const char TimerPrescalerTest[];
@@ -14,10 +12,17 @@ extern const char TimerPrescalerTest_End[];
 
 bool8 DoTest(const char * start, const char * end, u32 expectedValue, ...)
 {
+    u32 * d;
+    const u32 * s;
+    u8 buffer[(size_t)(end - start)];
     va_list va_args;
     u32 resp;
     va_start(va_args, expectedValue);
-    memcpy(buffer, start, end - start);
+
+    d = (u32 *)buffer;
+    s = (const u32 *)start;
+    while (s < (const u32 *)end)
+        *d++ = *s++;
     resp = ((u32 (*)(va_list))buffer)(va_args);
     return resp == expectedValue;
 }
