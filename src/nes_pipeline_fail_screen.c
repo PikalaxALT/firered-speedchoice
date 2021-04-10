@@ -96,7 +96,7 @@ void RunEmulationAccuracyTests(void)
             gWhichErrorMessage = FATAL_ACCU_FAIL;
             if (c % 2)
             {
-                s32 x = 206 - GetStringWidth(2, sTestSpecs[i].name, 1);
+                s32 x = 204 - GetStringWidth(2, sTestSpecs[i].name, 1);
                 *ptr++ = EXT_CTRL_CODE_BEGIN;
                 *ptr++ = EXT_CTRL_CODE_CLEAR_TO;
                 *ptr++ = x;

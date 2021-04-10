@@ -56,8 +56,8 @@ static const u8 sText_FlashMissing_8[] = _("NOGBA: Options {RIGHT_ARROW} Files S
 static const u8 sText_FlashMissing_9[] = _("VBA: Emulator not supported");
 
 static const u8 sText_PipelineFail_1[] = _("Emulation accuracy test failed.");
-static const u8 sText_PipelineFail_2[] = _("Inaccurate emulators are not");
-static const u8 sText_PipelineFail_3[] = _("approved for {COLOR GREEN}{SHADOW LIGHT_GREEN}PSR {COLOR RED}{SHADOW LIGHT_RED}races.");
+static const u8 sText_PipelineFail_2[] = _("The game can still be played, but");
+static const u8 sText_PipelineFail_3[] = _("bug reports will be ignored.");
 static const u8 sText_PipelineFail_4[] = _("FAILED TEST(S):");
 
 static const u8 sText_PressAnyKeyToContinue[] = _("Press Button A or B to continue.");
