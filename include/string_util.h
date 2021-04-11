@@ -46,5 +46,6 @@ u8 GetExtCtrlCodeLength(u8 code);
 s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2);
 void ConvertInternationalString(u8 *s, u8 language);
 void StripExtCtrlCodes(u8 *str);
+u8 *ascii2gf(u8 *dest, const char *src);
 
 #endif // GUARD_STRING_UTIL_H

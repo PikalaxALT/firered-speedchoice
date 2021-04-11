@@ -8,7 +8,6 @@ enum {
 };
 
 void CB2_FlashMissingScreen(void);
-extern u8 gWhichErrorMessage;
-extern u8 gWhichTestFailed[];
+extern u8 gWhichErrorMessage;;
 
 #endif //POKEFIRERED_FLASH_MISSING_SCREEN_H

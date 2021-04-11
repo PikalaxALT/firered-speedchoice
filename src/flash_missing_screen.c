@@ -9,7 +9,6 @@
 #include "constants/songs.h"
 
 EWRAM_DATA u8 gWhichErrorMessage = 0;
-EWRAM_DATA u8 gWhichTestFailed[100] = {};
 
 #define TX_MARG_LEFT 2
 #define TX_MARG_RIGHT 2
@@ -116,7 +115,7 @@ static const struct FatalErrorCnt sTexts_FatalError[] = {
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_2},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_3},
             {TEXT_LEFT, FMS_COLOR_GREY, sText_PipelineFail_4},
-            {TEXT_LEFT, FMS_COLOR_BLUE, gWhichTestFailed}
+            {TEXT_LEFT, FMS_COLOR_BLUE, gStringVar4}
         }
     }
 };

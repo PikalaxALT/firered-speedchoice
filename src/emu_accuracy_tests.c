@@ -4,6 +4,7 @@
 #include "flash_missing_screen.h"
 #include "string_util.h"
 #include "text.h"
+#include "malloc.h"
 
 extern const char NESPipelineTest_Internal[];
 extern const char NESPipelineTest_Internal_End[];
@@ -87,14 +88,14 @@ void RunEmulationAccuracyTests(void)
     s32 c;
     u8 * ptr;
     gWhichErrorMessage = FATAL_OKAY;
-    gWhichTestFailed[0] = EOS;
-    ptr = gWhichTestFailed;
+    gStringVar4[0] = EOS;
+    ptr = gStringVar4;
     for (i = 0, c = 0; i < NELEMS(sTestSpecs); i++)
     {
         if (!sTestSpecs[i].func())
         {
             gWhichErrorMessage = FATAL_ACCU_FAIL;
-            if (c % 2)
+            if (c)
             {
                 s32 x = 204 - GetStringWidth(2, sTestSpecs[i].name, 1);
                 *ptr++ = EXT_CTRL_CODE_BEGIN;
@@ -108,7 +109,7 @@ void RunEmulationAccuracyTests(void)
             {
                 ptr = StringCopy(ptr, sTestSpecs[i].name);
             }
-            c++;
+            c = !c;
         }
     }
 }
