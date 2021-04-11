@@ -226,7 +226,7 @@ SECTIONS {
         src/diploma.o(.text);
         src/save_failed_screen.o(.text);
         src/flash_missing_screen.o(.text);
-        src/nes_pipeline_fail_screen.o(.text);
+        src/emu_accuracy_tests.o(.text);
         src/pipeline_suite_asm.o(.text);
         src/clear_save_data_screen.o(.text);
         src/evolution_graphics.o(.text);
@@ -534,7 +534,7 @@ SECTIONS {
         src/strings.o(.rodata);
         src/save_failed_screen.o(.rodata);
         src/flash_missing_screen.o(.rodata);
-        src/nes_pipeline_fail_screen.o(.rodata);
+        src/emu_accuracy_tests.o(.rodata);
         src/pipeline_suite_asm.o(.rodata);
         src/clear_save_data_screen.o(.rodata);
         src/evolution_graphics.o(.rodata);

@@ -12,10 +12,9 @@
 #include "title_screen.h"
 #include "decompress.h"
 #include "util.h"
+#include "random.h"
 #include "trig.h"
-#include "load_save.h"
 #include "flash_missing_screen.h"
-#include "nes_pipeline_fail_screen.h"
 #include "done_button.h"
 #include "constants/songs.h"
 
@@ -2065,9 +2064,9 @@ static void SpriteCB_LargeStar(struct Sprite * sprite)
     sprite->data[5]++;
     if (sprite->data[5] % sTrailingSparklesSpawnRate)
     {
-        LoadWordFromTwoHalfwords(&sprite->data[6], &v);
-        v = v * 1103515245 + 24691;
-        StoreWordInTwoHalfwords(&sprite->data[6], v);
+        LoadWordFromTwoHalfwords((u16 *)&sprite->data[6], &v);
+        v = LC_RNG(v);
+        StoreWordInTwoHalfwords((u16 *)&sprite->data[6], v);
         v >>= 16;
         GameFreakScene_TrailingSparklesGen(sprite->pos1.x, sprite->pos1.y + sprite->pos2.y, v);
     }
@@ -2077,8 +2076,6 @@ static void SpriteCB_LargeStar(struct Sprite * sprite)
 
 static void SpriteCB_TrailingSparkles(struct Sprite * sprite)
 {
-    u32 v;
-
     sprite->data[0] += sprite->data[2];
     sprite->data[1] += sprite->data[3];
     sprite->data[4]++;

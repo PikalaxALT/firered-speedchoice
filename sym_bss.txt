@@ -39,7 +39,7 @@
 	.align 2
 	.include "src/easy_chat.o"
 	.align 2
-	.include "src/nes_pipeline_fail_screen.o"
+	.include "src/emu_accuracy_tests.o"
 	.align 2
 	.include "src/link_rfu_2.o"
 	.align 2

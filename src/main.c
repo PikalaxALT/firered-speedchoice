@@ -17,7 +17,7 @@
 #include "speedchoice.h"
 #include "quest_log.h"
 #include "flash_missing_screen.h"
-#include "nes_pipeline_fail_screen.h"
+#include "emu_accuracy_tests.h"
 #include "done_button.h"
 
 extern u32 intr_main[];

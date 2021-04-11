@@ -1,6 +1,6 @@
 #include <stdarg.h>
 #include "global.h"
-#include "nes_pipeline_fail_screen.h"
+#include "emu_accuracy_tests.h"
 #include "flash_missing_screen.h"
 #include "string_util.h"
 #include "text.h"

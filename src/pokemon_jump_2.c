@@ -1516,8 +1516,7 @@ static void sub_8149078(void)
 
 static int sub_8149194(void)
 {
-    // The number 1103515245 comes from the example implementation of rand and srand
-    gUnknown_203F3D4->unk24 = gUnknown_203F3D4->unk24 * 1103515245 + 24691;
+    gUnknown_203F3D4->unk24 = LC_RNG(gUnknown_203F3D4->unk24);
     return gUnknown_203F3D4->unk24 >> 16;
 }
 

@@ -10,6 +10,7 @@
 #include "load_save.h"
 #include "new_game.h"
 #include "save.h"
+#include "random.h"
 #include "main_menu.h"
 #include "clear_save_data_screen.h"
 #include "berry_fix_program.h"
@@ -1121,7 +1122,7 @@ static u16 TitleScreen_rand(u8 taskId, u8 field)
     u32 rngval;
 
     rngval = GetWordTaskArg(taskId, field);
-    rngval = rngval * 1103515245 + 24691;
+    rngval = LC_RNG(rngval);
     SetWordTaskArg(taskId, field, rngval);
     return rngval >> 16;
 }
