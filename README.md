@@ -109,6 +109,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Add extra tag to copyright screen
 - Add error screen if emulator is incorrectly configured
 - Add instruction prefetch accuracy test
+- Removed inaccessible encounter slots on Route 21 South
 
 ## See also
 

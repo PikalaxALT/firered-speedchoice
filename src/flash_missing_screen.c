@@ -5,7 +5,6 @@
 #include "scanline_effect.h"
 #include "flash_missing_screen.h"
 #include "text_window.h"
-#include "new_menu_helpers.h"
 #include "menu.h"
 #include "constants/songs.h"
 
