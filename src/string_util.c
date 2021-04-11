@@ -177,33 +177,17 @@ u8 *ConvertIntToDecimalStringN(u8 *dest, s32 value, enum StringConvertMode mode,
 
     for (powerOfTen = largestPowerOfTen; powerOfTen > 0; powerOfTen /= 10)
     {
-        u8 *out;
-        u8 c;
         u16 digit = value / powerOfTen;
         s32 temp = value - (powerOfTen * digit);
 
         if (state == WRITING_DIGITS)
         {
-            out = dest++;
-
-            if (digit <= 9)
-                c = sDigits[digit];
-            else
-                c = CHAR_QUESTION_MARK;
-
-            *out = c;
+            *dest++ = (digit < 10) ? sDigits[digit] : CHAR_QUESTION_MARK;
         }
         else if (digit != 0 || powerOfTen == 1)
         {
             state = WRITING_DIGITS;
-            out = dest++;
-
-            if (digit <= 9)
-                c = sDigits[digit];
-            else
-                c = CHAR_QUESTION_MARK;
-
-            *out = c;
+            *dest++ = (digit < 10) ? sDigits[digit] : CHAR_QUESTION_MARK;
         }
         else if (state == WRITING_SPACES)
         {
@@ -237,33 +221,17 @@ u8 *ConvertIntToHexStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 
 
     for (powerOfSixteen = largestPowerOfSixteen; powerOfSixteen > 0; powerOfSixteen /= 16)
     {
-        u8 *out;
-        u8 c;
         u32 digit = value / powerOfSixteen;
         s32 temp = value % powerOfSixteen;
 
         if (state == WRITING_DIGITS)
         {
-            out = dest++;
-
-            if (digit <= 0xF)
-                c = sDigits[digit];
-            else
-                c = CHAR_QUESTION_MARK;
-
-            *out = c;
+            *dest++ = (digit < 16) ? sDigits[digit] : CHAR_QUESTION_MARK;
         }
         else if (digit != 0 || powerOfSixteen == 1)
         {
             state = WRITING_DIGITS;
-            out = dest++;
-
-            if (digit <= 0xF)
-                c = sDigits[digit];
-            else
-                c = CHAR_QUESTION_MARK;
-
-            *out = c;
+            *dest++ = (digit < 16) ? sDigits[digit] : CHAR_QUESTION_MARK;
         }
         else if (state == WRITING_SPACES)
         {
