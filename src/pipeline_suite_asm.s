@@ -17,6 +17,7 @@ NESPipelineTest_Internal:
 	arm_func_end NESPipelineTest_Internal
 	.global NESPipelineTest_Internal_End
 NESPipelineTest_Internal_End:
+
 	arm_func_start TimerPrescalerTest
 TimerPrescalerTest:
 	stmda sp!, {r4, r5, r6, r7, r8, r9, r10, r11, lr}
@@ -41,3 +42,29 @@ _08009274:
 	arm_func_end TimerPrescalerTest
 	.global TimerPrescalerTest_End
 TimerPrescalerTest_End:
+
+	thumb_func_start PrefetchBufferResult
+PrefetchBufferResult:
+	push	{r4, r5, r6, r7, lr}
+	ldr	r4, =REG_TM0CNT
+	movs	r5, #0
+	str	r5, [r4]
+	ldr	r6, =(TIMER_1CLK | TIMER_ENABLE) << 8
+	str	r6, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldr	r2, [r4]
+	ldrh	r0, [r4]
+	str	r5, [r4]
+	pop	{r4, r5, r6, r7}
+	pop	{r1}
+	bx	lr
+	.pool
+	thumb_func_end PrefetchBufferResult
+	.global PrefetchBufferResult_End
+PrefetchBufferResult_End:

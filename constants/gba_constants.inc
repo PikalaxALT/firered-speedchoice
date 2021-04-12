@@ -488,3 +488,10 @@
 	.set OAM_SIZE_8x32,          OAM_SIZE_1 | OAM_V_RECTANGLE
 	.set OAM_SIZE_16x32,         OAM_SIZE_2 | OAM_V_RECTANGLE
 	.set OAM_SIZE_32x64,         OAM_SIZE_3 | OAM_V_RECTANGLE
+
+	.set TIMER_1CLK,             0x00
+	.set TIMER_64CLK,            0x01
+	.set TIMER_256CLK,           0x02
+	.set TIMER_1024CLK,          0x03
+	.set TIMER_INTR_ENABLE,      0x40
+	.set TIMER_ENABLE,           0x80
