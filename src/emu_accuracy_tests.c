@@ -13,17 +13,18 @@ extern const char TimerPrescalerTest_End[];
 extern const char PrefetchBufferResult[];
 extern const char PrefetchBufferResult_End[];
 
-bool8 DoTest(const char * start, const char * end, bool32 isThumb, u32 expectedValue, ...)
+bool8 DoTest(const char * start, const char * end, u32 expectedValue, ...)
 {
     u32 * d;
     const u32 * s;
-    u8 buffer[(size_t)(end - start)];
+    bool32 isThumb = ((uintptr_t)start) & 1;
+    u8 buffer[(size_t)((uintptr_t)end - ((uintptr_t)start & ~3))];
     va_list va_args;
     u32 resp;
     va_start(va_args, expectedValue);
 
     d = (u32 *)buffer;
-    s = (const u32 *)start;
+    s = (const u32 *)((uintptr_t)start & ~3);
     while (s < (const u32 *)end)
         *d++ = *s++;
     resp = ((u32 (*)(va_list))(buffer + isThumb))(va_args);
@@ -35,7 +36,6 @@ bool8 NESPipelineTest(void)
     return DoTest(
         NESPipelineTest_Internal,
         NESPipelineTest_Internal_End,
-        FALSE,
         255
     );
 }
@@ -61,7 +61,6 @@ bool8 TimingTest(void)
             if (!DoTest(
                 TimerPrescalerTest,
                 TimerPrescalerTest_End,
-                FALSE,
                 expected[j],
                 &REG_TMCNT(i),
                 ((j | TIMER_ENABLE) << 16)
@@ -87,11 +86,11 @@ bool8 DoPrefetchBufferTest(void)
     waitCntBak = REG_WAITCNT;
 
     REG_WAITCNT = WAITCNT_SRAM_4 | WAITCNT_WS0_N_3 | WAITCNT_WS0_S_1 | WAITCNT_WS1_N_4 | WAITCNT_WS1_S_4 | WAITCNT_WS2_N_4 | WAITCNT_WS2_S_8 | WAITCNT_PHI_OUT_NONE | WAITCNT_PREFETCH_ENABLE;
-    if (!DoTest(PrefetchBufferResult, PrefetchBufferResult_End, TRUE, 24))
+    if (!DoTest(PrefetchBufferResult + 1, PrefetchBufferResult_End, 24))
         result |= 1;
 
     REG_WAITCNT = WAITCNT_SRAM_4 | WAITCNT_WS0_N_3 | WAITCNT_WS0_S_1 | WAITCNT_WS1_N_4 | WAITCNT_WS1_S_4 | WAITCNT_WS2_N_4 | WAITCNT_WS2_S_8 | WAITCNT_PHI_OUT_NONE;
-    if (!DoTest(PrefetchBufferResult, PrefetchBufferResult_End, TRUE, 51))
+    if (!DoTest(PrefetchBufferResult + 1, PrefetchBufferResult_End, 51))
         result |= 2;
 
     REG_WAITCNT = waitCntBak;
