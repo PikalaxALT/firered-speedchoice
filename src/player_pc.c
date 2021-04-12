@@ -76,25 +76,58 @@ static void Task_WaitFadeAndGoToPartyMenu(u8 taskId);
 static void Task_Error_NoPokemon(u8 taskId);
 static void Task_PlayerPcExitMailSubmenu(u8 taskId);
 
+enum {
+    PLAYERPC_MENU_ITEMSTORAGE,
+    PLAYERPC_MENU_MAILBOX,
+    // PLAYERPC_MENU_DECORATION,
+    PLAYERPC_MENU_TURN_OFF,
+};
+
+enum {
+    ITEMSTORAGE_MENU_WITHDRAW,
+    ITEMSTORAGE_MENU_DEPOSIT,
+    // ITEMSTORAGE_MENU_TOSS,
+    ITEMSTORAGE_MENU_CANCEL,
+};
+
+enum {
+    MAILBOX_READ,
+    MAILBOX_TO_BAG,
+    MAILBOX_TO_MON,
+    MAILBOX_EXIT,
+};
+
 static const u8 *const sItemStorageActionDescriptionPtrs[] = {
-    gText_TakeOutItemsFromThePC,
-    gText_StoreItemsInThePC,
-    gText_GoBackToThePreviousMenu
+    [ITEMSTORAGE_MENU_WITHDRAW] = gText_TakeOutItemsFromThePC,
+    [ITEMSTORAGE_MENU_DEPOSIT]  = gText_StoreItemsInThePC,
+    // [ITEMSTORAGE_MENU_TOSS]     = gText_TossItemsFromThePC,
+    [ITEMSTORAGE_MENU_CANCEL]   = gText_GoBackToThePreviousMenu
 };
 
 static const struct MenuAction sMenuActions_TopMenu[] = {
-    {gText_ItemStorage, Task_PlayerPcItemStorage},
-    {gText_Mailbox, Task_PlayerPcMailbox},
-    {gText_TurnOff, Task_PlayerPcTurnOff}
+    [PLAYERPC_MENU_ITEMSTORAGE] = {gText_ItemStorage, Task_PlayerPcItemStorage},
+    [PLAYERPC_MENU_MAILBOX]     = {gText_Mailbox, Task_PlayerPcMailbox},
+    // [PLAYERPC_MENU_DECORATION]  = {gText_Decorations, Task_PlayerPcDecorations},
+    [PLAYERPC_MENU_TURN_OFF]    = {gText_TurnOff, Task_PlayerPcTurnOff},
 };
 
-static const u8 gUnknown_8402200[] = { 0, 1, 2 };
-static const u8 gUnknown_8402203[] = { 0, 1, 2 };
+static const u8 sItemOrder_BedroomPC[] = {
+    PLAYERPC_MENU_ITEMSTORAGE,
+    PLAYERPC_MENU_MAILBOX,
+    // PLAYERPC_MENU_DECORATION,
+    PLAYERPC_MENU_TURN_OFF,
+};
+static const u8 sItemOrder_CenterPC[] = {
+    PLAYERPC_MENU_ITEMSTORAGE,
+    PLAYERPC_MENU_MAILBOX,
+    PLAYERPC_MENU_TURN_OFF,
+};
 
 static const struct MenuAction sMenuActions_ItemPc[] = {
-    {gText_WithdrawItem2, Task_PlayerPcWithdrawItem},
-    {gText_DepositItem2, Task_PlayerPcDepositItem},
-    {gFameCheckerText_Cancel, Task_PlayerPcCancel}
+    [ITEMSTORAGE_MENU_WITHDRAW] = {gText_WithdrawItem2, Task_PlayerPcWithdrawItem},
+    [ITEMSTORAGE_MENU_DEPOSIT]  = {gText_DepositItem2, Task_PlayerPcDepositItem},
+    // [ITEMSTORAGE_MENU_TOSS]     = {gText_TossItem2, Task_PlayerPcTossItem},
+    [ITEMSTORAGE_MENU_CANCEL]   = {gFameCheckerText_Cancel, Task_PlayerPcCancel},
 };
 
 static const struct ItemSlot gNewGamePCItems[] = {
@@ -103,10 +136,10 @@ static const struct ItemSlot gNewGamePCItems[] = {
 };
 
 static const struct MenuAction sMenuActions_MailSubmenu[] = {
-    {gOtherText_Read, Task_PlayerPcReadMail},
-    {gOtherText_MoveToBag, Task_PlayerPcMoveMailToBag},
-    {gOtherText_Give2, Task_PlayerPcGiveMailToMon},
-    {gOtherText_Exit, Task_PlayerPcExitMailSubmenu}
+    [MAILBOX_READ]   = {gOtherText_Read, Task_PlayerPcReadMail},
+    [MAILBOX_TO_BAG] = {gOtherText_MoveToBag, Task_PlayerPcMoveMailToBag},
+    [MAILBOX_TO_MON] = {gOtherText_Give2, Task_PlayerPcGiveMailToMon},
+    [MAILBOX_EXIT]   = {gOtherText_Exit, Task_PlayerPcExitMailSubmenu}
 };
 
 static const struct WindowTemplate sWindowTemplate_TopMenu_3Items = {
@@ -154,8 +187,8 @@ void BedroomPC(void)
 
     gPlayerPcMenuManager.notInRoom = FALSE;
     BackupHelpContext();
-    sItemOrder = gUnknown_8402200;
-    sTopMenuItemCount = 3;
+    sItemOrder = sItemOrder_BedroomPC;
+    sTopMenuItemCount = NELEMS(sItemOrder_BedroomPC);
     taskId = CreateTask(TaskDummy, 0);
     DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
 }
@@ -166,8 +199,8 @@ void PlayerPC(void)
 
     gPlayerPcMenuManager.notInRoom = TRUE;
     BackupHelpContext();
-    sItemOrder = gUnknown_8402203;
-    sTopMenuItemCount = 3;
+    sItemOrder = sItemOrder_CenterPC;
+    sTopMenuItemCount = NELEMS(sItemOrder_CenterPC);
     taskId = CreateTask(TaskDummy, 0);
     DisplayItemMessageOnField(taskId, 2, gText_WhatWouldYouLikeToDo, Task_DrawPlayerPcTopMenu);
 }
@@ -272,8 +305,8 @@ static void Task_CreateItemStorageSubmenu(u8 taskId, u8 cursorPos)
         SetHelpContext(HELPCONTEXT_PLAYERS_PC_ITEMS);
     tWindowId = AddWindow(&sWindowTemplate_ItemStorageSubmenu);
     SetStdWindowBorderStyle(tWindowId, FALSE);
-    PrintTextArray(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 3, sMenuActions_ItemPc);
-    Menu_InitCursor(tWindowId, 2, 0, 2, 16, 3, cursorPos);
+    PrintTextArray(tWindowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sMenuActions_ItemPc), sMenuActions_ItemPc);
+    Menu_InitCursor(tWindowId, 2, 0, 2, 16, NELEMS(sMenuActions_ItemPc), cursorPos);
     ScheduleBgCopyTilemapToVram(0);
     PrintStringOnWindow0WithDialogueFrame(sItemStorageActionDescriptionPtrs[cursorPos]);
 }
@@ -529,8 +562,8 @@ static void Task_DestroyMailboxPcViewAndCancel(u8 taskId)
 static void Task_DrawMailSubmenu(u8 taskId)
 {
     u8 windowId = MailboxPC_GetAddWindow(2);
-    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, 4, sMenuActions_MailSubmenu);
-    Menu_InitCursor(windowId, 2, 0, 2, 16, 4, 0);
+    PrintTextArray(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, 16, NELEMS(sMenuActions_MailSubmenu), sMenuActions_MailSubmenu);
+    Menu_InitCursor(windowId, 2, 0, 2, 16, NELEMS(sMenuActions_MailSubmenu), 0);
     ScheduleBgCopyTilemapToVram(0);
     gTasks[taskId].func = Task_MailSubmenuHandleInput;
 }
