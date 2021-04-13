@@ -1046,32 +1046,34 @@ static void task50_after_link_battle_save(u8 taskId)
 
 static void PrintSaveStats(void)
 {
-    u8 y;
+    u8 y = 0;
     u8 x;
     sSaveStatsWindowId = AddWindow(&sSaveStatsWindowTemplate);
     TextWindow_SetStdFrame0_WithPal(sSaveStatsWindowId, 0x21D, 0xD0);
     DrawStdFrameWithCustomTileAndPalette(sSaveStatsWindowId, FALSE, 0x21D, 0x0D);
-    SaveStatToString(SAVE_STAT_LOCATION, gStringVar4, 8);
+    SaveStatToString(SAVE_STAT_LOCATION, gStringVar4, TEXT_COLOR_BLUE);
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 2, x, 0, sTextColor_LocationHeader, -1, gStringVar4);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 2, x, y, sTextColor_LocationHeader, TEXT_SPEED_FF, gStringVar4);
+    y += 14;
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gSaveStatName_Player);
-    SaveStatToString(SAVE_STAT_NAME, gStringVar4, 2);
-    Menu_PrintFormatIntlPlayerName(sSaveStatsWindowId, gStringVar4, 60, 14);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gSaveStatName_Badges);
-    SaveStatToString(SAVE_STAT_BADGES, gStringVar4, 2);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 28, sTextColor_StatValue, -1, gStringVar4);
-    y = 42;
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, TEXT_SPEED_FF, gSaveStatName_Player);
+    SaveStatToString(SAVE_STAT_NAME, gStringVar4, TEXT_COLOR_DARK_GREY);
+    Menu_PrintFormatIntlPlayerName(sSaveStatsWindowId, gStringVar4, 60, y);
+    y += 14;
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, TEXT_SPEED_FF, gSaveStatName_Badges);
+    SaveStatToString(SAVE_STAT_BADGES, gStringVar4, TEXT_COLOR_DARK_GREY);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, TEXT_SPEED_FF, gStringVar4);
+    y += 14;
     if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
     {
-        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 42, sTextColor_StatName, -1, gSaveStatName_Pokedex);
-        SaveStatToString(SAVE_STAT_POKEDEX, gStringVar4, 2);
-        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 42, sTextColor_StatValue, -1, gStringVar4);
-        y = 56;
+        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, TEXT_SPEED_FF, gSaveStatName_Pokedex);
+        SaveStatToString(SAVE_STAT_POKEDEX, gStringVar4, TEXT_COLOR_DARK_GREY);
+        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, TEXT_SPEED_FF, gStringVar4);
+        y += 14;
     }
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gSaveStatName_Time);
-    SaveStatToString(SAVE_STAT_TIME, gStringVar4, 2);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, -1, gStringVar4);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, TEXT_SPEED_FF, gSaveStatName_Time);
+    SaveStatToString(SAVE_STAT_TIME, gStringVar4, TEXT_COLOR_DARK_GREY);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, TEXT_SPEED_FF, gStringVar4);
     CopyWindowToVram(sSaveStatsWindowId, COPYWIN_GFX);
 }
 

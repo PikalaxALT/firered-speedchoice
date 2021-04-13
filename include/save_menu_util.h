@@ -11,6 +11,6 @@ enum SaveStat
     SAVE_STAT_TIME_HR_RT_ALIGN
 };
 
-void SaveStatToString(u8 a0, u8 *a1, u8 a2);
+void SaveStatToString(u8 gameStatId, u8 *dest0, u8 color);
 
 #endif //GUARD_SAVE_MENU_UTIL_H

@@ -199,7 +199,7 @@ s32 BuildPokedexAreaSubspriteBuffer(u16 species, struct Subsprite * subsprites)
         if (PokemonInAnyEncounterTableInMap(&gWildMonHeaders[i], species))
         {
             dexAreaEntryLUTidx = 0;
-            while (TryGetMapSecPokedexAreaEntry(mapSecId, sDexAreas_Kanto, 55, &dexAreaEntryLUTidx, &dexAreaSubspriteIdx))
+            while (TryGetMapSecPokedexAreaEntry(mapSecId, sDexAreas_Kanto, NELEMS(sDexAreas_Kanto), &dexAreaEntryLUTidx, &dexAreaSubspriteIdx))
             {
                 if (dexAreaSubspriteIdx != 0)
                 {
