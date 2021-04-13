@@ -112,6 +112,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Removed inaccessible encounter slots on Route 21 South
 - Add encounter slots to penultimate floor of Mt Ember Ruby Path
 
+### 1.0.0rc2
+- Fix bug with Card Key unconditionally not working
+
 ## See also
 
 Other disassembly and/or decompilation projects:

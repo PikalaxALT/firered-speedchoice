@@ -508,7 +508,8 @@ SilphCo_11F_EventScript_Door:: @ 81A8B09
 
 EventScript_TryUnlockDoor:: @ 81A8B23
 	checkitem ITEM_CARD_KEY, 1
-	goto_if TRUE, EventScript_OpenDoor
+	compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_OpenDoor
     goto EventScript_NeedCardKey
     end
 
