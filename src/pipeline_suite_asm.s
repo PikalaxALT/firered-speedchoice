@@ -2,7 +2,7 @@
 	.include "constants/constants.inc"
 	.text
 	.syntax unified
-	.align 2, 0
+
 	arm_func_start NESPipelineTest_Internal
 NESPipelineTest_Internal:
 	mov	r1, lr
@@ -30,9 +30,9 @@ TimerPrescalerTest:
 	mov r5, #0
 	str r5, [r4] @ Reset
 	str r1, [r4] @ Start
-_08009274:
+_TimerPrescaler_loop:
 	subs r2, r2, #1
-	bne _08009274
+	bne _TimerPrescaler_loop
 	mov r0, r0
 	mov r0, r0
 	ldrh r0, [r4]
@@ -49,7 +49,7 @@ PrefetchBufferResult:
 	ldr	r4, =REG_TM0CNT
 	movs	r5, #0
 	str	r5, [r4]
-	ldr	r6, =(TIMER_1CLK | TIMER_ENABLE) << 8
+	ldr	r6, =(TIMER_1CLK | TIMER_ENABLE) << 16
 	str	r6, [r4]
 	ldr	r2, [r4]
 	ldr	r2, [r4]
