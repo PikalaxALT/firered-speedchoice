@@ -66,7 +66,8 @@ static const union AnimCmd *const sSmokeAnimTable[] = {
 
 static const struct OamData sSmokeOamData = {
     .shape = ST_OAM_SQUARE,
-    .size = 1
+    .size = 1,
+    .paletteNum = 10
 };
 
 static const struct SpriteTemplate sSmokeSpriteTemplate = {
@@ -177,18 +178,13 @@ static void CreateSmokeSprite(void)
 {
     u8 objectEventId;
     struct ObjectEvent * boatObject;
-    u16 x;
-    u8 spriteId;
+    s16 x;
 
     TryGetObjectEventIdByLocalIdAndMap(1, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
     boatObject = &gObjectEvents[objectEventId];
     x = gSprites[boatObject->spriteId].pos1.x + gSprites[boatObject->spriteId].pos2.x + 49;
-    if ((s16)x >= -32)
-    {
-        spriteId = CreateSprite(&sSmokeSpriteTemplate, x, 78, 8);
-        if (spriteId != MAX_SPRITES)
-            gSprites[spriteId].oam.paletteNum = 10;
-    }
+    if (x <= 240)
+        CreateSprite(&sSmokeSpriteTemplate, x, 78, 8);
 }
 
 static void SmokeSpriteCallback(struct Sprite * sprite)
