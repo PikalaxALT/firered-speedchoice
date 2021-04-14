@@ -459,6 +459,14 @@ bool8 ScrCmd_random(struct ScriptContext * ctx)
     return FALSE;
 }
 
+bool8 ScrCmd_seededrandom(struct ScriptContext * ctx)
+{
+    u16 max = VarGet(ScriptReadHalfword(ctx));
+
+    gSpecialVar_Result = (LC_RNG(CalculateCheckValue()) >> 16) % max;
+    return FALSE;
+}
+
 bool8 ScrCmd_additem(struct ScriptContext * ctx)
 {
     u16 itemId = VarGet(ScriptReadHalfword(ctx));

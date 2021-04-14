@@ -24,7 +24,7 @@ VermilionCity_PokemonFanClub_EventScript_AlreadyHeardStory:: @ 816B4A7
 	end
 
 VermilionCity_PokemonFanClub_EventScript_ChairmanStory:: @ 816B4B1
-	random 5
+	seededrandom 5
 	switch VAR_RESULT
 	case 0, VermilionCity_PokemonFanClub_EventScript_ChairmansStory_Vanilla
 	case 1, VermilionCity_PokemonFanClub_EventScript_ChairmansStory_Wigglywoo

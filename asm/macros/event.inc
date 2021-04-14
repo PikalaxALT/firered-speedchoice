@@ -1451,6 +1451,10 @@
 	.byte (\category << 3) | (\value)
 	.endm
 
+	.macro seededrandom max:req
+	.byte 0xd6
+	.2byte \max
+	.endm
 
 @ Supplementary
 
