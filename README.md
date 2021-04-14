@@ -117,6 +117,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 
 ### 1.0.0rc3
 - Implement "use another repel"
+- Random stories from the Vermilion Fan Club Chairman
 
 ## See also
 
