@@ -20,8 +20,7 @@ _DoTest_Arm_loop:
 	bcc	_DoTest_Arm_loop
 	adds	r0, r7, #0
 	adds	r0, r0, #0xC
-	mov	r2, sp
-	bl	_call_via_r2
+	bl	_call_via_sp
 	movs	r1, #1
 	cmp	r0, r4
 	beq	_DoTest_Arm_okay
