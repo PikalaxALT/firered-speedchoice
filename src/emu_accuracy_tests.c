@@ -1,10 +1,10 @@
-#include <stdarg.h>
 #include "global.h"
 #include "emu_accuracy_tests.h"
 #include "flash_missing_screen.h"
 #include "string_util.h"
 #include "text.h"
-#include "malloc.h"
+
+#define DoTest DoTest_Arm
 
 extern const char NESPipelineTest_Internal[];
 extern const char NESPipelineTest_Internal_End[];
@@ -13,24 +13,7 @@ extern const char TimerPrescalerTest_End[];
 
 extern u32 PrefetchBufferResult(void);
 
-bool32 DoTest(const char * start, const char * end, u32 expectedValue, ...)
-{
-    u32 * d;
-    const u32 * s;
-    size_t actualSize = end - start;
-    char buffer[actualSize];
-    va_list va_args;
-    u32 resp;
-    va_start(va_args, expectedValue);
-
-    d = (u32 *)buffer;
-    s = (const u32 *)start;
-    while (s < (const u32 *)end)
-        *d++ = *s++;
-
-    resp = ((u32 (*)(va_list))(buffer))(va_args);
-    return resp == expectedValue;
-}
+extern bool32 DoTest(const char * start, const char * end, u32 expectedValue, ...);
 
 bool32 NESPipelineTest(void)
 {
@@ -115,14 +98,6 @@ static const struct TestSpec {
     {TRUE, sText_TimerPrescaler, TimingTest},
     {FALSE, sText_PrefetchTimer, DoPrefetchBufferTest},
 };
-
-static void WaitForVBlank(void)
-{
-    gMain.intrCheck &= ~INTR_FLAG_VBLANK;
-
-    while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
-        ;
-}
 
 void RunEmulationAccuracyTests(void)
 {

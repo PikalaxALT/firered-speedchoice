@@ -3,6 +3,38 @@
 	.text
 	.syntax unified
 
+	thumb_func_start DoTest_Arm
+DoTest_Arm:
+	push	{r3}
+	push	{r4, r7, lr}
+	mov	r7, sp
+	adds	r4, r2, #0
+	subs	r3, r1, r0
+	mov	r2, sp
+	subs	r2, r2, r3
+	mov	sp, r2
+_DoTest_Arm_loop:
+	ldmia	r0!, {r3}
+	stmia	r2!, {r3}
+	cmp	r0, r1
+	bcc	_DoTest_Arm_loop
+	adds	r0, r7, #0
+	adds	r0, r0, #0xC
+	mov	r2, sp
+	bl	_call_via_r2
+	movs	r1, #1
+	cmp	r0, r4
+	beq	_DoTest_Arm_okay
+	movs	r1, #0
+_DoTest_Arm_okay:
+	adds	r0, r1, #0
+	mov	sp, r7
+	pop	{r4, r7}
+	pop	{r3}
+	add	sp, sp, #0x4
+	bx	r3
+	thumb_func_end DoTest_Arm
+
 	arm_func_start NESPipelineTest_Internal
 NESPipelineTest_Internal:
 	mov	r1, lr
