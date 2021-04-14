@@ -61,7 +61,7 @@ static void Task_InitBerryPouchFromField(u8 taskId);
 static void InitBerryPouchFromBattle(void);
 static void InitTeachyTvFromBag(void);
 static void Task_InitTeachyTvFromField(u8 taskId);
-static void sub_80A19E8(u8 taskId);
+static void Task_WaitSfxAndSetRepelEffect(u8 taskId);
 static void RemoveUsedItem(void);
 static void sub_80A1B48(u8 taskId);
 static void sub_80A1CAC(void);
@@ -567,27 +567,44 @@ static void Task_InitTeachyTvFromField(u8 taskId)
     }
 }
 
+// Speedchoice change: Use next repel when asked.
 void FieldUseFunc_SuperRepel(u8 taskId)
 {
     if (VarGet(VAR_REPEL_STEP_COUNT) == 0)
     {
         PlaySE(SE_REPEL);
-        gTasks[taskId].func = sub_80A19E8;
+        gTasks[taskId].func = Task_WaitSfxAndSetRepelEffect;
+        gTasks[taskId].data[15] = 0;
     }
     else
         // An earlier repel is still in effect
         DisplayItemMessageInBag(taskId, 2, gUnknown_841659E, Task_ReturnToBagFromContextMenu);
 }
 
-static void sub_80A19E8(u8 taskId)
+static void Task_WaitSfxAndSetRepelEffect(u8 taskId)
 {
     if (!IsSEPlaying())
     {
         ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, NULL, gSpecialVar_ItemId, 0xFFFF);
         VarSet(VAR_REPEL_STEP_COUNT, ItemId_GetHoldEffectParam(gSpecialVar_ItemId));
+        VarSet(VAR_LAST_USED_REPEL, gSpecialVar_ItemId);
         RemoveUsedItem();
+        if (gTasks[taskId].data[15] == 1)
+        {
+            DestroyTask(taskId);
+            EnableBothScriptContexts();
+            return;
+        }
         DisplayItemMessageInBag(taskId, 2, gStringVar4, Task_ReturnToBagFromContextMenu);
     }
+}
+
+void Special_UseLastRepelInField(void)
+{
+    u8 taskId = CreateTask(Task_WaitSfxAndSetRepelEffect, 0);
+    gTasks[taskId].data[15] = 1;
+    gSpecialVar_ItemId = VarGet(VAR_LAST_USED_REPEL);
+    PlaySE(SE_REPEL);
 }
 
 static void RemoveUsedItem(void)

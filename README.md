@@ -115,6 +115,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0rc2
 - Fix bug with Card Key unconditionally not working
 
+### 1.0.0rc3
+- Implement "use another repel"
+
 ## See also
 
 Other disassembly and/or decompilation projects:

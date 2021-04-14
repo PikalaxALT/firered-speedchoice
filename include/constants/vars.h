@@ -90,7 +90,7 @@
 #define VAR_0x402D                         0x402D // Unused
 #define VAR_0x402E                         0x402E // Unused
 
-#define VAR_0x402F                         0x402F // Unused
+#define VAR_LAST_USED_REPEL                0x402F // Unused
 
 #define VAR_ICE_STEP_COUNT                 0x4030
 #define VAR_STARTER_MON                    0x4031 // 0: Bulbasaur, 1: Squirtle, 2: Charmander
