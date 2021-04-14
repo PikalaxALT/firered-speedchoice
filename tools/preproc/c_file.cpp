@@ -21,6 +21,8 @@
 #include <cstdio>
 #include <cstdarg>
 #include <stdexcept>
+#include <sstream>
+#include <iostream>
 #include <string>
 #include <memory>
 #include "preproc.h"
@@ -337,30 +339,46 @@ void CFile::TryConvertIncbin()
 
         m_pos++;
 
-        int startPos = m_pos;
-
-        while (m_buffer[m_pos] != '"')
+        std::stringstream path_s;
+        do
         {
-            if (m_buffer[m_pos] == 0)
+            int startPos = m_pos;
+            while (m_buffer[m_pos] != '"')
             {
-                if (m_pos >= m_size)
-                    RaiseError("unexpected EOF in path string");
-                else
-                    RaiseError("unexpected null character in path string");
+                if (m_buffer[m_pos] == 0)
+                {
+                    if (m_pos >= m_size)
+                    {
+                        RaiseError("unexpected EOF in path string");
+                    }
+                    else
+                    {
+                        RaiseError("unexpected null character in path string");
+                    }
+                }
+
+                if (m_buffer[m_pos] == '\r' || m_buffer[m_pos] == '\n')
+                {
+                    RaiseError("unexpected end of line character in path string");
+                }
+
+                if (m_buffer[m_pos] == '\\')
+                {
+                    RaiseError("unexpected escape in path string");
+                }
+
+                m_pos++;
             }
-
-            if (m_buffer[m_pos] == '\r' || m_buffer[m_pos] == '\n')
-                RaiseError("unexpected end of line character in path string");
-
-            if (m_buffer[m_pos] == '\\')
-                RaiseError("unexpected escape in path string");
-            
+            path_s << std::string(&m_buffer[startPos], m_pos - startPos);
             m_pos++;
-        }
+            SkipWhitespace();
+            if (m_buffer[m_pos] != '"')
+                break;
+            m_pos++;
+        } while (1);
 
-        std::string path(&m_buffer[startPos], m_pos - startPos);
+        std::string path = path_s.str();
 
-        m_pos++;
 
         int fileSize;
         std::unique_ptr<unsigned char[]> buffer = ReadWholeFile(path, fileSize);
