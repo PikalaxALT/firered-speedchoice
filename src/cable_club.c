@@ -219,7 +219,7 @@ static void Task_Linkup1(u8 taskId)
 
 static void Task_LinkupMaster_2(u8 taskId)
 {
-    if (sub_80808F0(taskId) != TRUE && sub_8080990(taskId) != TRUE && sub_80808BC(taskId) != TRUE && !textbox_any_visible())
+    if (sub_80808F0(taskId) != TRUE && sub_8080990(taskId) != TRUE && sub_80808BC(taskId) != TRUE && !GetFieldMessageBoxType())
     {
         gTasks[taskId].data[3] = 0;
         gTasks[taskId].func = Task_LinkupMaster_3;
@@ -246,7 +246,7 @@ static void Task_LinkupMaster_3(u8 taskId)
 
 static void Task_LinkupMaster_4(u8 taskId)
 {
-    if (sub_80808F0(taskId) != TRUE && sub_8080990(taskId) != TRUE && sub_80808BC(taskId) != TRUE && !textbox_any_visible())
+    if (sub_80808F0(taskId) != TRUE && sub_8080990(taskId) != TRUE && sub_80808BC(taskId) != TRUE && !GetFieldMessageBoxType())
     {
         if (GetSavedPlayerCount() != GetLinkPlayerCount_2())
         {
@@ -302,13 +302,13 @@ static void Task_LinkupSlave_2(u8 taskId)
             if (*res == 3 || *res == 4)
             {
                 SetCloseLinkCallback();
-                HideFieldMessageBox();
+                CloseFieldMessageBox();
                 gTasks[taskId].func = Task_Linkup_7;
             }
             else if (*res == 7 || *res == 9)
             {
                 CloseLink();
-                HideFieldMessageBox();
+                CloseFieldMessageBox();
                 gTasks[taskId].func = Task_Linkup_7;
             }
             else
@@ -347,19 +347,19 @@ static void Task_LinkupMaster_6(u8 taskId)
                 CloseLink();
             else
                 SetCloseLinkCallback();
-            HideFieldMessageBox();
+            CloseFieldMessageBox();
             gTasks[taskId].func = Task_Linkup_7;
         }
         else if (gSpecialVar_Result == 3)
         {
             SetCloseLinkCallback();
-            HideFieldMessageBox();
+            CloseFieldMessageBox();
             gTasks[taskId].func = Task_Linkup_7;
         }
         else if (gSpecialVar_Result == 7 || gSpecialVar_Result == 9)
         {
             CloseLink();
-            HideFieldMessageBox();
+            CloseFieldMessageBox();
             gTasks[taskId].func = Task_Linkup_7;
         }
         else
@@ -398,7 +398,7 @@ static void Task_Linkup_6a(u8 taskId)
         }
         SetSuppressLinkErrorMessage(FALSE);
         ResetBlockReceivedFlags();
-        HideFieldMessageBox();
+        CloseFieldMessageBox();
         if (gSpecialVar_Result == 1)
         {
             // Dumb trick required to match
@@ -431,7 +431,7 @@ static void Task_Linkup_Canceled(u8 taskId)
 {
     gSpecialVar_Result = 5;
     DestroyLinkPlayerCountDisplayWindow(gTasks[taskId].data[5]);
-    HideFieldMessageBox();
+    CloseFieldMessageBox();
     EnableBothScriptContexts();
     DestroyTask(taskId);
 }
@@ -440,7 +440,7 @@ static void Task_Linkup_ErroredOut(u8 taskId)
 {
     gSpecialVar_Result = 6;
     DestroyLinkPlayerCountDisplayWindow(gTasks[taskId].data[5]);
-    HideFieldMessageBox();
+    CloseFieldMessageBox();
     EnableBothScriptContexts();
     DestroyTask(taskId);
 }
@@ -780,7 +780,7 @@ static void Task_EnterCableClubSeat(u8 taskId)
         task->data[0] = 1;
         break;
     case 1:
-        if (IsFieldMessageBoxHidden())
+        if (WaitFieldMessageBox())
         {
             sub_8057F34();
             SetLocalLinkPlayerId(gSpecialVar_0x8005);
@@ -793,7 +793,7 @@ static void Task_EnterCableClubSeat(u8 taskId)
         case 0:
             break;
         case 1:
-            HideFieldMessageBox();
+            CloseFieldMessageBox();
             task->data[0] = 0;
             sub_8057F70();
             SwitchTaskToFollowupFunc(taskId);

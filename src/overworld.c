@@ -1351,7 +1351,7 @@ static void InitOverworldBgs(void)
     SetBgTilemapBuffer(3, gBGTilemapBuffers3);
     InitStandardTextBoxWindows();
     ResetBg0();
-    sub_8069348();
+    InitFieldMessageBoxState();
 }
 
 static void InitOverworldBgs_NoResetHeap(void)
@@ -1369,7 +1369,7 @@ static void InitOverworldBgs_NoResetHeap(void)
     SetBgTilemapBuffer(3, gBGTilemapBuffers3);
     InitStandardTextBoxWindows();
     ResetBg0();
-    sub_8069348();
+    InitFieldMessageBoxState();
 }
 
 void CleanupOverworldWindowsAndTilemaps(void)

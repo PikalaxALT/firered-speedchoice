@@ -1242,7 +1242,7 @@ bool8 ScrCmd_releaseall(struct ScriptContext * ctx)
 {
     u8 playerObjectId;
 
-    HideFieldMessageBox();
+    CloseFieldMessageBox();
     playerObjectId = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
     ObjectEventClearHeldMovementIfFinished(&gObjectEvents[playerObjectId]);
     ScriptMovement_UnfreezeObjectEvents();
@@ -1254,7 +1254,7 @@ bool8 ScrCmd_release(struct ScriptContext * ctx)
 {
     u8 playerObjectId;
 
-    HideFieldMessageBox();
+    CloseFieldMessageBox();
     if (gObjectEvents[gSelectedObjectEvent].active)
         ObjectEventClearHeldMovementIfFinished(&gObjectEvents[gSelectedObjectEvent]);
     playerObjectId = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
@@ -1310,13 +1310,13 @@ bool8 ScrCmd_messageautoscroll(struct ScriptContext * ctx)
 
 bool8 ScrCmd_waitmessage(struct ScriptContext * ctx)
 {
-    SetupNativeScript(ctx, IsFieldMessageBoxHidden);
+    SetupNativeScript(ctx, WaitFieldMessageBox);
     return TRUE;
 }
 
 bool8 ScrCmd_closemessage(struct ScriptContext * ctx)
 {
-    HideFieldMessageBox();
+    CloseFieldMessageBox();
     return FALSE;
 }
 

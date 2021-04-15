@@ -62,14 +62,14 @@ static void Task_TryFieldPoisonWhiteOut(u8 taskId)
             {
                 FaintFromFieldPoison(tPartyId);
                 ShowFieldMessage(gText_PkmnFainted3);
-                data[0]++;
+                tState++;
                 return;
             }
         }
         tState = 2;
         break;
     case 1:
-        if (IsFieldMessageBoxHidden())
+        if (WaitFieldMessageBox())
             tState--;
         break;
     case 2:
