@@ -489,254 +489,254 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         // PRESET OPTION
         // ----------------------------------
         [PRESET] = {
-            /* Option Count   */ 4,
-            /* Option Type    */ ARROW,
-            /* Option Preset  */ gSpeedchoiceOptionPreset,
-            /* Option Text    */ Arrows,
-            /* Option Tooltip */ gSpeedchoiceTooltipPreset,
-            /* Option Usable  */ TRUE
+            .optionCount = 4,
+            .optionType = ARROW,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionPreset,
+            .options = Arrows,
+            .tooltip = gSpeedchoiceTooltipPreset,
         },
         // ----------------------------------
         // PLAYER NAME
         // ----------------------------------
         [PLAYER_NAME_SET] = {
-            /* Option Count   */ 1,
-            /* Option Type    */ PLAYER_NAME,
-            /* Option Preset  */ gSpeedchoiceOptionName,
-            /* Option Text    */ OptionChoiceConfigPlayerName,
-            /* Option Tooltip */ gSpeedchoiceTooltipName,
-            /* Option Usable  */ TRUE
+            .optionCount = 1,
+            .optionType = PLAYER_NAME,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionName,
+            .options = OptionChoiceConfigPlayerName,
+            .tooltip = gSpeedchoiceTooltipName,
         },
         // ----------------------------------
         // EXP OPTION
         // ----------------------------------
         [EXPMATH] = {
-            /* Option Count   */ 3,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionEXP,
-            /* Option Text    */ OptionChoiceConfigKeepNone,
-            /* Option Tooltip */ gSpeedchoiceTooltipEXP,
-            /* Option Usable  */ TRUE
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionEXP,
+            .options = OptionChoiceConfigKeepNone,
+            .tooltip = gSpeedchoiceTooltipEXP,
         },
         // ----------------------------------
         // PLOTLESS OPTION
         // ----------------------------------
         [PLOTLESS] = {
-            /* Option Count   */ 3,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionPlotless,
-            /* Option Text    */ OptionChoiceConfigSemiFull,
-            /* Option Tooltip */ gSpeedchoiceTooltipPlotless,
-            /* Option Usable  */ TRUE
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionPlotless,
+            .options = OptionChoiceConfigSemiFull,
+            .tooltip = gSpeedchoiceTooltipPlotless,
         },
         // ----------------------------------
         // INSTANT TEXT OPTION
         // ----------------------------------
         [INSTANTTEXT] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionInstantText,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipInstantText,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionInstantText,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipInstantText,
         },
         // ----------------------------------
         // SPINNERS OPTION
         // ----------------------------------
         [SPINNERS] = {
-            /* Option Count   */ 4,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionSpinners,
-            /* Option Text    */ OptionChoiceConfigNerfKeep,
-            /* Option Tooltip */ gSpeedchoiceTooltipSpinners,
-            /* Option Usable  */ TRUE
+            .optionCount = 4,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionSpinners,
+            .options = OptionChoiceConfigNerfKeep,
+            .tooltip = gSpeedchoiceTooltipSpinners,
         },
         // ----------------------------------
         // EARLY SURF OPTION
         // ----------------------------------
         [EARLYSURF] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionEarlySurf,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipEarlySurf,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionEarlySurf,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipEarlySurf,
         },
         // ----------------------------------
         // MAX VISION OPTION
         // ----------------------------------
         [MAXVISION] = {
-            /* Option Count   */ 3,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionMaxVision,
-            /* Option Text    */ OptionChoiceConfigSaneHell,
-            /* Option Tooltip */ gSpeedchoiceTooltipMaxVision,
-            /* Option Usable  */ TRUE
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionMaxVision,
+            .options = OptionChoiceConfigSaneHell,
+            .tooltip = gSpeedchoiceTooltipMaxVision,
         },
         // ----------------------------------
         // NEW WILD ENC OPTION
         // ----------------------------------
         [NEWWILDENC] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionNewWildEnc,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipNewWildEnc,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionNewWildEnc,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipNewWildEnc,
         },
         // ----------------------------------
         // RUN EVERYWHERE OPTION
         // ----------------------------------
         [RUN_EVERYWHERE] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionRunEverywhere,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipRunEverywhere,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionRunEverywhere,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipRunEverywhere,
         },
         // ----------------------------------
         // BETTER MARTS OPTION
         // ----------------------------------
         [BETTER_MARTS] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionBetterMarts,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipBetterMarts,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionBetterMarts,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipBetterMarts,
         },
         // ----------------------------------
         // GOOD EARLY WILDS OPTION
         // ----------------------------------
         [GOOD_EARLY_WILDS] = {
-            /* Option Count   */ 3,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionGoodEarlyWilds,
-            /* Option Text    */ OptionChoiceConfigOffRand,
-            /* Option Tooltip */ gSpeedchoiceTooltipGoodEarlyWilds,
-            /* Option Usable  */ TRUE
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionGoodEarlyWilds,
+            .options = OptionChoiceConfigOffRand,
+            .tooltip = gSpeedchoiceTooltipGoodEarlyWilds,
         },
         // ----------------------------------
         // PARTY MENU OPTION
         // ----------------------------------
         [NICE_MENU_ORDER] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionNiceMenuOrder,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipNiceMenuOrder,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionNiceMenuOrder,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipNiceMenuOrder,
         },
         // ----------------------------------
         // EASY FALSE SWIPE OPTION
         // ----------------------------------
         [EASY_FALSE_SWIPE] = {
-            /* Option Count   */ 3,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionEasyFalseSwipe,
-            /* Option Text    */ OptionChoiceConfigOffTutorHM,
-            /* Option Tooltip */ gSpeedchoiceTooltipEasyFalseSwipe,
-            /* Option Usable  */ TRUE
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionEasyFalseSwipe,
+            .options = OptionChoiceConfigOffTutorHM,
+            .tooltip = gSpeedchoiceTooltipEasyFalseSwipe,
         },
         // ----------------------------------
         // EASY FALSE SWIPE OPTION
         // ----------------------------------
         [EASY_DEX_REWARDS] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchocieOptionEasyDexRewards,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipEasyDexRewards,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchocieOptionEasyDexRewards,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipEasyDexRewards,
         },
         // ----------------------------------
         // FAST CATCH OPTION
         // ----------------------------------
         [FAST_CATCH] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionFastCatch,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipFastCatch,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionFastCatch,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipFastCatch,
         },
         // ----------------------------------
         // EARLY BIKE OPTION
         // ----------------------------------
         [EARLY_BIKE] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionEarlyBike,
-            /* Option Text    */ OptionChoiceConfigYesNo,
-            /* Option Tooltip */ gSpeedchoiceTooltipEarlyBike,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionEarlyBike,
+            .options = OptionChoiceConfigYesNo,
+            .tooltip = gSpeedchoiceTooltipEarlyBike,
         },
         // ----------------------------------
         // FAST EGG HATCHING OPTION
         // ----------------------------------
         [FAST_EGG_HATCH] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionFastEggHatch,
-            /* Option Text    */ OptionChoiceConfigYesNo,
-            /* Option Tooltip */ gSpeedchoiceTooltipFastEggHatch,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionFastEggHatch,
+            .options = OptionChoiceConfigYesNo,
+            .tooltip = gSpeedchoiceTooltipFastEggHatch,
         },
         // ----------------------------------
         // GEN 7 X ITEMS OPTION
         // ----------------------------------
         [GEN_7_X_ITEMS] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionGen7XItems,
-            /* Option Text    */ OptionChoiceConfigOnOff,
-            /* Option Tooltip */ gSpeedchoiceTooltipGen7XItems,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionGen7XItems,
+            .options = OptionChoiceConfigOnOff,
+            .tooltip = gSpeedchoiceTooltipGen7XItems,
         },
         // ----------------------------------
         // EVO EVERY LEVEL OPTION
         // ----------------------------------
         [EVO_EVERY_LEVEL] = {
-            /* Option Count   */ 3,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionEvoEveryLv,
-            /* Option Text    */ OptionChoiceConfigOffRand,
-            /* Option Tooltip */ gSpeedchoiceTooltipEvoEveryLv,
-            /* Option Usable  */ TRUE
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionEvoEveryLv,
+            .options = OptionChoiceConfigOffRand,
+            .tooltip = gSpeedchoiceTooltipEvoEveryLv,
         },
         // ----------------------------------
         // HM BADGE CHECKS OPTION
         // ----------------------------------
         [HM_BADGE_CHECKS] = {
-            /* Option Count   */ 2,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionHmBadgeChk,
-            /* Option Text    */ OptionChoiceConfigNerfKeep,
-            /* Option Tooltip */ gSpeedchoiceTooltipHmBadgeChk,
-            /* Option Usable  */ TRUE
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionHmBadgeChk,
+            .options = OptionChoiceConfigNerfKeep,
+            .tooltip = gSpeedchoiceTooltipHmBadgeChk,
         },
         // ----------------------------------
         // EASY SURGE CANS OPTION
         // ----------------------------------
         [EASY_SURGE_CANS] = {
-            /* Option Count   */ 4,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionEasySurgeCans,
-            /* Option Text    */ OptionChoiceConfigNerfKeep,
-            /* Option Tooltip */ gSpeedchoiceTooltipEasySurgeCans,
-            /* Option Usable  */ TRUE
+            .optionCount = 4,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionEasySurgeCans,
+            .options = OptionChoiceConfigNerfKeep,
+            .tooltip = gSpeedchoiceTooltipEasySurgeCans,
         },
         // ----------------------------------
         // PAGE STATIC OPTION
         // ----------------------------------
         [PAGE] = {
-            /* Option Count   */ MAX_PAGES,
-            /* Option Type    */ NORMAL,
-            /* Option Preset  */ gSpeedchoiceOptionPage,
-            /* Option Text    */ OptionChoiceConfigPage,
-            /* Option Tooltip */ NULL,
-            /* Option Usable  */ TRUE
+            .optionCount = MAX_PAGES,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionPage,
+            .options = OptionChoiceConfigPage,
+            .tooltip = NULL,
         }
     };
 

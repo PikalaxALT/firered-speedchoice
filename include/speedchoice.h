@@ -72,6 +72,9 @@ struct SpeedchoiceOption
     // see option type enumeration above.
     u8 optionType;
 
+    // Determines if the option is enabled or not. This was used during Speedchoice development.
+    bool8 enabled;
+
     // Pointer to the name of the option.
     const u8 *string;
 
@@ -81,9 +84,6 @@ struct SpeedchoiceOption
 
     // Pointer to Tooltip string. Printed when SELECT is pressed on the option.
     const u8 *tooltip;
-
-    // Determines if the option is enabled or not. This was used during Speedchoice development.
-    bool8 enabled;
 };
 
 /*
