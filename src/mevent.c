@@ -605,7 +605,7 @@ bool32 ValidateReceivedWonderCard(void)
         return FALSE;
     if (!IsReceivedWonderCardHeaderValid(&gSaveBlock1Ptr->mysteryEventBuffers.mecard.data))
         return FALSE;
-    if (!ValidateRamScript())
+    if (!MEventValidateRamScript())
         return FALSE;
     return TRUE;
 }

@@ -71,7 +71,7 @@
 	.endm
 
 	@ Executes a script stored in a default RAM location.
-	.macro gotoram
+	.macro returnfromram
 	.byte 0x0c
 	.endm
 
@@ -1408,7 +1408,7 @@
 	.endm
 
 	@ Depending on factors I haven't managed to understand yet, this command may cause script execution to jump to the offset specified by the pointer at 0x020375C0.
-	.macro execram
+	.macro callram
 	.byte 0xcf
 	.endm
 

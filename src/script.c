@@ -483,7 +483,7 @@ bool8 InitRamScript(u8 *script, u16 scriptSize, u8 mapGroup, u8 mapNum, u8 objec
     return TRUE;
 }
 
-const u8 *GetRamScript(u8 objectId, const u8 *script)
+const u8 *GetNpcRamScript(u8 objectId, const u8 *script)
 {
     struct RamScriptData *scriptData = &gSaveBlock1Ptr->ramScript.data;
     gRAMScriptPtr = NULL;
@@ -507,7 +507,7 @@ const u8 *GetRamScript(u8 objectId, const u8 *script)
     }
 }
 
-bool32 ValidateRamScript(void)
+bool32 MEventValidateRamScript(void)
 {
     struct RamScriptData *scriptData = &gSaveBlock1Ptr->ramScript.data;
     if (scriptData->magic != RAM_SCRIPT_MAGIC)
@@ -523,7 +523,7 @@ bool32 ValidateRamScript(void)
     return TRUE;
 }
 
-u8 *sub_8069E48(void)
+u8 *MEventGetRamScript(void)
 {
     struct RamScriptData *scriptData = &gSaveBlock1Ptr->ramScript.data;
     if (!ValidateReceivedWonderCard())

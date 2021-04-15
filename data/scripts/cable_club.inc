@@ -16,10 +16,7 @@ EventScript_HideMysteryGiftMan:: @ 81BB1CE
 CableClub_EventScript_MysteryGiftMan:: @ 81BB1D2
 	goto_if_questlog EventScript_ReleaseEnd
 	special QuestLog_CutRecording
-	execram
-
-@ Unused
-EventScript_MysteryGiftThankYou:: @ 81BB1E4
+	callram
 	msgbox Text_ThankYouForAccessingMysteryGift, MSGBOX_NPC
 	end
 

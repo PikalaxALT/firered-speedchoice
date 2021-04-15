@@ -13,7 +13,7 @@ gScriptCmdTable:: @ 815F9B4
 	.4byte ScrCmd_callstd
 	.4byte ScrCmd_gotostd_if
 	.4byte ScrCmd_callstd_if
-	.4byte ScrCmd_gotoram
+	.4byte ScrCmd_returnfromram
 	.4byte ScrCmd_killscript
 	.4byte ScrCmd_setmysteryeventstatus
 	.4byte ScrCmd_loadword
@@ -208,7 +208,7 @@ gScriptCmdTable:: @ 815F9B4
 	.4byte ScrCmd_comparestattoword
 	.4byte ScrCmd_setmoneventlegal
 	.4byte ScrCmd_checkmoneventlegal
-	.4byte ScrCmd_execram
+	.4byte ScrCmd_callram
 	.4byte ScrCmd_setworldmapflag
 	.4byte ScrCmd_warpteleport2
 	.4byte ScrCmd_setmonmetlocation

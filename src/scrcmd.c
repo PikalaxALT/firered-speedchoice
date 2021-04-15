@@ -251,7 +251,7 @@ bool8 ScrCmd_callstd_if(struct ScriptContext * ctx)
     return FALSE;
 }
 
-bool8 ScrCmd_gotoram(struct ScriptContext * ctx)
+bool8 ScrCmd_returnfromram(struct ScriptContext * ctx)
 {
     ScriptJump(ctx, gRAMScriptPtr);
     return FALSE;
@@ -270,9 +270,9 @@ bool8 ScrCmd_setmysteryeventstatus(struct ScriptContext * ctx)
     return FALSE;
 }
 
-bool8 ScrCmd_execram(struct ScriptContext * ctx)
+bool8 ScrCmd_callram(struct ScriptContext * ctx)
 {
-    const u8 * script = sub_8069E48();
+    const u8 * script = MEventGetRamScript();
     if (script != NULL)
     {
         gRAMScriptPtr = ctx->scriptPtr;
@@ -777,7 +777,7 @@ bool8 ScrCmd_warphole(struct ScriptContext * ctx)
     u16 x;
     u16 y;
 
-    PlayerGetDestCoords(&x, &y);
+    PlayerGetDestCoords((s16 *)&x, (s16 *)&y);
     if (mapGroup == 0xFF && mapNum == 0xFF)
         SetWarpDestinationToFixedHoleWarp(x - 7, y - 7);
     else

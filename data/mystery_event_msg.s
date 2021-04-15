@@ -39,7 +39,7 @@ sText_MysteryGiftStampCard: @ 8488E55
 MysteryEventScript_SurfPichu:: @ 8488EB5
 	setvaddress MysteryEventScript_SurfPichu
 	vgoto_if_unset FLAG_MYSTERY_EVENT_DONE, SurfPichu_GiveIfPossible
-	gotoram
+	returnfromram
 
 SurfPichu_GiveIfPossible: @ 8488EC4
 	specialvar VAR_EVENT_PICHU_SLOT, CalculatePlayerPartyCount
