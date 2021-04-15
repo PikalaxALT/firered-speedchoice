@@ -18,14 +18,8 @@
 #include "naming_screen.h"
 #include "random.h"
 #include "new_menu_helpers.h"
-#include "event_data.h"
-
-// A macro was defined here to simplify the row used in Palette calls, but I haven't
-// used this yet.
-#define PLTTROW(row) ((row) * (0x20))
 
 // We reuse the option menu and main menu palette data to simplfy things.
-extern u16 sOptionMenuText_Pal[16];
 extern u16 sOptionMenuPalette[1];
 extern u16 sMainMenuTextPal[16];
 
@@ -93,88 +87,102 @@ enum
     WIN_OPTIONS
 };
 
+enum
+{
+    SPC_COLOR_GREY,
+    SPC_COLOR_RED,
+    SPC_COLOR_BLUE,
+    SPC_COLOR_GREEN,
+};
+
+static const u8 sTextColors[][3] = {
+    { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
+    { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
+    { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE },
+    { TEXT_COLOR_WHITE, TEXT_COLOR_GREEN, TEXT_COLOR_LIGHT_GREEN },
+};
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (System Text)             */
 /* ----------------------------------------------- */
-const u8 gSystemText_TerminatorS[] = _("{COLOR RED}$");
+const u8 gSystemText_TerminatorS[] = _("$");
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Header Text)             */
 /* ----------------------------------------------- */
-const u8 gSpeedchoiceTextHeader[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SPEEDCHOICE MENU");
-const u8 gSpeedchoiceCurrentVersion[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}v" SPEEDCHOICE_VERSION);
+const u8 gSpeedchoiceTextHeader[] = _("SPEEDCHOICE MENU");
+const u8 gSpeedchoiceCurrentVersion[] = _("v" SPEEDCHOICE_VERSION);
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Option Choices)          */
 /* ----------------------------------------------- */
-const u8 gSpeedchoiceTextYes[]    = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}YES");
-const u8 gSpeedchoiceTextNo[]     = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NO");
+const u8 gSpeedchoiceTextYes[]    = _("YES");
+const u8 gSpeedchoiceTextNo[]     = _("NO");
 
-const u8 gSpeedchoiceTextOn[]     = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}ON");
-const u8 gSpeedchoiceTextOff[]    = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}OFF");
+const u8 gSpeedchoiceTextOn[]     = _("ON");
+const u8 gSpeedchoiceTextOff[]    = _("OFF");
 
-const u8 gSpeedchoiceTextNerf[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PURGE");
-const u8 gSpeedchoiceTextKeep[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}KEEP");
-const u8 gSpeedchoiceTextHell[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HELL");
-const u8 gSpeedchoiceTextWhy[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}WHY");
+const u8 gSpeedchoiceTextNerf[]   = _("PURGE");
+const u8 gSpeedchoiceTextKeep[]   = _("KEEP");
+const u8 gSpeedchoiceTextHell[]   = _("HELL");
+const u8 gSpeedchoiceTextWhy[]   = _("WHY");
 
-const u8 gSpeedchoiceTextSemi[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SEMI");
-const u8 gSpeedchoiceTextFull[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FULL");
+const u8 gSpeedchoiceTextSemi[]   = _("SEMI");
+const u8 gSpeedchoiceTextFull[]   = _("FULL");
 
-const u8 gSpeedchoiceTextStatic[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SAME");
-const u8 gSpeedchoiceTextRand[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}RAND");
-const u8 gSpeedchoiceTextSane[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SANE");
+const u8 gSpeedchoiceTextStatic[] = _("SAME");
+const u8 gSpeedchoiceTextRand[]   = _("RAND");
+const u8 gSpeedchoiceTextSane[]   = _("SANE");
 
-const u8 gSpeedchoiceTextBW[]     = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BW");
-const u8 gSpeedchoiceTextNone[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NONE");
+const u8 gSpeedchoiceTextBW[]     = _("BW");
+const u8 gSpeedchoiceTextNone[]   = _("NONE");
 
-const u8 gSpeedchoiceTextTutor[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}TUTOR");
-const u8 gSpeedchoiceTextHM05[]   = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HM05");
+const u8 gSpeedchoiceTextTutor[] = _("TUTOR");
+const u8 gSpeedchoiceTextHM05[]   = _("HM05");
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Option Names)            */
 /* ----------------------------------------------- */
 
 // PAGE 1
-const u8 gSpeedchoiceOptionPreset[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PRESET");
-const u8 gSpeedchoiceOptionName[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NAME");
-const u8 gSpeedchoiceOptionEXP[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EXP");
-const u8 gSpeedchoiceOptionPlotless[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PLOTLESS");
-const u8 gSpeedchoiceOptionInstantText[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HOLD TO MASH");
+const u8 gSpeedchoiceOptionPreset[] = _("PRESET");
+const u8 gSpeedchoiceOptionName[] = _("NAME");
+const u8 gSpeedchoiceOptionEXP[] = _("EXP");
+const u8 gSpeedchoiceOptionPlotless[] = _("PLOTLESS");
+const u8 gSpeedchoiceOptionInstantText[] = _("HOLD TO MASH");
 
 // PAGE 2
-const u8 gSpeedchoiceOptionSpinners[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}SPINNERS");
-const u8 gSpeedchoiceOptionEarlySurf[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EARLY SURF");
-const u8 gSpeedchoiceOptionMaxVision[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}MAX VISION");
-const u8 gSpeedchoiceOptionNewWildEnc[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NEW WILD ENC.");
-const u8 gSpeedchoiceOptionRunEverywhere[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}RUN EVERYWHERE");
+const u8 gSpeedchoiceOptionSpinners[] = _("SPINNERS");
+const u8 gSpeedchoiceOptionEarlySurf[] = _("EARLY SURF");
+const u8 gSpeedchoiceOptionMaxVision[] = _("MAX VISION");
+const u8 gSpeedchoiceOptionNewWildEnc[] = _("NEW WILD ENC.");
+const u8 gSpeedchoiceOptionRunEverywhere[] = _("RUN EVERYWHERE");
 
 // PAGE 3
-const u8 gSpeedchoiceOptionBetterMarts[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BETTER MARTS");
-const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}GOOD EARLY WILDS");
-const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}NICE MENU ORDER");
-const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EASY FALSE SWIPE");
-const u8 gSpeedchocieOptionEasyDexRewards[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EASY DEX REWARDS");
+const u8 gSpeedchoiceOptionBetterMarts[] = _("BETTER MARTS");
+const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("GOOD EARLY WILDS");
+const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("NICE MENU ORDER");
+const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("EASY FALSE SWIPE");
+const u8 gSpeedchocieOptionEasyDexRewards[] = _("EASY DEX REWARDS");
 
 // PAGE 4
-const u8 gSpeedchoiceOptionFastCatch[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FAST CATCH");
-const u8 gSpeedchoiceOptionEarlyBike[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EARLY BIKE");
-const u8 gSpeedchoiceOptionFastEggHatch[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}FAST EGG HATCH");
-const u8 gSpeedchoiceOptionGen7XItems[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}GEN 7 X ITEMS");
-const u8 gSpeedchoiceOptionEvoEveryLv[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EVO EVERY LV");
+const u8 gSpeedchoiceOptionFastCatch[] = _("FAST CATCH");
+const u8 gSpeedchoiceOptionEarlyBike[] = _("EARLY BIKE");
+const u8 gSpeedchoiceOptionFastEggHatch[] = _("FAST EGG HATCH");
+const u8 gSpeedchoiceOptionGen7XItems[] = _("GEN 7 X ITEMS");
+const u8 gSpeedchoiceOptionEvoEveryLv[] = _("EVO EVERY LV");
 
 // PAGE 5
-const u8 gSpeedchoiceOptionHmBadgeChk[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}HM BADGE CHK");
-const u8 gSpeedchoiceOptionEasySurgeCans[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}EASY SURGE");
+const u8 gSpeedchoiceOptionHmBadgeChk[] = _("HM BADGE CHK");
+const u8 gSpeedchoiceOptionEasySurgeCans[] = _("EASY SURGE");
 
 // CONSTANT OPTIONS
-const u8 gSpeedchoiceOptionPage[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}PAGE");
-const u8 gSpeedchoiceOptionStartGame[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}START GAME");
+const u8 gSpeedchoiceOptionPage[] = _("PAGE");
+const u8 gSpeedchoiceOptionStartGame[] = _("START GAME");
 
 // ARROWS
-const u8 gSpeedchoiceOptionLeftArrow[] = _("{COLOR RED}{SHADOW LIGHT_RED}{LEFT_ARROW}");
-const u8 gSpeedchoiceOptionRightArrow[] = _("{COLOR RED}{SHADOW LIGHT_RED}{RIGHT_ARROW}");
+const u8 gSpeedchoiceOptionLeftArrow[] = _("{LEFT_ARROW}");
+const u8 gSpeedchoiceOptionRightArrow[] = _("{RIGHT_ARROW}");
 
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Tooltip Text)            */
@@ -217,10 +225,10 @@ const u8 gSpeedchoiceEscapeText[] = _("ESCAPE");
 /* ---- PRESETS ---- */
 /* ----------------- */
 const u8 gPresetNames[][20] = {
-    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}VANILLA"),
-    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}BINGO"),
-    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}CEA"),
-    _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}RACE"),
+    _("VANILLA"),
+    _("BINGO"),
+    _("CEA"),
+    _("RACE"),
 };
 
 // use local config optionConfig[0] for preset!
@@ -861,20 +869,7 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
  */
 static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
 {
-    u8 dst[16];
-    u16 i;
-
-    for (i = 0; *text != EOS && i <= 14; i++)
-        dst[i] = *(text++);
-
-    if (style != 0)
-    {
-        dst[2] = 4;
-        dst[5] = 5;
-    }
-
-    dst[i] = EOS;
-    AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, dst, x, y, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, x, y, sTextColors[style], TEXT_SPEED_FF, text);
 }
 
 void DrawPageOptions(u8);
@@ -1119,14 +1114,9 @@ void CB2_InitSpeedchoice(void)
 // Render the page number.
 static void DrawPageChoice(u8 selection)
 {
-    u8 text[5];
+    u8 text[2] = {selection + CHAR_0, EOS};
 
-    memcpy(text, gSystemText_TerminatorS, 3);
-
-    text[3] = selection + CHAR_0;
-    text[4] = EOS;
-
-    AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, text, 40, NEWMENUOPTIONCOORDS(5), TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 40, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_RED], TEXT_SPEED_FF, text);
 }
 
 // Render the text for the choices for each option.
@@ -1155,30 +1145,20 @@ static void DrawGeneralChoices(struct SpeedchoiceOption *option, u8 selection, u
         // perform centering, add 4 pixels for the 8x8 arrow centering
         s16 x_preset = 4 + x_left + (x_right - x_left - GetStringWidth(1, gPresetNames[gLocalSpeedchoiceConfig.optionConfig[0]], 0)) / 2;
 
-        DrawOptionMenuChoice(Arrows[0].string, x_left, y, 0); // left arrow
-        DrawOptionMenuChoice(Arrows[1].string, x_right, y, 0); // right arrow
-        DrawOptionMenuChoice(gPresetNames[gLocalSpeedchoiceConfig.optionConfig[0]], x_preset, y, 0);
+        DrawOptionMenuChoice(Arrows[0].string, x_left, y, SPC_COLOR_RED); // left arrow
+        DrawOptionMenuChoice(Arrows[1].string, x_right, y, SPC_COLOR_RED); // right arrow
+        DrawOptionMenuChoice(gPresetNames[gLocalSpeedchoiceConfig.optionConfig[0]], x_preset, y, SPC_COLOR_BLUE);
     }
         // Player name needs special handling as well.
     else if(option->optionType == PLAYER_NAME)
     {
-        u8 bufferedName[6 + PLAYER_NAME_LENGTH + 1]; // account for the color strings
         s16 y = NEWMENUOPTIONCOORDS(row);
         s16 x_left = OptionChoiceConfigPlayerName[0].x;
         s16 x_right = 195; // from Arrows[1].x dont mind me just borrowing
         s16 length = GetStringWidth(1, gTempPlayerName, 0);
         s16 x_preset = 4 + x_left + (x_right - x_left - length) / 2;
 
-        // format the name with {COLOR DARK_GREY}{SHADOW LIGHT_GREY} first.
-        bufferedName[0] = EXT_CTRL_CODE_BEGIN;
-        bufferedName[1] = EXT_CTRL_CODE_COLOR;
-        bufferedName[2] = TEXT_COLOR_RED;
-        bufferedName[3] = EXT_CTRL_CODE_BEGIN;
-        bufferedName[4] = EXT_CTRL_CODE_SHADOW;
-        bufferedName[5] = TEXT_COLOR_LIGHT_RED;
-        // copy the name.
-        StringCopy7(bufferedName + 6, gTempPlayerName);
-        DrawOptionMenuChoice(bufferedName, x_preset, y, 0);
+        DrawOptionMenuChoice(gTempPlayerName, x_preset, y, SPC_COLOR_RED);
     }
         // Assume everything else is a normal option render.
     else
@@ -1256,7 +1236,7 @@ extern void MainMenu_DrawWindow(const struct WindowTemplate*, u16);
 static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
 {
     FillWindowPixelBuffer(SPD_WIN_TOOLTIP, PIXEL_FILL(1));
-    AddTextPrinterParameterized(SPD_WIN_TOOLTIP, 2, str, 0, 1, speed, NULL);
+    AddTextPrinterParameterized3(SPD_WIN_TOOLTIP, 2, 0, 1, sTextColors[SPC_COLOR_GREY], speed, str);
     //sub_8098858(SPD_WIN_TOOLTIP, 0x1D5, 0);
     MainMenu_DrawWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP], 418);
     PutWindowTilemap(SPD_WIN_TOOLTIP);
@@ -1562,9 +1542,9 @@ static void DrawHeaderWindow(void)
 {
     s32 width;
     FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, PIXEL_FILL(1));
-    AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceTextHeader, 4, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 4, 1, sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF, gSpeedchoiceTextHeader);
     width = GetStringWidth(2, gSpeedchoiceCurrentVersion, GetFontAttribute(2, FONTATTR_LETTER_SPACING));
-    AddTextPrinterParameterized(SPD_WIN_TEXT_OPTION, 2, gSpeedchoiceCurrentVersion, 204 - width, 1, TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 204 - width, 1, sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF, gSpeedchoiceCurrentVersion);
     CopyWindowToVram(SPD_WIN_TEXT_OPTION, 3);
 }
 
@@ -1600,13 +1580,13 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
         struct SpeedchoiceOption *option = (struct SpeedchoiceOption *)&SpeedchoiceOptions[i + (OPTIONS_PER_PAGE * (page - 1))];
         const u8 *string = option->string;
 
-        AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, string, 4, NEWMENUOPTIONCOORDS(i), TEXT_SPEED_FF, NULL);
+        AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF, string);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
         DrawGeneralChoices(option, gLocalSpeedchoiceConfig.optionConfig[i + ((page-1) * 5)], i);
     }
 
-    AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, gSpeedchoiceOptionPage, 4, NEWMENUOPTIONCOORDS(5), TEXT_SPEED_FF, NULL);
-    AddTextPrinterParameterized(SPD_WIN_OPTIONS, 2, gSpeedchoiceOptionStartGame, 4, NEWMENUOPTIONCOORDS(6), TEXT_SPEED_FF, NULL);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(6), sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
     DrawPageChoice(gLocalSpeedchoiceConfig.pageNum);
     CopyWindowToVram(SPD_WIN_OPTIONS, 3);
 }
