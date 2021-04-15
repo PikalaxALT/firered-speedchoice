@@ -118,6 +118,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.0rc3
 - Implement "use another repel"
 - Random stories from the Vermilion Fan Club Chairman
+- Fix Sweet Scent not usable in the overworld because it was mapped to Bullet Seed instead
 
 ## See also
 
