@@ -2122,12 +2122,14 @@ void InitOldManBag(void)
     GoToBagMenu(ITEMMENULOCATION_OLD_MAN, OPEN_BAG_ITEMS, SetCB2ToReshowScreenAfterMenu2);
 }
 
+#define tOldManTutorialTimer     data[8]
+
 static void Task_Bag_OldManTutorial(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     if (!gPaletteFade.active)
     {
-        switch (tTossQuantity)
+        switch (tOldManTutorialTimer)
         {
         case 102:
         case 204:
@@ -2154,7 +2156,7 @@ static void Task_Bag_OldManTutorial(u8 taskId)
             gTasks[taskId].func = Task_Pokedude_FadeFromBag;
             return;
         }
-        tTossQuantity++;
+        tOldManTutorialTimer++;
     }
 }
 
