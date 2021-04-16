@@ -19,7 +19,7 @@ static const u8 sTextColors[][3] = {
 };
 
 static const struct WindowTemplate sDefaultBagWindowsStd[] = {
-    {
+    [BAGWIN_STD_ITEMS_LIST] = {
         .bg = 0,
         .tilemapLeft = 11,
         .tilemapTop = 1,
@@ -27,7 +27,8 @@ static const struct WindowTemplate sDefaultBagWindowsStd[] = {
         .height = 12,
         .paletteNum = 15,
         .baseBlock = 0x08a
-    }, {
+    },
+    [BAGWIN_STD_ITEM_DESC] = {
         .bg = 0,
         .tilemapLeft = 5,
         .tilemapTop = 14,
@@ -35,7 +36,8 @@ static const struct WindowTemplate sDefaultBagWindowsStd[] = {
         .height = 6,
         .paletteNum = 15,
         .baseBlock = 0x162
-    }, {
+    },
+    [BAGWIN_STD_POCKET_NAME] = {
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 1,
@@ -47,7 +49,7 @@ static const struct WindowTemplate sDefaultBagWindowsStd[] = {
 };
 
 static const struct WindowTemplate sDefaultBagWindowsDeposit[] = {
-    {
+    [BAGWIN_STD_ITEMS_LIST] = {
         .bg = 0,
         .tilemapLeft = 11,
         .tilemapTop = 1,
@@ -55,15 +57,17 @@ static const struct WindowTemplate sDefaultBagWindowsDeposit[] = {
         .height = 12,
         .paletteNum = 15,
         .baseBlock = 0x08a
-    }, {
+    },
+    [BAGWIN_STD_ITEM_DESC] = {
         .bg = 0,
-        .tilemapLeft = 6,
-        .tilemapTop = 15,
+        .tilemapLeft = 5,
+        .tilemapTop = 14,
         .width = 25,
         .height = 6,
         .paletteNum = 15,
         .baseBlock = 0x162
-    }, {
+    },
+    [BAGWIN_STD_POCKET_NAME] = {
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 1,
@@ -211,28 +215,28 @@ static const u8 sUnusedTextScrollTime[] = {
     [OPTIONS_TEXT_SPEED_INST] =  1,
 };
 
-static EWRAM_DATA u8 sOpenWindows[11] = {};
+static EWRAM_DATA u8 sOpenWindows[BAGWIN_UNIQUE_COUNT] = {};
 
 void InitBagWindows(void)
 {
     u8 i;
 
-    if (gBagMenuState.location != 3)
+    if (gBagMenuState.location != ITEMMENULOCATION_ITEMPC)
         InitWindows(sDefaultBagWindowsStd);
     else
         InitWindows(sDefaultBagWindowsDeposit);
     DeactivateAllTextPrinters();
-    TextWindow_SetUserSelectedFrame(0, 0x64, 0xE0);
-    TextWindow_LoadResourcesStdFrame0(0, 0x6D, 0xD0);
-    TextWindow_SetStdFrame0_WithPal(0, 0x81, 0xC0);
+    TextWindow_SetUserSelectedFrame(BAGWIN_STD_ITEMS_LIST, 0x64, 0xE0);
+    TextWindow_LoadResourcesStdFrame0(BAGWIN_STD_ITEMS_LIST, 0x6D, 0xD0);
+    TextWindow_SetStdFrame0_WithPal(BAGWIN_STD_ITEMS_LIST, 0x81, 0xC0);
     LoadPalette(sBagWindowPalF, 0xF0, 0x20);
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < BAGWIN_STD_COUNT; i++)
     {
         FillWindowPixelBuffer(i, 0x00);
         PutWindowTilemap(i);
     }
     ScheduleBgCopyTilemapToVram(0);
-    for (i = 0; i < 11; i++)
+    for (i = 0; i < BAGWIN_UNIQUE_COUNT; i++)
     {
         sOpenWindows[i] = 0xFF;
     }
@@ -246,15 +250,15 @@ void BagPrintTextOnWindow(u8 windowId, u8 fontId, const u8 * str, u8 x, u8 y, u8
 void BagPrintTextOnWin1CenteredColor0(const u8 * str, u8 unused)
 {
     u32 x = 0x48 - GetStringWidth(1, str, 0);
-    AddTextPrinterParameterized3(2, 1, x / 2, 1, sTextColors[0], 0, str);
+    AddTextPrinterParameterized3(BAGWIN_STD_POCKET_NAME, 1, x / 2, 1, sTextColors[0], 0, str);
 }
 
 void BagDrawDepositItemTextBox(void)
 {
     u32 x;
-    DrawStdFrameWithCustomTileAndPalette(2, FALSE, 0x081, 0x0C);
+    DrawStdFrameWithCustomTileAndPalette(BAGWIN_STD_POCKET_NAME, FALSE, 0x081, 0x0C);
     x = 0x40 - GetStringWidth(0, gText_DepositItem, 0);
-    AddTextPrinterParameterized(2, 0, gText_DepositItem, x / 2, 1, 0, NULL);
+    AddTextPrinterParameterized(BAGWIN_STD_POCKET_NAME, 0, gText_DepositItem, x / 2, 1, 0, NULL);
 }
 
 u8 ShowBagWindow(u8 whichWindow, u8 nItems)
@@ -300,7 +304,7 @@ void CloseBagWindow(u8 whichWindow)
         ClearDialogWindowAndFrameToTransparent(sOpenWindows[whichWindow], FALSE);
         ClearWindowTilemap(sOpenWindows[whichWindow]);
         RemoveWindow(sOpenWindows[whichWindow]);
-        PutWindowTilemap(1);
+        PutWindowTilemap(BAGWIN_STD_ITEM_DESC);
         ScheduleBgCopyTilemapToVram(0);
         sOpenWindows[whichWindow] = 0xFF;
     }
