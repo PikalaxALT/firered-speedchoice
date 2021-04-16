@@ -2,18 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ speedchoice ]
   pull_request:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
       - name: Install binutils
-        run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi
+        run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev
         # build-essential, git, and libpng-dev are already installed
         # gcc-arm-none-eabi is only needed for the modern build
         # as an alternative to dkP
@@ -25,23 +25,6 @@ jobs:
           ./build.sh
           ./install.sh ../
 
-      - name: Compare FireRed
+      - name: Build FireRed
         run: |
-          make -j${nproc} compare_firered
-          make -j${nproc} compare_firered_rev1
-
-      - name: Compare LeafGreen
-        run: |
-          make -j${nproc} compare_leafgreen
-          make -j${nproc} compare_leafgreen_rev1
-
-      - name: Modern
-        run: make -j${nproc} modern
-
-      - name: Webhook
-        if: ${{ github.event_name == 'push' }}
-        env:
-          CALCROM_DISCORD_WEBHOOK_USERNAME: OK
-          CALCROM_DISCORD_WEBHOOK_AVATAR_URL: https://i.imgur.com/38BQHdd.png
-          CALCROM_DISCORD_WEBHOOK_URL: ${{ secrets.CALCROM_DISCORD_WEBHOOK_URL }}
-        run: sh .github/calcrom/webhook.sh pokefirered
+          make -j${nproc}
