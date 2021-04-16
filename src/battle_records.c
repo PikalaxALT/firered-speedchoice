@@ -36,7 +36,7 @@ static void LoadFrameGfxOnBg(u8 bgId);
 
 static const u16 sTiles[] = INCBIN_U16("graphics/battle_records/bg_tiles.4bpp");
 static const u16 sPalette[] = INCBIN_U16("graphics/battle_records/palette.gbapal");
-static const u16 sTilemap[] = INCBIN_U16("graphics/battle_records/tiles.bin");
+static const u16 sTilemap[] = INCBIN_U16("graphics/battle_records/tilemap.bin");
 
 static const struct WindowTemplate sWindowTemplates[] = {
     {
