@@ -6,190 +6,210 @@
 #include "new_menu_helpers.h"
 #include "menu.h"
 #include "money.h"
+#include "bag.h"
 #include "strings.h"
 
 static const u16 sBagWindowPalF[] = INCBIN_U16("graphics/item_menu/bag_window_pal.gbapal");
 
 static const u8 sTextColors[][3] = {
-    {0, 1, 2},
-    {0, 2, 3},
-    {0, 3, 2},
-    {0, 8, 9}
+    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY},
+    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY},
+    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GREY, TEXT_COLOR_DARK_GREY},
+    {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE}
 };
 
 static const struct WindowTemplate sDefaultBagWindowsStd[] = {
     {
         .bg = 0,
-        .tilemapLeft = 0x0b,
-        .tilemapTop = 0x01,
-        .width = 0x12,
-        .height = 0x0c,
-        .paletteNum = 0x0f,
-        .baseBlock = 0x008a
+        .tilemapLeft = 11,
+        .tilemapTop = 1,
+        .width = 18,
+        .height = 12,
+        .paletteNum = 15,
+        .baseBlock = 0x08a
     }, {
         .bg = 0,
-        .tilemapLeft = 0x05,
-        .tilemapTop = 0x0e,
-        .width = 0x19,
-        .height = 0x06,
-        .paletteNum = 0x0f,
-        .baseBlock = 0x0162
+        .tilemapLeft = 5,
+        .tilemapTop = 14,
+        .width = 25,
+        .height = 6,
+        .paletteNum = 15,
+        .baseBlock = 0x162
     }, {
         .bg = 0,
-        .tilemapLeft = 0x01,
-        .tilemapTop = 0x01,
-        .width = 0x09,
-        .height = 0x02,
-        .paletteNum = 0x0f,
-        .baseBlock = 0x01f8
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 9,
+        .height = 2,
+        .paletteNum = 15,
+        .baseBlock = 0x1f8
     }, DUMMY_WIN_TEMPLATE
 };
 
 static const struct WindowTemplate sDefaultBagWindowsDeposit[] = {
     {
         .bg = 0,
-        .tilemapLeft = 0x0b,
-        .tilemapTop = 0x01,
-        .width = 0x12,
-        .height = 0x0c,
-        .paletteNum = 0x0f,
-        .baseBlock = 0x008a
+        .tilemapLeft = 11,
+        .tilemapTop = 1,
+        .width = 18,
+        .height = 12,
+        .paletteNum = 15,
+        .baseBlock = 0x08a
     }, {
         .bg = 0,
-        .tilemapLeft = 0x05,
-        .tilemapTop = 0x0e,
-        .width = 0x19,
-        .height = 0x06,
-        .paletteNum = 0x0f,
-        .baseBlock = 0x0162
-    }, {
-        .bg = 0,
-        .tilemapLeft = 0x01,
-        .tilemapTop = 0x01,
-        .width = 0x08,
-        .height = 0x02,
-        .paletteNum = 0x0C,
-        .baseBlock = 0x01f8
-    }, DUMMY_WIN_TEMPLATE
-};
-
-static const struct WindowTemplate sWindowTemplates[] = {
-    {
-        .bg = 0,
-        .tilemapLeft = 24,
+        .tilemapLeft = 6,
         .tilemapTop = 15,
-        .width = 5,
-        .height = 4,
-        .paletteNum = 0xF,
-        .baseBlock = 0x242
-    }, {
-        .bg = 0,
-        .tilemapLeft = 17,
-        .tilemapTop = 9,
-        .width = 12,
-        .height = 4,
-        .paletteNum = 0xF,
-        .baseBlock = 0x242
+        .width = 25,
+        .height = 6,
+        .paletteNum = 15,
+        .baseBlock = 0x162
     }, {
         .bg = 0,
         .tilemapLeft = 1,
         .tilemapTop = 1,
         .width = 8,
+        .height = 2,
+        .paletteNum = 12,
+        .baseBlock = 0x1f8
+    }, DUMMY_WIN_TEMPLATE
+};
+
+static const struct WindowTemplate sWindowTemplates[] = {
+    
+    [BAGWIN_QUANTITY + 0] = {
+        .bg = 0,
+        .tilemapLeft = 24,
+        .tilemapTop = 15,
+        .width = 5,
+        .height = 4,
+        .paletteNum = 15,
+        .baseBlock = 0x242
+    }, 
+    [BAGWIN_QUANTITY + 1] = {
+        .bg = 0,
+        .tilemapLeft = 17,
+        .tilemapTop = 9,
+        .width = 12,
+        .height = 4,
+        .paletteNum = 15,
+        .baseBlock = 0x242
+    }, 
+    [BAGWIN_MONEY] = {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 8,
         .height = 3,
-        .paletteNum = 0xC,
+        .paletteNum = 12,
         .baseBlock = 0x272
-    }, {
+    }, 
+    [BAGWIN_YESNO_BOTTOM] = {
         .bg = 0,
         .tilemapLeft = 23,
         .tilemapTop = 15,
         .width = 6,
         .height = 4,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x28a
-    }, {
+    }, 
+    [BAGWIN_YESNO_TOP] = {
         .bg = 0,
         .tilemapLeft = 21,
         .tilemapTop = 9,
         .width = 6,
         .height = 4,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x28a
-    }, {
+    }, 
+    [BAGWIN_MESSAGE_BOX] = {
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 15,
         .width = 26,
         .height = 4,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x2a2
-    }, {
+    }, 
+    [BAGWIN_TOSS_DEPOSIT_MSG + 0] = {
         .bg = 0,
         .tilemapLeft = 6,
         .tilemapTop = 15,
         .width = 14,
         .height = 4,
-        .paletteNum = 0xC,
+        .paletteNum = 12,
         .baseBlock = 0x2a2
-    }, {
+    }, 
+    [BAGWIN_TOSS_DEPOSIT_MSG + 1] = {
         .bg = 0,
         .tilemapLeft = 6,
         .tilemapTop = 15,
         .width = 15,
         .height = 4,
-        .paletteNum = 0xC,
+        .paletteNum = 12,
         .baseBlock = 0x2da
-    }, {
+    }, 
+    [BAGWIN_TOSS_DEPOSIT_MSG + 2] = {
         .bg = 0,
         .tilemapLeft = 6,
         .tilemapTop = 15,
         .width = 16,
         .height = 4,
-        .paletteNum = 0xC,
+        .paletteNum = 12,
         .baseBlock = 0x316
-    }, {
+    }, 
+    [BAGWIN_TOSS_DEPOSIT_MSG + 3] = {
         .bg = 0,
         .tilemapLeft = 6,
         .tilemapTop = 15,
         .width = 23,
         .height = 4,
-        .paletteNum = 0xC,
+        .paletteNum = 12,
         .baseBlock = 0x356
-    }, {
+    }, 
+    [BAGWIN_CONTEXT_MENU + 0] = {
         .bg = 0,
         .tilemapLeft = 22,
         .tilemapTop = 17,
         .width = 7,
         .height = 2,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x20a
-    }, {
+    }, 
+    [BAGWIN_CONTEXT_MENU + 1] = {
         .bg = 0,
         .tilemapLeft = 22,
         .tilemapTop = 15,
         .width = 7,
         .height = 4,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x20a
-    }, {
+    }, 
+    [BAGWIN_CONTEXT_MENU + 2] = {
         .bg = 0,
         .tilemapLeft = 22,
         .tilemapTop = 13,
         .width = 7,
         .height = 6,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x20a
-    }, {
+    }, 
+    [BAGWIN_CONTEXT_MENU + 3] = {
         .bg = 0,
         .tilemapLeft = 22,
         .tilemapTop = 11,
         .width = 7,
         .height = 8,
-        .paletteNum = 0xF,
+        .paletteNum = 15,
         .baseBlock = 0x20a
     }
 };
 
-static const u8 sUnused_8453174[] = {16, 8, 4};
+static const u8 sUnusedTextScrollTime[] = {
+    [OPTIONS_TEXT_SPEED_SLOW] = 16,
+    [OPTIONS_TEXT_SPEED_MID]  =  8,
+    [OPTIONS_TEXT_SPEED_FAST] =  4,
+    [OPTIONS_TEXT_SPEED_INST] =  1,
+};
 
 static EWRAM_DATA u8 sOpenWindows[11] = {};
 
@@ -293,17 +313,17 @@ u8 GetBagWindow(u8 whichWindow)
 
 void BagCreateYesNoMenuBottomRight(u8 taskId, const struct YesNoFuncTable * ptrs)
 {
-    CreateYesNoMenuWithCallbacks(taskId, &sWindowTemplates[3], 2, 0, 2, 0x064, 0x0E, ptrs);
+    CreateYesNoMenuWithCallbacks(taskId, &sWindowTemplates[BAGWIN_YESNO_BOTTOM], 2, 0, 2, 0x064, 0x0E, ptrs);
 }
 
 void BagCreateYesNoMenuTopRight(u8 taskId, const struct YesNoFuncTable * ptrs)
 {
-    CreateYesNoMenuWithCallbacks(taskId, &sWindowTemplates[4], 2, 0, 2, 0x064, 0x0E, ptrs);
+    CreateYesNoMenuWithCallbacks(taskId, &sWindowTemplates[BAGWIN_YESNO_TOP], 2, 0, 2, 0x064, 0x0E, ptrs);
 }
 
 void BagPrintMoneyAmount(void)
 {
-    PrintMoneyAmountInMoneyBoxWithBorder(ShowBagWindow(2, 0), 0x081, 0x0C, GetMoney(&gSaveBlock1Ptr->money));
+    PrintMoneyAmountInMoneyBoxWithBorder(ShowBagWindow(BAGWIN_MONEY, 0), 0x081, 0x0C, GetMoney(&gSaveBlock1Ptr->money));
 }
 
 void BagDrawTextBoxOnWindow(u8 windowId)
