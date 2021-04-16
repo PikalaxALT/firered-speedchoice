@@ -111,7 +111,7 @@ static void ShowBagOrBeginWin0OpenTask(void);
 static void All_CalculateNItemsAndMaxShowed(void);
 static void Task_BagMenu_HandleInput(u8 taskId);
 static void Task_ItemContextMenuByLocation(u8 taskId);
-static void Bag_FillMessageBoxWithPalette(u32 a0);
+static void Bag_FillMessageBoxWithPalette(u32 whichPal);
 static u8 ProcessPocketSwitchInput(u8 taskId, u8 pocketId);
 static void SwitchPockets(u8 taskId, s16 direction, bool16 onInit);
 static void Task_AnimateSwitchPockets(u8 taskId);
@@ -1136,9 +1136,9 @@ static void Task_RedrawArrowsAndReturnToBagMenuSelect(u8 taskId)
     gTasks[taskId].func = Task_BagMenu_HandleInput;
 }
 
-static void Bag_FillMessageBoxWithPalette(u32 a0)
+static void Bag_FillMessageBoxWithPalette(u32 whichPal)
 {
-    SetBgTilemapPalette(1, 0, 14, 30, 6, a0 + 1);
+    SetBgTilemapPalette(1, 0, 14, 30, 6, whichPal + 1);
     ScheduleBgCopyTilemapToVram(1);
 }
 
@@ -2131,19 +2131,22 @@ static void Task_Bag_OldManTutorial(u8 taskId)
     {
         switch (tOldManTutorialTimer)
         {
-        case 102:
-        case 204:
+        case 0:
             PlaySE(SE_BAG_POCKET);
             SwitchPockets(taskId, 1, FALSE);
             break;
-        case 306:
+        case 1:
+            PlaySE(SE_BAG_POCKET);
+            SwitchPockets(taskId, 1, FALSE);
+            break;
+        case 2:
             PlaySE(SE_SELECT);
             bag_menu_print_cursor_(tListMenuId, 2);
             Bag_FillMessageBoxWithPalette(1);
             gSpecialVar_ItemId = ITEM_POKE_BALL;
             OpenContextMenu(taskId);
             break;
-        case 408:
+        case 3:
             PlaySE(SE_SELECT);
             HideBagWindow(BAGWIN_CONTEXT_MENU);
             HideBagWindow(BAGWIN_TOSS_DEPOSIT_MSG);

@@ -282,7 +282,7 @@ static void SimulateInputChooseAction(void)
     switch (gBattleStruct->simulatedInputState[0])
     {
     case 0:
-        gBattleStruct->simulatedInputState[2] = 64;
+        gBattleStruct->simulatedInputState[2] = 1;
         ++gBattleStruct->simulatedInputState[0];
         // fall through
     case 1:
@@ -292,7 +292,7 @@ static void SimulateInputChooseAction(void)
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(0);
             ActionSelectionCreateCursorAt(1, 0);
-            gBattleStruct->simulatedInputState[2] = 64;
+            gBattleStruct->simulatedInputState[2] = 1;
             ++gBattleStruct->simulatedInputState[0];
         }
         break;

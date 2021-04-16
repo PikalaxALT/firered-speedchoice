@@ -120,6 +120,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Random stories from the Vermilion Fan Club Chairman
 - Fix Sweet Scent not usable in the overworld because it was mapped to Bullet Seed instead
 - Don't give Tri Pass if you already have Rainbow Pass
+- Old Man is a speedy boi
 
 ## See also
 
