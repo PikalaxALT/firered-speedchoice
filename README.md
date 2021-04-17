@@ -124,6 +124,8 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix bug with max vision
 - Add dev mode that gives you a level 100 Mewtwo right off the bat
 - Fix full-plotless oversights
+- Fix problems with Rainbow Pass check being performed incorrectly
+- Fix message box persisting when declining additional repel use
 
 ## See also
 

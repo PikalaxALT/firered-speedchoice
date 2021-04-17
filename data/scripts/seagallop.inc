@@ -1,7 +1,8 @@
 @ Separate selection menus for before the Rainbow Pass is obtained
 EventScript_ChooseDestFromOneIsland:: @ 81A8EC5
     checkitem ITEM_RAINBOW_PASS, 1
-	goto_if TRUE, EventScript_SeviiDestinationsPage1
+    compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_SeviiDestinationsPage1
     compare VAR_MAP_SCENE_CINNABAR_ISLAND, 4
     goto_if_ge EventScript_ChooseDestFromOneIslandVermilionAllowed
     multichoice 19, 6, MULTICHOICE_ISLAND_23, FALSE
@@ -24,7 +25,8 @@ EventScript_ChooseDestFromOneIslandVermilionAllowed:: @ 81A8F12
 
 EventScript_ChooseDestFromTwoIsland:: @ 81A8F54
     checkitem ITEM_RAINBOW_PASS, 1
-	goto_if TRUE, EventScript_SeviiDestinationsPage1
+    compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_SeviiDestinationsPage1
     compare VAR_MAP_SCENE_CINNABAR_ISLAND, 4
     goto_if_ge EventScript_ChooseDestFromTwoIslandVermilionAllowed
     multichoice 19, 6, MULTICHOICE_ISLAND_13, FALSE
@@ -67,7 +69,8 @@ EventScript_SailToThreeIsland2:: @ 81A9004
 
 EventScript_ChooseDestFromIsland:: @ 81A900F
     checkitem ITEM_RAINBOW_PASS, 1
-	goto_if TRUE, EventScript_SeviiDestinationsPage1
+    compare VAR_RESULT, TRUE
+	goto_if_eq EventScript_SeviiDestinationsPage1
     compare VAR_MAP_SCENE_CINNABAR_ISLAND, 4
     goto_if_ge EventScript_ChooseDestFromIslandVermilionAllowed
     multichoice 19, 6, MULTICHOICE_ISLAND_12, FALSE

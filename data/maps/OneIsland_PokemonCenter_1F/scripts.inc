@@ -109,9 +109,11 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene:: @ 8170CB1
 	applymovement LOCALID_CELIO, Movement_WalkInPlaceFastestDown
 	waitmovement 0
 	checkitem ITEM_RAINBOW_PASS, 1
-	goto_if TRUE, OneIsland_PokemonCenter_1F_EventScript_SkipTriPass
+	compare VAR_RESULT, TRUE
+	goto_if_eq OneIsland_PokemonCenter_1F_EventScript_SkipTriPass
 	checkitem ITEM_TRI_PASS, 1
-	goto_if TRUE, OneIsland_PokemonCenter_1F_EventScript_SkipTriPass
+	compare VAR_RESULT, TRUE
+	goto_if_eq OneIsland_PokemonCenter_1F_EventScript_SkipTriPass
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
 	giveitem_msg OneIsland_PokemonCenter_1F_Text_ObtainedTriPass, ITEM_TRI_PASS, 1, MUS_OBTAIN_KEY_ITEM
 	msgbox OneIsland_PokemonCenter_1F_Text_PassLetsYouTravelBetweenIslands

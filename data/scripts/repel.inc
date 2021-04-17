@@ -16,6 +16,7 @@ EventScript_AskUseAnother:
 
 EventScript_ResetLastUsedRepel:
 	setvar VAR_LAST_USED_REPEL, ITEM_NONE
+	closemessage
 	end
 
 Text_RepelWoreOff:: @ 81BFB6E
