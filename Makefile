@@ -45,7 +45,7 @@ override CFLAGS += -mthumb -mthumb-interwork -O2 -mtune=arm7tdmi -march=armv4t -
 LIBPATH := -L ../../tools/agbcc/lib
 endif
 
-CPPFLAGS := -iquote include -D$(GAME_VERSION) -DREVISION=$(GAME_REVISION) -D$(GAME_LANGUAGE) -DMODERN=$(MODERN)
+CPPFLAGS := -iquote include -D$(GAME_VERSION) -DREVISION=$(GAME_REVISION) -D$(GAME_LANGUAGE) -DMODERN=$(MODERN) -DDEVMODE=$(DEVMODE)
 ifeq ($(MODERN),0)
 CPPFLAGS += -I tools/agbcc -I tools/agbcc/include -nostdinc -undef
 endif
@@ -72,7 +72,7 @@ DATA_ASM_BUILDDIR = $(OBJ_DIR)/$(DATA_ASM_SUBDIR)
 SONG_BUILDDIR = $(OBJ_DIR)/$(SONG_SUBDIR)
 MID_BUILDDIR = $(OBJ_DIR)/$(MID_SUBDIR)
 
-ASFLAGS := -mcpu=arm7tdmi --defsym $(GAME_VERSION)=1 --defsym REVISION=$(GAME_REVISION) --defsym $(GAME_LANGUAGE)=1 --defsym MODERN=$(MODERN)
+ASFLAGS := -mcpu=arm7tdmi --defsym $(GAME_VERSION)=1 --defsym REVISION=$(GAME_REVISION) --defsym $(GAME_LANGUAGE)=1 --defsym MODERN=$(MODERN) --defsym DEVMODE=$(DEVMODE)
 
 LDFLAGS = -Map ../../$(MAP)
 
@@ -143,7 +143,7 @@ TOOLDIRS := $(filter-out tools/agbcc tools/binutils tools/analyze_source,$(wildc
 TOOLBASE = $(TOOLDIRS:tools/%=%)
 TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
-ALL_BUILDS := firered-speedchoice
+ALL_BUILDS := firered-speedchoice firered-speedchoice-dev
 
 .PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS)
 
@@ -326,3 +326,6 @@ $(ROM): $(ELF)
 $(INI): $(ROM)
 	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (U)" --code $(GAME_CODE)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
+
+speedchoice:     ; @$(MAKE)
+dev:             ; @$(MAKE) DEVMODE=1

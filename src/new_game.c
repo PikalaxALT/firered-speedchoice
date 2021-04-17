@@ -4,6 +4,7 @@
 #include "overworld.h"
 #include "constants/items.h"
 #include "constants/maps.h"
+#include "constants/moves.h"
 #include "load_save.h"
 #include "item_menu.h"
 #include "tm_case.h"
@@ -163,6 +164,19 @@ void NewGameInitData(void)
         AddBagItem(ITEM_BICYCLE, 1);
     }
     FlagSet(FLAG_SYS_B_DASH);
+
+#if DEVMODE
+    {
+        struct Pokemon * mon = Alloc(sizeof(struct Pokemon));
+        CreateMon(mon, SPECIES_MEWTWO, 100, 31, FALSE, 0, OT_ID_PLAYER_ID, 0);
+        SetMonMoveSlot(mon, MOVE_PSYCHIC, 0);
+        SetMonMoveSlot(mon, MOVE_THUNDERBOLT, 1);
+        SetMonMoveSlot(mon, MOVE_ICE_BEAM, 2);
+        SetMonMoveSlot(mon, MOVE_FLAMETHROWER, 3);
+        GiveMonToPlayer(mon);
+        Free(mon);
+    }
+#endif //DEVMODE
 }
 
 static void ResetMiniGamesResults(void)

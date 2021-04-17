@@ -122,6 +122,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Don't give Tri Pass if you already have Rainbow Pass
 - Old Man is a speedy boi
 - Fix bug with max vision
+- Add dev mode that gives you a level 100 Mewtwo right off the bat
 
 ## See also
 

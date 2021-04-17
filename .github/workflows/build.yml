@@ -28,3 +28,4 @@ jobs:
       - name: Build FireRed
         run: |
           make -j${nproc}
+          make -j${nproc} dev
