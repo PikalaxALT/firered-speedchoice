@@ -121,6 +121,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix Sweet Scent not usable in the overworld because it was mapped to Bullet Seed instead
 - Don't give Tri Pass if you already have Rainbow Pass
 - Old Man is a speedy boi
+- Fix bug with max vision
 
 ## See also
 

@@ -132,10 +132,7 @@ static u8 GetTrainerApproachDistance(struct ObjectEvent *trainerObj)
     PlayerGetDestCoords(&x, &y);
     if (trainerObj->trainerType == 1)  // can only see in one direction
     {
-        if (gSaveBlock2Ptr->speedchoiceConfig.maxVision == MAX_OFF)
-            approachDistance = sDirectionalApproachDistanceFuncs[trainerObj->facingDirection - 1](trainerObj, trainerObj->trainerRange_berryTreeId, x, y);
-        else
-            approachDistance = MAX_VISION_RANGE;
+        approachDistance = sDirectionalApproachDistanceFuncs[trainerObj->facingDirection - 1](trainerObj, gSaveBlock2Ptr->speedchoiceConfig.maxVision == MAX_OFF ? trainerObj->trainerRange_berryTreeId : MAX_VISION_RANGE, x, y);
         return CheckPathBetweenTrainerAndPlayer(trainerObj, approachDistance, trainerObj->facingDirection);
     }
     else  // can see in all directions
