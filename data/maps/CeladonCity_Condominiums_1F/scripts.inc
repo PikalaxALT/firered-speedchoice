@@ -36,6 +36,7 @@ CeladonCity_Condominiums_1F_FullPlotless::
 	setflag FLAG_HIDE_TOWER_ROCKET_2
 	setflag FLAG_HIDE_TOWER_ROCKET_3
 	setflag FLAG_HIDE_HIDEOUT_GIOVANNI
+	clearflag FLAG_HIDE_LIFT_KEY
 	clearflag FLAG_HIDE_SILPH_SCOPE
 	setflag FLAG_HIDE_CELADON_ROCKETS
 	setvar VAR_MAP_SCENE_SILPH_CO_11F, 1
