@@ -55,6 +55,4 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "Development Build"
-          files: |
-            ${relname}.zip
-            README.md
+          files: pokemon-firered-speedchoice-*-plus-randomizer.zip
