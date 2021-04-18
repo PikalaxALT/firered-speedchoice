@@ -43,6 +43,7 @@ const char BuildDateTime[] = __DATE__ " " __TIME__;
 //#endif //REVISION
 //#endif //MODERN
 
+const char gSpeedchoiceVersion[] = SPEEDCHOICE_VERSION;
 const u32 gRandomizerCheckValue = 0;
 
 const IntrFunc gIntrTableTemplate[] =

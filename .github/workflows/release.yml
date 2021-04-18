@@ -1,8 +1,8 @@
-name: CI
+name: Release
 
 on:
   push:
-    branches: [ speedchoice ]
+    tags: ["v*"]
   pull_request:
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
       - name: Install agbcc
         run: |
           git clone https://github.com/pret/agbcc.git
-          cd agbcc 
+          cd agbcc
           ./build.sh
           ./install.sh ../
 
