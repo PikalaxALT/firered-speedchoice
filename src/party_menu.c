@@ -378,10 +378,10 @@ static void SetSwitchedPartyOrderQuestLogEvent(void);
 static void SetUsedFieldMoveQuestLogEvent(struct Pokemon *mon, u8 fieldMove);
 static void PartyMenu_StartItemUseAnim(void);
 static void Task_PartyMenu_NormalItem(void);
-static void sub_812580C(u8 taskId);
-static void sub_8125898(u8 taskId, UNUSED TaskFunc func);
+static void TryUsePPItemOutOfBattle(u8 taskId);
+static void ItemUseCB_PerformPpRestoreAction(u8 taskId, UNUSED TaskFunc func);
 static void ItemUseCB_OnCanceledItemUseAnim_ForgetAndLearnMove(u8 taskId, UNUSED TaskFunc func);
-static void sub_8125F5C(u8 taskId);
+static void Task_DoLearnedMoveMessageAfterCanceledItemUseAnim(u8 taskId);
 static void PartyMenu_ReturnFromItemUseAnim_Evolve(void);
 static bool8 MonCanEvolve(void);
 
@@ -4656,7 +4656,7 @@ void ItemUseCB_PPRecovery(u8 taskId, UNUSED TaskFunc func)
         if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
             TryUsePPItem(taskId);
         else
-            sub_812580C(taskId);
+            TryUsePPItemOutOfBattle(taskId);
     }
     else
     {
@@ -4674,7 +4674,7 @@ static void SetSelectedMoveForPPItem(u8 taskId)
     if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
         TryUsePPItem(taskId);
     else
-        sub_812580C(taskId);
+        TryUsePPItemOutOfBattle(taskId);
 }
 
 static void ReturnToUseOnWhichMon(u8 taskId)
@@ -4685,7 +4685,7 @@ static void ReturnToUseOnWhichMon(u8 taskId)
     DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
 }
 
-static void sub_812580C(u8 taskId)
+static void TryUsePPItemOutOfBattle(u8 taskId)
 {
     bool8 noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId],
                                             gSpecialVar_ItemId,
@@ -4702,11 +4702,11 @@ static void sub_812580C(u8 taskId)
     else
     {
         Task_PartyMenu_TransitionToItemUseAnim(taskId);
-        gItemUseCB = sub_8125898;
+        gItemUseCB = ItemUseCB_PerformPpRestoreAction;
     }
 }
 
-static void sub_8125898(u8 taskId, UNUSED TaskFunc func)
+static void ItemUseCB_PerformPpRestoreAction(u8 taskId, UNUSED TaskFunc func)
 {
     u16 move;
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -4971,10 +4971,10 @@ static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
 
 static void ItemUseCB_OnCanceledItemUseAnim_ForgetAndLearnMove(u8 taskId, UNUSED TaskFunc func)
 {
-    sub_8125F5C(taskId);
+    DisplayPartyMenuForgotMoveMessage(taskId);
 }
 
-static void sub_8125F5C(u8 taskId)
+static void Task_DoLearnedMoveMessageAfterCanceledItemUseAnim(u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
     u8 moveIdx = GetMoveSlotToReplace();

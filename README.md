@@ -127,6 +127,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix problems with Rainbow Pass check being performed incorrectly
 - Fix message box persisting when declining additional repel use
 
+### 1.0.0
+- Fix forgot move message
+
 ## See also
 
 Other disassembly and/or decompilation projects:
