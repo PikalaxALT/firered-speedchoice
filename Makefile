@@ -24,6 +24,9 @@ endif
 export CPP := $(PREFIX)cpp
 export LD := $(PREFIX)ld
 
+PYTHON := python3
+ANT    := ant
+
 ifeq ($(OS),Windows_NT)
 EXE := .exe
 else
@@ -145,7 +148,7 @@ TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
 ALL_BUILDS := firered-speedchoice firered-speedchoice-dev
 
-.PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS)
+.PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS) rando
 
 MAKEFLAGS += --no-print-directory
 
@@ -326,6 +329,13 @@ $(ROM): $(ELF)
 $(INI): $(ROM)
 	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (U)" --code $(GAME_CODE)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
+
+rando: $(INI)
+ifeq ($(UPRDIR),)
+	$(error Missing value for UPRDIR)
+endif
+	$(PYTHON) .github/workflows/update_config.py $(UPRDIR)/src/com/dabomstew/pkrandom/config/gen3_offsets.ini $<
+	$(ANT) -f $(UPRDIR)/.github/ant/build.xml
 
 speedchoice:     ; @$(MAKE)
 dev:             ; @$(MAKE) DEVMODE=1
