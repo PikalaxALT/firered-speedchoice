@@ -100,7 +100,7 @@ static EWRAM_DATA u16 sAmbientCrySpecies = SPECIES_NONE;
 static EWRAM_DATA bool8 sIsAmbientCryWaterMon = FALSE;
 
 // File boundary perhaps?
-ALIGNED(4) EWRAM_DATA bool8 gUnknown_2031DE0 = FALSE;
+ALIGNED(4) EWRAM_DATA bool8 gLoadingMapOnQuestLog = FALSE;
 static EWRAM_DATA const struct CreditsOverworldCmd *sCreditsOverworld_Script = NULL;
 static EWRAM_DATA s16 sCreditsOverworld_CmdLength = 0;
 static EWRAM_DATA s16 sCreditsOverworld_CmdIndex = 0;
@@ -1702,7 +1702,7 @@ void CB2_ContinueSavedGame(void)
     ScriptContext1_Init();
     ScriptContext2_Disable();
     gFieldCallback2 = NULL;
-    gUnknown_2031DE0 = TRUE;
+    gLoadingMapOnQuestLog = TRUE;
     if (UseContinueGameWarp() == TRUE)
     {
         ClearContinueGameWarpStatus();
@@ -2257,12 +2257,12 @@ static bool32 LoadMap_QLPlayback(u8 *state)
         sub_8111438();
         if (GetQuestLogStartType() == QL_START_WARP)
         {
-            gUnknown_2031DE0 = FALSE;
+            gLoadingMapOnQuestLog = FALSE;
             LoadMap_OnWarp(FALSE);
         }
         else
         {
-            gUnknown_2031DE0 = TRUE;
+            gLoadingMapOnQuestLog = TRUE;
             LoadMap_OnQuestLog();
         }
         (*state)++;
@@ -2334,7 +2334,7 @@ void CB2_EnterFieldFromQuestLog(void)
     InitMapFromSavedGame();
     PlayTimeCounter_Start();
     ScriptContext1_Init();
-    gUnknown_2031DE0 = TRUE;
+    gLoadingMapOnQuestLog = TRUE;
     if (UseContinueGameWarp() == TRUE)
     {
         ClearContinueGameWarpStatus();

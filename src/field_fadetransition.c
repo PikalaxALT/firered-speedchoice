@@ -25,21 +25,21 @@
 #include "constants/event_objects.h"
 #include "constants/field_weather.h"
 
-static void sub_807DF4C(u8 a0);
-static void sub_807DFBC(u8 taskId);
-static void task_map_chg_seq_0807E20C(u8 taskId);
-static void task_map_chg_seq_0807E2CC(u8 taskId);
+static void DoWarpDoorFadeIn(u8 fadeFromBlack);
+static void Task_OpenHingedDoor(u8 taskId);
+static void Task_ExitNonAnimDoor(u8 taskId);
+static void Task_WarpIntoMapAnim_Generic(u8 taskId);
 static void Task_TeleportWarpIn(u8 taskId);
 static void Task_Teleport2Warp(u8 taskId);
 static void Task_TeleportWarp(u8 taskId);
 static void Task_DoorWarp(u8 taskId);
 static void Task_StairWarp(u8 taskId);
-static void sub_807EB64(u16, s16*, s16*);
-static void sub_807EBBC(u8 a0, s16 *a1, s16 *a2);
-static void sub_807EAC4(s16, s16, s16*, s16*, s16*);
-static void sub_807EC34(u8 taskId);
-static void sub_807ECBC(s16 *, s16 *, s16 *, s16 *, s16 *);
-static bool8 sub_807EDA0(s16 *, s16 *, s16 *, s16 *, s16 *);
+static void InitStairWarpOut(u16, s16*, s16*);
+static void GetStairSpeedVecByMetatileBehavior(u8 metatileBehavior, s16 *pXspeed, s16 *pYspeed);
+static void UpdateStairWarpOut(s16, s16, s16*, s16*, s16*);
+static void Task_WarpIntoMapAnim_DirectionalStairs(u8 taskId);
+static void InitStairWarpIn(s16 *, s16 *, s16 *, s16 *, s16 *);
+static bool8 UpdateStairWarpIn(s16 *, s16 *, s16 *, s16 *, s16 *);
 
 void palette_bg_faded_fill_white(void)
 {
@@ -55,12 +55,12 @@ void WarpFadeInScreen(void)
 {
     switch (MapTransitionIsExit(GetLastUsedWarpMapType(), GetCurrentMapType()))
     {
-    case 0:
+    case FALSE:
         palette_bg_faded_fill_black();
         FadeScreen(FADE_FROM_BLACK, 0);
         palette_bg_faded_fill_black();
         break;
-    case 1:
+    case TRUE:
         palette_bg_faded_fill_white();
         FadeScreen(FADE_FROM_WHITE, 0);
         palette_bg_faded_fill_white();
@@ -68,16 +68,16 @@ void WarpFadeInScreen(void)
     }
 }
 
-static void sub_807DBAC(void)
+static void WarpFadeInScreen_Slow(void)
 {
     switch (MapTransitionIsExit(GetLastUsedWarpMapType(), GetCurrentMapType()))
     {
-    case 0:
+    case FALSE:
         palette_bg_faded_fill_black();
         FadeScreen(FADE_FROM_BLACK, 3);
         palette_bg_faded_fill_black();
         break;
-    case 1:
+    case TRUE:
         palette_bg_faded_fill_white();
         FadeScreen(FADE_FROM_WHITE, 3);
         palette_bg_faded_fill_white();
@@ -111,7 +111,7 @@ void WarpFadeOutScreen(void)
     }
 }
 
-static void sub_807DC70(void)
+static void WarpFadeOutScreen_Slow(void)
 {
     switch (MapTransitionIsEnter(GetCurrentMapType(), GetDestinationWarpMapHeader()->mapType))
     {
@@ -124,26 +124,26 @@ static void sub_807DC70(void)
     }
 }
 
-static void sub_807DCB0(bool8 arg)
+static void SetPlayerVisibility(bool8 arg)
 {
     SetPlayerInvisibility(!arg);
 }
 
-static void task0A_nop_for_a_while(u8 taskId)
+static void ReturnToUnionRoom_WaitFade(u8 taskId)
 {
     if (FieldFadeTransitionBackgroundEffectIsFinished() == TRUE)
         DestroyTask(taskId);
 }
 
-void sub_807DCE4(void)
+void FieldCB_ReturnToUnionRoom(void)
 {
     ScriptContext2_Enable();
     Overworld_PlaySpecialMapMusic();
     FadeInFromBlack();
-    CreateTask(task0A_nop_for_a_while, 10);
+    CreateTask(ReturnToUnionRoom_WaitFade, 10);
 }
 
-static void task0A_asap_script_env_2_enable_and_set_ctx_running(u8 taskId)
+static void FadeTransition_WaitFade(u8 taskId)
 {
     if (FieldFadeTransitionBackgroundEffectIsFinished() == TRUE)
     {
@@ -157,17 +157,17 @@ void FieldCB_ContinueScriptHandleMusic(void)
     ScriptContext2_Enable();
     Overworld_PlaySpecialMapMusic();
     FadeInFromBlack();
-    CreateTask(task0A_asap_script_env_2_enable_and_set_ctx_running, 10);
+    CreateTask(FadeTransition_WaitFade, 10);
 }
 
 void FieldCB_ContinueScript(void)
 {
     ScriptContext2_Enable();
     FadeInFromBlack();
-    CreateTask(task0A_asap_script_env_2_enable_and_set_ctx_running, 10);
+    CreateTask(FadeTransition_WaitFade, 10);
 }
 
-static void task_mpl_807DD60(u8 taskId)
+static void Task_ReturnToFieldCableLink(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0])
@@ -198,10 +198,10 @@ void FieldCB_ReturnToFieldCableLink(void)
     ScriptContext2_Enable();
     Overworld_PlaySpecialMapMusic();
     palette_bg_faded_fill_black();
-    CreateTask(task_mpl_807DD60, 10);
+    CreateTask(Task_ReturnToFieldCableLink, 10);
 }
 
-static void sub_807DDF0(u8 taskId)
+static void Task_ReturnToFieldWirelessLink(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0])
@@ -233,10 +233,10 @@ void FieldCB_ReturnToFieldWirelessLink(void)
     ScriptContext2_Enable();
     Overworld_PlaySpecialMapMusic();
     palette_bg_faded_fill_black();
-    CreateTask(sub_807DDF0, 10);
+    CreateTask(Task_ReturnToFieldWirelessLink, 10);
 }
 
-static void sub_807DE78(bool8 a0)
+static void FieldCBSub_OnWarpExit(bool8 fadeFromBlack)
 {
     s16 x, y;
     u32 behavior;
@@ -246,7 +246,7 @@ static void sub_807DE78(bool8 a0)
     behavior = MapGridGetMetatileBehaviorAt(x, y);
     if (MetatileBehavior_IsWarpDoor_2(behavior) == TRUE)
     {
-        func = sub_807DFBC;
+        func = Task_OpenHingedDoor;
         switch (MapTransitionIsExit(GetLastUsedWarpMapType(), GetCurrentMapType()))
         {
         case 0:
@@ -259,26 +259,21 @@ static void sub_807DE78(bool8 a0)
     }
     else
     {
-        sub_807DF4C(a0);
+        DoWarpDoorFadeIn(fadeFromBlack);
         if (MetatileBehavior_IsNonAnimDoor(behavior) == TRUE)
-            func = task_map_chg_seq_0807E20C;
+            func = Task_ExitNonAnimDoor;
         else if (MetatileBehavior_IsDirectionalStairWarp(behavior) == TRUE)
-        {
-            u8 tmp = gUnknown_2031DE0;
-            func = task_map_chg_seq_0807E2CC;
-            if (!tmp)
-                func = sub_807EC34;
-        }
+            func = !gLoadingMapOnQuestLog ? Task_WarpIntoMapAnim_DirectionalStairs : Task_WarpIntoMapAnim_Generic;
         else
-            func = task_map_chg_seq_0807E2CC;
+            func = Task_WarpIntoMapAnim_Generic;
     }
-    gUnknown_2031DE0 = FALSE;
+    gLoadingMapOnQuestLog = FALSE;
     CreateTask(func, 10);
 }
 
-static void sub_807DF4C(bool8 a0)
+static void DoWarpDoorFadeIn(bool8 fadeFromBlack)
 {
-    if (!a0)
+    if (!fadeFromBlack)
         WarpFadeInScreen();
     else
         FadeInFromBlack();
@@ -288,7 +283,7 @@ void FieldCB_DefaultWarpExit(void)
 {
     Overworld_PlaySpecialMapMusic();
     QuestLog_DrawPreviouslyOnQuestHeaderIfInPlaybackMode();
-    sub_807DE78(FALSE);
+    FieldCBSub_OnWarpExit(FALSE);
     ScriptContext2_Enable();
 }
 
@@ -296,7 +291,7 @@ void FieldCB_WarpExitFadeFromBlack(void)
 {
     Overworld_PlaySpecialMapMusic();
     QuestLog_DrawPreviouslyOnQuestHeaderIfInPlaybackMode();
-    sub_807DE78(TRUE);
+    FieldCBSub_OnWarpExit(TRUE);
     ScriptContext2_Enable();
 }
 
@@ -310,7 +305,7 @@ static void FieldCB_TeleportWarpIn(void)
     ScriptContext2_Enable();
 }
 
-static void sub_807DFBC(u8 taskId)
+static void Task_OpenHingedDoor(u8 taskId)
 {
     struct Task * task = &gTasks[taskId];
     s16 *x = &task->data[2];
@@ -322,17 +317,17 @@ static void sub_807DFBC(u8 taskId)
     switch (task->data[0])
     {
     case 0: // Never reached
-        sub_807DCB0(0);
+        SetPlayerVisibility(FALSE);
         FreezeObjectEvents();
         PlayerGetDestCoords(x, y);
         FieldSetDoorOpened(*x, *y);
         task->data[0] = 1;
         break;
     case 5:
-        sub_807DCB0(0);
+        SetPlayerVisibility(FALSE);
         FreezeObjectEvents();
         DoOutwardBarnDoorWipe();
-        sub_807DBAC();
+        WarpFadeInScreen_Slow();
         task->data[0] = 6;
         break;
     case 6:
@@ -349,7 +344,7 @@ static void sub_807DFBC(u8 taskId)
         if (!FieldIsDoorAnimationRunning())
         {
             PlayerGetDestCoords(&task->data[12], &task->data[13]);
-            sub_807DCB0(TRUE);
+            SetPlayerVisibility(TRUE);
             ObjectEventSetHeldMovement(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)], MOVEMENT_ACTION_WALK_NORMAL_DOWN);
             task->data[0] = 8;
         }
@@ -373,7 +368,7 @@ static void sub_807DFBC(u8 taskId)
     case 1:
         if (FieldFadeTransitionBackgroundEffectIsFinished())
         {
-            sub_807DCB0(TRUE);
+            SetPlayerVisibility(TRUE);
             ObjectEventSetHeldMovement(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)], MOVEMENT_ACTION_WALK_NORMAL_DOWN);
             task->data[0] = 2;
         }
@@ -398,7 +393,7 @@ static void sub_807DFBC(u8 taskId)
     }
 }
 
-static void task_map_chg_seq_0807E20C(u8 taskId)
+static void Task_ExitNonAnimDoor(u8 taskId)
 {
     struct Task * task = &gTasks[taskId];
     s16 *x = &task->data[2];
@@ -407,7 +402,7 @@ static void task_map_chg_seq_0807E20C(u8 taskId)
     switch (task->data[0])
     {
     case 0:
-        sub_807DCB0(0);
+        SetPlayerVisibility(FALSE);
         FreezeObjectEvents();
         PlayerGetDestCoords(x, y);
         task->data[0] = 1;
@@ -415,7 +410,7 @@ static void task_map_chg_seq_0807E20C(u8 taskId)
     case 1:
         if (FieldFadeTransitionBackgroundEffectIsFinished())
         {
-            sub_807DCB0(TRUE);
+            SetPlayerVisibility(TRUE);
             ObjectEventSetHeldMovement(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)], GetWalkNormalMovementAction(GetPlayerFacingDirection()));
             task->data[0] = 2;
         }
@@ -434,7 +429,7 @@ static void task_map_chg_seq_0807E20C(u8 taskId)
     }
 }
 
-static void task_map_chg_seq_0807E2CC(u8 taskId)
+static void Task_WarpIntoMapAnim_Generic(u8 taskId)
 {
     switch (gTasks[taskId].data[0])
     {
@@ -610,12 +605,12 @@ void DoTeleportWarp(void)
     gFieldCallback = FieldCB_TeleportWarpIn;
 }
 
-void sub_807E5C4(void)
+void FadeOutAndDoTeleport2Warp(void)
 {
     ScriptContext2_Enable();
     WarpFadeOutScreen();
     CreateTask(Task_Teleport2Warp, 10);
-    gFieldCallback = nullsub_60;
+    gFieldCallback = FieldCB_Dummy;
 }
 
 static void Task_CableClubWarp(u8 taskId)
@@ -763,7 +758,7 @@ static void Task_DoorWarp(u8 taskId)
         {
             task->data[1] = FieldAnimateDoorClose(*xp, *yp - 1);
             ObjectEventClearHeldMovementIfFinished(&gObjectEvents[GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0)]);
-            sub_807DCB0(FALSE);
+            SetPlayerVisibility(FALSE);
             task->data[0] = 3;
         }
         break;
@@ -812,14 +807,14 @@ static void Task_StairWarp(u8 taskId)
                 TryFadeOutOldMapMusic();
                 PlayRainStoppingSoundEffect();
                 playerSpr->oam.priority = 1;
-                sub_807EB64(data[1], &data[2], &data[3]);
+                InitStairWarpOut(data[1], &data[2], &data[3]);
                 PlaySE(SE_EXIT);
                 data[0]++;
             }
         }
         break;
     case 2:
-        sub_807EAC4(data[2], data[3], &data[4], &data[5], &data[6]);
+        UpdateStairWarpOut(data[2], data[3], &data[4], &data[5], &data[6]);
         data[15]++;
         if (data[15] >= 12)
         {
@@ -828,7 +823,7 @@ static void Task_StairWarp(u8 taskId)
         }
         break;
     case 3:
-        sub_807EAC4(data[2], data[3], &data[4], &data[5], &data[6]);
+        UpdateStairWarpOut(data[2], data[3], &data[4], &data[5], &data[6]);
         if (!WaitWarpFadeOutScreen() && BGMusicStopped())
             data[0]++;
         break;
@@ -841,58 +836,58 @@ static void Task_StairWarp(u8 taskId)
     }
 }
 
-static void sub_807EAC4(s16 a0, s16 a1, s16 *a2, s16 *a3, s16 *a4)
+static void UpdateStairWarpOut(s16 pXspeed, s16 pYspeed, s16 *pX, s16 *pY, s16 *pTimer)
 {
     struct Sprite *playerSpr = &gSprites[gPlayerAvatar.spriteId];
     struct ObjectEvent *playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if (a1 > 0 || *a4 > 6)
-        *a3 += a1;
-    *a2 += a0;
-    (*a4)++;
-    playerSpr->pos2.x = *a2 >> 5;
-    playerSpr->pos2.y = *a3 >> 5;
+    if (pYspeed > 0 || *pTimer > 6)
+        *pY += pYspeed;
+    *pX += pXspeed;
+    (*pTimer)++;
+    playerSpr->pos2.x = *pX >> 5;
+    playerSpr->pos2.y = *pY >> 5;
     if (playerObj->heldMovementFinished)
     {
         ObjectEventForceSetHeldMovement(playerObj, GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
     }
 }
 
-static void sub_807EB64(u16 a0, s16 *a1, s16 *a2)
+static void InitStairWarpOut(u16 metatileBehavior, s16 *pXspeed, s16 *pYspeed)
 {
     ObjectEventForceSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
-    sub_807EBBC(a0, a1, a2);
+    GetStairSpeedVecByMetatileBehavior(metatileBehavior, pXspeed, pYspeed);
 }
 
-static void sub_807EBBC(u8 a0, s16 *a1, s16 *a2)
+static void GetStairSpeedVecByMetatileBehavior(u8 metatileBehavior, s16 *pXspeed, s16 *pYspeed)
 {
-    if (MetatileBehavior_IsDirectionalUpRightStairWarp(a0))
+    if (MetatileBehavior_IsDirectionalUpRightStairWarp(metatileBehavior))
     {
-        *a1 = 16;
-        *a2 = -10;
+        *pXspeed = 16;
+        *pYspeed = -10;
     }
-    else if (MetatileBehavior_IsDirectionalUpLeftStairWarp(a0))
+    else if (MetatileBehavior_IsDirectionalUpLeftStairWarp(metatileBehavior))
     {
-        *a1 = -17;
-        *a2 = -10;
+        *pXspeed = -17;
+        *pYspeed = -10;
     }
-    else if (MetatileBehavior_IsDirectionalDownRightStairWarp(a0))
+    else if (MetatileBehavior_IsDirectionalDownRightStairWarp(metatileBehavior))
     {
-        *a1 = 17;
-        *a2 = 3;
+        *pXspeed = 17;
+        *pYspeed = 3;
     }
-    else if (MetatileBehavior_IsDirectionalDownLeftStairWarp(a0))
+    else if (MetatileBehavior_IsDirectionalDownLeftStairWarp(metatileBehavior))
     {
-        *a1 = -17;
-        *a2 = 3;
+        *pXspeed = -17;
+        *pYspeed = 3;
     }
     else
     {
-        *a1 = 0;
-        *a2 = 0;
+        *pXspeed = 0;
+        *pYspeed = 0;
     }
 }
 
-static void sub_807EC34(u8 taskId)
+static void Task_WarpIntoMapAnim_DirectionalStairs(u8 taskId)
 {
     s16 * data = gTasks[taskId].data;
     switch (data[0])
@@ -909,51 +904,51 @@ static void sub_807EC34(u8 taskId)
         Overworld_PlaySpecialMapMusic();
         WarpFadeInScreen();
         ScriptContext2_Enable();
-        sub_807ECBC(&data[1], &data[2], &data[3], &data[4], &data[5]);
+        InitStairWarpIn(&data[1], &data[2], &data[3], &data[4], &data[5]);
         data[0]++;
         break;
     case 1:
-        if (!sub_807EDA0(&data[1], &data[2], &data[3], &data[4], &data[5]))
+        if (!UpdateStairWarpIn(&data[1], &data[2], &data[3], &data[4], &data[5]))
             data[0]++;
         break;
     }
 }
 
-static void sub_807ECBC(s16 *a0, s16 *a1, s16 *a2, s16 *a3, s16 *a4)
+static void InitStairWarpIn(s16 *pXspeed, s16 *pYspeed, s16 *pX, s16 *pY, s16 *a4)
 {
     s16 x, y;
     u8 behavior;
-    s32 r1;
+    s32 direction;
     struct Sprite *sprite;
     PlayerGetDestCoords(&x, &y);
     behavior = MapGridGetMetatileBehaviorAt(x, y);
     if (MetatileBehavior_IsDirectionalDownRightStairWarp(behavior) || MetatileBehavior_IsDirectionalUpRightStairWarp(behavior))
-        r1 = 3;
+        direction = DIR_WEST;
     else
-        r1 = 4;
-    ObjectEventForceSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetWalkInPlaceSlowMovementAction(r1));
-    sub_807EBBC(behavior, a0, a1);
-    *a2 = *a0 * 16;
-    *a3 = *a1 * 16;
+        direction = DIR_EAST;
+    ObjectEventForceSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetWalkInPlaceSlowMovementAction(direction));
+    GetStairSpeedVecByMetatileBehavior(behavior, pXspeed, pYspeed);
+    *pX = *pXspeed * 16;
+    *pY = *pYspeed * 16;
     *a4 = 16;
     sprite = &gSprites[gPlayerAvatar.spriteId];
-    sprite->pos2.x = *a2 >> 5;
-    sprite->pos2.y = *a3 >> 5;
-    *a0 *= -1;
-    *a1 *= -1;
+    sprite->pos2.x = *pX >> 5;
+    sprite->pos2.y = *pY >> 5;
+    *pXspeed *= -1;
+    *pYspeed *= -1;
 }
 
-static bool8 sub_807EDA0(s16 *a0, s16 *a1, s16 *a2, s16 *a3, s16 *a4)
+static bool8 UpdateStairWarpIn(s16 *pXspeed, s16 *pYspeed, s16 *pX, s16 *pY, s16 *pTimer)
 {
     struct Sprite *sprite;
     sprite = &gSprites[gPlayerAvatar.spriteId];
-    if (*a4 != 0)
+    if (*pTimer != 0)
     {
-        *a2 += *a0;
-        *a3 += *a1;
-        sprite->pos2.x = *a2 >> 5;
-        sprite->pos2.y = *a3 >> 5;
-        (*a4)--;
+        *pX += *pXspeed;
+        *pY += *pYspeed;
+        sprite->pos2.x = *pX >> 5;
+        sprite->pos2.y = *pY >> 5;
+        (*pTimer)--;
         return TRUE;
     }
     else
