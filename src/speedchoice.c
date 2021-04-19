@@ -213,7 +213,7 @@ const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 const u8 gSpeedchoiceTooltipEvoEveryLv[] = _("STATIC: {PKMN} evolve into a random\nbut set species every lv.\pRAND: Same thing as STATIC but\nrandom non-static every lv.");
 const u8 gSpeedchoiceTooltipHmBadgeChk[] = _("PURGE: There are no badge checks\nfor using HM moves in the field.\pKEEP: Vanilla behaviour.");
 const u8 gSpeedchoiceTooltipEasyDexRewards[] = _("Removes Pokédex caught conditions\nfor receiving certain items.");
-const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will always\ncontain the first switch, and the\pcan to the right of it will\nalways contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization");
+const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will always\ncontain the first switch, and the\pcan to the right of it will\nalways contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization\lWHY: HELL + no save-scumming");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
