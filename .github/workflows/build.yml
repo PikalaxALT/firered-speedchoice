@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ speedchoice ]
+    branches: [ 2_slots_per_rod ]
   pull_request:
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
 
       - name: Build Randomizer
         run: |
-          git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr-support
+          git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr_support_2slot
           python3 .github/workflows/update_config.py UPR/src/com/dabomstew/pkrandom/config/gen3_offsets.ini pokefirered-speedchoice.ini
           cd UPR
           git commit -a -m "Sync with PikalaxALT/firered-speedchoice ${GITHUB_SHA}" && git push
@@ -52,7 +52,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: "latest"
+          automatic_release_tag: "latest-2slots"
           prerelease: true
-          title: "Development Build"
+          title: "Feature Proposal: Two Slots Per Rod"
           files: pokemon-firered-speedchoice-*-plus-randomizer.zip
