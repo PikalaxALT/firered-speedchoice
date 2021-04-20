@@ -62,8 +62,12 @@ PokemonLeague_ChampionsRoom_EventScript_EnterRoom:: @ 8162B76
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
 	savebgm MUS_VICTORY_GYM_LEADER
-	call_if_unset FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_ChampionsRoom_EventScript_Battle
-	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_ChampionsRoom_EventScript_Rematch
+	specialvar VAR_RESULT, ShouldDoE4R2
+	compare VAR_RESULT, TRUE
+	call_if_ne PokemonLeague_ChampionsRoom_EventScript_Battle
+	specialvar VAR_RESULT, ShouldDoE4R2
+	compare VAR_RESULT, TRUE
+	call_if_eq PokemonLeague_ChampionsRoom_EventScript_Rematch
 	setflag FLAG_TEMP_4
 	clearflag FLAG_TEMP_5
 	setflag FLAG_DEFEATED_CHAMP

@@ -129,6 +129,8 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 
 ### 1.0.0
 - Fix forgot move message
+- Document Surge WHY in tooltip
+- Logic for E4 round 2 unlock in plotless
 
 ## See also
 

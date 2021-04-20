@@ -453,4 +453,5 @@ gSpecials:: @ 815FD60
 	def_special LoopWingFlapSound
 	def_special CreateEventLegalEnemyMon
 	def_special Special_UseLastRepelInField
+	def_special ShouldDoE4R2
 gSpecialsEnd::
