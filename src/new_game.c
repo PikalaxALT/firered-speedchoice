@@ -158,11 +158,10 @@ void NewGameInitData(void)
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
 
-    AddBagItem(ITEM_DONE_BUTTON, 1);
-    if (CheckSpeedchoiceOption(EARLY_BIKE, EARLY_BIKE_YES) == TRUE)
-    {
+    if (gSaveBlock2Ptr->speedchoiceConfig.earlyBike == EARLY_BIKE_YES)
         AddBagItem(ITEM_BICYCLE, 1);
-    }
+    if (gSaveBlock2Ptr->speedchoiceConfig.raceGoal == GOAL_MANUAL)
+        AddBagItem(ITEM_DONE_BUTTON, 1);
     FlagSet(FLAG_SYS_B_DASH);
 
 #if DEVMODE

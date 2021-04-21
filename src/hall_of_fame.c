@@ -18,6 +18,8 @@
 #include "trainer_pokemon_sprites.h"
 #include "text_window.h"
 #include "field_fadetransition.h"
+#include "field_specials.h"
+#include "done_button.h"
 #include "menu.h"
 #include "string_util.h"
 #include "trig.h"
@@ -25,6 +27,7 @@
 #include "graphics.h"
 #include "constants/songs.h"
 #include "constants/maps.h"
+#include "constants/speedchoice.h"
 
 struct HallofFameMon
 {
@@ -55,6 +58,7 @@ static EWRAM_DATA struct HofGfx * sHofGfxPtr = NULL;
 #define HALL_OF_FAME_MAX_TEAMS 50
 #define HALL_OF_FAME_BG_PAL    (RGB(22, 24, 29))
 
+static void CB2_ReturnFromDoneButton(void);
 static void Task_Hof_InitMonData(u8 taskId);
 static void Task_Hof_InitTeamSaveData(u8 taskId);
 static void Task_Hof_TrySaveData(u8 taskId);
@@ -438,6 +442,7 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
         if (lastSavedTeam[0].mon[0].species == SPECIES_NONE)
             break;
     }
+    gTasks[taskId].data[15] = i == 0;
     if (i >= HALL_OF_FAME_MAX_TEAMS)
     {
         struct HallofFameTeam *afterTeam = (struct HallofFameTeam*)(gDecompressionBuffer);
@@ -686,12 +691,34 @@ static void Task_Hof_HandleExit(u8 taskId)
         DestroyTask(taskId);
 
         if (sHofGfxPtr != NULL)
-        FREE_AND_SET_NULL(sHofGfxPtr);
+            FREE_AND_SET_NULL(sHofGfxPtr);
         if (sHofMonPtr != NULL)
-        FREE_AND_SET_NULL(sHofMonPtr);
+            FREE_AND_SET_NULL(sHofMonPtr);
 
-        SetWarpsToRollCredits();
+        switch (gSaveBlock2Ptr->speedchoiceConfig.raceGoal)
+        {
+        case GOAL_MANUAL:
+        default:
+            SetWarpsToRollCredits();
+            break;
+        case GOAL_HOF:
+            OpenDoneButton(CB2_ReturnFromDoneButton);
+            break;
+        case GOAL_E4R2:
+            if (!gTasks[taskId].data[15] && ShouldDoE4R2())
+                OpenDoneButton(CB2_ReturnFromDoneButton);
+            else
+                SetWarpsToRollCredits();
+            break;
+        }
     }
+}
+
+static void CB2_ReturnFromDoneButton(void)
+{
+    SetWarpsToRollCredits();
+    SetMainCallback2(CB2_HofIdle);
+    CB2_HofIdle();
 }
 
 static void SetWarpsToRollCredits(void)
