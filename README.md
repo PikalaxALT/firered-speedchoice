@@ -131,6 +131,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix forgot move message
 - Document Surge WHY in tooltip
 - Logic for E4 round 2 unlock in plotless
+- Fix misplaced window in Pokedex covering up type icons
 
 ## See also
 
