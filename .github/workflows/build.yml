@@ -28,8 +28,7 @@ jobs:
 
       - name: Build
         run: |
-          make -j${nproc}
-          make rando UPRDIR=UPR
+          make -j${nproc} rando UPRDIR=UPR
 
       - name: Package Release
         run: |
