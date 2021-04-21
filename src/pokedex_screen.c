@@ -140,7 +140,7 @@ static void Task_DexScreen_RegisterMonToPokedex(u8 taskId);
 const u32 sCategoryMonInfoBgTiles[] = INCBIN_U32("graphics/interface/pokedex_mini_page.4bpp.lz");
 const u32 sKantoDexTiles[] = INCBIN_U32("graphics/interface/pokedex_kanto_dex_bgtiles.4bpp.lz");
 const u32 sNatDexTiles[] = INCBIN_U32("graphics/interface/pokedex_national_dex_bgtiles.4bpp.lz");
-const u16 sKantoDexPalette[0x2000] = INCBIN_U16("graphics/interface/pokedex_kanto_dex_bgpals.gbapal");
+const u16 sKantoDexPalette[0x200] = INCBIN_U16("graphics/interface/pokedex_kanto_dex_bgpals.gbapal");
 
 const u16 sDexScreen_CategoryCursorPals[] = {
     RGB(24, 22, 17), RGB(26, 24, 20),
@@ -151,7 +151,7 @@ const u16 sDexScreen_CategoryCursorPals[] = {
     RGB(26, 20, 15), RGB(27, 23, 19)
 };
 
-const u16 sNationalDexPalette[0x2000] = INCBIN_U16("graphics/interface/pokedex_national_dex_bgpals.gbapal");
+const u16 sNationalDexPalette[0x200] = INCBIN_U16("graphics/interface/pokedex_national_dex_bgpals.gbapal");
 const u32 sTopMenuIconTiles_Cave[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_cave.4bpp.lz");
 const u32 sTopMenuIconTiles_Urban[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_urban.4bpp.lz");
 const u32 sTopMenuSelectionIconTiles_Cancel[] = INCBIN_U32("graphics/interface/pokedex_cat_icon_cancel.4bpp.lz");
