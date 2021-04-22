@@ -135,6 +135,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix misplaced window in Pokedex covering up type icons
 - Add Race Goal option
 - Initial bag has Bicycle on top
+- Correctly init the Two Island shop
 
 ## See also
 
