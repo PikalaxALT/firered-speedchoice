@@ -96,6 +96,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Guaranteed Rock Smash encounters
 - Fixed revocation of Rainbow Pass effectiveness after completing Lostelle quest
 - Fixed Altering Cave exit warps
+- Add Luxury Ball, Lax Incense, Sea Incense, and Heart Scale to Two Island Shop
 - Add dex beep
 - Revert TM09 to Bullet Seed, and set TM27 to Sweet Scent
 
@@ -134,6 +135,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Fix misplaced window in Pokedex covering up type icons
 - Add Race Goal option
 - Initial bag has Bicycle on top
+- Correctly init the Two Island shop
 
 ## See also
 
