@@ -60,7 +60,7 @@ extern MainCallback gFieldCallback;
 
 extern struct WarpData gLastUsedWarp;
 
-extern u8 gUnknown_2031DE0;
+extern u8 gLoadingMapOnQuestLog;
 extern u8 gFieldLinkPlayerCount;
 extern u8 gLocalLinkPlayerId;
 

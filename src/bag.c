@@ -232,7 +232,7 @@ void InitBagWindows(void)
     LoadPalette(sBagWindowPalF, 0xF0, 0x20);
     for (i = 0; i < BAGWIN_STD_COUNT; i++)
     {
-        FillWindowPixelBuffer(i, 0x00);
+        FillWindowPixelBuffer(i, PIXEL_FILL(0));
         PutWindowTilemap(i);
     }
     ScheduleBgCopyTilemapToVram(0);

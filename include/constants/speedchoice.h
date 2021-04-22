@@ -20,26 +20,27 @@
 #define PLAYER_NAME_SET      1u // Implemented
 #define EXPMATH              2u // Implemented
 #define PLOTLESS             3u // Implemented
-#define INSTANTTEXT          4u // Implemented
-#define SPINNERS             5u // Implemented
-#define EARLYSURF            6u // Implemented
-#define MAXVISION            7u // Implemented
-#define NEWWILDENC           8u // Implemented
-#define RUN_EVERYWHERE       9u // Implemented
-#define BETTER_MARTS        10u // Implemented
-#define GOOD_EARLY_WILDS    11u // Implemented
-#define NICE_MENU_ORDER     12u // Implemented
-#define EASY_FALSE_SWIPE    13u // Implemented
-#define EASY_DEX_REWARDS    14u // Implemented
-#define FAST_CATCH          15u // Implemented
-#define EARLY_BIKE          16u // Implemented
-#define FAST_EGG_HATCH      17u // Implemented
-#define GEN_7_X_ITEMS       18u // Implemented
-#define EVO_EVERY_LEVEL     19u // Implemented
-#define HM_BADGE_CHECKS     20u // Implemented
-#define EASY_SURGE_CANS     21u // Implemented
+#define RACE_GOAL            4u
+#define INSTANTTEXT          5u // Implemented
+#define SPINNERS             6u // Implemented
+#define EARLYSURF            7u // Implemented
+#define MAXVISION            8u // Implemented
+#define NEWWILDENC           9u // Implemented
+#define RUN_EVERYWHERE      10u // Implemented
+#define BETTER_MARTS        11u // Implemented
+#define GOOD_EARLY_WILDS    12u // Implemented
+#define NICE_MENU_ORDER     13u // Implemented
+#define EASY_FALSE_SWIPE    14u // Implemented
+#define EASY_DEX_REWARDS    15u // Implemented
+#define FAST_CATCH          16u // Implemented
+#define EARLY_BIKE          17u // Implemented
+#define FAST_EGG_HATCH      18u // Implemented
+#define GEN_7_X_ITEMS       19u // Implemented
+#define EVO_EVERY_LEVEL     20u // Implemented
+#define HM_BADGE_CHECKS     21u // Implemented
+#define EASY_SURGE_CANS     22u // Implemented
 
-#define CURRENT_OPTIONS_NUM 22u
+#define CURRENT_OPTIONS_NUM 23u
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
@@ -206,6 +207,13 @@
 #define SURGE_KEEP 1
 #define SURGE_HELL 2
 #define SURGE_WHY  3
+
+// --------------------
+// RACE GOAL ENUM
+// --------------------
+#define GOAL_MANUAL 0
+#define GOAL_HOF    1
+#define GOAL_E4R2   2
 
 // Enumeration for optionType in the Speedchoice struct below.
 

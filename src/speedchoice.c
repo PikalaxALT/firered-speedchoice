@@ -140,6 +140,10 @@ const u8 gSpeedchoiceTextNone[]   = _("NONE");
 const u8 gSpeedchoiceTextTutor[] = _("TUTOR");
 const u8 gSpeedchoiceTextHM05[]   = _("HM05");
 
+const u8 gSpeedchoiceTextManual[] = _("MANUAL");
+const u8 gSpeedchoiceTextHoF[] = _("HOF");
+const u8 gSpeedchoiceTextE4R2[] = _("E4R2");
+
 /* ----------------------------------------------- */
 /* SPEEDCHOICE MENU TEXT (Option Names)            */
 /* ----------------------------------------------- */
@@ -148,31 +152,32 @@ const u8 gSpeedchoiceTextHM05[]   = _("HM05");
 const u8 gSpeedchoiceOptionPreset[] = _("PRESET");
 const u8 gSpeedchoiceOptionName[] = _("NAME");
 const u8 gSpeedchoiceOptionEXP[] = _("EXP");
+const u8 gSpeedchoiceOptionRaceGoal[] = _("RACE GOAL");
 const u8 gSpeedchoiceOptionPlotless[] = _("PLOTLESS");
-const u8 gSpeedchoiceOptionInstantText[] = _("HOLD TO MASH");
 
 // PAGE 2
+const u8 gSpeedchoiceOptionInstantText[] = _("HOLD TO MASH");
 const u8 gSpeedchoiceOptionSpinners[] = _("SPINNERS");
 const u8 gSpeedchoiceOptionEarlySurf[] = _("EARLY SURF");
 const u8 gSpeedchoiceOptionMaxVision[] = _("MAX VISION");
 const u8 gSpeedchoiceOptionNewWildEnc[] = _("NEW WILD ENC.");
-const u8 gSpeedchoiceOptionRunEverywhere[] = _("RUN EVERYWHERE");
 
 // PAGE 3
+const u8 gSpeedchoiceOptionRunEverywhere[] = _("RUN EVERYWHERE");
 const u8 gSpeedchoiceOptionBetterMarts[] = _("BETTER MARTS");
 const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("GOOD EARLY WILDS");
 const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("NICE MENU ORDER");
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("EASY FALSE SWIPE");
-const u8 gSpeedchocieOptionEasyDexRewards[] = _("EASY DEX REWARDS");
 
 // PAGE 4
+const u8 gSpeedchocieOptionEasyDexRewards[] = _("EASY DEX REWARDS");
 const u8 gSpeedchoiceOptionFastCatch[] = _("FAST CATCH");
 const u8 gSpeedchoiceOptionEarlyBike[] = _("EARLY BIKE");
 const u8 gSpeedchoiceOptionFastEggHatch[] = _("FAST EGG HATCH");
 const u8 gSpeedchoiceOptionGen7XItems[] = _("GEN 7 X ITEMS");
-const u8 gSpeedchoiceOptionEvoEveryLv[] = _("EVO EVERY LV");
 
 // PAGE 5
+const u8 gSpeedchoiceOptionEvoEveryLv[] = _("EVO EVERY LV");
 const u8 gSpeedchoiceOptionHmBadgeChk[] = _("HM BADGE CHK");
 const u8 gSpeedchoiceOptionEasySurgeCans[] = _("EASY SURGE");
 
@@ -195,6 +200,7 @@ const u8 gSpeedchoiceTooltipExplanation[] = _("This is the Speedchoice menu wher
 const u8 gSpeedchoiceTooltipPreset[] = _("Sets of predetermined options\nthat help speedrunners quickly select\pa set of options for a type of\nspeedrunning category.");
 const u8 gSpeedchoiceTooltipName[] = _("Set your trainer name here.");
 const u8 gSpeedchoiceTooltipEXP[] = _("Modifies the experience system\nto the desired input.\pCan be Gen 5, or\nno exp at all.");
+const u8 gSpeedchoiceTooltipRaceGoal[] = _("Sets the endpoint of the race.\pMANUAL: Puts a DONE BUTTON\nin your bag.\pHOF: Elite Four Round 1\nE4R2: Elite Four Round 2");
 const u8 gSpeedchoiceTooltipPlotless[] = _("Affects whether the Rocket sections\nare required for progression.\pKEEP: Everything is vanilla\nSEMI: Progression items are elsewhere\pFULL: Same as SEMI but the\nGRUNTs are removed too.");
 const u8 gSpeedchoiceTooltipInstantText[] = _("Self-explanatory.\nHold A or B to mash.");
 const u8 gSpeedchoiceTooltipSpinners[] = _("PURGE: Makes spinners on a static\nspinning pattern at a fixed rate.\pHELL: Rapidly spins\nevery spinner every frame.\pWHY: Same as HELL but 4 frames\ninstead of 16.\pHELL and WHY also fix bag\nmanip.");
@@ -213,7 +219,7 @@ const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 const u8 gSpeedchoiceTooltipEvoEveryLv[] = _("STATIC: {PKMN} evolve into a random\nbut set species every lv.\pRAND: Same thing as STATIC but\nrandom non-static every lv.");
 const u8 gSpeedchoiceTooltipHmBadgeChk[] = _("PURGE: There are no badge checks\nfor using HM moves in the field.\pKEEP: Vanilla behaviour.");
 const u8 gSpeedchoiceTooltipEasyDexRewards[] = _("Removes Pokédex caught conditions\nfor receiving certain items.");
-const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will always\ncontain the first switch, and the\pcan to the right of it will\nalways contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization");
+const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will always\ncontain the first switch, and the\pcan to the right of it will\nalways contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization\lWHY: HELL + no save-scumming");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
@@ -258,6 +264,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLAYER_NAME_SET]  = 0xFF,
         [EXPMATH]          = EXP_KEEP,
         [PLOTLESS]         = PLOT_KEEP,
+        [RACE_GOAL]        = GOAL_MANUAL,
         [INSTANTTEXT]      = IT_OFF,
         [SPINNERS]         = SPIN_KEEP,
         [EARLYSURF]        = EARLY_SURF_NO,
@@ -282,6 +289,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLAYER_NAME_SET]  = 0xFF,
         [EXPMATH]          = EXP_BW,
         [PLOTLESS]         = PLOT_FULL,
+        [RACE_GOAL]        = GOAL_MANUAL,
         [INSTANTTEXT]      = IT_ON,
         [SPINNERS]         = SPIN_NERF,
         [EARLYSURF]        = EARLY_SURF_YES,
@@ -306,6 +314,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLAYER_NAME_SET]  = 0xFF,
         [EXPMATH]          = EXP_BW,
         [PLOTLESS]         = PLOT_FULL,
+        [RACE_GOAL]        = GOAL_E4R2,
         [INSTANTTEXT]      = IT_ON,
         [SPINNERS]         = SPIN_NERF,
         [EARLYSURF]        = EARLY_SURF_YES,
@@ -330,6 +339,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLAYER_NAME_SET]  = 0xFF,
         [EXPMATH]          = EXP_BW,
         [PLOTLESS]         = PLOT_FULL,
+        [RACE_GOAL]        = GOAL_E4R2,
         [INSTANTTEXT]      = IT_ON,
         [SPINNERS]         = SPIN_NERF,
         [EARLYSURF]        = EARLY_SURF_YES,
@@ -443,6 +453,15 @@ const struct OptionChoiceConfig OptionChoiceConfigKeepNone[MAX_CHOICES] =
         { -1, NULL }
     };
 
+const struct OptionChoiceConfig OptionChoiceConfigRaceGoal[MAX_CHOICES] = {
+    { 120, gSpeedchoiceTextManual },
+    { 150, gSpeedchoiceTextHoF    },
+    { 180, gSpeedchoiceTextE4R2   },
+    { -1, NULL },
+    { -1, NULL },
+    { -1, NULL }
+};
+
 /*
  * In order to use ProcessGeneralInput, a struct is needed for page, so, I opt to have a
  * dummy struct which only has the number of choices relevent to the calculation of the
@@ -517,6 +536,17 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             .string = gSpeedchoiceOptionEXP,
             .options = OptionChoiceConfigKeepNone,
             .tooltip = gSpeedchoiceTooltipEXP,
+        },
+        // ----------------------------------
+        // RACE GOAL OPTION
+        // ----------------------------------
+        [RACE_GOAL] = {
+            .optionCount = 3,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionRaceGoal,
+            .options = OptionChoiceConfigRaceGoal,
+            .tooltip = gSpeedchoiceTooltipRaceGoal,
         },
         // ----------------------------------
         // PLOTLESS OPTION
@@ -788,6 +818,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     // this would be a for loop, but i want to use the fewest bits possible to
     // avoid shifting RAM too much: hence the ugly per-option saving.
     gSaveBlock2Ptr->speedchoiceConfig.expsystem = preset[EXPMATH];
+    gSaveBlock2Ptr->speedchoiceConfig.raceGoal = preset[RACE_GOAL];
     gSaveBlock2Ptr->speedchoiceConfig.plotless = preset[PLOTLESS];
     gSaveBlock2Ptr->speedchoiceConfig.instantText = preset[INSTANTTEXT];
     gSaveBlock2Ptr->speedchoiceConfig.earlySurf = preset[EARLYSURF];
@@ -821,6 +852,8 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
     {
     case EXPMATH:
         return gSaveBlock2Ptr->speedchoiceConfig.expsystem == selection;
+    case RACE_GOAL:
+        return gSaveBlock2Ptr->speedchoiceConfig.raceGoal == selection;
     case PLOTLESS:
         return gSaveBlock2Ptr->speedchoiceConfig.plotless == selection;
     case INSTANTTEXT:
@@ -1298,6 +1331,7 @@ static void SaveSpeedchoiceOptions()
     // once again i would prefer to use an extensible for loop here, but the options
     // being bitfields means that it cannot currently be done.
     gSaveBlock2Ptr->speedchoiceConfig.expsystem = gLocalSpeedchoiceConfig.optionConfig[EXPMATH];
+    gSaveBlock2Ptr->speedchoiceConfig.raceGoal = gLocalSpeedchoiceConfig.optionConfig[RACE_GOAL];
     gSaveBlock2Ptr->speedchoiceConfig.plotless = gLocalSpeedchoiceConfig.optionConfig[PLOTLESS];
     gSaveBlock2Ptr->speedchoiceConfig.instantText = gLocalSpeedchoiceConfig.optionConfig[INSTANTTEXT];
     gSaveBlock2Ptr->speedchoiceConfig.earlySurf = gLocalSpeedchoiceConfig.optionConfig[EARLYSURF];

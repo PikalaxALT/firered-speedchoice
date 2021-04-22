@@ -13,7 +13,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install deps
-        run: sudo apt install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev ant openjdk-8-jdk python3
+        run: |
+          sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev
+          git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr-support
+          cd UPR
+          curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
 
       - name: Install agbcc
         run: |
@@ -22,22 +26,9 @@ jobs:
           ./build.sh
           ./install.sh ../
 
-      - name: Build FireRed
+      - name: Build
         run: |
-          make -j${nproc}
-          make -j${nproc} dev
-
-      - name: Build Randomizer
-        run: |
-          git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr_support_2slot
-          python3 .github/workflows/update_config.py UPR/src/com/dabomstew/pkrandom/config/gen3_offsets.ini pokefirered-speedchoice.ini
-          cd UPR
-          git commit -a -m "Sync with PikalaxALT/firered-speedchoice ${GITHUB_SHA}" && git push
-          wget https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz
-          tar -xzvf launch4j-3.14-linux-x64.tgz
-          cd .github/ant
-          ant
-          ant createbinaries
+          make -j${nproc} rando UPRDIR=UPR
 
       - name: Package Release
         run: |

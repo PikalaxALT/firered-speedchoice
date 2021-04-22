@@ -2578,3 +2578,17 @@ static void Task_WingFlapSound(u8 taskId)
     if (data[0] == gSpecialVar_0x8004 - 1)
         DestroyTask(taskId);
 }
+
+u16 ShouldDoE4R2(void)
+{
+    switch (gSaveBlock2Ptr->speedchoiceConfig.plotless)
+    {
+    case PLOT_KEEP:
+        return FlagGet(FLAG_SYS_CAN_LINK_WITH_RS);
+    case PLOT_SEMI:
+        return FlagGet(FLAG_DEFEATED_ROCKETS_IN_WAREHOUSE);
+    case PLOT_FULL:
+        return FlagGet(FLAG_SYS_GAME_CLEAR);
+    }
+    return FALSE;
+}

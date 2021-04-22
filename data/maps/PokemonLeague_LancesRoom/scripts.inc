@@ -110,8 +110,12 @@ PokemonLeague_LancesRoom_EventScript_Lance:: @ 8162A14
 	call_if_set FLAG_SYS_GAME_CLEAR, PokemonLeague_LancesRoom_EventScript_RematchIntro
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
-	call_if_unset FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_LancesRoom_EventScript_Battle
-	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_LancesRoom_EventScript_Rematch
+	specialvar VAR_RESULT, ShouldDoE4R2
+	compare VAR_RESULT, TRUE
+	call_if_ne PokemonLeague_LancesRoom_EventScript_Battle
+	specialvar VAR_RESULT, ShouldDoE4R2
+	compare VAR_RESULT, TRUE
+	call_if_eq PokemonLeague_LancesRoom_EventScript_Rematch
 	clearflag FLAG_TEMP_5
 	goto PokemonLeague_LancesRoom_EventScript_DefeatedLance
 	end
