@@ -137,6 +137,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Initial bag has Bicycle on top
 - Correctly init the Two Island shop
 - Early Saffron separate from Plotless
+- Fix glitch rod by making there be two encounter slots per rod instead of two fishing slots total
 
 ## See also
 

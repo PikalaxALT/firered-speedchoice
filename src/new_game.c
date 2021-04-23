@@ -166,7 +166,7 @@ void NewGameInitData(void)
 
 #if DEVMODE
     {
-        struct Pokemon * mon = Alloc(sizeof(struct Pokemon));
+        struct Pokemon * mon = AllocZeroed(sizeof(struct Pokemon));
         CreateMon(mon, SPECIES_MEWTWO, 100, 31, FALSE, 0, OT_ID_PLAYER_ID, 0);
         SetMonMoveSlot(mon, MOVE_PSYCHIC, 0);
         SetMonMoveSlot(mon, MOVE_THUNDERBOLT, 1);
