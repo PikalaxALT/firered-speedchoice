@@ -281,6 +281,7 @@ struct SpeedchoiceSaveOptions
 {
     u32 expsystem:2;
     u32 raceGoal:2;
+    u32 earlySaffron:2;
     u32 plotless:2;
     u32 instantText:1;
     u32 earlySurf:1;

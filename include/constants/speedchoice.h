@@ -20,27 +20,28 @@
 #define PLAYER_NAME_SET      1u // Implemented
 #define EXPMATH              2u // Implemented
 #define PLOTLESS             3u // Implemented
-#define RACE_GOAL            4u
-#define INSTANTTEXT          5u // Implemented
-#define SPINNERS             6u // Implemented
-#define EARLYSURF            7u // Implemented
-#define MAXVISION            8u // Implemented
-#define NEWWILDENC           9u // Implemented
-#define RUN_EVERYWHERE      10u // Implemented
-#define BETTER_MARTS        11u // Implemented
-#define GOOD_EARLY_WILDS    12u // Implemented
-#define NICE_MENU_ORDER     13u // Implemented
-#define EASY_FALSE_SWIPE    14u // Implemented
-#define EASY_DEX_REWARDS    15u // Implemented
-#define FAST_CATCH          16u // Implemented
-#define EARLY_BIKE          17u // Implemented
-#define FAST_EGG_HATCH      18u // Implemented
-#define GEN_7_X_ITEMS       19u // Implemented
-#define EVO_EVERY_LEVEL     20u // Implemented
-#define HM_BADGE_CHECKS     21u // Implemented
-#define EASY_SURGE_CANS     22u // Implemented
+#define EARLY_SAFFRON        4u // Implemented
+#define RACE_GOAL            5u // Implemented
+#define INSTANTTEXT          6u // Implemented
+#define SPINNERS             7u // Implemented
+#define EARLYSURF            8u // Implemented
+#define MAXVISION            9u // Implemented
+#define NEWWILDENC          10u // Implemented
+#define RUN_EVERYWHERE      11u // Implemented
+#define BETTER_MARTS        12u // Implemented
+#define GOOD_EARLY_WILDS    13u // Implemented
+#define NICE_MENU_ORDER     14u // Implemented
+#define EASY_FALSE_SWIPE    15u // Implemented
+#define EASY_DEX_REWARDS    16u // Implemented
+#define FAST_CATCH          17u // Implemented
+#define EARLY_BIKE          18u // Implemented
+#define FAST_EGG_HATCH      19u // Implemented
+#define GEN_7_X_ITEMS       20u // Implemented
+#define EVO_EVERY_LEVEL     21u // Implemented
+#define HM_BADGE_CHECKS     22u // Implemented
+#define EASY_SURGE_CANS     23u // Implemented
 
-#define CURRENT_OPTIONS_NUM 23u
+#define CURRENT_OPTIONS_NUM 24u
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
@@ -214,6 +215,12 @@
 #define GOAL_MANUAL 0
 #define GOAL_HOF    1
 #define GOAL_E4R2   2
+
+// --------------------
+// EARLY SAFFRON ENUM
+// --------------------
+#define SAFFRON_YES 0
+#define SAFFRON_NO  1
 
 // Enumeration for optionType in the Speedchoice struct below.
 

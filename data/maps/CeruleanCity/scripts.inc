@@ -69,8 +69,8 @@ CeruleanCity_EventScript_Rival:: @ 81664CC
 	setvar VAR_MAP_SCENE_CERULEAN_CITY_RIVAL, 1
 	setflag FLAG_GOT_FAME_CHECKER
 	giveitem ITEM_FAME_CHECKER
-	checkspeedchoice PLOTLESS, PLOT_KEEP
-	call_if FALSE, CeruleanCity_Plotless
+	checkspeedchoice EARLY_SAFFRON, SAFFRON_YES
+	call_if TRUE, CeruleanCity_UnlockSaffron
 	checkspeedchoice EARLYSURF, EARLY_SURF_YES
 	call_if TRUE, CeruleanCity_EarlySurf
 	msgbox CeruleanCity_Text_ExplainFameCheckerSmellYa
@@ -82,7 +82,7 @@ CeruleanCity_EventScript_Rival:: @ 81664CC
 	releaseall
 	end
 
-CeruleanCity_Plotless::
+CeruleanCity_UnlockSaffron::
 	setvar VAR_MAP_SCENE_ROUTE5_ROUTE6_ROUTE7_ROUTE8_GATES, 1
 	return
 

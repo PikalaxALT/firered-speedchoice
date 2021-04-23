@@ -136,6 +136,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Add Race Goal option
 - Initial bag has Bicycle on top
 - Correctly init the Two Island shop
+- Early Saffron separate from Plotless
 
 ## See also
 
