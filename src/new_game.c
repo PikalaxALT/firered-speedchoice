@@ -167,13 +167,21 @@ void NewGameInitData(void)
 #if DEVMODE
     {
         struct Pokemon * mon = AllocZeroed(sizeof(struct Pokemon));
-        CreateMon(mon, SPECIES_MEWTWO, 100, 31, FALSE, 0, OT_ID_PLAYER_ID, 0);
-        SetMonMoveSlot(mon, MOVE_PSYCHIC, 0);
-        SetMonMoveSlot(mon, MOVE_THUNDERBOLT, 1);
-        SetMonMoveSlot(mon, MOVE_ICE_BEAM, 2);
-        SetMonMoveSlot(mon, MOVE_FLAMETHROWER, 3);
-        GiveMonToPlayer(mon);
-        Free(mon);
+        if (mon != NULL)
+        {
+            u32 pid;
+            u32 otid = T2_READ_32(gSaveBlock2Ptr->playerTrainerId);
+            do {
+                pid = Random32();
+            } while (!IsShinyOtIdPersonality(otid, pid));
+            CreateMon(mon, SPECIES_MEWTWO, 100, 31, TRUE, pid, OT_ID_PLAYER_ID, 0);
+            SetMonMoveSlot(mon, MOVE_PSYCHIC, 0);
+            SetMonMoveSlot(mon, MOVE_THUNDERBOLT, 1);
+            SetMonMoveSlot(mon, MOVE_ICE_BEAM, 2);
+            SetMonMoveSlot(mon, MOVE_FLAMETHROWER, 3);
+            GiveMonToPlayer(mon);
+            Free(mon);
+        }
     }
 #endif //DEVMODE
 }

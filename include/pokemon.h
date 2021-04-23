@@ -380,6 +380,7 @@ u32 GetMonData();
 u32 GetBoxMonData();
 #endif // IS_POKEMON_C
 
+bool8 IsShinyOtIdPersonality(u32 otId, u32 personality);
 void SetMonData(struct Pokemon *mon, s32 field, const void *dataArg);
 void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg);
 void CopyMon(void *dest, void *src, size_t size);
