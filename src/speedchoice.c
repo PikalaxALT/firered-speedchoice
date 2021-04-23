@@ -454,7 +454,7 @@ const struct OptionChoiceConfig OptionChoiceConfigKeepNone[MAX_CHOICES] =
     };
 
 const struct OptionChoiceConfig OptionChoiceConfigRaceGoal[MAX_CHOICES] = {
-    { 90, gSpeedchoiceTextManual },
+    { 110, gSpeedchoiceTextManual },
     { 150, gSpeedchoiceTextHoF    },
     { 180, gSpeedchoiceTextE4R2   },
     { -1, NULL },
