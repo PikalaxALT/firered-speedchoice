@@ -335,7 +335,7 @@ ifeq ($(UPRDIR),)
 	$(error Missing value for UPRDIR)
 endif
 	$(PYTHON) .github/workflows/update_config.py $(UPRDIR)/src/com/dabomstew/pkrandom/config/gen3_offsets.ini $<
-	$(ANT) -f $(UPRDIR)/.github/ant/build.xml
+	$(ANT) -d -f $(UPRDIR)/.github/ant/build.xml
 
 speedchoice:     ; @$(MAKE)
 dev:             ; @$(MAKE) DEVMODE=1
