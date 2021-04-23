@@ -9,11 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v2
-        with:
-          distribution: adopt
-          java-version: 8
+        uses: actions/checkout@v2
 
       - name: Install deps
         run: |
@@ -21,6 +17,12 @@ jobs:
           git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr-support
           cd UPR
           curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 8
 
       - name: Install agbcc
         run: |
