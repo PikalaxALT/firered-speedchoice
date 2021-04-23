@@ -17,6 +17,7 @@ jobs:
           git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr-support
           cd UPR
           curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
+          export JAVA_HOME=${JAVA_HOME_8_X64}
 
       - name: Install agbcc
         run: |
