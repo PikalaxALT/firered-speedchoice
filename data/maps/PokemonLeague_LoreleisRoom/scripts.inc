@@ -59,7 +59,6 @@ PokemonLeague_LoreleisRoom_EventScript_Lorelei:: @ 81625DC
 	call_if_set FLAG_SYS_CAN_LINK_WITH_RS, PokemonLeague_LoreleisRoom_EventScript_RematchIntro
 	setflag FLAG_TEMP_3
 	setflag FLAG_TEMP_5
-	specialvar VAR_RESULT,
 	specialvar VAR_RESULT, ShouldDoE4R2
 	compare VAR_RESULT, TRUE
 	call_if_ne PokemonLeague_LoreleisRoom_EventScript_Battle
