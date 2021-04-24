@@ -245,7 +245,7 @@ endif
 
 ifeq ($(__CLION_IDE__),1)
 $(C_BUILDDIR)/%.o : $(C_SUBDIR)/%.c $$(c_dep)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -o $@ $<
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -o $@ $<
 else
 $(C_BUILDDIR)/%.o : $(C_SUBDIR)/%.c $$(c_dep)
 	@$(CPP) $(CPPFLAGS) $< -o $(C_BUILDDIR)/$*.i
