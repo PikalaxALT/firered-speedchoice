@@ -836,7 +836,7 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
     // avoid shifting RAM too much: hence the ugly per-option saving.
     gSaveBlock2Ptr->speedchoiceConfig.expsystem = preset[EXPMATH];
     gSaveBlock2Ptr->speedchoiceConfig.plotless = preset[PLOTLESS];
-    gSaveBlock2Ptr->speedchoiceConfig.earlyBike = preset[EARLY_SAFFRON];
+    gSaveBlock2Ptr->speedchoiceConfig.earlySaffron = preset[EARLY_SAFFRON];
     gSaveBlock2Ptr->speedchoiceConfig.raceGoal = preset[RACE_GOAL];
     gSaveBlock2Ptr->speedchoiceConfig.instantText = preset[INSTANTTEXT];
     gSaveBlock2Ptr->speedchoiceConfig.earlySurf = preset[EARLYSURF];

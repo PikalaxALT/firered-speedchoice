@@ -138,16 +138,12 @@ u8 RunHelpSystemCallback(void)
 
 void SaveCallbacks(void)
 {
-    vu16 * dma;
     sVideoState.savedVblankCb = gMain.vblankCallback;
     sVideoState.savedHblankCb = gMain.hblankCallback;
     gMain.vblankCallback = NULL;
     gMain.hblankCallback = NULL;
 
-    dma = (void *)REG_ADDR_DMA0;
-    dma[5] &= ~(DMA_START_MASK | DMA_DREQ_ON | DMA_REPEAT);
-    dma[5] &= ~DMA_ENABLE;
-    dma[5];
+    DmaStop(0);
 }
 
 void SaveMapGPURegs(void)

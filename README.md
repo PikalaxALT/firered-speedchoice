@@ -139,6 +139,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Early Saffron separate from Plotless
 - Fix glitch rod by making there be two encounter slots per rod instead of two fishing slots total
 
+### 1.0.1
+- Hotfix Early Saffron
+
 ## See also
 
 Other disassembly and/or decompilation projects:
