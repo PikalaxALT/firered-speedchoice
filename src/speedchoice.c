@@ -872,6 +872,8 @@ bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
         return gSaveBlock2Ptr->speedchoiceConfig.expsystem == selection;
     case RACE_GOAL:
         return gSaveBlock2Ptr->speedchoiceConfig.raceGoal == selection;
+    case EARLY_SAFFRON:
+        return gSaveBlock2Ptr->speedchoiceConfig.earlySaffron == selection;
     case PLOTLESS:
         return gSaveBlock2Ptr->speedchoiceConfig.plotless == selection;
     case INSTANTTEXT:
