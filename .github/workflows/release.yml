@@ -24,15 +24,22 @@ jobs:
           distribution: adopt
           java-version: 8
 
+      - name: Clone upstream
+        run: |
+          git clone https://github.com/pret/pokefirered.git upstream
+
       - name: Install agbcc
         run: |
           git clone https://github.com/pret/agbcc.git
           cd agbcc
           ./build.sh
           ./install.sh ../
+          ./install.sh ../upstream
 
       - name: Build
         run: |
+          make -C upstream compare_firered_rev1 -j${nproc}
+          cp upstream/pokefirered_rev1.gba baserom.gba
           make -j${nproc} release UPRDIR=UPR
 
       - name: Package Release
