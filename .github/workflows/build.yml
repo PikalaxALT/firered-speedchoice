@@ -12,17 +12,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Cache Deps
+        id: cache-deps
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-deps
+
       - name: Clone agbcc
+        if: steps.cache-deps.outputs.cache-hit != true
         uses: actions/checkout@v2
         with:
           repository: pret/agbcc
-          path: agbcc
+          path: deps/agbcc
 
       - name: Clone upstream
+        if: steps.cache-deps.outputs.cache-hit != true
         uses: actions/checkout@v2
         with:
           repository: pret/pokefirered
-          path: upstream
+          path: deps/upstream
 
       - name: Clone rando
         uses: actions/checkout@v2
@@ -40,25 +49,38 @@ jobs:
       - name: Install deps
         run: sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev xdelta3
 
+      - name: Build agbcc
+        if: steps.cache-deps.outputs.cache-hit != true
+        run: |
+          cd deps/agbcc
+          ./build.sh
+
       - name: Install agbcc
         run: |
-          cd agbcc
-          ./build.sh
-          ./install.sh ../
+          cd deps/agbcc
+          ./install.sh ../../
+
+      - name: Install agbcc to upstream
+        if: steps.cache-deps.outputs.cache-hit != true
+        run: |
+          cd deps/agbcc
           ./install.sh ../upstream
 
       - name: Install launch4j
+        if: steps.cache-deps.outputs.cache-hit != true
         run: |
-          cd UPR
+          cd deps
           curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
 
       - name: Build baserom
-        run: |
-          make -C upstream compare_firered_rev1 -j${nproc}
-          cp upstream/pokefirered_rev1.gba baserom.gba
+        if: steps.cache-deps.outputs.cache-hit != true
+        run: make -C deps/upstream compare_firered_rev1 -j${nproc}
 
       - name: Build
-        run: make -j${nproc} release UPRDIR=UPR
+        run: |
+          cp deps/upstream/pokefirered_rev1.gba baserom.gba
+          cp -r deps/launch4j UPR/launch4j
+          make -j${nproc} release UPRDIR=UPR
 
       - name: Package Release
         run: |
