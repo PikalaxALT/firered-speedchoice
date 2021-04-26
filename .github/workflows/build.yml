@@ -12,12 +12,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install deps
-        run: |
-          sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev xdelta3
-          git clone https://github.com/PikalaxALT/universal-pokemon-randomizer UPR -b fr-support
-          cd UPR
-          curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
+      - name: Clone agbcc
+        uses: actions/checkout@v2
+        with:
+          repository: pret/agbcc
+          path: agbcc
+
+      - name: Clone upstream
+        uses: actions/checkout@v2
+        with:
+          repository: pret/pokefirered
+          path: upstream
+
+      - name: Clone rando
+        uses: actions/checkout@v2
+        with:
+          repository: pikalaxalt/universal-pokemon-randomizer
+          ref: fr-support
+          path: UPR
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -25,23 +37,28 @@ jobs:
           distribution: adopt
           java-version: 8
 
-      - name: Clone upstream
-        run: |
-          git clone https://github.com/pret/pokefirered.git upstream
+      - name: Install deps
+        run: sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev xdelta3
 
       - name: Install agbcc
         run: |
-          git clone https://github.com/pret/agbcc.git
-          cd agbcc 
+          cd agbcc
           ./build.sh
           ./install.sh ../
           ./install.sh ../upstream
 
-      - name: Build
+      - name: Install launch4j
+        run: |
+          cd UPR
+          curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
+
+      - name: Build baserom
         run: |
           make -C upstream compare_firered_rev1 -j${nproc}
           cp upstream/pokefirered_rev1.gba baserom.gba
-          make -j${nproc} release UPRDIR=UPR
+
+      - name: Build
+        run: make -j${nproc} release UPRDIR=UPR
 
       - name: Package Release
         run: |
