@@ -148,7 +148,7 @@ void TaskDummy(u8 taskId)
 #define TASK_DATA_OP(taskId, offset, op)                    \
 {                                                           \
     u32 tasksAddr = (u32)gTasks;                            \
-    u32 addr = taskId * sizeof(struct Task) + offset;       \
+    u32 addr = (taskId) * sizeof(struct Task) + (offset);   \
     u32 dataAddr = tasksAddr + offsetof(struct Task, data); \
     addr += dataAddr;                                       \
     op;                                                     \

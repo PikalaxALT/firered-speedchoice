@@ -26,6 +26,7 @@ export LD := $(PREFIX)ld
 
 PYTHON := python3
 ANT    := ant
+XDELTA := xdelta3
 
 ifeq ($(OS),Windows_NT)
 EXE := .exe
@@ -61,6 +62,7 @@ OBJ_DIR := build/$(BUILD_NAME)
 ELF = $(ROM:.gba=.elf)
 MAP = $(ROM:.gba=.map)
 INI = $(ROM:.gba=.ini)
+PATCH = $(ROM:.gba=.xdelta)
 
 C_SUBDIR = src
 DATA_C_SUBDIR = src/data
@@ -148,7 +150,7 @@ TOOLS = $(foreach tool,$(TOOLBASE),tools/$(tool)/$(tool)$(EXE))
 
 ALL_BUILDS := firered-speedchoice firered-speedchoice-dev
 
-.PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS) rando
+.PHONY: all rom tools clean-tools mostlyclean clean tidy berry_fix $(TOOLDIRS) $(ALL_BUILDS) rando patch ini release
 
 MAKEFLAGS += --no-print-directory
 
@@ -158,7 +160,11 @@ all: tools ini
 
 rom: $(ROM)
 
+release: patch rando
+
 ini: $(INI)
+
+patch: $(PATCH)
 
 tools: $(TOOLDIRS)
 
@@ -330,12 +336,17 @@ $(INI): $(ROM)
 	$(INIGEN) $(ELF) $@ --name "Fire Red Speedchoice (U)" --code $(GAME_CODE)
 	echo "MD5Hash="$(shell md5sum $< | cut -d' ' -f1) >> $@
 
+$(PATCH): $(ROM)
+	$(XDELTA) -f -e -s baserom.gba $< $@
+
 rando: $(INI)
 ifeq ($(UPRDIR),)
 	$(error Missing value for UPRDIR)
 endif
 	$(PYTHON) .github/workflows/update_config.py $(UPRDIR)/src/com/dabomstew/pkrandom/config/gen3_offsets.ini $<
-	$(ANT) -d -f $(UPRDIR)/.github/ant/build.xml
+	$(ANT) -f $(UPRDIR)/.github/ant/build.xml
 
 speedchoice:     ; @$(MAKE)
 dev:             ; @$(MAKE) DEVMODE=1
+
+print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true

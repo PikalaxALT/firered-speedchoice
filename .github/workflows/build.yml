@@ -34,7 +34,7 @@ jobs:
 
       - name: Build
         run: |
-          make -j${nproc} rando UPRDIR=UPR
+          make -j${nproc} release UPRDIR=UPR
 
       - name: Package Release
         run: |
@@ -42,7 +42,7 @@ jobs:
           verstr=$(dd if=pokefirered-speedchoice.gba bs=1 skip=$((0x${addr} & 0xFFFFFF)) count=$((0x${size} - 1)))
           export relname=pokemon-firered-speedchoice-${verstr}-${GITHUB_SHA}-plus-randomizer
           mkdir ${relname}
-          cp -r pokefirered-speedchoice.gba UPR/build/$(date '+%Y%m%d')/* ${relname}/
+          cp -r pokefirered-speedchoice.xdelta UPR/build/$(date '+%Y%m%d')/* ${relname}/
           zip -r ${relname}.zip ${relname}/
 
       - name: Publish
