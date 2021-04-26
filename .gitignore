@@ -58,3 +58,4 @@ porymap.project.cfg
 *.ini
 CMakeLists.txt
 *.mp4
+*.xdelta
