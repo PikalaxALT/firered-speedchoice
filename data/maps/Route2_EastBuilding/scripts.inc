@@ -9,7 +9,7 @@ Route2_EastBuilding_EventScript_Aide:: @ 816F67F
 	call Route2_EastBuilding_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_HM05, Route2_EastBuilding_EventScript_AlreadyGotHM05
 	checkspeedchoice EASY_DEX_REWARDS, EASY_DEX_REWARDS_ON
-	goto_if TRUE, Route2_EastBuilding_EventScript_SkipAsk
+	goto_if_eq Route2_EastBuilding_EventScript_SkipAsk
 	msgbox Route2_EastBuilding_Text_GiveHM05IfSeen10Mons, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons

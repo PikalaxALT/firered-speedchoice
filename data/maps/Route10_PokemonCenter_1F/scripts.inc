@@ -35,7 +35,7 @@ Route10_PokemonCenter_1F_EventScript_Aide:: @ 816FC65
 	call Route10_PokemonCenter_1F_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_EVERSTONE_FROM_OAKS_AIDE, Route10_PokemonCenter_1F_EventScript_AlreadyGotEverstone
 	checkspeedchoice EASY_DEX_REWARDS, EASY_DEX_REWARDS_ON
-	goto_if TRUE, Route10_PokemonCenter_1F_EventScript_SkipAsk
+	goto_if_eq Route10_PokemonCenter_1F_EventScript_SkipAsk
 	msgbox Route10_PokemonCenter_1F_Text_GiveEverstoneIfCaught20Mons, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons

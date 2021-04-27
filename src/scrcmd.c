@@ -1322,7 +1322,7 @@ bool8 ScrCmd_closemessage(struct ScriptContext * ctx)
 
 static bool8 WaitForAorBPress(void)
 {
-    if (CheckSpeedchoiceOption(INSTANTTEXT, IT_ON) == TRUE)
+    if (gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON)
     {
         if (JOY_HELD(A_BUTTON))
         {
@@ -2294,7 +2294,9 @@ bool8 ScrCmd_checkspeedchoice(struct ScriptContext * ctx)
 {
     u8 val = ScriptReadByte(ctx);
     u8 category = val >> 3;
+    u8 result;
     val &= 7;
-    ctx->comparisonResult = CheckSpeedchoiceOption(category, val);
+    result = CheckSpeedchoiceOption(category);
+    ctx->comparisonResult = compare_012(result, val);
     return FALSE;
 }

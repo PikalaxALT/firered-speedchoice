@@ -4766,7 +4766,7 @@ void ItemUseCB_PPUp(u8 taskId, UNUSED TaskFunc func)
 
 static inline u16 GetTMHMMove(u16 tmNumber)
 {
-    if (tmNumber == NUM_TECHNICAL_MACHINES + 5 && CheckSpeedchoiceOption(EASY_FALSE_SWIPE, EASY_FALSE_SWIPE_HM05) == TRUE)
+    if (tmNumber == NUM_TECHNICAL_MACHINES + 5 && gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe == EASY_FALSE_SWIPE_HM05)
         return MOVE_FALSE_SWIPE;
     return sTMHMMoves[tmNumber];
 }

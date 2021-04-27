@@ -885,54 +885,54 @@ void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
  *
  * See the speedchoice.h enums for the values to pass here.
  */
-bool8 CheckSpeedchoiceOption(u8 option, u8 selection)
+u8 CheckSpeedchoiceOption(u8 option)
 {
     switch(option)
     {
     case EXPMATH:
-        return gSaveBlock2Ptr->speedchoiceConfig.expsystem == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.expsystem;
     case RACE_GOAL:
-        return gSaveBlock2Ptr->speedchoiceConfig.raceGoal == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.raceGoal;
     case EARLY_SAFFRON:
-        return gSaveBlock2Ptr->speedchoiceConfig.earlySaffron == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.earlySaffron;
     case PLOTLESS:
-        return gSaveBlock2Ptr->speedchoiceConfig.plotless == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.plotless;
     case INSTANTTEXT:
-        return gSaveBlock2Ptr->speedchoiceConfig.instantText == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.instantText;
     case EARLYSURF:
-        return gSaveBlock2Ptr->speedchoiceConfig.earlySurf == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.earlySurf;
     case SPINNERS:
-        return gSaveBlock2Ptr->speedchoiceConfig.spinners == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.spinners;
     case MAXVISION:
-        return gSaveBlock2Ptr->speedchoiceConfig.maxVision == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.maxVision;
     case NEWWILDENC:
-        return gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.newwildencounters;
     case RUN_EVERYWHERE:
-        return gSaveBlock2Ptr->speedchoiceConfig.runEverywhere == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.runEverywhere;
     case BETTER_MARTS:
-        return gSaveBlock2Ptr->speedchoiceConfig.betterMarts == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.betterMarts;
     case GOOD_EARLY_WILDS:
-        return gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds;
     case NICE_MENU_ORDER:
-        return gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder;
     case EASY_FALSE_SWIPE:
-        return gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe;
     case EASY_DEX_REWARDS:
-        return gSaveBlock2Ptr->speedchoiceConfig.easyDexRewards == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.easyDexRewards;
     case FAST_CATCH:
-        return gSaveBlock2Ptr->speedchoiceConfig.fastCatch == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.fastCatch;
     case EARLY_BIKE:
-        return gSaveBlock2Ptr->speedchoiceConfig.earlyBike == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.earlyBike;
     case FAST_EGG_HATCH:
-        return gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch;
     case GEN_7_X_ITEMS:
-        return gSaveBlock2Ptr->speedchoiceConfig.gen7XItems == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.gen7XItems;
     case EVO_EVERY_LEVEL:
-        return gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel;
     case HM_BADGE_CHECKS:
-        return gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks;
     case EASY_SURGE_CANS:
-        return gSaveBlock2Ptr->speedchoiceConfig.easySurgeCans == selection;
+        return gSaveBlock2Ptr->speedchoiceConfig.easySurgeCans;
     default:
         return FALSE;
     }

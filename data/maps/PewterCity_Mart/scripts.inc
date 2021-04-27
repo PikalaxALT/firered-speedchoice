@@ -16,7 +16,7 @@ PewterCity_Mart_EventScript_Clerk:: @ 816A6E0
 	message Text_MayIHelpYou
 	waitmessage
 	checkspeedchoice BETTER_MARTS, MARTS_ON
-	goto_if TRUE, PewterCity_Mart_EventScript_BetterMart
+	goto_if_eq PewterCity_Mart_EventScript_BetterMart
 	pokemart PewterCity_Mart_Items
 	msgbox Text_PleaseComeAgain
 	release

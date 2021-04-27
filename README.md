@@ -142,6 +142,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.1
 - Hotfix Early Saffron
 
+### 1.0.2
+- Fix bug with Silph Scope door at Giovanni
+
 ## See also
 
 Other disassembly and/or decompilation projects:
