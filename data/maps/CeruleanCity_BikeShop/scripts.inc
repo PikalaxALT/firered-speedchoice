@@ -33,7 +33,7 @@ CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher:: @ 816AC22
 	msgreceiveditem CeruleanCity_BikeShop_Text_ExchangedVoucherForBicycle, ITEM_BICYCLE, 1, MUS_OBTAIN_KEY_ITEM
 	setflag FLAG_GOT_BICYCLE
 	checkspeedchoice EARLY_BIKE, EARLY_BIKE_YES
-	goto_if TRUE, CeruleanCity_BikeShop_EventScript_RandomizedItem
+	goto_if_eq CeruleanCity_BikeShop_EventScript_RandomizedItem
 	additem ITEM_BICYCLE
 	goto CeruleanCity_BikeShop_EventScript_TakeBikeVoucher
 

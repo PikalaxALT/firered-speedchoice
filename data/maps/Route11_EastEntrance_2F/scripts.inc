@@ -62,7 +62,7 @@ Route11_EastEntrance_2F_EventScript_Aide:: @ 816FDD8
 	call Route11_EastEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_ITEMFINDER, Route11_EastEntrance_2F_EventScript_AlreadyGotItemfinder
 	checkspeedchoice EASY_DEX_REWARDS, EASY_DEX_REWARDS_ON
-	goto_if TRUE, Route11_EastEntrance_2F_EventScript_SkipAsk
+	goto_if_eq Route11_EastEntrance_2F_EventScript_SkipAsk
 	msgbox Route11_EastEntrance_2F_Text_GiveItemfinderIfCaught30, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons

@@ -55,7 +55,7 @@ PalletTown_EventScript_OakRatingScene:: @ 81654D8
 	waitmovement 0
 	goto_if_unset FLAG_WORLD_MAP_ONE_ISLAND, PalletTown_EventScript_NotBeenToOneIslandYet
 	checkspeedchoice EASY_DEX_REWARDS, EASY_DEX_REWARDS_ON
-	goto_if TRUE, PalletTown_EventScript_SkipDexCheck
+	goto_if_eq PalletTown_EventScript_SkipDexCheck
 	msgbox PalletTown_Text_OakLetMeSeePokedex
 	setvar VAR_0x8004, 0
 	specialvar VAR_RESULT, GetPokedexCount

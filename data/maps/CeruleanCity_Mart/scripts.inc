@@ -16,7 +16,7 @@ CeruleanCity_Mart_EventScript_Clerk:: @ 816ACB0
 	message Text_MayIHelpYou
 	waitmessage
 	checkspeedchoice BETTER_MARTS, MARTS_ON
-	goto_if TRUE, CeruleanCity_Mart_EventScript_BetterMart
+	goto_if_eq CeruleanCity_Mart_EventScript_BetterMart
 	pokemart CeruleanCity_Mart_Items
 	msgbox Text_PleaseComeAgain
 	release

@@ -70,9 +70,9 @@ CeruleanCity_EventScript_Rival:: @ 81664CC
 	setflag FLAG_GOT_FAME_CHECKER
 	giveitem ITEM_FAME_CHECKER
 	checkspeedchoice EARLY_SAFFRON, SAFFRON_YES
-	call_if TRUE, CeruleanCity_UnlockSaffron
+	call_if_eq CeruleanCity_UnlockSaffron
 	checkspeedchoice EARLYSURF, EARLY_SURF_YES
-	call_if TRUE, CeruleanCity_EarlySurf
+	call_if_eq CeruleanCity_EarlySurf
 	msgbox CeruleanCity_Text_ExplainFameCheckerSmellYa
 	closemessage
 	applymovement LOCALID_RIVAL, CeruleanCity_Movement_RivalExit

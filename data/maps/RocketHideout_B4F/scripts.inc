@@ -48,7 +48,7 @@ RocketHideout_B4F_EventScript_SilphScope:: @ 8161363
 	faceplayer
 	removeobject LOCALID_SILPH_SCOPE
 	checkspeedchoice PLOTLESS, PLOT_KEEP
-	goto_if FALSE, RocketHideout_B4F_EventScript_RandoSilphScope
+	goto_if_ne RocketHideout_B4F_EventScript_RandoSilphScope
 	giveitem ITEM_SILPH_SCOPE
 	goto RocketHideout_B4F_EventScript_GaveSilphScope
 
@@ -79,7 +79,7 @@ RocketHideout_B4F_EventScript_LiftKey:: @ 81613AD
 	setflag FLAG_CAN_USE_ROCKET_HIDEOUT_LIFT
 	removeobject LOCALID_LIFT_KEY
 	checkspeedchoice PLOTLESS, PLOT_KEEP
-	goto_if FALSE, RocketHideout_B4F_EventScript_RandoLiftKey
+	goto_if_ne RocketHideout_B4F_EventScript_RandoLiftKey
 	giveitem ITEM_LIFT_KEY
 	goto RocketHideout_B4F_EventScript_GaveLiftKey
 

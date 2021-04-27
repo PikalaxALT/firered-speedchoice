@@ -25,7 +25,7 @@ Route15_WestEntrance_2F_EventScript_Aide:: @ 81700B9
 	call Route15_WestEntrance_2F_EventScript_GetAideRequestInfo
 	goto_if_set FLAG_GOT_EXP_SHARE_FROM_OAKS_AIDE, Route15_WestEntrance_2F_EventScript_AlreadyGotExpShare
 	checkspeedchoice EASY_DEX_REWARDS, EASY_DEX_REWARDS_ON
-	goto_if TRUE, Route15_WestEntrance_2F_EventScript_SkipAsk
+	goto_if_eq Route15_WestEntrance_2F_EventScript_SkipAsk
 	msgbox Route15_WestEntrance_2F_Text_GiveItemIfCaughtEnough, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq Aide_EventScript_DeclineCheckMons

@@ -107,7 +107,7 @@ CinnabarIsland_EventScript_BillScene:: @ 8166FCD
 	call_if_set FLAG_TEMP_2, CinnabarIsland_EventScript_BillApproachPlayer2
 	msgbox CinnabarIsland_Text_HeyIfItIsntPlayer
 	checkspeedchoice PLOTLESS, PLOT_KEEP
-	goto_if FALSE, CinnabarIsland_EventScript_BillPlotlessItems
+	goto_if_ne CinnabarIsland_EventScript_BillPlotlessItems
 	msgbox CinnabarIsland_Text_ComeWithMeToOneIsland, MSGBOX_YESNO
 	compare VAR_RESULT, YES
 	goto_if_eq CinnabarIsland_EventScript_AgreeSailToOneIsland
@@ -141,7 +141,7 @@ CinnabarIsland_EventScript_BillPlotlessItems::
 	setvar VAR_MAP_SCENE_TWO_ISLAND, 4
 	special InitRoamer
 	checkspeedchoice PLOTLESS, PLOT_FULL
-	call_if TRUE, CinnabarIsland_EventScript_BillFullPlotlessFlags
+	call_if_eq CinnabarIsland_EventScript_BillFullPlotlessFlags
 	goto CinnabarIsland_EventScript_SkipSeviiIslands
 	end
 

@@ -248,7 +248,7 @@ SilphCo_5F_EventScript_ItemTM01:: @ 81BE8A7
 
 SilphCo_5F_EventScript_ItemCardKey:: @ 81BE8B4
 	checkspeedchoice PLOTLESS, PLOT_KEEP
-	goto_if FALSE, SilphCo_5F_EventScript_ItemCardKey_Rando
+	goto_if_ne SilphCo_5F_EventScript_ItemCardKey_Rando
 	finditem ITEM_CARD_KEY
 	end
 

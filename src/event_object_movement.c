@@ -2856,7 +2856,7 @@ bool8 ObjectEventIsTrainerAndCloseToPlayer(struct ObjectEvent *objectEvent)
     s16 minY;
     s16 maxY;
 
-    if (CheckSpeedchoiceOption(SPINNERS, SPIN_KEEP) == FALSE)
+    if (gSaveBlock2Ptr->speedchoiceConfig.spinners != SPIN_KEEP)
     {
         return FALSE;
     }
@@ -2864,7 +2864,7 @@ bool8 ObjectEventIsTrainerAndCloseToPlayer(struct ObjectEvent *objectEvent)
     {
         return FALSE;
     }
-    if (objectEvent->trainerType != 1 && objectEvent->trainerType != 3)
+    if (objectEvent->trainerType != TRAINER_TYPE_NORMAL && objectEvent->trainerType != TRAINER_TYPE_BURIED)
     {
         return FALSE;
     }

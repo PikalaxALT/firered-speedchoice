@@ -13,7 +13,7 @@ CeladonCity_Condominiums_1F_EventScript_TeaWoman:: @ 816C321
 	compare VAR_RESULT, FALSE
 	goto_if_eq EventScript_BagIsFull
 	checkspeedchoice PLOTLESS, PLOT_KEEP
-	call_if FALSE, CeladonCity_Condominiums_1F_Plotless
+	call_if_ne CeladonCity_Condominiums_1F_Plotless
 	msgbox CeladonCity_Condominiums_1F_Text_NothingBeatsThirstLikeTea
 	release
 	end
@@ -27,7 +27,7 @@ CeladonCity_Condominiums_1F_Plotless::
 	setflag FLAG_RESCUED_MR_FUJI
 	setflag FLAG_CAN_USE_ROCKET_HIDEOUT_LIFT
 	checkspeedchoice PLOTLESS, PLOT_FULL
-	goto_if TRUE, CeladonCity_Condominiums_1F_FullPlotless
+	goto_if_eq CeladonCity_Condominiums_1F_FullPlotless
 	return
 	end
 
