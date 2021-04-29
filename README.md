@@ -142,7 +142,8 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.0.1
 - Hotfix Early Saffron
 
-### 1.0.2
+### 1.1.0
+- Refactor Speedchoice-related code (devs: breaks API)
 - Fix bug with Silph Scope door at Giovanni
 
 ## See also
