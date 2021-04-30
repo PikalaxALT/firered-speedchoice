@@ -11,22 +11,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Cache Deps
-        id: cache-deps
-        uses: actions/cache@v2
-        with:
-          path: deps
-          key: ${{ runner.os }}-deps
-
       - name: Clone agbcc
-        if: steps.cache-deps.outputs.cache-hit != true
         uses: actions/checkout@v2
         with:
           repository: pret/agbcc
           path: deps/agbcc
 
       - name: Clone upstream
-        if: steps.cache-deps.outputs.cache-hit != true
         uses: actions/checkout@v2
         with:
           repository: pret/pokefirered
@@ -49,7 +40,6 @@ jobs:
         run: sudo apt-get install gcc-arm-none-eabi binutils-arm-none-eabi libcapstone-dev xdelta3
 
       - name: Build agbcc
-        if: steps.cache-deps.outputs.cache-hit != true
         run: |
           cd deps/agbcc
           ./build.sh
@@ -60,19 +50,16 @@ jobs:
           ./install.sh ../../
 
       - name: Install agbcc to upstream
-        if: steps.cache-deps.outputs.cache-hit != true
         run: |
           cd deps/agbcc
           ./install.sh ../upstream
 
       - name: Install launch4j
-        if: steps.cache-deps.outputs.cache-hit != true
         run: |
           cd deps
           curl https://versaweb.dl.sourceforge.net/project/launch4j/launch4j-3/3.14/launch4j-3.14-linux-x64.tgz | tar -xzv
 
       - name: Build baserom
-        if: steps.cache-deps.outputs.cache-hit != true
         run: make -C deps/upstream compare_firered_rev1 -j${nproc}
 
       - name: Build
