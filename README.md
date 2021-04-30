@@ -145,6 +145,8 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.1.0
 - Refactor Speedchoice-related code (devs: breaks API)
 - Fix bug with Silph Scope door at Giovanni
+- Remove options for and enables unconditionally: instant text, run everywhere, new wild encounters, better marts, nice menu order, fast egg hatch
+- Implements Brock nerf
 
 ## See also
 

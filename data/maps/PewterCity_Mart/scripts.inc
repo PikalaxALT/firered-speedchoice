@@ -15,14 +15,14 @@ PewterCity_Mart_EventScript_Clerk:: @ 816A6E0
 	faceplayer
 	message Text_MayIHelpYou
 	waitmessage
-	checkspeedchoice BETTER_MARTS, MARTS_ON
-	goto_if_eq PewterCity_Mart_EventScript_BetterMart
-	pokemart PewterCity_Mart_Items
-	msgbox Text_PleaseComeAgain
-	release
-	end
-
-PewterCity_Mart_EventScript_BetterMart::
+@ 	checkspeedchoice BETTER_MARTS, MARTS_ON
+@ 	goto_if_eq PewterCity_Mart_EventScript_BetterMart
+@ 	pokemart PewterCity_Mart_Items
+@ 	msgbox Text_PleaseComeAgain
+@ 	release
+@ 	end
+@
+@ PewterCity_Mart_EventScript_BetterMart::
 	pokemart PewterCity_BetterMart_Items
 	msgbox Text_PleaseComeAgain
 	release

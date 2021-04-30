@@ -1322,27 +1322,13 @@ bool8 ScrCmd_closemessage(struct ScriptContext * ctx)
 
 static bool8 WaitForAorBPress(void)
 {
-    if (gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON)
+    if (JOY_HELD(A_BUTTON))
     {
-        if (JOY_HELD(A_BUTTON))
-        {
-            return TRUE;
-        }
-        if (JOY_HELD(B_BUTTON))
-        {
-            return TRUE;
-        }
+        return TRUE;
     }
-    else
+    if (JOY_HELD(B_BUTTON))
     {
-        if (JOY_NEW(A_BUTTON))
-        {
-            return TRUE;
-        }
-        if (JOY_NEW(B_BUTTON))
-        {
-            return TRUE;
-        }
+        return TRUE;
     }
 
     if (ScriptContext_NextCommandEndsScript(sQuestLogScriptContextPtr) == TRUE)

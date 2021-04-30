@@ -547,7 +547,7 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if ((gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? gMain.heldKeys : gMain.newKeys) & (A_BUTTON | B_BUTTON))
+        if (gMain.heldKeys & (A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -565,7 +565,7 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if ((gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? gMain.heldKeys : gMain.newKeys) & (A_BUTTON | B_BUTTON))
+        if (gMain.heldKeys & (A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);

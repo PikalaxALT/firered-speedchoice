@@ -180,30 +180,23 @@ const u8 gSpeedchoiceOptionEarlySaffron[] = _("EARLY SAFFRON");
 
 // PAGE 2
 const u8 gSpeedchoiceOptionRaceGoal[] = _("RACE GOAL");
-const u8 gSpeedchoiceOptionInstantText[] = _("HOLD TO MASH");
 const u8 gSpeedchoiceOptionSpinners[] = _("SPINNERS");
 const u8 gSpeedchoiceOptionEarlySurf[] = _("EARLY SURF");
 const u8 gSpeedchoiceOptionMaxVision[] = _("MAX VISION");
+const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("GOOD EARLY WILDS");
 
 // PAGE 3
-const u8 gSpeedchoiceOptionNewWildEnc[] = _("NEW WILD ENC.");
-const u8 gSpeedchoiceOptionRunEverywhere[] = _("RUN EVERYWHERE");
-const u8 gSpeedchoiceOptionBetterMarts[] = _("BETTER MARTS");
-const u8 gSpeedchoiceOptionGoodEarlyWilds[] = _("GOOD EARLY WILDS");
-const u8 gSpeedchoiceOptionNiceMenuOrder[] = _("NICE MENU ORDER");
-
-// PAGE 4
 const u8 gSpeedchoiceOptionEasyFalseSwipe[] = _("EASY FALSE SWIPE");
 const u8 gSpeedchocieOptionEasyDexRewards[] = _("EASY DEX REWARDS");
 const u8 gSpeedchoiceOptionFastCatch[] = _("FAST CATCH");
 const u8 gSpeedchoiceOptionEarlyBike[] = _("EARLY BIKE");
-const u8 gSpeedchoiceOptionFastEggHatch[] = _("FAST EGG HATCH");
-
-// PAGE 5
 const u8 gSpeedchoiceOptionGen7XItems[] = _("GEN 7 X ITEMS");
+
+// PAGE 4
 const u8 gSpeedchoiceOptionEvoEveryLv[] = _("EVO EVERY LV");
 const u8 gSpeedchoiceOptionHmBadgeChk[] = _("HM BADGE CHK");
 const u8 gSpeedchoiceOptionEasySurgeCans[] = _("EASY SURGE");
+const u8 gSpeedchoiceOptionNerfBrock[] = _("NERF BROCK");
 
 // CONSTANT OPTIONS
 const u8 gSpeedchoiceOptionPage[] = _("PAGE");
@@ -225,26 +218,21 @@ const u8 gSpeedchoiceTooltipPreset[] = _("Sets of predetermined options\nthat he
 const u8 gSpeedchoiceTooltipName[] = _("Set your trainer name here.");
 const u8 gSpeedchoiceTooltipEXP[] = _("Modifies the experience system\nto the desired input.\pCan be Gen 5, or\nno exp at all.");
 const u8 gSpeedchoiceTooltipRaceGoal[] = _("Sets the endpoint of the race.\pMANUAL: Puts a DONE BUTTON\nin your bag.\pHOF: Elite Four Round 1\nE4R2: Elite Four Round 2");
-const u8 gSpeedchoiceTooltipEarlySaffron[] = _("Affects whether the guards\nhave their thirst quenched\lon game start.");
-const u8 gSpeedchoiceTooltipPlotless[] = _("Affects whether the Rocket sections\nare required for progression.\pKEEP: Everything is vanilla\nSEMI: Progression items are elsewhere\pFULL: Same as SEMI but the\nGRUNTs are removed too.");
-const u8 gSpeedchoiceTooltipInstantText[] = _("Self-explanatory.\nHold A or B to mash.");
+const u8 gSpeedchoiceTooltipEarlySaffron[] = _("Affects whether the guards have\ntheir thirst quenched after\lCERULEAN RIVAL.");
+const u8 gSpeedchoiceTooltipPlotless[] = _("Affects whether the Rocket sections\nare required for progression.\pKEEP: Everything is vanilla\nSEMI: Plot items are elsewhere\pFULL: Same as SEMI but the\nGRUNTs are removed too.");
 const u8 gSpeedchoiceTooltipSpinners[] = _("PURGE: Makes spinners on a static\nspinning pattern at a fixed rate.\pHELL: Rapidly spins\nevery spinner every frame.\pWHY: Same as HELL but 4 frames\ninstead of 16.\pHELL and WHY also fix bag\nmanip.");
 const u8 gSpeedchoiceTooltipMaxVision[] = _("SANE: Will extend trainer vision\nto 8, but prevent trainers from\pwalking through walls or solid\nobjects.\pHELL: No collision or\nelevation detection.");
-const u8 gSpeedchoiceTooltipNewWildEnc[] = _("Intended to be used with\nthe randomizer.\pTreats grass and fishing slots\nas 6 and 2 slots respectively.");
-const u8 gSpeedchoiceTooltipRunEverywhere[] = _("Allows the Running Shoes to\nbe used anywhere, including\pinside of houses.\pAlso allows bike in most places.");
-const u8 gSpeedchoiceTooltipBetterMarts[] = _("Improves the item selections\nof many {PKMN} marts.\pAdds repels to Viridian Mart.\pAdds repels and super repels to\nCerulean Mart.\pAdds X Specials to Pewter\nMart.");
-const u8 gSpeedchoiceTooltipGoodEarlyWilds[] = _("SAME: Depending on the\nrandomizer check value, wild\pencounters in the grass for\n{PKMN} below lv 10 will have\ptheir final evolution.\pRAND: If they have a branching\nevolution, it will be randomly\pgenerated instead of being static.");
-const u8 gSpeedchoiceTooltipEarlySurf[] = _("Receive HM03 from Rival 2\ninstead of FAME CHECKER.\pIn addition, the use of\nSURF and FLY no longer\prequire their respective\nbadges (KOGA, LT.SURGE).");
-const u8 gSpeedchoiceTooltipNiceMenuOrder[] = _("Swaps the location of SUMMARY and\nfield moves in party menu.\pON: Fields moves are first.\nOFF: SUMMARY are first.");
+const u8 gSpeedchoiceTooltipGoodEarlyWilds[] = _("SAME: Depending on the\nrandomizer check value, wild\pencounters in the grass for\n{PKMN} below lv 10 will have\ltheir final evolution.\pRAND: If they have a branching\nevolution, it will be randomly\lgenerated instead of being static.");
+const u8 gSpeedchoiceTooltipEarlySurf[] = _("Receive HM03 from Rival 2\ninstead of FAME CHECKER.");
 const u8 gSpeedchoiceTooltipEasyFalseSwipe[] = _("Makes FALSE SWIPE guaranteed\nOFF: Vanilla game behavior\pTUTOR: The tutor in Silph 2F teaches\nFALSE SWIPE.\pHM05: Replaces HM05 FLASH with\nHM05 FALSE SWIPE.");
-const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to catch.");
+const u8 gSpeedchoiceTooltipFastCatch[] = _("All Pokeballs are guaranteed to\ncatch.");
 const u8 gSpeedchoiceTooltipEarlyBike[] = _("Start game with Bicycle.");
-const u8 gSpeedchoiceTooltipFastEggHatch[] = _("Makes eggs hatch quickly.");
 const u8 gSpeedchoiceTooltipGen7XItems[] = _("Stat boost +2 instead of +1.");
 const u8 gSpeedchoiceTooltipEvoEveryLv[] = _("STATIC: {PKMN} evolve into a random\nbut set species every lv.\pRAND: Same thing as STATIC but\nrandom non-static every lv.");
 const u8 gSpeedchoiceTooltipHmBadgeChk[] = _("PURGE: There are no badge checks\nfor using HM moves in the field.\pKEEP: Vanilla behaviour.");
 const u8 gSpeedchoiceTooltipEasyDexRewards[] = _("Removes Pokédex caught conditions\nfor receiving certain items.");
-const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will always\ncontain the first switch, and the\pcan to the right of it will\nalways contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization\lWHY: HELL + no save-scumming");
+const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will\nalways contain the first switch,\land the can to the right of it\lwill always contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization\lWHY: HELL + no save-scumming");
+const u8 gSpeedchoiceTooltipNerfBrock[] = _("Nerfs LEADER BROCK by\nreducing his party levels by 2.");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
@@ -266,6 +254,7 @@ enum Preset {
     PRESET_RACE,
     NUM_PRESETS
 };
+
 const u8 gPresetNames[][20] = {
     [PRESET_VANILLA] =  _("VANILLA"),
     [PRESET_BINGO]   =  _("BINGO"),
@@ -291,24 +280,19 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLOTLESS]         = PLOT_KEEP,
         [EARLY_SAFFRON]    = SAFFRON_NO,
         [RACE_GOAL]        = GOAL_MANUAL,
-        [INSTANTTEXT]      = IT_OFF,
         [SPINNERS]         = SPIN_KEEP,
         [EARLYSURF]        = EARLY_SURF_NO,
         [MAXVISION]        = MAX_OFF,
-        [NEWWILDENC]       = NEW_OFF,
-        [RUN_EVERYWHERE]   = RUN_OFF,
-        [BETTER_MARTS]     = MARTS_OFF,
         [GOOD_EARLY_WILDS] = GOOD_OFF,
-        [NICE_MENU_ORDER]  = NICE_MENU_ORDER_OFF,
         [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_OFF,
         [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_OFF,
         [FAST_CATCH]       = FAST_CATCH_OFF,
         [EARLY_BIKE]       = EARLY_BIKE_NO,
-        [FAST_EGG_HATCH]   = FAST_EGG_HATCH_NO,
         [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_OFF,
         [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
         [HM_BADGE_CHECKS]  = BADGE_KEEP,
         [EASY_SURGE_CANS]  = SURGE_KEEP,
+        [NERF_BROCK]       = NERF_NO,
     },
     [PRESET_BINGO]   = {
         [PRESET]           = PRESET_BINGO,
@@ -317,24 +301,19 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLOTLESS]         = PLOT_FULL,
         [EARLY_SAFFRON]    = SAFFRON_YES,
         [RACE_GOAL]        = GOAL_MANUAL,
-        [INSTANTTEXT]      = IT_ON,
         [SPINNERS]         = SPIN_NERF,
         [EARLYSURF]        = EARLY_SURF_YES,
         [MAXVISION]        = MAX_OFF,
-        [NEWWILDENC]       = NEW_ON,
-        [RUN_EVERYWHERE]   = RUN_ON,
-        [BETTER_MARTS]     = MARTS_ON,
         [GOOD_EARLY_WILDS] = GOOD_STATIC,
-        [NICE_MENU_ORDER]  = NICE_MENU_ORDER_ON,
         [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_TUTOR,
         [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_ON,
         [FAST_CATCH]       = FAST_CATCH_OFF,
         [EARLY_BIKE]       = EARLY_BIKE_YES,
-        [FAST_EGG_HATCH]   = FAST_EGG_HATCH_YES,
         [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_ON,
         [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
         [HM_BADGE_CHECKS]  = BADGE_PURGE,
         [EASY_SURGE_CANS]  = SURGE_NERF,
+        [NERF_BROCK]       = NERF_YES,
     },
     [PRESET_CEA]     = {
         [PRESET]           = PRESET_CEA,
@@ -343,24 +322,19 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLOTLESS]         = PLOT_FULL,
         [EARLY_SAFFRON]    = SAFFRON_YES,
         [RACE_GOAL]        = GOAL_E4R2,
-        [INSTANTTEXT]      = IT_ON,
         [SPINNERS]         = SPIN_NERF,
         [EARLYSURF]        = EARLY_SURF_YES,
         [MAXVISION]        = MAX_OFF,
-        [NEWWILDENC]       = NEW_ON,
-        [RUN_EVERYWHERE]   = RUN_ON,
-        [BETTER_MARTS]     = MARTS_ON,
         [GOOD_EARLY_WILDS] = GOOD_OFF,
-        [NICE_MENU_ORDER]  = NICE_MENU_ORDER_ON,
         [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_TUTOR,
         [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_OFF,
         [FAST_CATCH]       = FAST_CATCH_ON,
         [EARLY_BIKE]       = EARLY_BIKE_YES,
-        [FAST_EGG_HATCH]   = FAST_EGG_HATCH_YES,
         [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_ON,
         [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
         [HM_BADGE_CHECKS]  = BADGE_PURGE,
         [EASY_SURGE_CANS]  = SURGE_NERF,
+        [NERF_BROCK]       = NERF_YES,
     },
     [PRESET_RACE]    = {
         [PRESET]           = PRESET_RACE,
@@ -369,24 +343,19 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [PLOTLESS]         = PLOT_FULL,
         [EARLY_SAFFRON]    = SAFFRON_YES,
         [RACE_GOAL]        = GOAL_E4R2,
-        [INSTANTTEXT]      = IT_ON,
         [SPINNERS]         = SPIN_NERF,
         [EARLYSURF]        = EARLY_SURF_YES,
         [MAXVISION]        = MAX_OFF,
-        [NEWWILDENC]       = NEW_ON,
-        [RUN_EVERYWHERE]   = RUN_ON,
-        [BETTER_MARTS]     = MARTS_ON,
         [GOOD_EARLY_WILDS] = GOOD_STATIC,
-        [NICE_MENU_ORDER]  = NICE_MENU_ORDER_ON,
         [EASY_FALSE_SWIPE] = EASY_FALSE_SWIPE_TUTOR,
         [EASY_DEX_REWARDS] = EASY_DEX_REWARDS_ON,
         [FAST_CATCH]       = FAST_CATCH_OFF,
         [EARLY_BIKE]       = EARLY_BIKE_YES,
-        [FAST_EGG_HATCH]   = FAST_EGG_HATCH_YES,
         [GEN_7_X_ITEMS]    = GEN_7_X_ITEMS_ON,
         [EVO_EVERY_LEVEL]  = EVO_EV_OFF,
         [HM_BADGE_CHECKS]  = BADGE_PURGE,
         [EASY_SURGE_CANS]  = SURGE_NERF,
+        [NERF_BROCK]       = NERF_YES,
     },
 };
 
@@ -600,17 +569,6 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             .tooltip = gSpeedchoiceTooltipRaceGoal,
         },
         // ----------------------------------
-        // INSTANT TEXT OPTION
-        // ----------------------------------
-        [INSTANTTEXT] = {
-            .optionCount = 2,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionInstantText,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipInstantText,
-        },
-        // ----------------------------------
         // SPINNERS OPTION
         // ----------------------------------
         [SPINNERS] = {
@@ -644,39 +602,6 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             .tooltip = gSpeedchoiceTooltipMaxVision,
         },
         // ----------------------------------
-        // NEW WILD ENC OPTION
-        // ----------------------------------
-        [NEWWILDENC] = {
-            .optionCount = 2,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionNewWildEnc,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipNewWildEnc,
-        },
-        // ----------------------------------
-        // RUN EVERYWHERE OPTION
-        // ----------------------------------
-        [RUN_EVERYWHERE] = {
-            .optionCount = 2,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionRunEverywhere,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipRunEverywhere,
-        },
-        // ----------------------------------
-        // BETTER MARTS OPTION
-        // ----------------------------------
-        [BETTER_MARTS] = {
-            .optionCount = 2,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionBetterMarts,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipBetterMarts,
-        },
-        // ----------------------------------
         // GOOD EARLY WILDS OPTION
         // ----------------------------------
         [GOOD_EARLY_WILDS] = {
@@ -686,17 +611,6 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             .string = gSpeedchoiceOptionGoodEarlyWilds,
             .options = OptionChoiceConfigOffRand,
             .tooltip = gSpeedchoiceTooltipGoodEarlyWilds,
-        },
-        // ----------------------------------
-        // PARTY MENU OPTION
-        // ----------------------------------
-        [NICE_MENU_ORDER] = {
-            .optionCount = 2,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionNiceMenuOrder,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipNiceMenuOrder,
         },
         // ----------------------------------
         // EASY FALSE SWIPE OPTION
@@ -743,17 +657,6 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             .tooltip = gSpeedchoiceTooltipEarlyBike,
         },
         // ----------------------------------
-        // FAST EGG HATCHING OPTION
-        // ----------------------------------
-        [FAST_EGG_HATCH] = {
-            .optionCount = 2,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionFastEggHatch,
-            .options = OptionChoiceConfigYesNo,
-            .tooltip = gSpeedchoiceTooltipFastEggHatch,
-        },
-        // ----------------------------------
         // GEN 7 X ITEMS OPTION
         // ----------------------------------
         [GEN_7_X_ITEMS] = {
@@ -796,6 +699,17 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
             .string = gSpeedchoiceOptionEasySurgeCans,
             .options = OptionChoiceConfigNerfKeep,
             .tooltip = gSpeedchoiceTooltipEasySurgeCans,
+        },
+        // ----------------------------------
+        // NERF BROCK OPTION
+        // ----------------------------------
+        [NERF_BROCK] = {
+            .optionCount = 2,
+            .optionType = NORMAL,
+            .enabled = TRUE,
+            .string = gSpeedchoiceOptionNerfBrock,
+            .options = OptionChoiceConfigNerfKeep,
+            .tooltip = gSpeedchoiceTooltipNerfBrock,
         },
         // ----------------------------------
         // PAGE STATIC OPTION
@@ -847,24 +761,19 @@ void SetByteArrayToSaveOptions(const u8 * options_arr)
     gSaveBlock2Ptr->speedchoiceConfig.plotless = options_arr[PLOTLESS];
     gSaveBlock2Ptr->speedchoiceConfig.earlySaffron = options_arr[EARLY_SAFFRON];
     gSaveBlock2Ptr->speedchoiceConfig.raceGoal = options_arr[RACE_GOAL];
-    gSaveBlock2Ptr->speedchoiceConfig.instantText = options_arr[INSTANTTEXT];
     gSaveBlock2Ptr->speedchoiceConfig.spinners = options_arr[SPINNERS];
     gSaveBlock2Ptr->speedchoiceConfig.earlySurf = options_arr[EARLYSURF];
     gSaveBlock2Ptr->speedchoiceConfig.maxVision = options_arr[MAXVISION];
-    gSaveBlock2Ptr->speedchoiceConfig.newwildencounters = options_arr[NEWWILDENC];
-    gSaveBlock2Ptr->speedchoiceConfig.runEverywhere = options_arr[RUN_EVERYWHERE];
-    gSaveBlock2Ptr->speedchoiceConfig.betterMarts = options_arr[BETTER_MARTS];
     gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds = options_arr[GOOD_EARLY_WILDS];
-    gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder = options_arr[NICE_MENU_ORDER];
     gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe = options_arr[EASY_FALSE_SWIPE];
     gSaveBlock2Ptr->speedchoiceConfig.easyDexRewards = options_arr[EASY_DEX_REWARDS];
     gSaveBlock2Ptr->speedchoiceConfig.fastCatch = options_arr[FAST_CATCH];
     gSaveBlock2Ptr->speedchoiceConfig.earlyBike = options_arr[EARLY_BIKE];
-    gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch = options_arr[FAST_EGG_HATCH];
     gSaveBlock2Ptr->speedchoiceConfig.gen7XItems = options_arr[GEN_7_X_ITEMS];
     gSaveBlock2Ptr->speedchoiceConfig.evoEveryLevel = options_arr[EVO_EVERY_LEVEL];
     gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks = options_arr[HM_BADGE_CHECKS];
     gSaveBlock2Ptr->speedchoiceConfig.easySurgeCans = options_arr[EASY_SURGE_CANS];
+    gSaveBlock2Ptr->speedchoiceConfig.nerfBrock = options_arr[NERF_BROCK];
 }
 
 void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
@@ -897,24 +806,14 @@ u8 CheckSpeedchoiceOption(u8 option)
         return gSaveBlock2Ptr->speedchoiceConfig.earlySaffron;
     case PLOTLESS:
         return gSaveBlock2Ptr->speedchoiceConfig.plotless;
-    case INSTANTTEXT:
-        return gSaveBlock2Ptr->speedchoiceConfig.instantText;
     case EARLYSURF:
         return gSaveBlock2Ptr->speedchoiceConfig.earlySurf;
     case SPINNERS:
         return gSaveBlock2Ptr->speedchoiceConfig.spinners;
     case MAXVISION:
         return gSaveBlock2Ptr->speedchoiceConfig.maxVision;
-    case NEWWILDENC:
-        return gSaveBlock2Ptr->speedchoiceConfig.newwildencounters;
-    case RUN_EVERYWHERE:
-        return gSaveBlock2Ptr->speedchoiceConfig.runEverywhere;
-    case BETTER_MARTS:
-        return gSaveBlock2Ptr->speedchoiceConfig.betterMarts;
     case GOOD_EARLY_WILDS:
         return gSaveBlock2Ptr->speedchoiceConfig.goodEarlyWilds;
-    case NICE_MENU_ORDER:
-        return gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder;
     case EASY_FALSE_SWIPE:
         return gSaveBlock2Ptr->speedchoiceConfig.easyFalseSwipe;
     case EASY_DEX_REWARDS:
@@ -923,8 +822,6 @@ u8 CheckSpeedchoiceOption(u8 option)
         return gSaveBlock2Ptr->speedchoiceConfig.fastCatch;
     case EARLY_BIKE:
         return gSaveBlock2Ptr->speedchoiceConfig.earlyBike;
-    case FAST_EGG_HATCH:
-        return gSaveBlock2Ptr->speedchoiceConfig.fastEggHatch;
     case GEN_7_X_ITEMS:
         return gSaveBlock2Ptr->speedchoiceConfig.gen7XItems;
     case EVO_EVERY_LEVEL:
@@ -933,6 +830,8 @@ u8 CheckSpeedchoiceOption(u8 option)
         return gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks;
     case EASY_SURGE_CANS:
         return gSaveBlock2Ptr->speedchoiceConfig.easySurgeCans;
+    case NERF_BROCK:
+        return gSaveBlock2Ptr->speedchoiceConfig.nerfBrock;
     default:
         return FALSE;
     }

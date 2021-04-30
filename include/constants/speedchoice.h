@@ -16,37 +16,32 @@
 #define SPEEDCHOICE_VERSION STR(SPEEDCHOICE_VERSION_MAJOR) "." STR(SPEEDCHOICE_VERSION_MINOR) "." STR(SPEEDCHOICE_VERSION_RELSTEP)
 #endif
 
-#define PRESET               0u // N/A
-#define PLAYER_NAME_SET      1u // Implemented
-#define EXPMATH              2u // Implemented
-#define PLOTLESS             3u // Implemented
-#define EARLY_SAFFRON        4u // Implemented
-#define RACE_GOAL            5u // Implemented
-#define INSTANTTEXT          6u // Implemented
-#define SPINNERS             7u // Implemented
-#define EARLYSURF            8u // Implemented
-#define MAXVISION            9u // Implemented
-#define NEWWILDENC          10u // Implemented
-#define RUN_EVERYWHERE      11u // Implemented
-#define BETTER_MARTS        12u // Implemented
-#define GOOD_EARLY_WILDS    13u // Implemented
-#define NICE_MENU_ORDER     14u // Implemented
-#define EASY_FALSE_SWIPE    15u // Implemented
-#define EASY_DEX_REWARDS    16u // Implemented
-#define FAST_CATCH          17u // Implemented
-#define EARLY_BIKE          18u // Implemented
-#define FAST_EGG_HATCH      19u // Implemented
-#define GEN_7_X_ITEMS       20u // Implemented
-#define EVO_EVERY_LEVEL     21u // Implemented
-#define HM_BADGE_CHECKS     22u // Implemented
-#define EASY_SURGE_CANS     23u // Implemented
+#define PRESET               0
+#define PLAYER_NAME_SET      1
+#define EXPMATH              2
+#define PLOTLESS             3
+#define EARLY_SAFFRON        4
+#define RACE_GOAL            5
+#define SPINNERS             6
+#define EARLYSURF            7
+#define MAXVISION            8
+#define GOOD_EARLY_WILDS     9
+#define EASY_FALSE_SWIPE    10
+#define EASY_DEX_REWARDS    11
+#define FAST_CATCH          12
+#define EARLY_BIKE          13
+#define GEN_7_X_ITEMS       14
+#define EVO_EVERY_LEVEL     15
+#define HM_BADGE_CHECKS     16
+#define EASY_SURGE_CANS     17
+#define NERF_BROCK          18
 
-#define CURRENT_OPTIONS_NUM 24u
+#define CURRENT_OPTIONS_NUM 19
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
-#define PAGE        (CURRENT_OPTIONS_NUM + 0u)
-#define START_GAME  (CURRENT_OPTIONS_NUM + 1u)
+#define PAGE        (CURRENT_OPTIONS_NUM + 0)
+#define START_GAME  (CURRENT_OPTIONS_NUM + 1)
 
 
 /*
@@ -78,13 +73,6 @@
 #define PLOT_FULL 2
 
 // ----------------------
-// INSTANT TEXT ENUM
-// ----------------------
-
-#define IT_ON 0
-#define IT_OFF 1
-
-// ----------------------
 // EARLY SURF ENUM
 // ----------------------
 
@@ -109,40 +97,12 @@
 #define MAX_HELL 2
 
 // ----------------------
-// NEW WILD ENC ENUM
-// ----------------------
-
-#define NEW_ON 0
-#define NEW_OFF 1
-
-// ----------------------
-// RUN EVERYWHERE ENUM
-// ----------------------
-
-#define RUN_ON 0
-#define RUN_OFF 1
-
-// ----------------------
-// BETTER MARTS ENUM
-// ----------------------
-
-#define MARTS_ON 0
-#define MARTS_OFF 1
-
-// ----------------------
 // GOOD EARLY WILDS ENUM
 // ----------------------
 
 #define GOOD_OFF 0
 #define GOOD_STATIC 1
 #define GOOD_RAND 2
-
-// ----------------------
-// PARTY MENU ENUM
-// ----------------------
-
-#define NICE_MENU_ORDER_ON 0
-#define NICE_MENU_ORDER_OFF 1
 
 // ----------------------
 // EASY FALSE SWIPE ENUM
@@ -173,12 +133,6 @@
 #define EARLY_BIKE_YES 0
 #define EARLY_BIKE_NO 1
 
-// ----------------------
-// FAST EGG HATCHING ENUM
-// ----------------------
-
-#define FAST_EGG_HATCH_YES 0
-#define FAST_EGG_HATCH_NO 1
 // ----------------------
 // GEN 7 X ITEMS ENUM
 // ----------------------
@@ -221,6 +175,12 @@
 // --------------------
 #define SAFFRON_YES 0
 #define SAFFRON_NO  1
+
+// --------------------
+// NERF BROCK ENUM
+// --------------------
+#define NERF_YES 0
+#define NERF_NO  1
 
 // Enumeration for optionType in the Speedchoice struct below.
 

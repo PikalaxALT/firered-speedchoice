@@ -50,7 +50,7 @@ static u8 ChooseWildMonIndex_Land(void)
     u8 rand = Random() % ENCOUNTER_CHANCE_LAND_MONS_TOTAL;
 
     // 20/20/20/15/15/10 for new wild encounter table
-    if (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == NEW_ON)
+    if (TRUE)
     {
         // COMMONS
         // slot 1 (20%)
@@ -120,7 +120,7 @@ static u8 ChooseWildMonIndex_WaterRock(void)
 
     // 35/25/15/15/10 for new wild encounter table
 
-    if (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == NEW_ON)
+    if (TRUE)
     {
         // COMMONS
         // slot 1 (35%)
@@ -170,7 +170,7 @@ static u8 ChooseWildMonIndex_Fishing(u8 rod)
     // 60/40 for new wild encounter table
 
     // no fishing memes allowed
-    if (gSaveBlock2Ptr->speedchoiceConfig.newwildencounters == NEW_ON)
+    if (TRUE)
     {
         switch (rod)
         {

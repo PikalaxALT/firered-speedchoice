@@ -283,24 +283,19 @@ struct SpeedchoiceSaveOptions
     u32 raceGoal:2;
     u32 earlySaffron:2;
     u32 plotless:2;
-    u32 instantText:1;
     u32 earlySurf:1;
     u32 spinners:2;
     u32 maxVision:2;
-    u32 newwildencounters:1;
-    u32 runEverywhere:1;
-    u32 betterMarts:1;
     u32 goodEarlyWilds:2;
-    u32 niceMenuOrder:1;
     u32 easyFalseSwipe:2;
     u32 easyDexRewards:1;
     u32 fastCatch:1;
     u32 earlyBike:1;
-    u32 fastEggHatch:1;
     u32 gen7XItems:1;
     u32 evoEveryLevel:2;
     u32 hmBadgeChecks:1;
     u32 easySurgeCans:2;
+    u32 nerfBrock:1;
 };
 
 struct DoneButtonStats

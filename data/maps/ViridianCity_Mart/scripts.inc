@@ -59,14 +59,14 @@ ViridianCity_Mart_EventScript_Clerk:: @ 816A268
 	goto_if_questlog EventScript_ReleaseEnd
 	message Text_MayIHelpYou
 	waitmessage
-	checkspeedchoice BETTER_MARTS, MARTS_ON
-	goto_if_eq ViridianCity_Mart_EventScript_BetterMart
-	pokemart ViridianCity_Mart_Items
-	msgbox Text_PleaseComeAgain
-	release
-	end
-
-ViridianCity_Mart_EventScript_BetterMart::
+@ 	checkspeedchoice BETTER_MARTS, MARTS_ON
+@ 	goto_if_eq ViridianCity_Mart_EventScript_BetterMart
+@ 	pokemart ViridianCity_Mart_Items
+@ 	msgbox Text_PleaseComeAgain
+@ 	release
+@ 	end
+@
+@ ViridianCity_Mart_EventScript_BetterMart::
 	pokemart ViridianCity_BetterMart_Items
 	msgbox Text_PleaseComeAgain
 	release

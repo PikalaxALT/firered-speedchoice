@@ -15,14 +15,14 @@ CeruleanCity_Mart_EventScript_Clerk:: @ 816ACB0
 	faceplayer
 	message Text_MayIHelpYou
 	waitmessage
-	checkspeedchoice BETTER_MARTS, MARTS_ON
-	goto_if_eq CeruleanCity_Mart_EventScript_BetterMart
-	pokemart CeruleanCity_Mart_Items
-	msgbox Text_PleaseComeAgain
-	release
-	end
-
-CeruleanCity_Mart_EventScript_BetterMart::
+@ 	checkspeedchoice BETTER_MARTS, MARTS_ON
+@ 	goto_if_eq CeruleanCity_Mart_EventScript_BetterMart
+@ 	pokemart CeruleanCity_Mart_Items
+@ 	msgbox Text_PleaseComeAgain
+@ 	release
+@ 	end
+@
+@ CeruleanCity_Mart_EventScript_BetterMart::
 	pokemart CeruleanCity_BetterMart_Items
 	msgbox Text_PleaseComeAgain
 	release

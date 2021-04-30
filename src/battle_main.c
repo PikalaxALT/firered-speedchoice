@@ -1558,15 +1558,20 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
                 CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 break;
             }
+            /* SPEEDCHOICE CHANGE: Nerfing Brock */
             case F_TRAINER_PARTY_CUSTOM_MOVESET:
             {
+                u8 level;
                 const struct TrainerMonNoItemCustomMoves *partyData = gTrainers[trainerNum].party.NoItemCustomMoves;
 
                 for (j = 0; gSpeciesNames[partyData[i].species][j] != EOS; ++j)
                     nameHash += gSpeciesNames[partyData[i].species][j];
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * 31 / 255;
-                CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                level = partyData[i].lvl;
+                if (trainerNum == TRAINER_LEADER_BROCK && gSaveBlock2Ptr->speedchoiceConfig.nerfBrock == NERF_YES)
+                    level -= 2;
+                CreateMon(&party[i], partyData[i].species, level, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 for (j = 0; j < MAX_MON_MOVES; ++j)
                 {
                     SetMonData(&party[i], MON_DATA_MOVE1 + j, &partyData[i].moves[j]);

@@ -84,7 +84,7 @@
 #define MENU_DIR_RIGHT    2
 #define MENU_DIR_LEFT    -2
 
-#define IT_BUTTON_CHECK() (gSaveBlock2Ptr->speedchoiceConfig.instantText == IT_ON ? (JOY_HELD(A_BUTTON) | JOY_HELD(B_BUTTON)) : (JOY_NEW(A_BUTTON) | JOY_NEW(B_BUTTON)))
+#define IT_BUTTON_CHECK() ((JOY_HELD(A_BUTTON) | JOY_HELD(B_BUTTON)))
 
 enum
 {
@@ -2996,7 +2996,7 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
-    bool32 summaryLast = gSaveBlock2Ptr->speedchoiceConfig.niceMenuOrder == NICE_MENU_ORDER_ON ? TRUE : FALSE;
+    bool32 summaryLast = TRUE;
 
     sPartyMenuInternal->numActions = 0;
     if (!summaryLast)

@@ -260,7 +260,7 @@ bool8 RS_IsRunningDisallowed(u8 r0)
 
 bool32 IsRunningDisallowed(u8 metatileBehavior)
 {
-    if (gSaveBlock2Ptr->speedchoiceConfig.runEverywhere == RUN_ON)
+    if (TRUE)
         return FALSE;
     if (!(gMapHeader.flags & MAP_ALLOW_RUN))
         return TRUE;
