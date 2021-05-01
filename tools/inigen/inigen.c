@@ -233,9 +233,9 @@ static int IsIntroNidoranF3(const struct cs_insn * insn)
     && ops[0].type == ARM_OP_REG
     && ops[0].reg == ARM_REG_R4
     && ops[1].type == ARM_OP_MEM
-   && !ops[1].subtracted
-   && ops[1].mem.base == ARM_REG_PC
-   && ops[1].mem.index == ARM_REG_INVALID)
+    && !ops[1].subtracted
+    && ops[1].mem.base == ARM_REG_PC
+    && ops[1].mem.index == ARM_REG_INVALID)
     {
         to_return = (insn->address & ~3) + ops[1].mem.disp + 4;
     }

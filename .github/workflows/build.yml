@@ -27,7 +27,7 @@ jobs:
       - name: Clone rando
         uses: actions/checkout@v2
         with:
-          repository: pikalaxalt/universal-pokemon-randomizer
+          repository: pikalaxalt/upr-speedchoice
           ref: fr-support
           path: UPR
 
