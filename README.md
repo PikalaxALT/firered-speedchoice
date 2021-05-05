@@ -148,6 +148,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Remove options for and enables unconditionally: instant text, run everywhere, new wild encounters, better marts, nice menu order, fast egg hatch
 - Implements Brock nerf
 
+### 1.1.1
+- 
+
 ## See also
 
 Other disassembly and/or decompilation projects:
