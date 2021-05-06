@@ -1,0 +1,21 @@
+This hack is released as an XDELTA patch. To convert it into a ROM, please follow the steps applicable to your operating system.
+
+==============
+   WINDOWS
+==============
+
+1. Obtain a clean copy of Pokemon FireRed (U) (1.1). [1]
+2. Download the DeltaPatcher utility: https://github.com/marco-calautti/DeltaPatcher/releases/download/2.0.1/deltapatcher_v2.0.1_win32_bin.zip
+3. Extract and open "DeltaPatcher.exe". [2]
+4. Using DeltaPatcher.exe, apply pokefirered-speedchoice.xdelta to your Pokemon FireRed base ROM.
+
+==============
+ MAC / LINUX
+==============
+
+Download the xdelta3 commandline utility from https://xdelta.org, or install xdelta3 using your distribution's package manager. Next, obtain a clean copy of Pokemon FireRed (U) (1.1). [1] Finally, run the command
+
+    xdelta3 -d -s <path-to-vanilla-rom> pokefirered-speedchoice.xdelta pokefirered-speedchoice.gba
+
+[1] Pokemon FireRed 1.0 is not compatible.
+[2] The "DeltaPatcherLite.exe" application is NOT compatible.

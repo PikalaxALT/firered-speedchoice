@@ -74,7 +74,7 @@ jobs:
           verstr=$(dd if=pokefirered-speedchoice.gba bs=1 skip=$((0x${addr} & 0xFFFFFF)) count=$((0x${size} - 1)))
           export relname=pokemon-firered-speedchoice-${verstr}-plus-randomizer
           mkdir ${relname}
-          cp -r pokefirered-speedchoice.xdelta UPR/build/$(date '+%Y%m%d')/* ${relname}/
+          cp -r pokefirered-speedchoice.xdelta RELEASE.txt UPR/build/$(date '+%Y%m%d')/* ${relname}/
           zip -r ${relname}.zip ${relname}/
 
       - name: Publish
