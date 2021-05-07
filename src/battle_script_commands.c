@@ -705,8 +705,9 @@ static const struct WindowTemplate sUnusedWinTemplate =
     .baseBlock = 0x3F,
 };
 
-static const u16 gUnknown_82506D0[] = INCBIN_U16("graphics/battle_interface/unk_battlebox.gbapal");
-static const u32 gUnknown_82506F0[] = INCBIN_U32("graphics/battle_interface/unk_battlebox.4bpp.lz");
+// not used
+static const u16 sUnknownBattleboxPal[] = INCBIN_U16("graphics/battle_interface/unk_battlebox.gbapal");
+static const u32 sUnknownBattleboxGfx[] = INCBIN_U32("graphics/battle_interface/unk_battlebox.4bpp.lz");
 
 // not used
 static const u8 sRubyLevelUpStatBoxStats[] =
@@ -5722,8 +5723,8 @@ static void sub_8026480(void)
 {
     gBattle_BG2_Y = 0;
     gBattle_BG2_X = 0x1A0;
-    LoadPalette(gUnknown_82506D0, 0x60, 0x20);
-    CopyToWindowPixelBuffer(13, gUnknown_82506F0, 0, 0);
+    LoadPalette(sUnknownBattleboxPal, 0x60, 0x20);
+    CopyToWindowPixelBuffer(13, sUnknownBattleboxGfx, 0, 0);
     PutWindowTilemap(13);
     CopyWindowToVram(13, COPYWIN_BOTH);
     PutMonIconOnLvlUpBox();
@@ -5766,7 +5767,7 @@ static void PutLevelAndGenderOnLvlUpBox(void)
     printerTemplate.unk = 0;
     printerTemplate.fgColor = TEXT_COLOR_WHITE;
     printerTemplate.bgColor = TEXT_COLOR_TRANSPARENT;
-    printerTemplate.shadowColor = TEXT_COLOR_DARK_GREY;
+    printerTemplate.shadowColor = TEXT_COLOR_DARK_GRAY;
     AddTextPrinter(&printerTemplate, 0xFF, NULL);
     txtPtr = gStringVar4;
     gStringVar4[0] = 0xF9;

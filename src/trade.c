@@ -411,7 +411,7 @@ static const u8 gUnknown_8261E92[] = {
 };
 
 const u8 sText_Dummy[] = _("");
-const u8 sText_ClrDkGryHltTranspShdwRed[] = _("{COLOR WHITE}{HIGHLIGHT TRANSPARENT}{SHADOW DARK_GREY}");
+const u8 sText_ClrWhtHltTranspShdwDrkGry[] = _("{COLOR WHITE}{HIGHLIGHT TRANSPARENT}{SHADOW DARK_GRAY}");
 const u8 gText_MaleSymbol4[] = _("♂");
 const u8 gText_FemaleSymbol4[] = _("♀");
 const u8 gText_GenderlessSymbol[] = _("");
@@ -455,7 +455,7 @@ static const u8 *const sTradeErrorOrStatusMessagePtrs[] = {
     gText_OtherTrainersPkmnCantBeTraded  // The other TRAINER's POKéMON can't be traded now
 };
 
-static const u8 sTextColor_PartyMonNickname[] = { TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY };
+static const u8 sTextColor_PartyMonNickname[] = { TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY };
 
 static const struct BgTemplate sBgTemplates[] = {
     {
@@ -674,7 +674,7 @@ static const u8 gUnknown_8262055[][2] = {
 static void InitTradeMenuResources(void)
 {
     int i;
-    static vu16 dummy;
+    static u16 dummy;
 
     ResetSpriteData();
     FreeAllSpritePalettes();

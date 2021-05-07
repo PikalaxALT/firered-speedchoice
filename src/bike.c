@@ -12,24 +12,24 @@
 
 static u8 GetBikeTransitionId(u8 *, u16, u16);
 static void Bike_SetBikeStill(void);
-static u8 CanBikeFaceDirOnMetatile(u8, u8);
+static u8 CanBikeFaceDirectionOnRail(u8 direction, u8 metatileBehavior);
 static u8 GetBikeCollision(u8);
-static u8 GetBikeCollisionAt(struct ObjectEvent *, s16, s16, u8, u8);
+static u8 GetBikeCollisionAt(struct ObjectEvent *playerObjEvent, s16 x, s16 y, u8 direction, u8 metatileBehavior);
 static bool8 IsRunningDisallowedByMetatile(u8);
 static void BikeTransition_FaceDirection(u8);
 static void BikeTransition_TurnDirection(u8);
-static void BikeTransition_Moving(u8);
+static void BikeTransition_MoveDirection(u8);
 static void BikeTransition_Downhill(u8);
 static void BikeTransition_Uphill(u8);
 static u8 BikeInputHandler_Normal(u8 *, u16, u16);
 static u8 BikeInputHandler_Turning(u8 *, u16, u16);
-static u8 BikeInputHandler_Downhill(u8 *, u16, u16);
+static u8 BikeInputHandler_Slope(u8 *, u16, u16);
 
 static void (*const sBikeTransitions[])(u8) =
 {
     [BIKE_TRANS_FACE_DIRECTION] = BikeTransition_FaceDirection,
     [BIKE_TRANS_TURNING]        = BikeTransition_TurnDirection,
-    [BIKE_TRANS_MOVE]           = BikeTransition_Moving,
+    [BIKE_TRANS_MOVE]           = BikeTransition_MoveDirection,
     [BIKE_TRANS_DOWNHILL]       = BikeTransition_Downhill,
     [BIKE_TRANS_UPHILL]         = BikeTransition_Uphill,
 };
@@ -38,7 +38,7 @@ static u8 (*const sBikeInputHandlers[])(u8 *, u16, u16) =
 {
     [BIKE_STATE_NORMAL]  = BikeInputHandler_Normal,
     [BIKE_STATE_TURNING] = BikeInputHandler_Turning,
-    [BIKE_STATE_SLOPE]   = BikeInputHandler_Downhill,
+    [BIKE_STATE_SLOPE]   = BikeInputHandler_Slope,
 };
 
 void MovePlayerOnBike(u8 direction, u16 newKeys, u16 heldKeys)
@@ -110,7 +110,7 @@ static u8 BikeInputHandler_Turning(u8 *direction_p, UNUSED u16 newKeys, UNUSED u
     return BIKE_TRANS_TURNING;
 }
 
-static u8 BikeInputHandler_Downhill(u8 *direction_p, u16 newKeys, u16 heldKeys)
+static u8 BikeInputHandler_Slope(u8 *direction_p, u16 newKeys, u16 heldKeys)
 {
     u8 direction = GetPlayerMovementDirection();
     u8 playerObjEventId = gPlayerAvatar.objectEventId;
@@ -133,20 +133,17 @@ static u8 BikeInputHandler_Downhill(u8 *direction_p, u16 newKeys, u16 heldKeys)
                 return BIKE_TRANS_UPHILL;
         }
     }
+    gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
+    if (*direction_p == DIR_NONE)
+    {
+        *direction_p = direction;
+        gPlayerAvatar.runningState = NOT_MOVING;
+        return BIKE_TRANS_FACE_DIRECTION;
+    }
     else
     {
-        gPlayerAvatar.acroBikeState = BIKE_STATE_NORMAL;
-        if (*direction_p == DIR_NONE)
-        {
-            *direction_p = direction;
-            gPlayerAvatar.runningState = NOT_MOVING;
-            return BIKE_TRANS_FACE_DIRECTION;
-        }
-        else
-        {
-            gPlayerAvatar.runningState = MOVING;
-            return BIKE_TRANS_MOVE;
-        }
+        gPlayerAvatar.runningState = MOVING;
+        return BIKE_TRANS_MOVE;
     }
 }
 
@@ -159,17 +156,17 @@ static void BikeTransition_TurnDirection(u8 direction)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
-    if (!CanBikeFaceDirOnMetatile(direction, playerObjEvent->currentMetatileBehavior))
+    if (!CanBikeFaceDirectionOnRail(direction, playerObjEvent->currentMetatileBehavior))
         direction = playerObjEvent->movementDirection;
     PlayerFaceDirection(direction);
 }
 
-static void BikeTransition_Moving(u8 direction)
+static void BikeTransition_MoveDirection(u8 direction)
 {
     struct ObjectEvent *playerObjEvent;
     
     playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
-    if (!CanBikeFaceDirOnMetatile(direction, playerObjEvent->currentMetatileBehavior))
+    if (!CanBikeFaceDirectionOnRail(direction, playerObjEvent->currentMetatileBehavior))
     {
         BikeTransition_FaceDirection(playerObjEvent->movementDirection);
     }
@@ -281,7 +278,7 @@ static bool8 IsRunningDisallowedByMetatile(u8 metatileBehavior)
     return TRUE;
 }
 
-static bool8 CanBikeFaceDirOnMetatile(u8 direction, u8 metatileBehavior)
+static bool8 CanBikeFaceDirectionOnRail(u8 direction, u8 metatileBehavior)
 {
     if (direction == DIR_EAST || direction == DIR_WEST)
     {
@@ -370,10 +367,10 @@ static void Bike_SetBikeStill(void)
 
 s16 GetPlayerSpeed(void)
 {
-    s16 machSpeeds[] = { SPEED_NORMAL, SPEED_FAST, SPEED_FASTEST };
+    s16 machBikeSpeeds[] = { SPEED_NORMAL, SPEED_FAST, SPEED_FASTEST };
 
     if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_MACH_BIKE)
-        return machSpeeds[gPlayerAvatar.bikeFrameCounter];
+        return machBikeSpeeds[gPlayerAvatar.bikeFrameCounter];
     else if (gPlayerAvatar.flags & PLAYER_AVATAR_FLAG_ACRO_BIKE)
         return SPEED_FASTER;
     else if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_SURFING | PLAYER_AVATAR_FLAG_DASH))

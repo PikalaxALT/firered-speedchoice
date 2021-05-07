@@ -49,7 +49,7 @@ static const u8 sText_FlashMissing_1[] = _("No valid backup media was detected."
 static const u8 sText_FlashMissing_2[] = _("Pokémon FireRed{COLOR RED}{SHADOW LIGHT_RED} requires the 1M");
 static const u8 sText_FlashMissing_3[] = _("sub-circuit board to be installed.");
 static const u8 sText_FlashMissing_5[] = _("Please turn off the power.");
-static const u8 sText_FlashMissing_7[] = _("{COLOR DARK_GREY}{SHADOW LIGHT_GREY}mGBA: Tools {RIGHT_ARROW} Game overrides…");
+static const u8 sText_FlashMissing_7[] = _("{COLOR DARK_GRAY}{SHADOW LIGHT_GRAY}mGBA: Tools {RIGHT_ARROW} Game overrides…");
 static const u8 sText_FlashMissing_8[] = _("NOGBA: Options {RIGHT_ARROW} Files Setup");
 static const u8 sText_FlashMissing_9[] = _("VBA: Emulator not supported");
 
@@ -74,7 +74,7 @@ struct FatalErrorCnt
 };
 
 enum {
-    FMS_COLOR_GREY = 0,
+    FMS_COLOR_GRAY = 0,
     FMS_COLOR_RED,
     FMS_COLOR_BLUE,
     FMS_COLOR_GREEN,
@@ -87,7 +87,7 @@ enum {
 };
 
 static const u8 sTextColors[][3] = {
-    [FMS_COLOR_GREY] = { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
+    [FMS_COLOR_GRAY] = { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY },
     [FMS_COLOR_RED] = { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
     [FMS_COLOR_BLUE] = { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE },
     [FMS_COLOR_GREEN] = { TEXT_COLOR_WHITE, TEXT_COLOR_GREEN, TEXT_COLOR_LIGHT_GREEN },
@@ -103,9 +103,9 @@ static const struct FatalErrorCnt sTexts_FatalError[] = {
             {},
             {TEXT_CENTER, FMS_COLOR_RED, sText_FlashMissing_5},
             {},
-            {TEXT_LEFT, FMS_COLOR_GREY, sText_FlashMissing_7},
-            {TEXT_LEFT, FMS_COLOR_GREY, sText_FlashMissing_8},
-            {TEXT_LEFT, FMS_COLOR_GREY, sText_FlashMissing_9}
+            {TEXT_LEFT, FMS_COLOR_GRAY, sText_FlashMissing_7},
+            {TEXT_LEFT, FMS_COLOR_GRAY, sText_FlashMissing_8},
+            {TEXT_LEFT, FMS_COLOR_GRAY, sText_FlashMissing_9}
         }
     },
     [FATAL_ACCU_FAIL] = {
@@ -114,7 +114,7 @@ static const struct FatalErrorCnt sTexts_FatalError[] = {
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_1},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_2},
             {TEXT_CENTER, FMS_COLOR_RED, sText_PipelineFail_3},
-            {TEXT_LEFT, FMS_COLOR_GREY, sText_PipelineFail_4},
+            {TEXT_LEFT, FMS_COLOR_GRAY, sText_PipelineFail_4},
             {TEXT_LEFT, FMS_COLOR_BLUE, gStringVar4}
         }
     }
@@ -280,7 +280,7 @@ static void Task_FlashMissingScreen_Step(u8 taskId)
             2,
             GetStringXpos(sText_PressAnyKeyToContinue, TEXT_CENTER),
             14 * 8 + TX_MARG_TOP,
-            sTextColors[FMS_COLOR_GREY],
+            sTextColors[FMS_COLOR_GRAY],
             TEXT_SPEED_FF,
             sText_PressAnyKeyToContinue
         );

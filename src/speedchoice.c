@@ -112,14 +112,14 @@ const struct WindowTemplate sSpeedchoiceMenuWinTemplates[] =
 
 enum
 {
-    SPC_COLOR_GREY,
+    SPC_COLOR_GRAY,
     SPC_COLOR_RED,
     SPC_COLOR_BLUE,
     SPC_COLOR_GREEN,
 };
 
 static const u8 sTextColors[][3] = {
-    [SPC_COLOR_GREY]  = { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY },
+    [SPC_COLOR_GRAY]  = { TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY },
     [SPC_COLOR_RED]   = { TEXT_COLOR_WHITE, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED },
     [SPC_COLOR_BLUE]  = { TEXT_COLOR_WHITE, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE },
     [SPC_COLOR_GREEN] = { TEXT_COLOR_WHITE, TEXT_COLOR_GREEN, TEXT_COLOR_LIGHT_GREEN },
@@ -1209,7 +1209,7 @@ extern void MainMenu_DrawWindow(const struct WindowTemplate*, u16);
 static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
 {
     FillWindowPixelBuffer(SPD_WIN_TOOLTIP, PIXEL_FILL(1));
-    AddTextPrinterParameterized3(SPD_WIN_TOOLTIP, 2, 0, 1, sTextColors[SPC_COLOR_GREY], speed, str);
+    AddTextPrinterParameterized3(SPD_WIN_TOOLTIP, 2, 0, 1, sTextColors[SPC_COLOR_GRAY], speed, str);
     //sub_8098858(SPD_WIN_TOOLTIP, 0x1D5, 0);
     MainMenu_DrawWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP], 418);
     PutWindowTilemap(SPD_WIN_TOOLTIP);
@@ -1494,9 +1494,9 @@ static void DrawHeaderWindow(void)
 {
     s32 width;
     FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, PIXEL_FILL(1));
-    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 4, 1, sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF, gSpeedchoiceTextHeader);
+    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 4, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceTextHeader);
     width = GetStringWidth(2, gSpeedchoiceCurrentVersion, GetFontAttribute(2, FONTATTR_LETTER_SPACING));
-    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 204 - width, 1, sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF, gSpeedchoiceCurrentVersion);
+    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 204 - width, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceCurrentVersion);
     CopyWindowToVram(SPD_WIN_TEXT_OPTION, 3);
 }
 
@@ -1532,13 +1532,13 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
         struct SpeedchoiceOption *option = (struct SpeedchoiceOption *)&SpeedchoiceOptions[i + (OPTIONS_PER_PAGE * (page - 1))];
         const u8 *string = option->string;
 
-        AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF, string);
+        AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, string);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
         DrawGeneralChoices(option, sLocalSpeedchoiceConfig.optionConfig[i + ((page - 1) * 5)], i);
     }
 
-    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
-    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(6), sTextColors[SPC_COLOR_GREY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(6), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
     DrawPageChoice(sLocalSpeedchoiceConfig.pageNum);
     CopyWindowToVram(SPD_WIN_OPTIONS, 3);
 }

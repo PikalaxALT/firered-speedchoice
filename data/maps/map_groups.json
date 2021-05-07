@@ -48,7 +48,7 @@
   "gMapGroup0": [
     "BattleColosseum_2P",
     "TradeCenter",
-    "RecordCenter",
+    "RecordCorner",
     "BattleColosseum_4P",
     "UnionRoom"
   ],
@@ -318,7 +318,7 @@
   "gMapGroup4": [
     "PalletTown_PlayersHouse_1F",
     "PalletTown_PlayersHouse_2F",
-    "PalletTown_GarysHouse",
+    "PalletTown_RivalsHouse",
     "PalletTown_ProfessorOaksLab"
   ],
   "gMapGroup5": [

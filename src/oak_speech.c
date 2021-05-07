@@ -269,11 +269,11 @@ static const struct WindowTemplate sNewGameAdventureIntroWindowTemplates[] = {
 };
 
 static const u8 sTextColor_HelpSystem[4] = {
-    TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY
+    TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY
 };
 
 static const u8 sTextColor_OakSpeech[4] = {
-    TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY
+    TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_LIGHT_GRAY
 };
 
 static const u8 *const sNewGameAdventureIntroTextPointers[] = {
@@ -908,11 +908,11 @@ void Task_OakSpeech9(u8 taskId)
     if (str != gStringVar4)                                                                                                          \
     {                                                                                                                                \
         StringExpandPlaceholders(gStringVar4, str);                                                                                  \
-        AddTextPrinterParameterized2(0, 4, gStringVar4, speed, NULL, TEXT_COLOR_DARK_GREY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GREY); \
+        AddTextPrinterParameterized2(0, 4, gStringVar4, speed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY); \
     }                                                                                                                                \
     else                                                                                                                             \
     {                                                                                                                                \
-        AddTextPrinterParameterized2(0, 4, str, speed, NULL, TEXT_COLOR_DARK_GREY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GREY);         \
+        AddTextPrinterParameterized2(0, 4, str, speed, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);         \
     }                                                                                                                                \
     CopyWindowToVram(0, COPYWIN_BOTH);                                                                                               \
 })

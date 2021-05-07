@@ -341,7 +341,7 @@ static const struct SubspriteTable gUnknown_8260404[] = {
     {NELEMS(gUnknown_82603E4), gUnknown_82603E4}
 };
 
-static const u16 gUnknown_26040C[] = INCBIN_U16("graphics/battle_interface/unk_826404C.4bpp");
+static const u16 sBattleInterface_Unused[] = INCBIN_U16("graphics/battle_interface/unused.4bpp");
 
 static const struct CompressedSpriteSheet sStatusSummaryBarSpriteSheets[] = {
     {gFile_graphics_battle_interface_ball_status_bar_sheet, 0x0200, 55052},
@@ -359,8 +359,8 @@ static const struct SpritePalette sStatusSummaryBallsSpritePals[] = {
 };
 
 static const struct SpriteSheet sStatusSummaryBallsSpriteSheets[] = {
-    {gUnknown_8D12404, 0x0080, 55060},
-    {gUnknown_8D12404, 0x0080, 55061}
+    {gBattleInterface_SummaryBallDisplayGfx, 0x0080, 55060},
+    {gBattleInterface_SummaryBallDisplayGfx, 0x0080, 55061}
 };
 
 static const struct OamData gUnknown_82604AC = {
@@ -795,7 +795,7 @@ void UpdateHpTextInHealthbox(u8 healthboxSpriteId, s16 value, u8 maxOrCurrent)
     {
         u8 battler;
 
-        u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT DARK_GREY}");
+        u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT DARK_GRAY}");
         battler = gSprites[healthboxSpriteId].hMain_Battler;
         if (IsDoubleBattle() == TRUE || GetBattlerSide(battler) == B_SIDE_OPPONENT)
         {
@@ -901,7 +901,7 @@ static void UpdateHpTextInHealthboxInDoubles(u8 healthboxSpriteId, s16 value, u8
 // Prints mon's nature, catch and flee rate. Probably used to test pokeblock-related features.
 static void PrintSafariMonInfo(u8 healthboxSpriteId, struct Pokemon *mon)
 {
-    u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT DARK_GREY}");
+    u8 text[20] = __("{COLOR WHITE}{HIGHLIGHT DARK_GRAY}");
     s32 j, spriteTileNum;
     u8 *barFontGfx;
     u8 i, var, nature, healthBarSpriteId;
@@ -1455,7 +1455,7 @@ static void SpriteCB_StatusSummaryBallsOnSwitchout(struct Sprite *sprite)
     sprite->pos2.y = gSprites[barSpriteId].pos2.y;
 }
 
-static const u8 gUnknown_8260556[] = _("{HIGHLIGHT DARK_GREY}");
+static const u8 gUnknown_8260556[] = _("{HIGHLIGHT DARK_GRAY}");
 
 void UpdateNickInHealthbox(u8 healthboxSpriteId, struct Pokemon *mon)
 {

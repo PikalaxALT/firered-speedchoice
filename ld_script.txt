@@ -618,6 +618,7 @@ SECTIONS {
         src/keyboard_text.o(.rodata);
         src/speedchoice.o(.rodata);
         src/done_button.o(.rodata);
+        src/trainer_tower_sets.o(.rodata);
         data/data_8479668.o(.rodata);
 
         /* These should not be moved to C files */
