@@ -149,7 +149,7 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 - Implements Brock nerf
 
 ### 1.1.1
-- 
+- Bundle RELEASE.txt
 
 ## See also
 
