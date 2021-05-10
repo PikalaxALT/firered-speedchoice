@@ -919,7 +919,7 @@ void CB2_InitSpeedchoice(void)
     default:
     case 0:
         SetVBlankCallback(NULL);
-        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x100);
+        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
         DmaClear32(3, (void *)OAM, OAM_SIZE);
         DmaClear16(3, (void *)PLTT, PLTT_SIZE);
         gMain.state++;
@@ -1000,7 +1000,7 @@ void CB2_InitSpeedchoice(void)
         gMain.state++;
         break;
     case 8:
-        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
         CreateTask(Task_SpeedchoiceMenuFadeIn, 0);
         SetVBlankCallback(VBlankCB);
         SetMainCallback2(MainCB2);
@@ -1313,7 +1313,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
             sSpeedchoice->forceUpdate = TRUE;
         }
         else if (sSpeedchoice->config.trueIndex == PLAYER_NAME_SET) {
-            BeginNormalPaletteFade(-1, 0, 0, 0x10, 0);
+            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
             gTasks[taskId].func = Task_SpeedchoiceMenuFadeOutToNamingScreen;
             PlaySE(SE_SELECT); // page scrolling.
         }
@@ -1393,14 +1393,14 @@ static void DrawHeaderWindow(void)
     AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 4, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceTextHeader);
     width = GetStringWidth(2, gSpeedchoiceCurrentVersion, GetFontAttribute(2, FONTATTR_LETTER_SPACING));
     AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 204 - width, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceCurrentVersion);
-    CopyWindowToVram(SPD_WIN_TEXT_OPTION, 3);
+    CopyWindowToVram(SPD_WIN_TEXT_OPTION, COPYWIN_BOTH);
 }
 
 // Renders the frame for the options and choices window.
 void DrawOptionsAndChoicesWindow(void)
 {
     FillWindowPixelBuffer(SPD_WIN_OPTIONS, PIXEL_FILL(1));
-    CopyWindowToVram(SPD_WIN_OPTIONS, 3);
+    CopyWindowToVram(SPD_WIN_OPTIONS, COPYWIN_BOTH);
 }
 
 // Self-explanatory.
@@ -1436,7 +1436,7 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
     AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
     AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(6), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
     DrawPageChoice(sSpeedchoice->config.pageNum);
-    CopyWindowToVram(SPD_WIN_OPTIONS, 3);
+    CopyWindowToVram(SPD_WIN_OPTIONS, COPYWIN_BOTH);
 }
 
 /*
