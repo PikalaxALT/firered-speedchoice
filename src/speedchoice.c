@@ -1035,7 +1035,7 @@ static void DrawPageChoice(u8 selection)
 {
     u8 text[2] = {selection + CHAR_0, EOS};
 
-    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 40, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_RED], TEXT_SPEED_FF, text);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 40, NEWMENUOPTIONCOORDS(OPTIONS_PER_PAGE), sTextColors[SPC_COLOR_RED], TEXT_SPEED_FF, text);
 }
 
 // Render the text for the choices for each option.
@@ -1102,20 +1102,11 @@ static void Task_SpeedchoiceMenuFadeIn(u8 taskId)
 /*
  * Get the true index of the first or last page option depending on the enum passed.
  */
-inline u8 GetPageOptionPageIndex(bool8 lastOrFirst, u8 page);
-
 u8 GetPageOptionTrueIndex(bool8 lastOrFirst, u8 page)
 {
-    return (OPTIONS_PER_PAGE * (page - 1)) + GetPageOptionPageIndex(lastOrFirst, page) - 1;
+    return (OPTIONS_PER_PAGE * (page - 1)) + ((lastOrFirst) ? GetPageDrawCount(page) - 1 : 0);
 }
 
-/*
- * Same as above, but return the page index.
- */
-inline u8 GetPageOptionPageIndex(bool8 lastOrFirst, u8 page)
-{
-    return (lastOrFirst) ? GetPageDrawCount(page) : 1;
-}
 
 /*
  * Finish rendering the tooltip by holding until it has completed rendering.
@@ -1449,11 +1440,11 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
 
         AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, string);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
-        DrawGeneralChoices(option, sSpeedchoice->config.optionConfig[i + ((page - 1) * 5)], i);
+        DrawGeneralChoices(option, sSpeedchoice->config.optionConfig[i + ((page - 1) * OPTIONS_PER_PAGE)], i);
     }
 
-    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
-    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(6), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(OPTIONS_PER_PAGE), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
+    AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(OPTIONS_PER_PAGE + 1), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
     DrawPageChoice(sSpeedchoice->config.pageNum);
     CopyWindowToVram(SPD_WIN_OPTIONS, COPYWIN_BOTH);
 }
@@ -1464,10 +1455,5 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
  */
 void SetPageIndexFromTrueIndex(u8 taskId, s16 index) // data is s16.
 {
-    if(index == PAGE)
-        sSpeedchoice->config.pageIndex = 5;
-    else if(index == START_GAME)
-        sSpeedchoice->config.pageIndex = 6;
-    else
-        sSpeedchoice->config.pageIndex = (min((index % OPTIONS_PER_PAGE), OPTIONS_PER_PAGE));
+    sSpeedchoice->config.pageIndex = index < CURRENT_OPTIONS_NUM ? OPTIONS_PER_PAGE + index - CURRENT_OPTIONS_NUM : index % OPTIONS_PER_PAGE;
 }
