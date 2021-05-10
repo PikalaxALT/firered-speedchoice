@@ -429,18 +429,8 @@ const struct OptionChoiceConfig OptionChoiceConfigRaceGoal[] = {
     { 180, gSpeedchoiceTextE4R2   },
 };
 
-// player name needs its own config. Leave NULL there.
-const struct OptionChoiceConfig OptionChoiceConfigPlayerName[] =
-{
-    { 120, NULL }, // we still have a coord so it's handled properly.
-};
-
-// not a normal config struct, but used for the arrows for multi choice.
-const struct OptionChoiceConfig Arrows[] =
-{
-    { 120, gSpeedchoiceOptionLeftArrow },
-    { 195, gSpeedchoiceOptionRightArrow },
-};
+#define ARROW_X_LEFT    120
+#define ARROW_X_RIGHT   195
 
 // ---------------------------------------
 // Speedchoice menu Option data
@@ -455,7 +445,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         .optionType = ARROW,
         .enabled = TRUE,
         .string = gSpeedchoiceOptionPreset,
-        .options = Arrows,
+        .options = NULL,
         .tooltip = gSpeedchoiceTooltipPreset,
     },
     // ----------------------------------
@@ -466,7 +456,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         .optionType = PLAYER_NAME,
         .enabled = TRUE,
         .string = gSpeedchoiceOptionName,
-        .options = OptionChoiceConfigPlayerName,
+        .options = NULL,
         .tooltip = gSpeedchoiceTooltipName,
     },
     // ----------------------------------
@@ -1039,15 +1029,13 @@ static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 select
     {
     case ARROW:
     {
-        s32 x_left = Arrows[0].x;
-        s32 x_right = Arrows[1].x;
         s32 y = NEWMENUOPTIONCOORDS(row);
         // perform centering, add 4 pixels for the 8x8 arrow centering
-        s32 x_preset = 4 + x_left + (x_right - x_left -
-                                     GetStringWidth(2, gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], 0)) / 2;
+        s32 x_preset = 4 + ARROW_X_LEFT + (ARROW_X_RIGHT - ARROW_X_LEFT -
+                                     GetStringWidth(2, gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], 0)) / 2u;
 
-        DrawOptionMenuChoice(Arrows[0].string, x_left, y, SPC_COLOR_RED); // left arrow
-        DrawOptionMenuChoice(Arrows[1].string, x_right, y, SPC_COLOR_RED); // right arrow
+        DrawOptionMenuChoice(gSpeedchoiceOptionLeftArrow, ARROW_X_LEFT, y, SPC_COLOR_RED); // left arrow
+        DrawOptionMenuChoice(gSpeedchoiceOptionRightArrow, ARROW_X_RIGHT, y, SPC_COLOR_RED); // right arrow
         DrawOptionMenuChoice(gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], x_preset, y, SPC_COLOR_BLUE);
     }
         break;
@@ -1055,10 +1043,8 @@ static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 select
     {
         // Player name needs special handling as well.
         s32 y = NEWMENUOPTIONCOORDS(row);
-        s32 x_left = OptionChoiceConfigPlayerName[0].x;
-        s32 x_right = 195; // from Arrows[1].x dont mind me just borrowing
         s32 length = GetStringWidth(2, sSpeedchoice->tempPlayerName, 0);
-        s32 x_preset = 4 + x_left + (x_right - x_left - length) / 2;
+        s32 x_preset = 4 + ARROW_X_LEFT + (ARROW_X_RIGHT - ARROW_X_LEFT - length) / 2u;
 
         DrawOptionMenuChoice(sSpeedchoice->tempPlayerName, x_preset, y, SPC_COLOR_RED);
     }
