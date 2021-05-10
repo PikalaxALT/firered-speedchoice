@@ -268,6 +268,7 @@ typedef struct {
     u8 useAlternateDownArrow:1;
     u8 autoScroll:1;
     u8 forceMidTextSpeed:1;
+    u8 disableHoldToMash:1;
 } TextFlags;
 
 extern TextFlags gTextFlags;

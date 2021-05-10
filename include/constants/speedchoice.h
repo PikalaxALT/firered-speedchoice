@@ -63,6 +63,7 @@
 #define EXP_KEEP 0
 #define EXP_BW 1
 #define EXP_NONE 2
+#define EXP_OPTION_COUNT 3
 
 // ----------------------
 // PLOTLESS ENUM
@@ -71,6 +72,7 @@
 #define PLOT_SEMI 0
 #define PLOT_KEEP 1
 #define PLOT_FULL 2
+#define PLOT_OPTION_COUNT 3
 
 // ----------------------
 // EARLY SURF ENUM
@@ -78,6 +80,7 @@
 
 #define EARLY_SURF_YES 0
 #define EARLY_SURF_NO  1
+#define EARLY_SURF_OPTION_COUNT 2
 
 // ----------------------
 // SPINNERS ENUM
@@ -87,6 +90,7 @@
 #define SPIN_KEEP 1
 #define SPIN_HELL 2
 #define SPIN_WHY 3
+#define SPIN_OPTION_COUNT 4
 
 // ----------------------
 // MAX VISION ENUM
@@ -95,6 +99,7 @@
 #define MAX_OFF 0
 #define MAX_SANE 1
 #define MAX_HELL 2
+#define MAX_OPTION_COUNT 3
 
 // ----------------------
 // GOOD EARLY WILDS ENUM
@@ -103,6 +108,7 @@
 #define GOOD_OFF 0
 #define GOOD_STATIC 1
 #define GOOD_RAND 2
+#define GOOD_OPTION_COUNT 3
 
 // ----------------------
 // EASY FALSE SWIPE ENUM
@@ -111,6 +117,7 @@
 #define EASY_FALSE_SWIPE_OFF 0
 #define EASY_FALSE_SWIPE_TUTOR 1
 #define EASY_FALSE_SWIPE_HM05 2
+#define EASY_FALSE_SWIPE_OPTION_COUNT 3
 
 // ----------------------
 // EASY DEX REWARDS ENUM
@@ -118,6 +125,7 @@
 
 #define EASY_DEX_REWARDS_ON 0
 #define EASY_DEX_REWARDS_OFF 1
+#define EASY_DEX_REWARDS_OPTION_COUNT 2
 
 // ----------------------
 // FAST CATCH ENUM
@@ -125,6 +133,7 @@
 
 #define FAST_CATCH_ON 0
 #define FAST_CATCH_OFF 1
+#define FAST_CATCH_OPTION_COUNT 2
 
 // ----------------------
 // EARLY BIKE ENUM
@@ -132,6 +141,7 @@
 
 #define EARLY_BIKE_YES 0
 #define EARLY_BIKE_NO 1
+#define EARLY_BIKE_OPTION_COUNT 2
 
 // ----------------------
 // GEN 7 X ITEMS ENUM
@@ -139,6 +149,7 @@
 
 #define GEN_7_X_ITEMS_ON 0
 #define GEN_7_X_ITEMS_OFF 1
+#define GEN_7_X_ITEMS_OPTION_COUNT 2
 
 // ----------------------
 // EVO_EVERY_LEVEL ENUM
@@ -147,6 +158,7 @@
 #define EVO_EV_OFF 0
 #define EVO_EV_STATIC 1
 #define EVO_EV_RAND 2
+#define EVO_EV_OPTION_COUNT 3
 
 // ---------------------
 // HM_BADGE_CHECKS ENUM
@@ -154,6 +166,7 @@
 
 #define BADGE_PURGE 0
 #define BADGE_KEEP 1
+#define BADGE_OPTION_COUNT 2
 
 // --------------------
 // EASY_SURGE_CANS ENUM
@@ -162,6 +175,7 @@
 #define SURGE_KEEP 1
 #define SURGE_HELL 2
 #define SURGE_WHY  3
+#define SURGE_OPTION_COUNT 4
 
 // --------------------
 // RACE GOAL ENUM
@@ -169,18 +183,21 @@
 #define GOAL_MANUAL 0
 #define GOAL_HOF    1
 #define GOAL_E4R2   2
+#define GOAL_OPTION_COUNT 3
 
 // --------------------
 // EARLY SAFFRON ENUM
 // --------------------
 #define SAFFRON_YES 0
 #define SAFFRON_NO  1
+#define SAFFRON_OPTION_COUNT 2
 
 // --------------------
 // NERF BROCK ENUM
 // --------------------
 #define NERF_YES 0
 #define NERF_NO  1
+#define NERF_OPTION_COUNT 2
 
 // Enumeration for optionType in the Speedchoice struct below.
 

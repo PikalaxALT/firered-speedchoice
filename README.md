@@ -151,6 +151,9 @@ To set up the repository, see [INSTALL.md](INSTALL.md).
 ### 1.1.1
 - Bundle RELEASE.txt
 
+### 1.1.2
+- Hold-to-mash is disabled in the speedchoice menu tooltips
+
 ## See also
 
 Other disassembly and/or decompilation projects:

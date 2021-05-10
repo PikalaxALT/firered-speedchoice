@@ -19,23 +19,11 @@
 // Number of defined pages.
 #define MAX_PAGES ((CURRENT_OPTIONS_NUM + OPTIONS_PER_PAGE - 1) / OPTIONS_PER_PAGE)
 
-// Deprecated macro. May have been in use for Sapphire Speedchoice when the window system
-// was different back then.
-#define MENUOPTIONCOORDS(i) (5 + (2 * i)) // DEPRECATED
-
-// Deprecated macro. Using Random() formula for spinner timer: this define isnt used to
-// check Spinner timing anymore.
-#define SPINNER_HELL_TIMER 4 // DEPRECATED
-
 // Maximum number of tile vision trainers have when Max Vision is set.
 #define MAX_VISION_RANGE 8
 
 // Number of frames per spinner iteration in Purge setting for Spinners.
 #define PURGE_SPINNER_TIMER 48
-
-// Deprecated macro. I think battle speed is defined seperately now in the battle_main file
-// somewhere.
-#define BATTLE_SPEED_FRACTION 4 // DEPRECATED
 
 // Reserved macros for a future version for a wild encounter queue system.
 // Not implemented yet.
@@ -43,10 +31,6 @@
 #define WATER_QUEUE_SIZE 15
 #define ROCKSMASH_QUEUE_SIZE 15
 #define FISHING_QUEUE_SIZE 5
-
-// To Avoid breaking stuff, we used old min/max macros. I'm too lazy to correct this.
-#define oldmin(a, b) (a < b ? a : b)
-#define oldmax(a, b) (a > b ? a : b)
 
 /*
  * Every Speedchoice option uses a configuration to determine how to render it's options.
@@ -56,7 +40,7 @@
  */
 struct OptionChoiceConfig
 {
-    s16 x; // do not store the Y coordinate. Y is automatically calculated depending on the row the option is placed and therefore is not necessary.
+    s32 x; // do not store the Y coordinate. Y is automatically calculated depending on the row the option is placed and therefore is not necessary.
     const u8 *string; // can be null
 };
 

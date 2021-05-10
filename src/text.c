@@ -547,7 +547,7 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     else
     {
         TextPrinterDrawDownArrow(textPrinter);
-        if (gMain.heldKeys & (A_BUTTON | B_BUTTON))
+        if (gTextFlags.disableHoldToMash ? JOY_NEW(A_BUTTON | B_BUTTON) : JOY_HELD(A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -565,7 +565,7 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     }
     else
     {
-        if (gMain.heldKeys & (A_BUTTON | B_BUTTON))
+        if (gTextFlags.disableHoldToMash ? JOY_NEW(A_BUTTON | B_BUTTON) : JOY_HELD(A_BUTTON | B_BUTTON))
         {
             result = TRUE;
             PlaySE(SE_SELECT);
@@ -626,7 +626,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
     switch (textPrinter->state)
     {
     case PRINTER_STATE_PRINTCHAR:
-        if (JOY_HELD(A_BUTTON | B_BUTTON) && subStruct->hasPrintBeenSpedUp)
+        if ((gTextFlags.disableHoldToMash ? JOY_NEW(A_BUTTON | B_BUTTON) : JOY_HELD(A_BUTTON | B_BUTTON)) && subStruct->hasPrintBeenSpedUp)
             textPrinter->delayCounter = 0;
 
         if (textPrinter->delayCounter && textPrinter->textSpeed)
