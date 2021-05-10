@@ -71,43 +71,61 @@ const struct BgTemplate sSpeedchoiceMenuBgTemplates[] =
     }
 };
 
+#define WIN_TEXT_OPTION_BASE_BLOCK  0x002
+#define WIN_TEXT_OPTION_WIDTH       26
+#define WIN_TEXT_OPTION_HEIGHT       2
+
+#define WIN_OPTIONS_BASE_BLOCK      (WIN_TEXT_OPTION_BASE_BLOCK + WIN_TEXT_OPTION_WIDTH * WIN_TEXT_OPTION_HEIGHT)
+#define WIN_OPTIONS_WIDTH           26
+#define WIN_OPTIONS_HEIGHT          14
+
+#define FRAME_BASE_BLOCK            (WIN_OPTIONS_BASE_BLOCK + WIN_OPTIONS_WIDTH * WIN_OPTIONS_HEIGHT)
+
+#define WIN_TOOLTIP_BASE_BLOCK      (FRAME_BASE_BLOCK + 9)
+#define WIN_TOOLTIP_WIDTH           26
+#define WIN_TOOLTIP_HEIGHT           4
+
+#define WIN_YESNO_BASE_BLOCK        (WIN_TOOLTIP_BASE_BLOCK + WIN_TOOLTIP_WIDTH * WIN_TOOLTIP_HEIGHT)
+#define WIN_YESNO_WIDTH              4
+#define WIN_YESNO_HEIGHT             4
+
 const struct WindowTemplate sSpeedchoiceMenuWinTemplates[] =
 {
     [SPD_WIN_TEXT_OPTION] = {
         .bg = 1,
         .tilemapLeft = 2,
         .tilemapTop = 1,
-        .width = 26,
-        .height = 2,
+        .width = WIN_TEXT_OPTION_WIDTH,
+        .height = WIN_TEXT_OPTION_HEIGHT,
         .paletteNum = 1,
-        .baseBlock = 2
+        .baseBlock = WIN_TEXT_OPTION_BASE_BLOCK
     },
     [SPD_WIN_OPTIONS]     = {
         .bg = 0,
         .tilemapLeft = 2,
         .tilemapTop = 5,
-        .width = 26,
-        .height = 14,
+        .width = WIN_OPTIONS_WIDTH,
+        .height = WIN_OPTIONS_HEIGHT,
         .paletteNum = 1,
-        .baseBlock = 54
+        .baseBlock = WIN_OPTIONS_BASE_BLOCK
     },
     [SPD_WIN_TOOLTIP]     = {
         .bg = 2,
         .tilemapLeft = 2,
         .tilemapTop = 15,
-        .width = 26,
-        .height = 4,
+        .width = WIN_TOOLTIP_WIDTH,
+        .height = WIN_TOOLTIP_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = 427
+        .baseBlock = WIN_TOOLTIP_BASE_BLOCK
     },
     [SPD_WIN_YESNO]       = {
         .bg = 2,
         .tilemapLeft = 23,
         .tilemapTop = 9,
-        .width = 4,
-        .height = 4,
+        .width = WIN_YESNO_WIDTH,
+        .height = WIN_YESNO_HEIGHT,
         .paletteNum = 15,
-        .baseBlock = 531
+        .baseBlock = WIN_YESNO_BASE_BLOCK
     }, DUMMY_WIN_TEMPLATE
 };
 
@@ -872,7 +890,6 @@ static void HighlightOptionMenuItem(u8 index)
 
 static void DrawHeaderWindow(void);
 static void Task_SpeedchoiceMenuFadeIn(u8 taskId);
-static void DrawFrameOnBg1(void);
 
 extern const u8 *const gFemalePresetNames[19];
 
@@ -965,12 +982,14 @@ void CB2_InitSpeedchoice(void)
     case 4:
         LoadPalette(sHelpDocsPalette, 0x00, 0x80);
         LoadPalette(stdpal_get(2), 0x10, 0x20);
-        TextWindow_SetUserSelectedFrame(SPD_WIN_TEXT_OPTION, 0x1A2, 0x20);
+        TextWindow_SetUserSelectedFrame(SPD_WIN_TEXT_OPTION, FRAME_BASE_BLOCK, 0x20);
         LoadPalette(sMainMenuTextPal, 0xF0, sizeof(sMainMenuTextPal));
         gMain.state++;
         break;
     case 5:
-        DrawFrameOnBg1();
+//        DrawFrameOnBg1();
+        DrawTextBorderOuter(SPD_WIN_TEXT_OPTION, FRAME_BASE_BLOCK, 2);
+        DrawTextBorderOuter(SPD_WIN_OPTIONS, FRAME_BASE_BLOCK, 2);
         PutWindowTilemap(SPD_WIN_TEXT_OPTION);
         PutWindowTilemap(SPD_WIN_OPTIONS);
         gMain.state++;
@@ -1129,13 +1148,13 @@ static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
     FillWindowPixelBuffer(SPD_WIN_TOOLTIP, PIXEL_FILL(1));
     AddTextPrinterParameterized3(SPD_WIN_TOOLTIP, 2, 0, 1, sTextColors[SPC_COLOR_GRAY], speed, str);
     //sub_8098858(SPD_WIN_TOOLTIP, 0x1D5, 0);
-    DrawTextBorderOuter(SPD_WIN_TOOLTIP, 0x1A2, 2);
+    DrawTextBorderOuter(SPD_WIN_TOOLTIP, FRAME_BASE_BLOCK, 2);
     PutWindowTilemap(SPD_WIN_TOOLTIP);
     CopyWindowToVram(SPD_WIN_TOOLTIP, COPYWIN_BOTH);
     if (isYesNo)
     {
         FillWindowPixelBuffer(SPD_WIN_YESNO, PIXEL_FILL(1));
-        DrawTextBorderOuter(SPD_WIN_YESNO, 0x1A2, 2);
+        DrawTextBorderOuter(SPD_WIN_YESNO, FRAME_BASE_BLOCK, 2);
         PutWindowTilemap(SPD_WIN_YESNO);
         CopyWindowToVram(SPD_WIN_YESNO, COPYWIN_BOTH);
     }
@@ -1272,7 +1291,7 @@ static void Task_SpeedchoiceMenuSave(u8 taskId)
     SC_PrintHex32(gStringVar1, CalculateCheckValue());
     StringExpandPlaceholders(gStringVar4, gSpeedchoiceStartGameText);
     DrawTooltip(taskId, gStringVar4, TEXT_SPEED_FF, TRUE); // a bit of a hack, but whatever.
-    CreateYesNoMenu(&sSpeedchoiceMenuWinTemplates[SPD_WIN_YESNO], 3, 0, 2, 0x1A2, 2, 0);
+    CreateYesNoMenu(&sSpeedchoiceMenuWinTemplates[SPD_WIN_YESNO], 3, 0, 2, FRAME_BASE_BLOCK, 2, 0);
 
     gTasks[taskId].func = Task_AskToStartGame;
 }
@@ -1392,7 +1411,7 @@ static void DrawHeaderWindow(void)
     FillWindowPixelBuffer(SPD_WIN_TEXT_OPTION, PIXEL_FILL(1));
     AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 4, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceTextHeader);
     width = GetStringWidth(2, gSpeedchoiceCurrentVersion, GetFontAttribute(2, FONTATTR_LETTER_SPACING));
-    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, 204 - width, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceCurrentVersion);
+    AddTextPrinterParameterized3(SPD_WIN_TEXT_OPTION, 2, (8 * WIN_TEXT_OPTION_WIDTH - 4) - width, 1, sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, gSpeedchoiceCurrentVersion);
     CopyWindowToVram(SPD_WIN_TEXT_OPTION, COPYWIN_BOTH);
 }
 
@@ -1451,28 +1470,4 @@ void SetPageIndexFromTrueIndex(u8 taskId, s16 index) // data is s16.
         sSpeedchoice->config.pageIndex = 6;
     else
         sSpeedchoice->config.pageIndex = (min((index % OPTIONS_PER_PAGE), OPTIONS_PER_PAGE));
-}
-
-// Copied from option menu. Fills the window frames.
-static void DrawFrameOnBg1(void)
-{
-    //                   bg, tileNum, x,    y,    width, height,  pal
-    FillBgTilemapBufferRect(1, 0x1A2, 1,    0,      1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A3, 2,    0,      0x1B,   1,      2);
-    FillBgTilemapBufferRect(1, 0x1A4, 28,   0,      1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A5, 1,    1,      1,      2,      2);
-    FillBgTilemapBufferRect(1, 0x1A7, 28,   1,      1,      2,      2);
-    FillBgTilemapBufferRect(1, 0x1A8, 1,    3,      1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A9, 2,    3,      0x1B,   1,      2);
-    FillBgTilemapBufferRect(1, 0x1AA, 28,   3,      1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A2, 1,    4,      1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A3, 2,    4,      0x1A,   1,      2);
-    FillBgTilemapBufferRect(1, 0x1A4, 28,   4,      1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A5, 1,    5,      1,      0x12,   2);
-    FillBgTilemapBufferRect(1, 0x1A7, 28,   5,      1,      0x12,   2);
-    FillBgTilemapBufferRect(1, 0x1A8, 1,    19,     1,      1,      2);
-    FillBgTilemapBufferRect(1, 0x1A9, 2,    19,     0x1A,   1,      2);
-    FillBgTilemapBufferRect(1, 0x1AA, 28,   19,     1,      1,      2);
-
-    CopyBgTilemapBufferToVram(1);
 }
