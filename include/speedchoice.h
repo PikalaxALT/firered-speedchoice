@@ -116,7 +116,7 @@ extern const u32 gRandomizerCheckValue;
 // ----------------------
 // Prototypes
 // ----------------------
-void CB2_InitSpeedchoice(void);
+void InitSpeedchoice(MainCallback savedCallback);
 u8 CheckSpeedchoiceOption(u8);
 u32 CalculateCheckValue(void);
 

@@ -14,6 +14,7 @@
 #include "scanline_effect.h"
 #include "text_window.h"
 #include "text_window_graphics.h"
+#include "gflib.h"
 #include "done_button.h"
 #include "naming_screen.h"
 #include "random.h"
@@ -454,247 +455,259 @@ const struct OptionChoiceConfig Arrows[] =
 // Speedchoice menu Option data
 // ---------------------------------------
 const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // plus one for page
-    {
-        // ----------------------------------
-        // PRESET OPTION
-        // ----------------------------------
-        [PRESET] = {
-            .optionCount = NUM_PRESETS,
-            .optionType = ARROW,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionPreset,
-            .options = Arrows,
-            .tooltip = gSpeedchoiceTooltipPreset,
-        },
-        // ----------------------------------
-        // PLAYER NAME
-        // ----------------------------------
-        [PLAYER_NAME_SET] = {
-            .optionCount = 1,
-            .optionType = PLAYER_NAME,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionName,
-            .options = OptionChoiceConfigPlayerName,
-            .tooltip = gSpeedchoiceTooltipName,
-        },
-        // ----------------------------------
-        // EXP OPTION
-        // ----------------------------------
-        [EXPMATH] = {
-            .optionCount = EXP_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEXP,
-            .options = OptionChoiceConfigKeepNone,
-            .tooltip = gSpeedchoiceTooltipEXP,
-        },
-        // ----------------------------------
-        // PLOTLESS OPTION
-        // ----------------------------------
-        [PLOTLESS] = {
-            .optionCount = PLOT_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionPlotless,
-            .options = OptionChoiceConfigSemiFull,
-            .tooltip = gSpeedchoiceTooltipPlotless,
-        },
-        // ----------------------------------
-        // PLOTLESS OPTION
-        // ----------------------------------
-        [EARLY_SAFFRON] = {
-            .optionCount = SAFFRON_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEarlySaffron,
-            .options = OptionChoiceConfigYesNo,
-            .tooltip = gSpeedchoiceTooltipEarlySaffron,
-        },
-        // ----------------------------------
-        // RACE GOAL OPTION
-        // ----------------------------------
-        [RACE_GOAL] = {
-            .optionCount = GOAL_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionRaceGoal,
-            .options = OptionChoiceConfigRaceGoal,
-            .tooltip = gSpeedchoiceTooltipRaceGoal,
-        },
-        // ----------------------------------
-        // SPINNERS OPTION
-        // ----------------------------------
-        [SPINNERS] = {
-            .optionCount = SPIN_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionSpinners,
-            .options = OptionChoiceConfigNerfKeep,
-            .tooltip = gSpeedchoiceTooltipSpinners,
-        },
-        // ----------------------------------
-        // EARLY SURF OPTION
-        // ----------------------------------
-        [EARLYSURF] = {
-            .optionCount = EARLY_SURF_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEarlySurf,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipEarlySurf,
-        },
-        // ----------------------------------
-        // MAX VISION OPTION
-        // ----------------------------------
-        [MAXVISION] = {
-            .optionCount = MAX_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionMaxVision,
-            .options = OptionChoiceConfigSaneHell,
-            .tooltip = gSpeedchoiceTooltipMaxVision,
-        },
-        // ----------------------------------
-        // GOOD EARLY WILDS OPTION
-        // ----------------------------------
-        [GOOD_EARLY_WILDS] = {
-            .optionCount = GOOD_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionGoodEarlyWilds,
-            .options = OptionChoiceConfigOffRand,
-            .tooltip = gSpeedchoiceTooltipGoodEarlyWilds,
-        },
-        // ----------------------------------
-        // EASY FALSE SWIPE OPTION
-        // ----------------------------------
-        [EASY_FALSE_SWIPE] = {
-            .optionCount = EASY_FALSE_SWIPE_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEasyFalseSwipe,
-            .options = OptionChoiceConfigOffTutorHM,
-            .tooltip = gSpeedchoiceTooltipEasyFalseSwipe,
-        },
-        // ----------------------------------
-        // EASY FALSE SWIPE OPTION
-        // ----------------------------------
-        [EASY_DEX_REWARDS] = {
-            .optionCount = EASY_DEX_REWARDS_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchocieOptionEasyDexRewards,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipEasyDexRewards,
-        },
-        // ----------------------------------
-        // FAST CATCH OPTION
-        // ----------------------------------
-        [FAST_CATCH] = {
-            .optionCount = FAST_CATCH_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionFastCatch,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipFastCatch,
-        },
-        // ----------------------------------
-        // EARLY BIKE OPTION
-        // ----------------------------------
-        [EARLY_BIKE] = {
-            .optionCount = EARLY_BIKE_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEarlyBike,
-            .options = OptionChoiceConfigYesNo,
-            .tooltip = gSpeedchoiceTooltipEarlyBike,
-        },
-        // ----------------------------------
-        // GEN 7 X ITEMS OPTION
-        // ----------------------------------
-        [GEN_7_X_ITEMS] = {
-            .optionCount = GEN_7_X_ITEMS_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionGen7XItems,
-            .options = OptionChoiceConfigOnOff,
-            .tooltip = gSpeedchoiceTooltipGen7XItems,
-        },
-        // ----------------------------------
-        // EVO EVERY LEVEL OPTION
-        // ----------------------------------
-        [EVO_EVERY_LEVEL] = {
-            .optionCount = EVO_EV_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEvoEveryLv,
-            .options = OptionChoiceConfigOffRand,
-            .tooltip = gSpeedchoiceTooltipEvoEveryLv,
-        },
-        // ----------------------------------
-        // HM BADGE CHECKS OPTION
-        // ----------------------------------
-        [HM_BADGE_CHECKS] = {
-            .optionCount = BADGE_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionHmBadgeChk,
-            .options = OptionChoiceConfigNerfKeep,
-            .tooltip = gSpeedchoiceTooltipHmBadgeChk,
-        },
-        // ----------------------------------
-        // EASY SURGE CANS OPTION
-        // ----------------------------------
-        [EASY_SURGE_CANS] = {
-            .optionCount = SURGE_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionEasySurgeCans,
-            .options = OptionChoiceConfigNerfKeep,
-            .tooltip = gSpeedchoiceTooltipEasySurgeCans,
-        },
-        // ----------------------------------
-        // NERF BROCK OPTION
-        // ----------------------------------
-        [NERF_BROCK] = {
-            .optionCount = NERF_OPTION_COUNT,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionNerfBrock,
-            .options = OptionChoiceConfigNerfKeep,
-            .tooltip = gSpeedchoiceTooltipNerfBrock,
-        },
-        // ----------------------------------
-        // PAGE STATIC OPTION
-        // ----------------------------------
-        [PAGE] = {
-            .optionCount = MAX_PAGES,
-            .optionType = NORMAL,
-            .enabled = TRUE,
-            .string = gSpeedchoiceOptionPage,
-            .options = OptionChoiceConfigPage,
-            .tooltip = NULL,
-        }
-    };
+{
+    // ----------------------------------
+    // PRESET OPTION
+    // ----------------------------------
+    [PRESET] = {
+        .optionCount = NUM_PRESETS,
+        .optionType = ARROW,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionPreset,
+        .options = Arrows,
+        .tooltip = gSpeedchoiceTooltipPreset,
+    },
+    // ----------------------------------
+    // PLAYER NAME
+    // ----------------------------------
+    [PLAYER_NAME_SET] = {
+        .optionCount = 1,
+        .optionType = PLAYER_NAME,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionName,
+        .options = OptionChoiceConfigPlayerName,
+        .tooltip = gSpeedchoiceTooltipName,
+    },
+    // ----------------------------------
+    // EXP OPTION
+    // ----------------------------------
+    [EXPMATH] = {
+        .optionCount = EXP_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEXP,
+        .options = OptionChoiceConfigKeepNone,
+        .tooltip = gSpeedchoiceTooltipEXP,
+    },
+    // ----------------------------------
+    // PLOTLESS OPTION
+    // ----------------------------------
+    [PLOTLESS] = {
+        .optionCount = PLOT_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionPlotless,
+        .options = OptionChoiceConfigSemiFull,
+        .tooltip = gSpeedchoiceTooltipPlotless,
+    },
+    // ----------------------------------
+    // PLOTLESS OPTION
+    // ----------------------------------
+    [EARLY_SAFFRON] = {
+        .optionCount = SAFFRON_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEarlySaffron,
+        .options = OptionChoiceConfigYesNo,
+        .tooltip = gSpeedchoiceTooltipEarlySaffron,
+    },
+    // ----------------------------------
+    // RACE GOAL OPTION
+    // ----------------------------------
+    [RACE_GOAL] = {
+        .optionCount = GOAL_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionRaceGoal,
+        .options = OptionChoiceConfigRaceGoal,
+        .tooltip = gSpeedchoiceTooltipRaceGoal,
+    },
+    // ----------------------------------
+    // SPINNERS OPTION
+    // ----------------------------------
+    [SPINNERS] = {
+        .optionCount = SPIN_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionSpinners,
+        .options = OptionChoiceConfigNerfKeep,
+        .tooltip = gSpeedchoiceTooltipSpinners,
+    },
+    // ----------------------------------
+    // EARLY SURF OPTION
+    // ----------------------------------
+    [EARLYSURF] = {
+        .optionCount = EARLY_SURF_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEarlySurf,
+        .options = OptionChoiceConfigOnOff,
+        .tooltip = gSpeedchoiceTooltipEarlySurf,
+    },
+    // ----------------------------------
+    // MAX VISION OPTION
+    // ----------------------------------
+    [MAXVISION] = {
+        .optionCount = MAX_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionMaxVision,
+        .options = OptionChoiceConfigSaneHell,
+        .tooltip = gSpeedchoiceTooltipMaxVision,
+    },
+    // ----------------------------------
+    // GOOD EARLY WILDS OPTION
+    // ----------------------------------
+    [GOOD_EARLY_WILDS] = {
+        .optionCount = GOOD_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionGoodEarlyWilds,
+        .options = OptionChoiceConfigOffRand,
+        .tooltip = gSpeedchoiceTooltipGoodEarlyWilds,
+    },
+    // ----------------------------------
+    // EASY FALSE SWIPE OPTION
+    // ----------------------------------
+    [EASY_FALSE_SWIPE] = {
+        .optionCount = EASY_FALSE_SWIPE_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEasyFalseSwipe,
+        .options = OptionChoiceConfigOffTutorHM,
+        .tooltip = gSpeedchoiceTooltipEasyFalseSwipe,
+    },
+    // ----------------------------------
+    // EASY FALSE SWIPE OPTION
+    // ----------------------------------
+    [EASY_DEX_REWARDS] = {
+        .optionCount = EASY_DEX_REWARDS_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchocieOptionEasyDexRewards,
+        .options = OptionChoiceConfigOnOff,
+        .tooltip = gSpeedchoiceTooltipEasyDexRewards,
+    },
+    // ----------------------------------
+    // FAST CATCH OPTION
+    // ----------------------------------
+    [FAST_CATCH] = {
+        .optionCount = FAST_CATCH_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionFastCatch,
+        .options = OptionChoiceConfigOnOff,
+        .tooltip = gSpeedchoiceTooltipFastCatch,
+    },
+    // ----------------------------------
+    // EARLY BIKE OPTION
+    // ----------------------------------
+    [EARLY_BIKE] = {
+        .optionCount = EARLY_BIKE_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEarlyBike,
+        .options = OptionChoiceConfigYesNo,
+        .tooltip = gSpeedchoiceTooltipEarlyBike,
+    },
+    // ----------------------------------
+    // GEN 7 X ITEMS OPTION
+    // ----------------------------------
+    [GEN_7_X_ITEMS] = {
+        .optionCount = GEN_7_X_ITEMS_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionGen7XItems,
+        .options = OptionChoiceConfigOnOff,
+        .tooltip = gSpeedchoiceTooltipGen7XItems,
+    },
+    // ----------------------------------
+    // EVO EVERY LEVEL OPTION
+    // ----------------------------------
+    [EVO_EVERY_LEVEL] = {
+        .optionCount = EVO_EV_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEvoEveryLv,
+        .options = OptionChoiceConfigOffRand,
+        .tooltip = gSpeedchoiceTooltipEvoEveryLv,
+    },
+    // ----------------------------------
+    // HM BADGE CHECKS OPTION
+    // ----------------------------------
+    [HM_BADGE_CHECKS] = {
+        .optionCount = BADGE_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionHmBadgeChk,
+        .options = OptionChoiceConfigNerfKeep,
+        .tooltip = gSpeedchoiceTooltipHmBadgeChk,
+    },
+    // ----------------------------------
+    // EASY SURGE CANS OPTION
+    // ----------------------------------
+    [EASY_SURGE_CANS] = {
+        .optionCount = SURGE_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionEasySurgeCans,
+        .options = OptionChoiceConfigNerfKeep,
+        .tooltip = gSpeedchoiceTooltipEasySurgeCans,
+    },
+    // ----------------------------------
+    // NERF BROCK OPTION
+    // ----------------------------------
+    [NERF_BROCK] = {
+        .optionCount = NERF_OPTION_COUNT,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionNerfBrock,
+        .options = OptionChoiceConfigNerfKeep,
+        .tooltip = gSpeedchoiceTooltipNerfBrock,
+    },
+    // ----------------------------------
+    // PAGE STATIC OPTION
+    // ----------------------------------
+    [PAGE] = {
+        .optionCount = MAX_PAGES,
+        .optionType = NORMAL,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionPage,
+        .options = OptionChoiceConfigPage,
+        .tooltip = NULL,
+    }
+};
 
-// To avoid redrawing the page info every frame, we store the active page number
-// and compare it to the task's page number. We only redraw if they are different
-// and update accordingly.
-static EWRAM_DATA u8 sStoredPageNum = 0;
+struct SpeedchoiceMenuState
+{
+    // Return here at the end
+    MainCallback savedCallback;
 
-// See SpeedchoiceConfigStruct documentation in speedchoice.h.
-static EWRAM_DATA struct SpeedchoiceConfigStruct sLocalSpeedchoiceConfig = {0};
+    // See SpeedchoiceConfigStruct documentation in speedchoice.h.
+    struct SpeedchoiceConfigStruct config;
+
+    // Used to signal to avoid redrawing specific stuff. This is used for the naming screen switchover
+    // and the first time tooltip.
+    bool8 alreadyLoaded;
+
+    // To avoid redrawing the page info every frame, we store the active page number
+    // and compare it to the task's page number. We only redraw if they are different
+    // and update accordingly.
+    u8 storedPageNum;
+
+    // Used to signal that the page must redraw in cases where it is needed such as
+    // updating the Preset.
+    bool8 forceUpdate;
+
+    // Stores the written player name in the options menu until it is flushed to the
+    // Save Block.
+    u8 tempPlayerName[PLAYER_NAME_LENGTH + 1];
+};
+
+static EWRAM_DATA struct SpeedchoiceMenuState * sSpeedchoice = NULL;
 
 // See MapObjectTimerBackup documentation in speedchoice.h.
 EWRAM_DATA struct MapObjectTimerBackup * gMapObjectTimerBackup = NULL;
-
-// Used to signal that the page must redraw in cases where it is needed such as
-// updating the Preset.
-static EWRAM_DATA bool8 sForceUpdate = FALSE;
-
-// Stores the written player name in the options menu until it is flushed to the
-// Save Block.
-static EWRAM_DATA u8 sTempPlayerName[PLAYER_NAME_LENGTH + 1] = {0};
 
 // -------------------------------------
 // PROTOTYPES
@@ -733,7 +746,7 @@ void SetByteArrayToSaveOptions(const u8 * options_arr)
 void SetOptionChoicesAndConfigFromPreset(const u8 *preset)
 {
     // set the local config for the current menu. Do NOT overwrite the preset!
-    memcpy(sLocalSpeedchoiceConfig.optionConfig + 1, preset + 1, CURRENT_OPTIONS_NUM - 1);
+    memcpy(sSpeedchoice->config.optionConfig + 1, preset + 1, CURRENT_OPTIONS_NUM - 1);
 
     SetByteArrayToSaveOptions(preset);
 }
@@ -887,18 +900,37 @@ extern const u8 *const gFemalePresetNames[19];
  */
 static inline void FormatInitialTempName(u8 nameId)
 {
-    StringCopy7(sTempPlayerName, gFemalePresetNames[nameId]);
+    StringCopy7(sSpeedchoice->tempPlayerName, gFemalePresetNames[nameId]);
 }
-
-// Used to signal to avoid redrawing specific stuff. This is used for the naming screen switchover
-// and the first time tooltip.
-EWRAM_DATA bool32 gAlreadyLoaded = FALSE;
 
 extern const u16 sHelpDocsPalette[0x80];
 
 /*
  * Initialize the CB2 Speedchoice Menu.
  */
+void CB2_InitSpeedchoice(void);
+
+void InitSpeedchoice(MainCallback savedCallback)
+{
+    sSpeedchoice = Alloc(sizeof(struct SpeedchoiceMenuState));
+    if (sSpeedchoice == NULL)
+    {
+        SetMainCallback2(savedCallback);
+        return;
+    }
+    sSpeedchoice->savedCallback = savedCallback;
+    sSpeedchoice->config.trueIndex = 0;
+    sSpeedchoice->config.pageIndex = 0;
+    sSpeedchoice->config.pageNum = 1;
+    sSpeedchoice->alreadyLoaded = FALSE;
+    sSpeedchoice->storedPageNum = 0;
+    sSpeedchoice->forceUpdate = FALSE;
+    sSpeedchoice->config.optionConfig[PRESET] = PRESET_VANILLA;
+    SetOptionChoicesAndConfigFromPreset(gPresets[PRESET_VANILLA]);
+    FormatInitialTempName(Random() % NELEMS(gFemalePresetNames));
+    SetMainCallback2(CB2_InitSpeedchoice);
+}
+
 void CB2_InitSpeedchoice(void)
 {
     switch (gMain.state)
@@ -963,26 +995,26 @@ void CB2_InitSpeedchoice(void)
         gMain.state++;
         break;
     case 6:
-        sStoredPageNum = 1;
+        sSpeedchoice->storedPageNum = 1;
 
-        if(!gAlreadyLoaded)
+        if(!sSpeedchoice->alreadyLoaded)
         {
-            sLocalSpeedchoiceConfig.trueIndex = 0;
-            sLocalSpeedchoiceConfig.pageIndex = 0;
-            sLocalSpeedchoiceConfig.pageNum = 1;
+            sSpeedchoice->config.trueIndex = 0;
+            sSpeedchoice->config.pageIndex = 0;
+            sSpeedchoice->config.pageNum = 1;
 
             SetOptionChoicesAndConfigFromPreset(gPresets[PRESET_VANILLA]);
 
             FormatInitialTempName(Random() % NELEMS(gFemalePresetNames));
         }
         DrawHeaderWindow();
-        DrawPageOptions(sLocalSpeedchoiceConfig.pageNum);
+        DrawPageOptions(sSpeedchoice->config.pageNum);
         gMain.state++;
         break;
     case 7:
         HighlightHeaderBox();
-        HighlightOptionMenuItem(sLocalSpeedchoiceConfig.pageIndex);
-        if(!gAlreadyLoaded)
+        HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
+        if(!sSpeedchoice->alreadyLoaded)
             PlayBGM(MUS_NEW_GAME_INSTRUCT);
         gMain.state++;
         break;
@@ -1021,11 +1053,11 @@ static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 select
         s32 y = NEWMENUOPTIONCOORDS(row);
         // perform centering, add 4 pixels for the 8x8 arrow centering
         s32 x_preset = 4 + x_left + (x_right - x_left -
-                                     GetStringWidth(2, gPresetNames[sLocalSpeedchoiceConfig.optionConfig[PRESET]], 0)) / 2;
+                                     GetStringWidth(2, gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], 0)) / 2;
 
         DrawOptionMenuChoice(Arrows[0].string, x_left, y, SPC_COLOR_RED); // left arrow
         DrawOptionMenuChoice(Arrows[1].string, x_right, y, SPC_COLOR_RED); // right arrow
-        DrawOptionMenuChoice(gPresetNames[sLocalSpeedchoiceConfig.optionConfig[PRESET]], x_preset, y, SPC_COLOR_BLUE);
+        DrawOptionMenuChoice(gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], x_preset, y, SPC_COLOR_BLUE);
     }
         break;
     case PLAYER_NAME:
@@ -1034,10 +1066,10 @@ static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 select
         s32 y = NEWMENUOPTIONCOORDS(row);
         s32 x_left = OptionChoiceConfigPlayerName[0].x;
         s32 x_right = 195; // from Arrows[1].x dont mind me just borrowing
-        s32 length = GetStringWidth(2, sTempPlayerName, 0);
+        s32 length = GetStringWidth(2, sSpeedchoice->tempPlayerName, 0);
         s32 x_preset = 4 + x_left + (x_right - x_left - length) / 2;
 
-        DrawOptionMenuChoice(sTempPlayerName, x_preset, y, SPC_COLOR_RED);
+        DrawOptionMenuChoice(sSpeedchoice->tempPlayerName, x_preset, y, SPC_COLOR_RED);
     }
         break;
     default:
@@ -1104,14 +1136,12 @@ static void Task_WaitForTooltip(u8 taskId)
         {
             ClearWindowTilemap(SPD_WIN_TOOLTIP);
             MainMenu_EraseWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP]);
-            DrawPageOptions(sLocalSpeedchoiceConfig.pageNum);
+            DrawPageOptions(sSpeedchoice->config.pageNum);
             gTasks[taskId].func = Task_SpeedchoiceMenuProcessInput;
             gTextFlags.disableHoldToMash = FALSE;
         }
     }
 }
-
-extern void MainMenu_DrawWindow(const struct WindowTemplate*, u16);
 
 /*
  * Initiate the rendering for the tooltip.
@@ -1123,13 +1153,13 @@ static void DrawTooltip(u8 taskId, const u8 *str, int speed, bool32 isYesNo)
     FillWindowPixelBuffer(SPD_WIN_TOOLTIP, PIXEL_FILL(1));
     AddTextPrinterParameterized3(SPD_WIN_TOOLTIP, 2, 0, 1, sTextColors[SPC_COLOR_GRAY], speed, str);
     //sub_8098858(SPD_WIN_TOOLTIP, 0x1D5, 0);
-    MainMenu_DrawWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP], 0x1A2);
+    DrawTextBorderOuter(SPD_WIN_TOOLTIP, 0x1A2, 2);
     PutWindowTilemap(SPD_WIN_TOOLTIP);
     CopyWindowToVram(SPD_WIN_TOOLTIP, COPYWIN_BOTH);
     if (isYesNo)
     {
         FillWindowPixelBuffer(SPD_WIN_YESNO, PIXEL_FILL(1));
-        MainMenu_DrawWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_YESNO], 0x1A2);
+        DrawTextBorderOuter(SPD_WIN_YESNO, 0x1A2, 2);
         PutWindowTilemap(SPD_WIN_YESNO);
         CopyWindowToVram(SPD_WIN_YESNO, COPYWIN_BOTH);
     }
@@ -1152,7 +1182,7 @@ u32 CalculateCheckValue(void)
     // do checkvalue increment for 32-bit value.
     for (checkValue = 0, i = 0, totalBitsUsed = 0; i < CURRENT_OPTIONS_NUM; i++)
     {
-        checkValue += sLocalSpeedchoiceConfig.optionConfig[i] << totalBitsUsed;
+        checkValue += sSpeedchoice->config.optionConfig[i] << totalBitsUsed;
         // Because MAX_CHOICES == 6, this is valid.
         // Otherwise we'd need to do some actual work.
         curBitsUsed = (SpeedchoiceOptions[i].optionCount + 1u) / 2u;
@@ -1167,7 +1197,7 @@ u32 CalculateCheckValue(void)
             {
                 totalBitsUsed -= 32;
                 if (totalBitsUsed)
-                    checkValue += sLocalSpeedchoiceConfig.optionConfig[i] >> (curBitsUsed - totalBitsUsed);
+                    checkValue += sSpeedchoice->config.optionConfig[i] >> (curBitsUsed - totalBitsUsed);
             }
         }
     }
@@ -1180,10 +1210,10 @@ u32 CalculateCheckValue(void)
 // Flush the settings to the Save Block.
 static void SaveSpeedchoiceOptions()
 {
-    SetByteArrayToSaveOptions(sLocalSpeedchoiceConfig.optionConfig);
+    SetByteArrayToSaveOptions(sSpeedchoice->config.optionConfig);
 
     // write the playername.
-    StringCopy7(gSaveBlock2Ptr->playerName, sTempPlayerName);
+    StringCopy7(gSaveBlock2Ptr->playerName, sSpeedchoice->tempPlayerName);
 }
 
 extern const struct BgTemplate sMainMenuBgTemplates[];
@@ -1198,30 +1228,14 @@ static void Task_SpeedchoiceMenuFadeOut(u8 taskId)
 {
     if (!gPaletteFade.active && --gTasks[taskId].data[15] == 0)
     {
-        DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
-        DmaClear32(3, (void *)OAM, OAM_SIZE);
-        DmaClear16(3, (void *)PLTT, PLTT_SIZE);
-        gPlttBufferUnfaded[0] = 0;
-        gPlttBufferFaded[0] = 0;
-        FreeAllWindowBuffers();
-        SetGpuReg(REG_OFFSET_DISPCNT, 0);
-        SetGpuReg(REG_OFFSET_BG2CNT, 0);
-        SetGpuReg(REG_OFFSET_BG1CNT, 0);
-        SetGpuReg(REG_OFFSET_BG0CNT, 0);
-        SetGpuReg(REG_OFFSET_BG2HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG2VOFS, 0);
-        SetGpuReg(REG_OFFSET_BG1HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG1VOFS, 0);
-        SetGpuReg(REG_OFFSET_BG0HOFS, 0);
-        SetGpuReg(REG_OFFSET_BG0VOFS, 0);
-        ResetBgs();
-        InitBgsFromTemplates(0, sMainMenuBgTemplates, 2);
         sInIntro = TRUE;
         sInSubMenu = FALSE;
         sInBattle = FALSE;
         sInField = FALSE;
-        SetMainCallback2(CB2_NewGameOaksSpeech);
-        gTasks[taskId].func = Task_OaksSpeech1;
+        if (sSpeedchoice->savedCallback != NULL)
+            SetMainCallback2(sSpeedchoice->savedCallback);
+        FREE_AND_SET_NULL(sSpeedchoice);
+        DestroyTask(taskId);
     }
 }
 
@@ -1250,7 +1264,7 @@ static void Task_AskToStartGame(u8 taskId)
         ClearWindowTilemap(SPD_WIN_YESNO);
         MainMenu_EraseWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP]);
         MainMenu_EraseWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_YESNO]);
-        DrawPageOptions(sLocalSpeedchoiceConfig.pageNum);
+        DrawPageOptions(sSpeedchoice->config.pageNum);
         gTasks[taskId].func = Task_SpeedchoiceMenuProcessInput;
         break;
     }
@@ -1294,7 +1308,7 @@ void Task_SpeedchoiceMenuFadeOutToNamingScreen(u8 taskId)
     {
         FreeAllWindowBuffers();
         DestroyTask(taskId);
-        DoNamingScreen(NAMING_SCREEN_PLAYER, sTempPlayerName, FEMALE, 0, 0, CB2_InitSpeedchoice);
+        DoNamingScreen(NAMING_SCREEN_PLAYER, sSpeedchoice->tempPlayerName, FEMALE, 0, 0, CB2_InitSpeedchoice);
     }
 }
 
@@ -1303,24 +1317,24 @@ void Task_SpeedchoiceMenuFadeOutToNamingScreen(u8 taskId)
  */
 static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
 {
-    if(!gAlreadyLoaded)
+    if(!sSpeedchoice->alreadyLoaded)
     {
         DrawTooltip(taskId, gSpeedchoiceTooltipExplanation, GetTextSpeedSetting(), FALSE);
-        gAlreadyLoaded = TRUE;
+        sSpeedchoice->alreadyLoaded = TRUE;
     }
     else if (JOY_NEW(A_BUTTON))
     {
-        if (sLocalSpeedchoiceConfig.trueIndex == START_GAME)
+        if (sSpeedchoice->config.trueIndex == START_GAME)
         {
             PlayBGM(MUS_NEW_GAME_INTRO);
             gTasks[taskId].func = Task_SpeedchoiceMenuSave;
         }
-        else if (sLocalSpeedchoiceConfig.trueIndex == PRESET) {
-            SetOptionChoicesAndConfigFromPreset(GetPresetPtr(sLocalSpeedchoiceConfig.optionConfig[PRESET]));
+        else if (sSpeedchoice->config.trueIndex == PRESET) {
+            SetOptionChoicesAndConfigFromPreset(GetPresetPtr(sSpeedchoice->config.optionConfig[PRESET]));
             PlaySE(SE_SELECT); // page scrolling.
-            sForceUpdate = TRUE;
+            sSpeedchoice->forceUpdate = TRUE;
         }
-        else if (sLocalSpeedchoiceConfig.trueIndex == PLAYER_NAME_SET) {
+        else if (sSpeedchoice->config.trueIndex == PLAYER_NAME_SET) {
             BeginNormalPaletteFade(-1, 0, 0, 0x10, 0);
             gTasks[taskId].func = Task_SpeedchoiceMenuFadeOutToNamingScreen;
             PlaySE(SE_SELECT); // page scrolling.
@@ -1328,37 +1342,37 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
     }
     else if (JOY_NEW(SELECT_BUTTON)) // do tooltip.
     {
-        if(sLocalSpeedchoiceConfig.trueIndex <= CURRENT_OPTIONS_NUM && SpeedchoiceOptions[sLocalSpeedchoiceConfig.trueIndex].tooltip != NULL)
-            DrawTooltip(taskId, SpeedchoiceOptions[sLocalSpeedchoiceConfig.trueIndex].tooltip, GetTextSpeedSetting(), FALSE);
+        if(sSpeedchoice->config.trueIndex <= CURRENT_OPTIONS_NUM && SpeedchoiceOptions[sSpeedchoice->config.trueIndex].tooltip != NULL)
+            DrawTooltip(taskId, SpeedchoiceOptions[sSpeedchoice->config.trueIndex].tooltip, GetTextSpeedSetting(), FALSE);
     }
     else if (JOY_NEW(DPAD_UP))
     {
-        if(sLocalSpeedchoiceConfig.trueIndex == PAGE)
-            sLocalSpeedchoiceConfig.trueIndex = GetPageOptionTrueIndex(LAST, sLocalSpeedchoiceConfig.pageNum); // set the entry to the last available option.
-        else if(sLocalSpeedchoiceConfig.trueIndex > GetPageOptionTrueIndex(FIRST, sLocalSpeedchoiceConfig.pageNum))
-            sLocalSpeedchoiceConfig.trueIndex--;
+        if(sSpeedchoice->config.trueIndex == PAGE)
+            sSpeedchoice->config.trueIndex = GetPageOptionTrueIndex(LAST, sSpeedchoice->config.pageNum); // set the entry to the last available option.
+        else if(sSpeedchoice->config.trueIndex > GetPageOptionTrueIndex(FIRST, sSpeedchoice->config.pageNum))
+            sSpeedchoice->config.trueIndex--;
         else
-            sLocalSpeedchoiceConfig.trueIndex = START_GAME;
+            sSpeedchoice->config.trueIndex = START_GAME;
 
-        SetPageIndexFromTrueIndex(taskId, sLocalSpeedchoiceConfig.trueIndex);
-        HighlightOptionMenuItem(sLocalSpeedchoiceConfig.pageIndex);
+        SetPageIndexFromTrueIndex(taskId, sSpeedchoice->config.trueIndex);
+        HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
     }
     else if (JOY_NEW(DPAD_DOWN))
     {
-        if(sLocalSpeedchoiceConfig.trueIndex == GetPageOptionTrueIndex(LAST, sLocalSpeedchoiceConfig.pageNum))
-            sLocalSpeedchoiceConfig.trueIndex = PAGE; // you are at the last option when you press down, go to page index.
-        else if(sLocalSpeedchoiceConfig.trueIndex == START_GAME)
-            sLocalSpeedchoiceConfig.trueIndex = GetPageOptionTrueIndex(FIRST, sLocalSpeedchoiceConfig.pageNum);
+        if(sSpeedchoice->config.trueIndex == GetPageOptionTrueIndex(LAST, sSpeedchoice->config.pageNum))
+            sSpeedchoice->config.trueIndex = PAGE; // you are at the last option when you press down, go to page index.
+        else if(sSpeedchoice->config.trueIndex == START_GAME)
+            sSpeedchoice->config.trueIndex = GetPageOptionTrueIndex(FIRST, sSpeedchoice->config.pageNum);
         else
-            sLocalSpeedchoiceConfig.trueIndex++;
+            sSpeedchoice->config.trueIndex++;
 
-        SetPageIndexFromTrueIndex(taskId, sLocalSpeedchoiceConfig.trueIndex);
-        HighlightOptionMenuItem(sLocalSpeedchoiceConfig.pageIndex);
+        SetPageIndexFromTrueIndex(taskId, sSpeedchoice->config.trueIndex);
+        HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
     }
     else
     {
-        u8 trueIndex = sLocalSpeedchoiceConfig.trueIndex;
-        u8 selection = sLocalSpeedchoiceConfig.optionConfig[trueIndex];
+        u8 trueIndex = sSpeedchoice->config.trueIndex;
+        u8 selection = sSpeedchoice->config.optionConfig[trueIndex];
         switch (trueIndex)
         {
         default:
@@ -1366,24 +1380,24 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
             {
                 // lol. I don't know why I hardcoded this in Sapphire.
                 //if(trueIndex == NERFROXANNE)
-                //    sLocalSpeedchoiceConfig.optionConfig[trueIndex] = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], selection, TRUE);
+                //    sSpeedchoice->config.optionConfig[trueIndex] = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], selection, TRUE);
                 //else
-                u8 oldSelection = sLocalSpeedchoiceConfig.optionConfig[trueIndex];
-                sLocalSpeedchoiceConfig.optionConfig[trueIndex] = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], selection, FALSE);
-                DrawGeneralChoices((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], sLocalSpeedchoiceConfig.optionConfig[trueIndex], sLocalSpeedchoiceConfig.pageIndex);
-                if(oldSelection != sLocalSpeedchoiceConfig.optionConfig[trueIndex] || sForceUpdate) {
-                    DrawPageOptions(sLocalSpeedchoiceConfig.pageNum); // HACK!!! The page has to redraw. But only redraw it if the selection changed, otherwise it lags.
-                    sForceUpdate = FALSE;
+                u8 oldSelection = sSpeedchoice->config.optionConfig[trueIndex];
+                sSpeedchoice->config.optionConfig[trueIndex] = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], selection, FALSE);
+                DrawGeneralChoices((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], sSpeedchoice->config.optionConfig[trueIndex], sSpeedchoice->config.pageIndex);
+                if(oldSelection != sSpeedchoice->config.optionConfig[trueIndex] || sSpeedchoice->forceUpdate) {
+                    DrawPageOptions(sSpeedchoice->config.pageNum); // HACK!!! The page has to redraw. But only redraw it if the selection changed, otherwise it lags.
+                    sSpeedchoice->forceUpdate = FALSE;
                 }
             }
             break;
         case PAGE:
-            sLocalSpeedchoiceConfig.pageNum = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[CURRENT_OPTIONS_NUM], sLocalSpeedchoiceConfig.pageNum, TRUE);
-            //DrawPageChoice(sLocalSpeedchoiceConfig.pageNum); Deprecated.
-            if(sLocalSpeedchoiceConfig.pageNum != sStoredPageNum) // only redraw if the page updates!
+            sSpeedchoice->config.pageNum = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[CURRENT_OPTIONS_NUM], sSpeedchoice->config.pageNum, TRUE);
+            //DrawPageChoice(sSpeedchoice->config.pageNum); Deprecated.
+            if(sSpeedchoice->config.pageNum != sSpeedchoice->storedPageNum) // only redraw if the page updates!
             {
-                DrawPageOptions(sLocalSpeedchoiceConfig.pageNum);
-                sStoredPageNum = sLocalSpeedchoiceConfig.pageNum; // update the page.
+                DrawPageOptions(sSpeedchoice->config.pageNum);
+                sSpeedchoice->storedPageNum = sSpeedchoice->config.pageNum; // update the page.
             }
             break;
         case START_GAME:
@@ -1438,12 +1452,12 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
 
         AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, string);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
-        DrawGeneralChoices(option, sLocalSpeedchoiceConfig.optionConfig[i + ((page - 1) * 5)], i);
+        DrawGeneralChoices(option, sSpeedchoice->config.optionConfig[i + ((page - 1) * 5)], i);
     }
 
     AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(5), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);
     AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(6), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionStartGame);
-    DrawPageChoice(sLocalSpeedchoiceConfig.pageNum);
+    DrawPageChoice(sSpeedchoice->config.pageNum);
     CopyWindowToVram(SPD_WIN_OPTIONS, 3);
 }
 
@@ -1454,11 +1468,11 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
 void SetPageIndexFromTrueIndex(u8 taskId, s16 index) // data is s16.
 {
     if(index == PAGE)
-        sLocalSpeedchoiceConfig.pageIndex = 5;
+        sSpeedchoice->config.pageIndex = 5;
     else if(index == START_GAME)
-        sLocalSpeedchoiceConfig.pageIndex = 6;
+        sSpeedchoice->config.pageIndex = 6;
     else
-        sLocalSpeedchoiceConfig.pageIndex = (min((index % OPTIONS_PER_PAGE), OPTIONS_PER_PAGE));
+        sSpeedchoice->config.pageIndex = (min((index % OPTIONS_PER_PAGE), OPTIONS_PER_PAGE));
 }
 
 // Copied from option menu. Fills the window frames.

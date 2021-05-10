@@ -488,11 +488,37 @@ void CB2_NewGameOaksSpeech(void)
     UpdatePaletteFade();
 }
 
+void CB2_ReturnToNewGameFromSpeedchoice(void);
+
 void StartNewGameScene(void)
 {
     gPlttBufferUnfaded[0] = RGB_BLACK;
     gPlttBufferFaded[0]   = RGB_BLACK;
-    SetMainCallback2(CB2_InitSpeedchoice);
+    InitSpeedchoice(CB2_ReturnToNewGameFromSpeedchoice);
+}
+
+void CB2_ReturnToNewGameFromSpeedchoice(void)
+{
+    DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
+    DmaClear32(3, (void *)OAM, OAM_SIZE);
+    DmaClear16(3, (void *)PLTT, PLTT_SIZE);
+    gPlttBufferUnfaded[0] = 0;
+    gPlttBufferFaded[0] = 0;
+    FreeAllWindowBuffers();
+    SetGpuReg(REG_OFFSET_DISPCNT, 0);
+    SetGpuReg(REG_OFFSET_BG2CNT, 0);
+    SetGpuReg(REG_OFFSET_BG1CNT, 0);
+    SetGpuReg(REG_OFFSET_BG0CNT, 0);
+    SetGpuReg(REG_OFFSET_BG2HOFS, 0);
+    SetGpuReg(REG_OFFSET_BG2VOFS, 0);
+    SetGpuReg(REG_OFFSET_BG1HOFS, 0);
+    SetGpuReg(REG_OFFSET_BG1VOFS, 0);
+    SetGpuReg(REG_OFFSET_BG0HOFS, 0);
+    SetGpuReg(REG_OFFSET_BG0VOFS, 0);
+    ResetBgs();
+    InitBgsFromTemplates(0, sBgTemplates, NELEMS(sBgTemplates));
+    SetMainCallback2(CB2_NewGameOaksSpeech);
+    CreateTask(Task_OaksSpeech1, 0);
 }
 
 // ====================================
