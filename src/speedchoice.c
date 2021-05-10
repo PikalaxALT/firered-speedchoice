@@ -429,15 +429,6 @@ const struct OptionChoiceConfig OptionChoiceConfigRaceGoal[] = {
     { 180, gSpeedchoiceTextE4R2   },
 };
 
-/*
- * In order to use ProcessGeneralInput, a struct is needed for page, so, I opt to have a
- * dummy struct which only has the number of choices relevent to the calculation of the
- * selection.
- */
-const struct OptionChoiceConfig OptionChoiceConfigPage[] =
-{
-};
-
 // player name needs its own config. Leave NULL there.
 const struct OptionChoiceConfig OptionChoiceConfigPlayerName[] =
 {
@@ -673,7 +664,7 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         .optionType = NORMAL,
         .enabled = TRUE,
         .string = gSpeedchoiceOptionPage,
-        .options = OptionChoiceConfigPage,
+        .options = NULL,
         .tooltip = NULL,
     }
 };
@@ -1121,8 +1112,6 @@ inline u8 GetPageOptionPageIndex(bool8 lastOrFirst, u8 page)
     return (lastOrFirst) ? GetPageDrawCount(page) : 1;
 }
 
-extern void MainMenu_EraseWindow(const struct WindowTemplate *template);
-
 /*
  * Finish rendering the tooltip by holding until it has completed rendering.
  */
@@ -1135,7 +1124,8 @@ static void Task_WaitForTooltip(u8 taskId)
         if (JOY_NEW(A_BUTTON))
         {
             ClearWindowTilemap(SPD_WIN_TOOLTIP);
-            MainMenu_EraseWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP]);
+            rbox_fill_rectangle(SPD_WIN_TOOLTIP);
+            CopyWindowToVram(SPD_WIN_TOOLTIP, COPYWIN_BOTH);
             DrawPageOptions(sSpeedchoice->config.pageNum);
             gTasks[taskId].func = Task_SpeedchoiceMenuProcessInput;
             gTextFlags.disableHoldToMash = FALSE;
@@ -1262,8 +1252,10 @@ static void Task_AskToStartGame(u8 taskId)
         PlaySE(SE_SELECT);
         ClearWindowTilemap(SPD_WIN_TOOLTIP);
         ClearWindowTilemap(SPD_WIN_YESNO);
-        MainMenu_EraseWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_TOOLTIP]);
-        MainMenu_EraseWindow((struct WindowTemplate *)&sSpeedchoiceMenuWinTemplates[SPD_WIN_YESNO]);
+        rbox_fill_rectangle(SPD_WIN_TOOLTIP);
+        rbox_fill_rectangle(SPD_WIN_YESNO);
+        CopyWindowToVram(SPD_WIN_TOOLTIP, COPYWIN_BOTH);
+        CopyWindowToVram(SPD_WIN_YESNO, COPYWIN_BOTH);
         DrawPageOptions(sSpeedchoice->config.pageNum);
         gTasks[taskId].func = Task_SpeedchoiceMenuProcessInput;
         break;
