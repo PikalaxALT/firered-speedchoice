@@ -712,7 +712,7 @@ EWRAM_DATA struct MapObjectTimerBackup * gMapObjectTimerBackup = NULL;
 // PROTOTYPES
 // -------------------------------------
 u8 GetPageDrawCount(u8 page);
-void SetPageIndexFromTrueIndex(u8 taskId, s16 index);
+void SetPageIndexFromTrueIndex(s32 index);
 
 void SetByteArrayToSaveOptions(const u8 * options_arr)
 {
@@ -1104,7 +1104,7 @@ static void Task_SpeedchoiceMenuFadeIn(u8 taskId)
  */
 u8 GetPageOptionTrueIndex(bool8 lastOrFirst, u8 page)
 {
-    return (OPTIONS_PER_PAGE * (page - 1)) + ((lastOrFirst) ? GetPageDrawCount(page) - 1 : 0);
+    return (OPTIONS_PER_PAGE * (page - 1)) + ((lastOrFirst == LAST) ? GetPageDrawCount(page) - 1 : 0);
 }
 
 
@@ -1342,7 +1342,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
         else
             sSpeedchoice->config.trueIndex = START_GAME;
 
-        SetPageIndexFromTrueIndex(taskId, sSpeedchoice->config.trueIndex);
+        SetPageIndexFromTrueIndex(sSpeedchoice->config.trueIndex);
         HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
     }
     else if (JOY_NEW(DPAD_DOWN))
@@ -1354,7 +1354,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
         else
             sSpeedchoice->config.trueIndex++;
 
-        SetPageIndexFromTrueIndex(taskId, sSpeedchoice->config.trueIndex);
+        SetPageIndexFromTrueIndex(sSpeedchoice->config.trueIndex);
         HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
     }
     else
@@ -1453,7 +1453,7 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
  * Given a true index, convert it to the page index so that the general processor function can
  * set the correctly newly selected option.
  */
-void SetPageIndexFromTrueIndex(u8 taskId, s16 index) // data is s16.
+void SetPageIndexFromTrueIndex(s32 index) // data is s16.
 {
-    sSpeedchoice->config.pageIndex = index < CURRENT_OPTIONS_NUM ? OPTIONS_PER_PAGE + index - CURRENT_OPTIONS_NUM : index % OPTIONS_PER_PAGE;
+    sSpeedchoice->config.pageIndex = index >= CURRENT_OPTIONS_NUM ? OPTIONS_PER_PAGE + index - CURRENT_OPTIONS_NUM : index % OPTIONS_PER_PAGE;
 }
