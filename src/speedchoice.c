@@ -795,7 +795,7 @@ u8 CheckSpeedchoiceOption(u8 option)
     case NERF_BROCK:
         return gSaveBlock2Ptr->speedchoiceConfig.nerfBrock;
     default:
-        return FALSE;
+        return 0xFF;
     }
 }
 
