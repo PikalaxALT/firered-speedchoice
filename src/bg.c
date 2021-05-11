@@ -625,7 +625,7 @@ u32 ChangeBgX(u8 bg, u32 value, u8 op)
             SetGpuReg(REG_OFFSET_BG1HOFS, temp1);
             break;
         case 2:
-            if (mode == 0)
+            if (mode == BG_MODE_TEXT)
             {
                 temp1 = sGpuBgConfigs2[2].bg_x >> 0x8;
                 SetGpuReg(REG_OFFSET_BG2HOFS, temp1);
@@ -639,12 +639,12 @@ u32 ChangeBgX(u8 bg, u32 value, u8 op)
             }
             break;
         case 3:
-            if (mode == 0)
+            if (mode == BG_MODE_TEXT)
             {
                 temp1 = sGpuBgConfigs2[3].bg_x >> 0x8;
                 SetGpuReg(REG_OFFSET_BG3HOFS, temp1);
             }
-            else if (mode == 2)
+            else if (mode == BG_MODE_BG3_AFFINE)
             {
                 temp1 = sGpuBgConfigs2[3].bg_x >> 0x10;
                 temp2 = sGpuBgConfigs2[3].bg_x & 0xFFFF;
@@ -704,7 +704,7 @@ u32 ChangeBgY(u8 bg, u32 value, u8 op)
             SetGpuReg(REG_OFFSET_BG1VOFS, temp1);
             break;
         case 2:
-            if (mode == 0)
+            if (mode == BG_MODE_TEXT)
             {
                 temp1 = sGpuBgConfigs2[2].bg_y >> 0x8;
                 SetGpuReg(REG_OFFSET_BG2VOFS, temp1);
@@ -718,12 +718,12 @@ u32 ChangeBgY(u8 bg, u32 value, u8 op)
             }
             break;
         case 3:
-            if (mode == 0)
+            if (mode == BG_MODE_TEXT)
             {
                 temp1 = sGpuBgConfigs2[3].bg_y >> 0x8;
                 SetGpuReg(REG_OFFSET_BG3VOFS, temp1);
             }
-            else if (mode == 2)
+            else if (mode == BG_MODE_BG3_AFFINE)
             {
                 temp1 = sGpuBgConfigs2[3].bg_y >> 0x10;
                 temp2 = sGpuBgConfigs2[3].bg_y & 0xFFFF;

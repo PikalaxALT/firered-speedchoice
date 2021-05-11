@@ -516,7 +516,6 @@ void CB2_ReturnToNewGameFromSpeedchoice(void)
     SetGpuReg(REG_OFFSET_BG0HOFS, 0);
     SetGpuReg(REG_OFFSET_BG0VOFS, 0);
     ResetBgs();
-    InitBgsFromTemplates(0, sBgTemplates, NELEMS(sBgTemplates));
     SetMainCallback2(CB2_NewGameOaksSpeech);
     CreateTask(Task_OaksSpeech1, 0);
 }
@@ -559,7 +558,7 @@ void Task_OaksSpeech1(u8 taskId)
         break;
     case 3:
         ResetBgsAndClearDma3BusyFlags(FALSE);
-        InitBgsFromTemplates(1, sBgTemplates, NELEMS(sBgTemplates));
+        InitBgsFromTemplates(BG_MODE_BG2_AFFINE, sBgTemplates, NELEMS(sBgTemplates));
         SetBgTilemapBuffer(1, sOakSpeechResources->bg1TilemapBuffer);
         SetBgTilemapBuffer(2, sOakSpeechResources->bg2TilemapBuffer);
         ChangeBgX(1, 0, BG_SCROLL_SET);
@@ -1592,7 +1591,7 @@ static void CB2_ReturnFromNamingScreen(void)
         break;
     case 1:
         ResetBgsAndClearDma3BusyFlags(FALSE);
-        InitBgsFromTemplates(1, sBgTemplates, NELEMS(sBgTemplates));
+        InitBgsFromTemplates(BG_MODE_BG2_AFFINE, sBgTemplates, NELEMS(sBgTemplates));
         SetBgTilemapBuffer(1, sOakSpeechResources->bg1TilemapBuffer);
         SetBgTilemapBuffer(2, sOakSpeechResources->bg2TilemapBuffer);
         ChangeBgX(1, 0, BG_SCROLL_SET);

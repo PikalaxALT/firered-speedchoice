@@ -64,6 +64,13 @@ enum BgScrollOp
     BG_SCROLL_SUB,
 };
 
+enum BgMode
+{
+    BG_MODE_TEXT,
+    BG_MODE_BG2_AFFINE,
+    BG_MODE_BG3_AFFINE,
+};
+
 struct BgTemplate
 {
     u16 bg:2;                   // 0x1, 0x2 -> 0x3

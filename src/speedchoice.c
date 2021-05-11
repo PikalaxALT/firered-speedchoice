@@ -945,15 +945,13 @@ void CB2_InitSpeedchoice(void)
         FillPalette(RGB_BLACK, 0, PLTT_SIZE);
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
         ResetBgsAndClearDma3BusyFlags(FALSE);
-        InitBgsFromTemplates(0, sSpeedchoiceMenuBgTemplates, NELEMS(sSpeedchoiceMenuBgTemplates));
-        ChangeBgX(0, 0, 0);
-        ChangeBgY(0, 0, 0);
-        ChangeBgX(1, 0, 0);
-        ChangeBgY(1, 0, 0);
-        ChangeBgX(2, 0, 0);
-        ChangeBgY(2, 0, 0);
-        ChangeBgX(3, 0, 0);
-        ChangeBgY(3, 0, 0);
+        InitBgsFromTemplates(BG_MODE_TEXT, sSpeedchoiceMenuBgTemplates, NELEMS(sSpeedchoiceMenuBgTemplates));
+        ChangeBgX(0, 0, BG_SCROLL_SET);
+        ChangeBgY(0, 0, BG_SCROLL_SET);
+        ChangeBgX(1, 0, BG_SCROLL_SET);
+        ChangeBgY(1, 0, BG_SCROLL_SET);
+        ChangeBgX(2, 0, BG_SCROLL_SET);
+        ChangeBgY(2, 0, BG_SCROLL_SET);
         gMain.state++;
         break;
     case 2:
@@ -980,14 +978,13 @@ void CB2_InitSpeedchoice(void)
         gMain.state++;
         break;
     case 4:
-        LoadPalette(sHelpDocsPalette, 0x00, 0x80);
+        LoadPalette(sHelpDocsPalette, 0x00, 0x20);
         LoadPalette(stdpal_get(2), 0x10, 0x20);
         TextWindow_SetUserSelectedFrame(SPD_WIN_TEXT_OPTION, FRAME_BASE_BLOCK, 0x20);
         LoadPalette(sMainMenuTextPal, 0xF0, sizeof(sMainMenuTextPal));
         gMain.state++;
         break;
     case 5:
-//        DrawFrameOnBg1();
         DrawTextBorderOuter(SPD_WIN_TEXT_OPTION, FRAME_BASE_BLOCK, 2);
         DrawTextBorderOuter(SPD_WIN_OPTIONS, FRAME_BASE_BLOCK, 2);
         PutWindowTilemap(SPD_WIN_TEXT_OPTION);
