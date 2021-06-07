@@ -1354,6 +1354,13 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
         SetPageIndexFromTrueIndex(sSpeedchoice->config.trueIndex);
         HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
     }
+    else if (JOY_NEW(START_BUTTON))
+    {
+        PlaySE(SE_WIN_OPEN);
+        sSpeedchoice->config.trueIndex = START_GAME;
+        SetPageIndexFromTrueIndex(sSpeedchoice->config.trueIndex);
+        HighlightOptionMenuItem(sSpeedchoice->config.pageIndex);
+    }
     else
     {
         u8 trueIndex = sSpeedchoice->config.trueIndex;
