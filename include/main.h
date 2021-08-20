@@ -49,8 +49,7 @@ extern struct Main gMain;
 extern bool8 gSoftResetDisabled;
 extern bool8 gLinkVSyncDisabled;
 
-extern const u8 gGameVersion;
-extern const u8 gGameLanguage;
+#include "build_date.h"
 
 void AgbMain(void);
 void SetMainCallback2(MainCallback callback);

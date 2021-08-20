@@ -44,6 +44,7 @@ SECTIONS {
     ALIGN(4)
     {
         src/crt0.o(.text);
+        src/build_date.o(.text);
         src/main.o(.text);
         src/gpu_regs.o(.text);
         src/dma3_manager.o(.text);
@@ -400,6 +401,7 @@ SECTIONS {
     .rodata :
     SUBALIGN(4)
     {
+        src/build_date.o(.rodata);
         src/main.o(.rodata);
         src/bg.o(.rodata);
         src/malloc.o(.rodata);
