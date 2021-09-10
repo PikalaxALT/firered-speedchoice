@@ -612,13 +612,13 @@ static u8 GetBattleTerrainByMapScene(u8 mapBattleScene)
         if (mapBattleScene == sMapBattleSceneMapping[i].mapScene)
             return sMapBattleSceneMapping[i].battleTerrain;
     }
-    return 9;
+    return BATTLE_TERRAIN_PLAIN;
 }
 
 static void LoadBattleTerrainGfx(u16 terrain)
 {
     if (terrain >= NELEMS(sBattleTerrainTable))
-        terrain = 9;
+        terrain = BATTLE_TERRAIN_PLAIN;
     // Copy to bg3
     LZDecompressVram(sBattleTerrainTable[terrain].tileset, (void *)BG_CHAR_ADDR(2));
     LZDecompressVram(sBattleTerrainTable[terrain].tilemap, (void *)BG_SCREEN_ADDR(26));
@@ -628,7 +628,7 @@ static void LoadBattleTerrainGfx(u16 terrain)
 static void LoadBattleTerrainEntryGfx(u16 terrain)
 {
     if (terrain >= NELEMS(sBattleTerrainTable))
-        terrain = 9;
+        terrain = BATTLE_TERRAIN_PLAIN;
     // Copy to bg1
     LZDecompressVram(sBattleTerrainTable[terrain].entryTileset, (void *)BG_CHAR_ADDR(1));
     LZDecompressVram(sBattleTerrainTable[terrain].entryTilemap, (void *)BG_SCREEN_ADDR(28));
@@ -636,8 +636,8 @@ static void LoadBattleTerrainEntryGfx(u16 terrain)
 
 UNUSED void GetBattleTerrainGfxPtrs(u8 terrain, const u32 **tilesPtr, const u32 **mapPtr, const u32 **palPtr)
 {
-    if (terrain > 9)
-        terrain = 9;
+    if (terrain > BATTLE_TERRAIN_PLAIN)
+        terrain = BATTLE_TERRAIN_PLAIN;
     *tilesPtr = sBattleTerrainTable[terrain].tileset;
     *mapPtr = sBattleTerrainTable[terrain].tilemap;
     *palPtr = sBattleTerrainTable[terrain].palette;
@@ -940,8 +940,8 @@ void InitLinkBattleVsScreen(u8 taskId)
             gSprites[gBattleStruct->linkBattleVsSpriteId_S].oam.tileNum += 0x40;
             gSprites[gBattleStruct->linkBattleVsSpriteId_V].data[0] = 0;
             gSprites[gBattleStruct->linkBattleVsSpriteId_S].data[0] = 1;
-            gSprites[gBattleStruct->linkBattleVsSpriteId_V].data[1] = gSprites[gBattleStruct->linkBattleVsSpriteId_V].pos1.x;
-            gSprites[gBattleStruct->linkBattleVsSpriteId_S].data[1] = gSprites[gBattleStruct->linkBattleVsSpriteId_S].pos1.x;
+            gSprites[gBattleStruct->linkBattleVsSpriteId_V].data[1] = gSprites[gBattleStruct->linkBattleVsSpriteId_V].x;
+            gSprites[gBattleStruct->linkBattleVsSpriteId_S].data[1] = gSprites[gBattleStruct->linkBattleVsSpriteId_S].x;
             gSprites[gBattleStruct->linkBattleVsSpriteId_V].data[2] = 0;
             gSprites[gBattleStruct->linkBattleVsSpriteId_S].data[2] = 0;
         }

@@ -130,8 +130,8 @@ static u8 DexScreen_PageNumberToRenderablePages(u16 page);
 void DexScreen_InputHandler_StartToCry(void);
 void DexScreen_PrintStringWithAlignment(const u8 *str, s32 mode);
 static void MoveCursorFunc_DexModeSelect(s32 itemIndex, bool8 onInit, struct ListMenu *list);
-static void ItemPrintFunc_DexModeSelect(u8 windowId, s32 itemId, u8 y);
-static void ItemPrintFunc_OrderedListMenu(u8 windowId, s32 itemId, u8 y);
+static void ItemPrintFunc_DexModeSelect(u8 windowId, u32 itemId, u8 y);
+static void ItemPrintFunc_OrderedListMenu(u8 windowId, u32 itemId, u8 y);
 static void Task_DexScreen_RegisterNonKantoMonBeforeNationalDex(u8 taskId);
 static void Task_DexScreen_RegisterMonToPokedex(u8 taskId);
 
@@ -1184,13 +1184,12 @@ static void MoveCursorFunc_DexModeSelect(s32 itemIndex, bool8 onInit, struct Lis
     CopyWindowToVram(sPokedexScreenData->selectionIconWindowId, COPYWIN_GFX);
 }
 
-static void ItemPrintFunc_DexModeSelect(u8 windowId, s32 itemId, u8 y)
+static void ItemPrintFunc_DexModeSelect(u8 windowId, u32 itemId, u8 y)
 {
-    u32 itemId_ = itemId;
-    if (itemId_ > 8 || sPokedexScreenData->unlockedCategories & (1 << itemId_))
-        ListMenuOverrideSetColors(1, 0, 3);
+    if (itemId >= DEX_CATEGORY_COUNT || sPokedexScreenData->unlockedCategories & (1 << itemId))
+        ListMenuOverrideSetColors(TEXT_COLOR_WHITE, TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_GRAY);
     else
-        ListMenuOverrideSetColors(10, 0, 11);
+        ListMenuOverrideSetColors(TEXT_DYNAMIC_COLOR_1, TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_2);
 }
 
 static void Task_DexScreen_NumericalOrder(u8 taskId)
@@ -1542,11 +1541,11 @@ struct PokedexListItem
     bool8 caught:1;
 };
 
-static void ItemPrintFunc_OrderedListMenu(u8 windowId, s32 itemId, u8 y)
+static void ItemPrintFunc_OrderedListMenu(u8 windowId, u32 itemId, u8 y)
 {
-    u16 species = (u32)itemId;
-    bool8 seen = ((u32)itemId >> 16) & 1;  // not used but required to match
-    bool8 caught = ((u32)itemId >> 17) & 1;
+    u16 species = itemId;
+    bool8 seen = (itemId >> 16) & 1;  // not used but required to match
+    bool8 caught = (itemId >> 17) & 1;
     u8 type1;
     DexScreen_PrintMonDexNo(sPokedexScreenData->numericalOrderWindowId, 0, species, 12, y);
     if (caught)
@@ -3147,19 +3146,19 @@ u8 DexScreen_DrawMonAreaPage(void)
 
     if (monIsCaught)
     {
-        sPokedexScreenData->windowIds[14] = CreateMonPicSprite_HandleDeoxys(species, 8, DexScreen_GetDefaultPersonality(species), TRUE, 40, 104, 0, 0xFFFF);
+        sPokedexScreenData->windowIds[14] = CreateMonPicSprite_HandleDeoxys(species, SHINY_ODDS, DexScreen_GetDefaultPersonality(species), TRUE, 40, 104, 0, 0xFFFF);
         gSprites[sPokedexScreenData->windowIds[14]].oam.paletteNum = 2;
         gSprites[sPokedexScreenData->windowIds[14]].oam.affineMode = 1;
         gSprites[sPokedexScreenData->windowIds[14]].oam.matrixNum = 2;
         gSprites[sPokedexScreenData->windowIds[14]].oam.priority = 1;
-        gSprites[sPokedexScreenData->windowIds[14]].pos2.y = gPokedexEntries[speciesId].pokemonOffset;
+        gSprites[sPokedexScreenData->windowIds[14]].y2 = gPokedexEntries[speciesId].pokemonOffset;
         SetOamMatrix(2, gPokedexEntries[speciesId].pokemonScale, 0, 0, gPokedexEntries[speciesId].pokemonScale);
         sPokedexScreenData->windowIds[15] = CreateTrainerPicSprite(PlayerGenderToFrontTrainerPicId_Debug(gSaveBlock2Ptr->playerGender, TRUE), 1, 80, 104, 0, 0xFFFF);
         gSprites[sPokedexScreenData->windowIds[15]].oam.paletteNum = 2;
         gSprites[sPokedexScreenData->windowIds[15]].oam.affineMode = 1;
         gSprites[sPokedexScreenData->windowIds[15]].oam.matrixNum = 1;
         gSprites[sPokedexScreenData->windowIds[15]].oam.priority = 1;
-        gSprites[sPokedexScreenData->windowIds[15]].pos2.y = gPokedexEntries[speciesId].trainerOffset;
+        gSprites[sPokedexScreenData->windowIds[15]].y2 = gPokedexEntries[speciesId].trainerOffset;
         SetOamMatrix(1, gPokedexEntries[speciesId].trainerScale, 0, 0, gPokedexEntries[speciesId].trainerScale);
     }
     else

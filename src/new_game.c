@@ -78,7 +78,7 @@ static void ClearPokedexFlags(void)
     memset(&gSaveBlock2Ptr->pokedex.seen, 0, sizeof(gSaveBlock2Ptr->pokedex.seen));
 }
 
-static void ClearBattleTowerData(void)
+static void ClearBattleTower(void)
 {
     CpuFill32(0, &gSaveBlock2Ptr->battleTower, sizeof(gSaveBlock2Ptr->battleTower));
 }
@@ -121,7 +121,7 @@ void NewGameInitData(void)
     gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
     ZeroEnemyPartyMons();
-    ClearBattleTowerData();
+    ClearBattleTower();
     ClearSav1();
     ClearMailData();
     gSaveBlock2Ptr->specialSaveWarpFlags = 0;

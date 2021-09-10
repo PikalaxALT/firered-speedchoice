@@ -63,7 +63,7 @@ static bool8 ItemPc_LoadGraphics(void);
 static bool8 ItemPc_AllocateResourcesForListMenu(void);
 static void ItemPc_BuildListMenuTemplate(void);
 static void ItemPc_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu * list);
-static void ItemPc_ItemPrintFunc(u8 windowId, s32 itemId, u8 y);
+static void ItemPc_ItemPrintFunc(u8 windowId, u32 itemId, u8 y);
 static void ItemPc_PrintOrRemoveCursorAt(u8 y, u8 state);
 static void ItemPc_PrintWithdrawItem(void);
 static void ItemPc_PlaceTopMenuScrollIndicatorArrows(void);
@@ -538,7 +538,7 @@ static void ItemPc_MoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *
     }
 }
 
-static void ItemPc_ItemPrintFunc(u8 windowId, s32 itemId, u8 y)
+static void ItemPc_ItemPrintFunc(u8 windowId, u32 itemId, u8 y)
 {
     if (sStateDataPtr->moveModeOrigPos != 0xFF)
     {
@@ -767,7 +767,7 @@ static void ItemPc_MoveItemModeInit(u8 taskId, s16 pos)
 {
     s16 * data = gTasks[taskId].data;
 
-    ListMenuSetUnkIndicatorsStructField(data[0], 16, 1);
+    ListMenuSetTemplateField(data[0], LISTFIELD_CURSORKIND, 1);
     data[1] = pos;
     sStateDataPtr->moveModeOrigPos = pos;
     StringCopy(gStringVar1, ItemId_GetName(ItemPc_GetItemIdBySlotId(data[1])));

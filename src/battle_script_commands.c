@@ -1852,9 +1852,9 @@ static void atk0C_datahpupdate(void)
                         break;
                     }
 
-                    if (!gSpecialStatuses[gActiveBattler].dmg && !(gHitMarker & HITMARKER_x100000))
+                    if (!gSpecialStatuses[gActiveBattler].dmg && !(gHitMarker & HITMARKER_PASSIVE_DAMAGE))
                         gSpecialStatuses[gActiveBattler].dmg = gHpDealt;
-                    if (IS_TYPE_PHYSICAL(moveType) && !(gHitMarker & HITMARKER_x100000) && gCurrentMove != MOVE_PAIN_SPLIT)
+                    if (IS_TYPE_PHYSICAL(moveType) && !(gHitMarker & HITMARKER_PASSIVE_DAMAGE) && gCurrentMove != MOVE_PAIN_SPLIT)
                     {
                         gProtectStructs[gActiveBattler].physicalDmg = gHpDealt;
                         gSpecialStatuses[gActiveBattler].physicalDmg = gHpDealt;
@@ -1869,7 +1869,7 @@ static void atk0C_datahpupdate(void)
                             gSpecialStatuses[gActiveBattler].physicalBattlerId = gBattlerTarget;
                         }
                     }
-                    else if (!IS_TYPE_PHYSICAL(moveType) && !(gHitMarker & HITMARKER_x100000))
+                    else if (!IS_TYPE_PHYSICAL(moveType) && !(gHitMarker & HITMARKER_PASSIVE_DAMAGE))
                     {
                         gProtectStructs[gActiveBattler].specialDmg = gHpDealt;
                         gSpecialStatuses[gActiveBattler].specialDmg = gHpDealt;
@@ -1885,7 +1885,7 @@ static void atk0C_datahpupdate(void)
                         }
                     }
                 }
-                gHitMarker &= ~(HITMARKER_x100000);
+                gHitMarker &= ~(HITMARKER_PASSIVE_DAMAGE);
                 BtlController_EmitSetMonData(0, REQUEST_HP_BATTLE, 0, 2, &gBattleMons[gActiveBattler].hp);
                 MarkBattlerForControllerExec(gActiveBattler);
             }
@@ -3159,7 +3159,7 @@ static void atk23_getexp(void)
             calculatedExp = gBaseStats[gBattleMons[gBattlerFainted].species].expYield * gBattleMons[gBattlerFainted].level / 7;
             if (viaExpShare) // at least one mon is getting exp via exp share
             {
-                *exp = calculatedExp / 2 / viaSentIn;
+                *exp = SAFE_DIV(calculatedExp / 2, viaSentIn);
                 if (*exp == 0)
                     *exp = 1;
                 gExpShareExp = calculatedExp / 2 / viaExpShare;
@@ -3168,7 +3168,7 @@ static void atk23_getexp(void)
             }
             else
             {
-                *exp = calculatedExp / viaSentIn;
+                *exp = SAFE_DIV(calculatedExp, viaSentIn);
                 if (*exp == 0)
                     *exp = 1;
                 gExpShareExp = 0;
@@ -5838,8 +5838,8 @@ static void PutMonIconOnLvlUpBox(void)
 
 static void SpriteCB_MonIconOnLvlUpBox(struct Sprite* sprite)
 {
-    sprite->pos2.x = sprite->sSavedLvlUpBoxXPosition - gBattle_BG2_X;
-    if (sprite->pos2.x != 0)
+    sprite->x2 = sprite->sSavedLvlUpBoxXPosition - gBattle_BG2_X;
+    if (sprite->x2 != 0)
     {
         sprite->sDestroy = TRUE;
     }

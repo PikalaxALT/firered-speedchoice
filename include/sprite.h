@@ -197,8 +197,8 @@ struct Sprite
     /*0x18*/ const struct SubspriteTable *subspriteTables;
     /*0x1C*/ SpriteCallback callback;
 
-    /*0x20*/ struct Coords16 pos1;
-    /*0x24*/ struct Coords16 pos2;
+    /*0x20*/ s16 x, y;
+    /*0x24*/ s16 x2, y2;
     /*0x28*/ s8 centerToCornerVecX;
     /*0x29*/ s8 centerToCornerVecY;
 
@@ -317,7 +317,7 @@ u8 SpriteTileAllocBitmapOp(u16 bit, u8 op);
 void ClearSpriteCopyRequests(void);
 void ResetAffineAnimData(void);
 void sub_8007FFC(struct Sprite* sprite, s16 a2, s16 a3);
-void sub_80075C0(struct Sprite *sprite);
+void FreeSpriteTilesIfNotUsingSheet(struct Sprite *sprite);
 s16 AllocSpriteTiles(u16 tileCount);
 void obj_pos2_update_enable(struct Sprite* sprite, s16 xmod, s16 ymod);
 

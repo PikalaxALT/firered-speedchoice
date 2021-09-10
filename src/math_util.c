@@ -1,6 +1,7 @@
 #include "global.h"
+#include "math_util.h"
 
-fx16 mul_Q_8_8(fx16 x, fx16 y)
+s16 Q_8_8_mul(s16 x, s16 y)
 {
     s32 result;
 
@@ -10,7 +11,7 @@ fx16 mul_Q_8_8(fx16 x, fx16 y)
     return result;
 }
 
-fx16 mul_Q_N_S(u8 s, fx16 x, fx16 y)
+s16 Q_N_S_mul(u8 s, s16 x, s16 y)
 {
     s32 result;
 
@@ -20,7 +21,7 @@ fx16 mul_Q_N_S(u8 s, fx16 x, fx16 y)
     return result;
 }
 
-fx32 mul_Q_24_8(fx32 x, fx32 y)
+s32 Q_24_8_mul(s32 x, s32 y)
 {
     s64 result;
 
@@ -30,7 +31,7 @@ fx32 mul_Q_24_8(fx32 x, fx32 y)
     return result;
 }
 
-fx16 div_Q_8_8(fx16 x, fx16 y)
+s16 Q_8_8_div(s16 x, s16 y)
 {
     if (y == 0)
     {
@@ -39,7 +40,7 @@ fx16 div_Q_8_8(fx16 x, fx16 y)
     return (x << 8) / y;
 }
 
-fx16 div_Q_N_S(u8 s, fx16 x, fx16 y)
+s16 Q_N_S_div(u8 s, s16 x, s16 y)
 {
     if (y == 0)
     {
@@ -48,7 +49,7 @@ fx16 div_Q_N_S(u8 s, fx16 x, fx16 y)
     return (x << s) / y;
 }
 
-fx32 div_Q_24_8(fx32 x, fx32 y)
+s32 Q_24_8_div(s32 x, s32 y)
 {
     s64 _x;
 
@@ -61,7 +62,7 @@ fx32 div_Q_24_8(fx32 x, fx32 y)
     return _x / y;
 }
 
-fx16 inv_Q_8_8(fx16 y)
+s16 Q_8_8_inv(s16 y)
 {
     s32 x;
 
@@ -69,7 +70,7 @@ fx16 inv_Q_8_8(fx16 y)
     return x / y;
 }
 
-fx16 inv_Q_N_S(u8 s, fx16 y)
+s16 Q_N_S_inv(u8 s, s16 y)
 {
     s32 x;
 
@@ -77,7 +78,7 @@ fx16 inv_Q_N_S(u8 s, fx16 y)
     return x / y;
 }
 
-fx32 inv_Q_24_8(fx32 y)
+s32 Q_24_8_inv(s32 y)
 {
     s64 x;
 

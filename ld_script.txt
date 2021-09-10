@@ -621,7 +621,7 @@ SECTIONS {
         src/speedchoice.o(.rodata);
         src/done_button.o(.rodata);
         src/trainer_tower_sets.o(.rodata);
-        data/data_8479668.o(.rodata);
+        src/move_descriptions.o(.rodata);
 
         /* These should not be moved to C files */
         src/mystery_event_msg.o(.rodata);

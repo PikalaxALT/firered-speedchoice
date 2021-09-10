@@ -844,8 +844,8 @@ static void UpdateStairWarpOut(s16 pXspeed, s16 pYspeed, s16 *pX, s16 *pY, s16 *
         *pY += pYspeed;
     *pX += pXspeed;
     (*pTimer)++;
-    playerSpr->pos2.x = *pX >> 5;
-    playerSpr->pos2.y = *pY >> 5;
+    playerSpr->x2 = *pX >> 5;
+    playerSpr->y2 = *pY >> 5;
     if (playerObj->heldMovementFinished)
     {
         ObjectEventForceSetHeldMovement(playerObj, GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
@@ -932,8 +932,8 @@ static void InitStairWarpIn(s16 *pXspeed, s16 *pYspeed, s16 *pX, s16 *pY, s16 *a
     *pY = *pYspeed * 16;
     *a4 = 16;
     sprite = &gSprites[gPlayerAvatar.spriteId];
-    sprite->pos2.x = *pX >> 5;
-    sprite->pos2.y = *pY >> 5;
+    sprite->x2 = *pX >> 5;
+    sprite->y2 = *pY >> 5;
     *pXspeed *= -1;
     *pYspeed *= -1;
 }
@@ -946,15 +946,15 @@ static bool8 UpdateStairWarpIn(s16 *pXspeed, s16 *pYspeed, s16 *pX, s16 *pY, s16
     {
         *pX += *pXspeed;
         *pY += *pYspeed;
-        sprite->pos2.x = *pX >> 5;
-        sprite->pos2.y = *pY >> 5;
+        sprite->x2 = *pX >> 5;
+        sprite->y2 = *pY >> 5;
         (*pTimer)--;
         return TRUE;
     }
     else
     {
-        sprite->pos2.x = 0;
-        sprite->pos2.y = 0;
+        sprite->x2 = 0;
+        sprite->y2 = 0;
         return FALSE;
     }
 }

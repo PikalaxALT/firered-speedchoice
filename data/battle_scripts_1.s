@@ -1165,7 +1165,8 @@ BattleScript_EffectLeechSeed::
 	pause 0x20
 	ppreduce
 	jumpifstatus2 BS_TARGET, STATUS2_SUBSTITUTE, BattleScript_ButItFailed
-	accuracycheck .+6, ACC_CURR_MOVE
+	accuracycheck BattleScript_DoLeechSeed, ACC_CURR_MOVE
+BattleScript_DoLeechSeed::
 	setseeded
 	attackanimation
 	waitanimation
@@ -1605,10 +1606,11 @@ BattleScript_EffectSandstorm::
 BattleScript_EffectRollout::
 	attackcanceler
 	attackstring
-	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_RolloutHit
+	jumpifstatus2 BS_ATTACKER, STATUS2_MULTIPLETURNS, BattleScript_RolloutCheckAccuracy
 	ppreduce
+BattleScript_RolloutCheckAccuracy::
+	accuracycheck BattleScript_RolloutHit, ACC_CURR_MOVE
 BattleScript_RolloutHit::
-	accuracycheck .+6, ACC_CURR_MOVE
 	typecalc2
 	rolloutdamagecalculation
 	goto BattleScript_HitFromCritCalc
@@ -1640,7 +1642,7 @@ BattleScript_EffectFuryCutter::
 	attackcanceler
 	attackstring
 	ppreduce
-	accuracycheck .+6, ACC_CURR_MOVE
+	accuracycheck BattleScript_FuryCutterHit, ACC_CURR_MOVE
 BattleScript_FuryCutterHit::
 	furycuttercalc
 	critcalc
@@ -2247,7 +2249,8 @@ BattleScript_MementoSubstituteInvulnerable::
 BattleScript_MementoNoReduceStats::
 	attackstring
 	ppreduce
-	jumpifattackandspecialattackcannotfall .+4
+	jumpifattackandspecialattackcannotfall BattleScript_MementoNoReduceStatsEnd
+BattleScript_MementoNoReduceStatsEnd::
 	setatkhptozero
 	pause 0x40
 	effectivenesssound
@@ -2897,7 +2900,8 @@ BattleScript_FaintedMonEnd::
 	end2
 
 BattleScript_LinkBattleHandleFaint::
-	openpartyscreen BS_UNKNOWN_5, .+4
+	openpartyscreen BS_UNKNOWN_5, BattleScript_LinkBattleHandleFaintStart
+BattleScript_LinkBattleHandleFaintStart::
 	switchhandleorder BS_FAINTED, 0
 	openpartyscreen BS_UNKNOWN_6, BattleScript_LinkBattleFaintedMonEnd
 	switchhandleorder BS_FAINTED, 0
@@ -2921,7 +2925,8 @@ BattleScript_LocalTrainerBattleWon::
 	trainerslidein BS_ATTACKER
 	waitstate
 	printstring STRINGID_TRAINER1LOSETEXT
-	getmoneyreward .+4
+	getmoneyreward BattleScript_LocalTrainerBattleWonGotMoney
+BattleScript_LocalTrainerBattleWonGotMoney::
 	printstring STRINGID_PLAYERGOTMONEY
 	waitmessage 0x40
 BattleScript_PayDayMoneyAndPickUpItems::
@@ -3177,19 +3182,19 @@ BattleScript_DamagingWeatherLoop::
 	jumpifword CMP_EQUAL, gBattleMoveDamage, NULL, BattleScript_DamagingWeatherContinuesEnd
 	printfromtable gSandstormHailDmgStringIds
 	waitmessage 0x40
-	orword gHitMarker, HITMARKER_x20 | HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000 | HITMARKER_GRUDGE
+	orword gHitMarker, HITMARKER_x20 | HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE | HITMARKER_GRUDGE
 	effectivenesssound
 	hitanimation BS_ATTACKER
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	tryfaintmon BS_ATTACKER, 0, NULL
-	atk24 .+4
+	atk24 BattleScript_DamagingWeatherContinuesEnd
 BattleScript_DamagingWeatherContinuesEnd::
 	jumpifbyte CMP_NOT_EQUAL, gBattleOutcome, 0, BattleScript_WeatherDamageEndedBattle
 	addbyte gBattleCommunication, 1
 	jumpifbytenotequal gBattleCommunication, gBattlersCount, BattleScript_DamagingWeatherLoop
 BattleScript_WeatherDamageEndedBattle::
-	bicword gHitMarker, HITMARKER_x20 | HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000 | HITMARKER_GRUDGE
+	bicword gHitMarker, HITMARKER_x20 | HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE | HITMARKER_GRUDGE
 	end2
 
 BattleScript_SandStormHailEnds::
@@ -3233,7 +3238,7 @@ BattleScript_SafeguardEnds::
 
 BattleScript_LeechSeedTurnDrain::
 	playanimation BS_ATTACKER, B_ANIM_LEECH_SEED_DRAIN, sB_ANIM_ARG1
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	copyword gBattleMoveDamage, gHpDealt
@@ -3245,7 +3250,7 @@ BattleScript_LeechSeedTurnDrain::
 BattleScript_LeechSeedLiquidOoze::
 	setbyte cMULTISTRING_CHOOSER, 4
 BattleScript_LeechSeedTurnPrintAndUpdateHp::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_TARGET
 	datahpupdate BS_TARGET
 	printfromtable gLeechSeedStringIds
@@ -3342,14 +3347,14 @@ BattleScript_EncoredNoMore::
 BattleScript_DestinyBondTakesLife::
 	printstring STRINGID_PKMNTOOKFOE
 	waitmessage 0x40
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	tryfaintmon BS_ATTACKER, 0, NULL
 	return
 
 BattleScript_SpikesOnAttacker::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	call BattleScript_PrintHurtBySpikes
@@ -3364,7 +3369,7 @@ BattleScript_SpikesOnAttackerFainted::
 	goto BattleScript_HandleFaintedMon
 
 BattleScript_SpikesOnTarget::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_TARGET
 	datahpupdate BS_TARGET
 	call BattleScript_PrintHurtBySpikes
@@ -3379,7 +3384,7 @@ BattleScript_SpikesOnTargetFainted::
 	goto BattleScript_HandleFaintedMon
 
 BattleScript_SpikesOnFaintedBattler::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_FAINTED
 	datahpupdate BS_FAINTED
 	call BattleScript_PrintHurtBySpikes
@@ -3401,7 +3406,7 @@ BattleScript_PrintHurtBySpikes::
 BattleScript_PerishSongTakesLife::
 	printstring STRINGID_PKMNPERISHCOUNTFELL
 	waitmessage 0x40
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	tryfaintmon BS_ATTACKER, 0, NULL
@@ -3494,7 +3499,8 @@ BattleScript_DoFutureAttackHit::
 	resultmessage
 	waitmessage 0x40
 	tryfaintmon BS_TARGET, 0, NULL
-	atk24 .+4
+	atk24 BattleScript_FutureAttackEnd
+BattleScript_FutureAttackEnd::
 	moveendcase 0
 	moveendfromto 11, 14
 	setbyte gMoveResultFlags, 0
@@ -3690,11 +3696,12 @@ BattleScript_PoisonTurnDmg::
 BattleScript_DoStatusTurnDmg::
 	statusanimation BS_ATTACKER
 BattleScript_DoTurnDmg::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	tryfaintmon BS_ATTACKER, 0, NULL
-	atk24 .+4
+	atk24 BattleScript_DoTurnDmgEnd
+BattleScript_DoTurnDmgEnd::
 	end2
 
 BattleScript_BurnTurnDmg::
@@ -3756,7 +3763,7 @@ BattleScript_DoSelfConfusionDmg::
 	effectivenesssound
 	hitanimation BS_ATTACKER
 	waitstate
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	resultmessage
@@ -3911,7 +3918,7 @@ BattleScript_MoveEffectRecoil::
 	jumpifmove MOVE_STRUGGLE, BattleScript_DoRecoil
 	jumpifability BS_ATTACKER, ABILITY_ROCK_HEAD, BattleScript_RecoilEnd
 BattleScript_DoRecoil::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	printstring STRINGID_PKMNHITWITHRECOIL
@@ -4156,7 +4163,7 @@ BattleScript_ColorChangeActivates::
 	return
 
 BattleScript_RoughSkinActivates::
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	printstring STRINGID_PKMNHURTSWITH
@@ -4370,7 +4377,8 @@ BattleScript_BerryConfuseHealEnd2::
 
 BattleScript_BerryStatRaiseEnd2::
 	playanimation BS_ATTACKER, B_ANIM_ITEM_EFFECT, NULL
-	statbuffchange STAT_CHANGE_BS_PTR | MOVE_EFFECT_AFFECTS_USER, .+4
+	statbuffchange STAT_CHANGE_BS_PTR | MOVE_EFFECT_AFFECTS_USER, BattleScript_BerryStatRaiseDoStatUp
+BattleScript_BerryStatRaiseDoStatUp::
 	setbyte cMULTISTRING_CHOOSER, 4
 	call BattleScript_StatUp
 	removeitem BS_ATTACKER

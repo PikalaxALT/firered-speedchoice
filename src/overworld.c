@@ -152,7 +152,7 @@ static void InitOverworldGraphicsRegisters(void);
 static void sub_8057024(bool32 a0);
 static void sub_8057074(void);
 static void mli4_mapscripts_and_other(void);
-static void sub_8057100(void);
+static void ReloadObjectsAndRunReturnToFieldMapScript(void);
 static void sub_8057114(void);
 static void SetCameraToTrackGuestPlayer(void);
 static void SetCameraToTrackGuestPlayer_2(void);
@@ -1350,7 +1350,7 @@ static void InitOverworldBgs(void)
     SetBgTilemapBuffer(2, gBGTilemapBuffers1);
     SetBgTilemapBuffer(3, gBGTilemapBuffers3);
     InitStandardTextBoxWindows();
-    ResetBg0();
+    InitTextBoxGfxAndPrinters();
     InitFieldMessageBoxState();
 }
 
@@ -1368,7 +1368,7 @@ static void InitOverworldBgs_NoResetHeap(void)
     SetBgTilemapBuffer(2, gBGTilemapBuffers1);
     SetBgTilemapBuffer(3, gBGTilemapBuffers3);
     InitStandardTextBoxWindows();
-    ResetBg0();
+    InitTextBoxGfxAndPrinters();
     InitFieldMessageBoxState();
 }
 
@@ -1942,7 +1942,7 @@ static bool32 sub_8056CD8(u8 *state)
         InitOverworldBgs();
         QuestLog_InitPalettesBackup();
         sub_8057024(FALSE);
-        sub_8057100();
+        ReloadObjectsAndRunReturnToFieldMapScript();
         sub_8057114();
         (*state)++;
         break;
@@ -1980,7 +1980,7 @@ static bool32 map_loading_iteration_2_link(u8 *state)
         break;
     case 2:
         CreateLinkPlayerSprites();
-        sub_8057100();
+        ReloadObjectsAndRunReturnToFieldMapScript();
         SetCameraToTrackGuestPlayer_2();
         SetHelpContextForMap();
         (*state)++;
@@ -2150,9 +2150,9 @@ static void mli4_mapscripts_and_other(void)
     TryRunOnWarpIntoMapScript();
 }
 
-static void sub_8057100(void)
+static void ReloadObjectsAndRunReturnToFieldMapScript(void)
 {
-    sub_805EDF0(0, 0);
+    ReloadMapObjectsWithOffset(0, 0);
     RunOnReturnToFieldMapScript();
 }
 
@@ -2276,7 +2276,7 @@ static bool32 LoadMap_QLPlayback(u8 *state)
         (*state)++;
         break;
     case 3:
-        sub_8057100();
+        ReloadObjectsAndRunReturnToFieldMapScript();
         sub_8057114();
         (*state)++;
         break;
@@ -3545,8 +3545,8 @@ static void SpriteCB_LinkPlayer(struct Sprite *sprite)
 {
     struct LinkPlayerObjectEvent *linkPlayerObjEvent = &gLinkPlayerObjectEvents[sprite->data[0]];
     struct ObjectEvent *objEvent = &gObjectEvents[linkPlayerObjEvent->objEventId];
-    sprite->pos1.x = objEvent->initialCoords.x;
-    sprite->pos1.y = objEvent->initialCoords.y;
+    sprite->x = objEvent->initialCoords.x;
+    sprite->y = objEvent->initialCoords.y;
     SetObjectSubpriorityByZCoord(objEvent->previousElevation, sprite, 1);
     sprite->oam.priority = ZCoordToPriority(objEvent->previousElevation);
 

@@ -168,10 +168,10 @@ static void sub_81477C0(u8 taskId)
     sub_81476E0(taskId, data);
 
     StartSpriteAnim(&gSprites[data[14]], 4);
-    gSprites[data[14]].pos2.x = -32;
+    gSprites[data[14]].x2 = -32;
 
     StartSpriteAnim(&gSprites[data[15]], 5);
-    gSprites[data[15]].pos2.x = 32;
+    gSprites[data[15]].x2 = 32;
 }
 
 static void sub_814784C(u8 taskId)
@@ -244,7 +244,7 @@ static void sub_8147A34(u8 taskId)
             memset(packet, 0, sizeof(packet));
             packet[0] = 0x7FFF;
             packet[1] = data[12];
-            RfuPrepareSend0x2f00(packet);
+            Rfu_SendPacket(packet);
         }
     }
     else
