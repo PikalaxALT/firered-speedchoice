@@ -634,9 +634,9 @@ static void Task_Hof_WaitAndPrintPlayerInfo(u8 taskId)
     {
         gTasks[taskId].data[3]--;
     }
-    else if (gSprites[gTasks[taskId].data[4]].pos1.x != 192)
+    else if (gSprites[gTasks[taskId].data[4]].x != 192)
     {
-        gSprites[gTasks[taskId].data[4]].pos1.x++;
+        gSprites[gTasks[taskId].data[4]].x++;
     }
     else
     {
@@ -1225,7 +1225,7 @@ static bool8 DrawHofBackground(void)
         break;
     case 3:
         InitStandardTextBoxWindows();
-        ResetBg0();
+        InitTextBoxGfxAndPrinters();
         break;
     case 4:
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
@@ -1247,18 +1247,18 @@ static void SpriteCB_EndGetOnScreen(struct Sprite * sprite)
 
 static void SpriteCB_GetOnScreen(struct Sprite * sprite)
 {
-    if (sprite->pos1.x != sprite->data[1]
-        || sprite->pos1.y != sprite->data[2])
+    if (sprite->x != sprite->data[1]
+        || sprite->y != sprite->data[2])
     {
-        if (sprite->pos1.x < sprite->data[1])
-            sprite->pos1.x += 15;
-        if (sprite->pos1.x > sprite->data[1])
-            sprite->pos1.x -= 15;
+        if (sprite->x < sprite->data[1])
+            sprite->x += 15;
+        if (sprite->x > sprite->data[1])
+            sprite->x -= 15;
 
-        if (sprite->pos1.y < sprite->data[2])
-            sprite->pos1.y += 10;
-        if (sprite->pos1.y > sprite->data[2])
-            sprite->pos1.y -= 10;
+        if (sprite->y < sprite->data[2])
+            sprite->y += 10;
+        if (sprite->y > sprite->data[2])
+            sprite->y -= 10;
     }
     else
     {
@@ -1269,7 +1269,7 @@ static void SpriteCB_GetOnScreen(struct Sprite * sprite)
 
 static void SpriteCB_Confetti(struct Sprite* sprite)
 {
-    if (sprite->pos2.y > 120)
+    if (sprite->y2 > 120)
     {
         DestroySprite(sprite);
     }
@@ -1278,12 +1278,12 @@ static void SpriteCB_Confetti(struct Sprite* sprite)
         u16 rand;
         u8 tableID;
 
-        sprite->pos2.y++;
-        sprite->pos2.y += sprite->data[1];
+        sprite->y2++;
+        sprite->y2 += sprite->data[1];
 
         tableID = sprite->data[0];
         rand = (Random() % 4) + 8;
-        sprite->pos2.x = rand * gSineTable[tableID] / 256;
+        sprite->x2 = rand * gSineTable[tableID] / 256;
 
         sprite->data[0] += 4;
     }

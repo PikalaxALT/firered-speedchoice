@@ -95,7 +95,7 @@ static bool8 TryAllocListMenuBuffers(void);
 static void Bag_BuildListMenuTemplate(u8 pocket);
 static void BagListMenuGetItemNameColored(u8 *dest, u16 itemId);
 static void BagListMenuMoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list);
-static void BagListMenuItemPrintFunc(u8 windowId, s32 itemId, u8 y);
+static void BagListMenuItemPrintFunc(u8 windowId, u32 itemId, u8 y);
 static void bag_menu_print_cursor(u8 y, u8 colorIdx);
 static void PrintBagPocketName(void);
 static void PrintItemDescriptionOnMessageWindow(s32 itemIndex);
@@ -709,7 +709,7 @@ static void BagListMenuMoveCursorFunc(s32 itemIndex, bool8 onInit, struct ListMe
     }
 }
 
-static void BagListMenuItemPrintFunc(u8 windowId, s32 itemId, u8 y)
+static void BagListMenuItemPrintFunc(u8 windowId, u32 itemId, u8 y)
 {
     u16 bagItemId;
     u16 bagItemQuantity;
@@ -1240,7 +1240,7 @@ static void BeginMovingItemInPocket(u8 taskId, s16 itemIndex)
     u16 cursorPos;
     s16 *data = gTasks[taskId].data;
     ListMenuGetScrollAndRow(tListMenuId, &cursorPos, &itemsAbove);
-    ListMenuSetUnkIndicatorsStructField(tListMenuId, 0x10, 1);
+    ListMenuSetTemplateField(tListMenuId, 0x10, 1);
     tPocketPos = itemIndex;
     sBagMenuDisplay->itemOriginalLocation = itemIndex;
     StringCopy(gStringVar1, ItemId_GetName(BagGetItemIdByPocketPosition(gBagMenuState.pocket + 1, tPocketPos)));

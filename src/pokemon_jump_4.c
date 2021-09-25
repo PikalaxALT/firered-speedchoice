@@ -55,7 +55,7 @@ void sub_8149CEC(struct PokemonJump2 *arg0)
 void sub_8149D24(void)
 {
     FreeAllWindowBuffers();
-    DigitObjUtil_Teardown();
+    DigitObjUtil_Free();
 }
 
 static void sub_8149D34(struct PokemonJump2 *arg0)
@@ -726,7 +726,7 @@ static void sub_814A8B8(void)
 
 void sub_814A940(u32 id, s16 y)
 {
-    gUnknown_203F3D8->unk81A8[id]->pos2.y = y;
+    gUnknown_203F3D8->unk81A8[id]->y2 = y;
 }
 
 void sub_814A95C(int id)

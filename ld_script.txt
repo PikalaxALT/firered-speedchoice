@@ -44,6 +44,7 @@ SECTIONS {
     ALIGN(4)
     {
         src/crt0.o(.text);
+        src/build_date.o(.text);
         src/main.o(.text);
         src/gpu_regs.o(.text);
         src/dma3_manager.o(.text);
@@ -400,6 +401,7 @@ SECTIONS {
     .rodata :
     SUBALIGN(4)
     {
+        src/build_date.o(.rodata);
         src/main.o(.rodata);
         src/bg.o(.rodata);
         src/malloc.o(.rodata);
@@ -619,7 +621,7 @@ SECTIONS {
         src/speedchoice.o(.rodata);
         src/done_button.o(.rodata);
         src/trainer_tower_sets.o(.rodata);
-        data/data_8479668.o(.rodata);
+        src/move_descriptions.o(.rodata);
 
         /* These should not be moved to C files */
         src/mystery_event_msg.o(.rodata);
