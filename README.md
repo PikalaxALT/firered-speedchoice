@@ -4,6 +4,10 @@ This project is based on the disassembly of Pokémon FireRed and LeafGreen.
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
 
+## Contacts
+
+You can find us on [Discord](https://discord.gg/keizaron), in the #roms-and-mods channel. Be sure to read the rules on joining.
+
 ## Changelog
 ### 1.0.0a0
 - Ported the speedchoice menu from [Emerald](https://github.com/ProjectRevoTPP/pokeemerald-speedchoice)
@@ -169,8 +173,3 @@ Other disassembly and/or decompilation projects:
 * [**Pokémon Pinball: Ruby & Sapphire**](https://github.com/pret/pokepinballrs)
 * [**Pokémon Emerald**](https://github.com/pret/pokeemerald)
 * [**Pokémon Mystery Dungeon: Red Rescue Team**](https://github.com/pret/pmd-red)
-
-
-## Contacts
-
-You can find us on [Discord](https://discord.gg/d5dubZ3) and [IRC](https://kiwiirc.com/client/irc.freenode.net/?#pret).
