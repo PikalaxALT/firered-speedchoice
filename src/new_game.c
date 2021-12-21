@@ -85,7 +85,23 @@ static void ClearBattleTower(void)
 
 static void WarpToPlayersRoom(void)
 {
-    SetWarpDestination(MAP_GROUP(PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(PALLET_TOWN_PLAYERS_HOUSE_2F), -1, 6, 6);
+    switch (gSaveBlock2Ptr->speedchoiceConfig.startLocation) {
+        case START_LOCATION_NORMAL:
+            SetWarpDestination(MAP_GROUP(PALLET_TOWN_PLAYERS_HOUSE_2F), MAP_NUM(PALLET_TOWN_PLAYERS_HOUSE_2F), -1, 6, 6);
+            break;
+        case START_LOCATION_EEVEE:
+            SetWarpDestination(MAP_GROUP(CELADON_CITY_CONDOMINIUMS_ROOF_ROOM), MAP_NUM(CELADON_CITY_CONDOMINIUMS_ROOF_ROOM), -1, 7, 4);
+            break;
+        case START_LOCATION_LAPRAS:
+            SetWarpDestination(MAP_GROUP(SILPH_CO_7F), MAP_NUM(SILPH_CO_7F), -1, 1, 7);
+            break;
+        case START_LOCATION_SAFARI:
+            SetWarpDestination(MAP_GROUP(FUCHSIA_CITY), MAP_NUM(FUCHSIA_CITY), -1, 24, 6);
+            break;
+        case START_LOCATION_TOWER:
+            SetWarpDestination(MAP_GROUP(POKEMON_TOWER_7F), MAP_NUM(POKEMON_TOWER_7F), -1, 11, 5);
+            break;
+    }
     WarpIntoMap();
     sInIntro = FALSE;
     sInSubMenu = FALSE;
@@ -163,6 +179,24 @@ void NewGameInitData(void)
     if (gSaveBlock2Ptr->speedchoiceConfig.raceGoal == GOAL_MANUAL)
         AddBagItem(ITEM_DONE_BUTTON, 1);
     FlagSet(FLAG_SYS_B_DASH);
+
+    if (gSaveBlock2Ptr->speedchoiceConfig.startLocation != START_LOCATION_NORMAL) {
+        // Give the player a weak Magikarp to prevent game crashes.
+        struct Pokemon * mon = AllocZeroed(sizeof(struct Pokemon));
+        if (mon != NULL)
+        {
+            u32 pid;
+            u32 otid = T2_READ_32(gSaveBlock2Ptr->playerTrainerId);
+            do {
+                pid = Random32();
+            } while (!IsShinyOtIdPersonality(otid, pid));
+            CreateMon(mon, SPECIES_MAGIKARP, 1, 0, TRUE, pid, OT_ID_PLAYER_ID, 0);
+            GiveMonToPlayer(mon);
+            Free(mon);
+        }
+        // Show the POKEMON option in the start menu.
+        FlagSet(FLAG_SYS_POKEMON_GET);
+    }
 
 #if DEVMODE
     {

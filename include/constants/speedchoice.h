@@ -35,8 +35,9 @@
 #define HM_BADGE_CHECKS     16
 #define EASY_SURGE_CANS     17
 #define NERF_BROCK          18
+#define START_LOCATION      19
 
-#define CURRENT_OPTIONS_NUM 19
+#define CURRENT_OPTIONS_NUM 20
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
@@ -198,6 +199,16 @@
 #define NERF_YES 0
 #define NERF_NO  1
 #define NERF_OPTION_COUNT 2
+
+// --------------------
+// START LOCATION ENUM
+// --------------------
+#define START_LOCATION_NORMAL 0
+#define START_LOCATION_EEVEE 1
+#define START_LOCATION_LAPRAS 2
+#define START_LOCATION_SAFARI 3
+#define START_LOCATION_TOWER 4
+#define START_LOCATION_OPTION_COUNT 5
 
 // Enumeration for optionType in the Speedchoice struct below.
 

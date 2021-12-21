@@ -216,6 +216,7 @@ const u8 gSpeedchoiceOptionEvoEveryLv[] = _("EVO EVERY LV");
 const u8 gSpeedchoiceOptionHmBadgeChk[] = _("HM BADGE CHK");
 const u8 gSpeedchoiceOptionEasySurgeCans[] = _("EASY SURGE");
 const u8 gSpeedchoiceOptionNerfBrock[] = _("NERF BROCK");
+const u8 gSpeedchoiceOptionStartLocation[] = _("START IN");
 
 // CONSTANT OPTIONS
 const u8 gSpeedchoiceOptionPage[] = _("PAGE");
@@ -252,6 +253,7 @@ const u8 gSpeedchoiceTooltipHmBadgeChk[] = _("PURGE: There are no badge checks\n
 const u8 gSpeedchoiceTooltipEasyDexRewards[] = _("Removes Pokédex caught conditions\nfor receiving certain items.");
 const u8 gSpeedchoiceTooltipEasySurgeCans[] = _("PURGE: The bottom left can will\nalways contain the first switch,\land the can to the right of it\lwill always contain the second.\pKEEP: Vanilla randomization\nHELL: Anything-goes randomization\lWHY: HELL + no save-scumming");
 const u8 gSpeedchoiceTooltipNerfBrock[] = _("Nerfs LEADER BROCK by\nreducing his party levels by 2.");
+const u8 gSpeedchoiceTooltipStartLocation[] = _("Changes the player's starting location.");
 
 // START GAME
 const u8 gSpeedchoiceStartGameText[] = _("CV: {STR_VAR_1}\nStart the game?");
@@ -281,6 +283,14 @@ const u8 gPresetNames[][20] = {
     [PRESET_RACE]    =  _("RACE"),
 };
 
+const u8 gStartLocationNames[][20] = {
+    [START_LOCATION_NORMAL] = _("NORMAL"),
+    [START_LOCATION_EEVEE]  = _("EEVEE"),
+    [START_LOCATION_LAPRAS] = _("LAPRAS"),
+    [START_LOCATION_SAFARI] = _("SAFARI"),
+    [START_LOCATION_TOWER]  = _("TOWER"),
+};
+
 // use local config optionConfig[0] for preset!
 
 // ----------------------------------------------------------------
@@ -308,6 +318,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [HM_BADGE_CHECKS]  = BADGE_KEEP,
         [EASY_SURGE_CANS]  = SURGE_KEEP,
         [NERF_BROCK]       = NERF_NO,
+        [START_LOCATION]   = START_LOCATION_NORMAL,
     },
     [PRESET_BINGO]   = {
         [PRESET]           = PRESET_BINGO,
@@ -329,6 +340,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [HM_BADGE_CHECKS]  = BADGE_PURGE,
         [EASY_SURGE_CANS]  = SURGE_NERF,
         [NERF_BROCK]       = NERF_YES,
+        [START_LOCATION]   = START_LOCATION_NORMAL,
     },
     [PRESET_CEA]     = {
         [PRESET]           = PRESET_CEA,
@@ -350,6 +362,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [HM_BADGE_CHECKS]  = BADGE_PURGE,
         [EASY_SURGE_CANS]  = SURGE_NERF,
         [NERF_BROCK]       = NERF_YES,
+        [START_LOCATION]   = START_LOCATION_NORMAL,
     },
     [PRESET_RACE]    = {
         [PRESET]           = PRESET_RACE,
@@ -371,6 +384,7 @@ static const u8 gPresets[NUM_PRESETS][CURRENT_OPTIONS_NUM] = {
         [HM_BADGE_CHECKS]  = BADGE_PURGE,
         [EASY_SURGE_CANS]  = SURGE_NERF,
         [NERF_BROCK]       = NERF_YES,
+        [START_LOCATION]   = START_LOCATION_NORMAL,
     },
 };
 
@@ -665,6 +679,17 @@ const struct SpeedchoiceOption SpeedchoiceOptions[CURRENT_OPTIONS_NUM + 1] = // 
         .tooltip = gSpeedchoiceTooltipNerfBrock,
     },
     // ----------------------------------
+    // START LOCATION OPTION
+    // ----------------------------------
+    [START_LOCATION] = {
+        .optionCount = START_LOCATION_OPTION_COUNT,
+        .optionType = ARROW,
+        .enabled = TRUE,
+        .string = gSpeedchoiceOptionStartLocation,
+        .options = NULL,
+        .tooltip = gSpeedchoiceTooltipStartLocation,
+    },
+    // ----------------------------------
     // PAGE STATIC OPTION
     // ----------------------------------
     [PAGE] = {
@@ -735,6 +760,8 @@ void SetByteArrayToSaveOptions(const u8 * options_arr)
     gSaveBlock2Ptr->speedchoiceConfig.hmBadgeChecks = options_arr[HM_BADGE_CHECKS];
     gSaveBlock2Ptr->speedchoiceConfig.easySurgeCans = options_arr[EASY_SURGE_CANS];
     gSaveBlock2Ptr->speedchoiceConfig.nerfBrock = options_arr[NERF_BROCK];
+    gSaveBlock2Ptr->speedchoiceConfig.nerfBrock = options_arr[NERF_BROCK];
+    gSaveBlock2Ptr->speedchoiceConfig.startLocation = options_arr[START_LOCATION];
 }
 
 /*
@@ -1036,7 +1063,7 @@ static void DrawPageChoice(u8 selection)
 }
 
 // Render the text for the choices for each option.
-static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 selection, u8 row)
+static void DrawGeneralChoices(u8 trueIndex, const struct SpeedchoiceOption *option, u8 selection, u8 row)
 {
     s32 i;
 
@@ -1045,14 +1072,19 @@ static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 select
     {
     case ARROW:
     {
+        // HACK
+        const u8 *choiceText = (trueIndex == PRESET)
+                               ? gPresetNames[sSpeedchoice->config.optionConfig[PRESET]]
+                               : gStartLocationNames[sSpeedchoice->config.optionConfig[START_LOCATION]];
+
         s32 y = NEWMENUOPTIONCOORDS(row);
         // perform centering, add 4 pixels for the 8x8 arrow centering
         s32 x_preset = 4 + ARROW_X_LEFT + (ARROW_X_RIGHT - ARROW_X_LEFT -
-                                     GetStringWidth(2, gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], 0)) / 2u;
+                                     GetStringWidth(2, choiceText, 0)) / 2u;
 
         DrawOptionMenuChoice(gSpeedchoiceOptionLeftArrow, ARROW_X_LEFT, y, SPC_COLOR_RED); // left arrow
         DrawOptionMenuChoice(gSpeedchoiceOptionRightArrow, ARROW_X_RIGHT, y, SPC_COLOR_RED); // right arrow
-        DrawOptionMenuChoice(gPresetNames[sSpeedchoice->config.optionConfig[PRESET]], x_preset, y, SPC_COLOR_BLUE);
+        DrawOptionMenuChoice(choiceText, x_preset, y, SPC_COLOR_BLUE);
     }
         break;
     case PLAYER_NAME:
@@ -1071,7 +1103,7 @@ static void DrawGeneralChoices(const struct SpeedchoiceOption *option, u8 select
         for (i = 0; i < option->optionCount; i++)
         {
             DrawOptionMenuChoice(
-                option->options[i].string, 
+                option->options[i].string,
                 option->options[i].x,
                 NEWMENUOPTIONCOORDS(row),
                 i == selection ? SPC_COLOR_RED : SPC_COLOR_GRAY
@@ -1376,7 +1408,7 @@ static void Task_SpeedchoiceMenuProcessInput(u8 taskId)
                 //else
                 u8 oldSelection = sSpeedchoice->config.optionConfig[trueIndex];
                 sSpeedchoice->config.optionConfig[trueIndex] = ProcessGeneralInput((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], selection, FALSE);
-                DrawGeneralChoices((struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], sSpeedchoice->config.optionConfig[trueIndex], sSpeedchoice->config.pageIndex);
+                DrawGeneralChoices(trueIndex, (struct SpeedchoiceOption *)&SpeedchoiceOptions[trueIndex], sSpeedchoice->config.optionConfig[trueIndex], sSpeedchoice->config.pageIndex);
                 if(oldSelection != sSpeedchoice->config.optionConfig[trueIndex] || sSpeedchoice->forceUpdate) {
                     DrawPageOptions(sSpeedchoice->config.pageNum); // HACK!!! The page has to redraw. But only redraw it if the selection changed, otherwise it lags.
                     sSpeedchoice->forceUpdate = FALSE;
@@ -1444,7 +1476,8 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
 
         AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, string);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
-        DrawGeneralChoices(option, sSpeedchoice->config.optionConfig[i + ((page - 1) * OPTIONS_PER_PAGE)], i);
+        u8 trueIndex = i + ((page - 1) * OPTIONS_PER_PAGE);
+        DrawGeneralChoices(trueIndex, option, sSpeedchoice->config.optionConfig[trueIndex], i);
     }
 
     AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2,4, NEWMENUOPTIONCOORDS(OPTIONS_PER_PAGE), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF,  gSpeedchoiceOptionPage);

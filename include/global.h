@@ -304,6 +304,7 @@ struct SpeedchoiceSaveOptions
     u32 hmBadgeChecks:1;
     u32 easySurgeCans:2;
     u32 nerfBrock:1;
+    u32 startLocation:3;
 };
 
 struct DoneButtonStats
