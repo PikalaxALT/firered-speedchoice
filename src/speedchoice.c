@@ -1473,10 +1473,10 @@ void DrawPageOptions(u8 page) // Page is 1-indexed
     {
         struct SpeedchoiceOption *option = (struct SpeedchoiceOption *)&SpeedchoiceOptions[i + (OPTIONS_PER_PAGE * (page - 1))];
         const u8 *string = option->string;
+        u8 trueIndex = i + ((page - 1) * OPTIONS_PER_PAGE);
 
         AddTextPrinterParameterized3(SPD_WIN_OPTIONS, 2, 4, NEWMENUOPTIONCOORDS(i), sTextColors[SPC_COLOR_GRAY], TEXT_SPEED_FF, string);
         // TODO: Draw on SPD_WIN_OPTIONS, if it's broken
-        u8 trueIndex = i + ((page - 1) * OPTIONS_PER_PAGE);
         DrawGeneralChoices(trueIndex, option, sSpeedchoice->config.optionConfig[trueIndex], i);
     }
 
