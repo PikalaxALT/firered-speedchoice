@@ -194,8 +194,9 @@ void NewGameInitData(void)
             GiveMonToPlayer(mon);
             Free(mon);
         }
-        // Show the POKEMON option in the start menu.
+        // Show the POKEMON and POKEDEX options in the start menu.
         FlagSet(FLAG_SYS_POKEMON_GET);
+        FlagSet(FLAG_SYS_POKEDEX_GET);
     }
 
 #if DEVMODE
