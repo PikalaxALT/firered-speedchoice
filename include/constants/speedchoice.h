@@ -36,8 +36,9 @@
 #define EASY_SURGE_CANS     17
 #define NERF_BROCK          18
 #define START_LOCATION      19
+#define EARLY_CUT           20
 
-#define CURRENT_OPTIONS_NUM 20
+#define CURRENT_OPTIONS_NUM 21
 // ----------------------
 // STATIC OPTIONS
 // ----------------------
@@ -209,6 +210,13 @@
 #define START_LOCATION_SAFARI 3
 #define START_LOCATION_TOWER 4
 #define START_LOCATION_OPTION_COUNT 5
+
+// --------------------
+// EARLY CUT ENUM
+// --------------------
+#define EARLY_CUT_YES 0
+#define EARLY_CUT_NO  1
+#define EARLY_CUT_OPTION_COUNT 2
 
 // Enumeration for optionType in the Speedchoice struct below.
 

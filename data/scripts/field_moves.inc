@@ -3,6 +3,8 @@ EventScript_CutTree:: @ 81BDF13
 	lockall
 	checkspeedchoice HM_BADGE_CHECKS, BADGE_PURGE
 	goto_if_eq EventScript_CutTree_SkipBadgeCheck
+	checkspeedchoice EARLY_CUT, EARLY_CUT_YES
+	goto_if_eq EventScript_CutTree_SkipBadgeCheck
 	goto_if_unset FLAG_BADGE02_GET, EventScript_CantCutTree
 EventScript_CutTree_SkipBadgeCheck::
 	checkpartymove MOVE_CUT

@@ -199,6 +199,12 @@ void NewGameInitData(void)
         FlagSet(FLAG_SYS_POKEDEX_GET);
     }
 
+    if (gSaveBlock2Ptr->speedchoiceConfig.earlyCut == EARLY_CUT_YES) {
+        AddBagItem(ITEM_TM_CASE, 1);
+        AddBagItem(ITEM_HM01, 1);
+        FlagSet(FLAG_GOT_HM01);
+    }
+
 #if DEVMODE
     {
         struct Pokemon * mon = AllocZeroed(sizeof(struct Pokemon));
