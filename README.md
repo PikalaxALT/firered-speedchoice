@@ -1,5 +1,7 @@
 # Pokémon FireRed Speedchoice
 
+This project is no longer being supported. For Pokemon FireRed randomization, please consider the [Archipelago world](https://github.com/vyneras/Archipelago).
+
 This project is based on the disassembly of Pokémon FireRed and LeafGreen.
 
 To set up the repository, see [INSTALL.md](INSTALL.md).
@@ -173,3 +175,4 @@ Other disassembly and/or decompilation projects:
 * [**Pokémon Pinball: Ruby & Sapphire**](https://github.com/pret/pokepinballrs)
 * [**Pokémon Emerald**](https://github.com/pret/pokeemerald)
 * [**Pokémon Mystery Dungeon: Red Rescue Team**](https://github.com/pret/pmd-red)
+
